@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-
             $table->unsignedBigInteger('usuario_creador_id')->nullable()->after('id');
             $table->foreign('usuario_creador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_modificador_id')->nullable()->after('usuario_creador_id');
             $table->foreign('usuario_modificador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_eliminador_id')->nullable()->after('usuario_modificador_id');
             $table->foreign('usuario_eliminador_id')->references('id')->on('users');
-
+            $table->unsignedBigInteger('rol_id')->nullable()->after('usuario_eliminador_id');
+            $table->foreign('rol_id')->references('id')->on('roles');
 
             $table->string('nombres')->nullable()->after('password');
             $table->string('ap_paterno')->nullable()->after('nombres');
@@ -27,8 +27,7 @@ return new class extends Migration
             $table->string('numero_celular')->nullable()->after('ap_materno');
             $table->string('estado')->nullable()->after('numero_celular');
 
-            $table->datetime('deleted_at')->nullable()->after('estado');
-
+            $table->datetime('deleted_at')->nullable()->after('remember_token');
         });
     }
 
@@ -38,7 +37,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-
             $table->dropForeign(['usuario_creador_id']);
             $table->dropColumn('usuario_creador_id');
             $table->dropForeign(['usuario_modificador_id']);
@@ -53,7 +51,6 @@ return new class extends Migration
             $table->dropColumn('estado');
 
             $table->dropColumn('deleted_at');
-
         });
     }
 };

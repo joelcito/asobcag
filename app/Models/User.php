@@ -44,4 +44,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function listaUsuarios($tipo){
+        return $this->where('rol_id',$tipo)->get();
+    }
 }

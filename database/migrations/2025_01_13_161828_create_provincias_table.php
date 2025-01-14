@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rezas', function (Blueprint $table) {
+        Schema::create('provincias', function (Blueprint $table) {
             $table->id();
             $table->foreign('usuario_creador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
@@ -20,8 +20,9 @@ return new class extends Migration
             $table->foreign('usuario_eliminador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_eliminador_id')->nullable();
 
+            $table->foreign('departamento_id')->references('id')->on('departamentos');
+            $table->unsignedBigInteger('departamento_id')->nullable();
             $table->string('nombre')->nullable();
-            $table->string('descripcion')->nullable();
 
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rezas');
+        Schema::dropIfExists('provincias');
     }
 };

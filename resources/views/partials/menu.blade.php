@@ -22,7 +22,7 @@
                         <span class="menu-icon">
                             <i class="fa fa-industry clase-icono"></i>
                         </span>
-                        <span class="menu-title text-white">Administracion</span>
+                        <span class="menu-title text-white">Ejemplares</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
@@ -31,11 +31,11 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link" href="{{url('empresa/listado')}}">
+                            <a class="menu-link" href="{{url('ejemplar/formulario', [0])}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title text-white">Empresas</span>
+                                <span class="menu-title text-white">Nuevo</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
@@ -43,18 +43,30 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link" href="{{url('rol/listado')}}">
+                            <a class="menu-link" href="{{url('empresa/listado')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title text-white">Roles</span>
+                                <span class="menu-title text-white">Camada</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link" href="{{url('ejemplar/listado')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title text-white">Listado</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
                         <!--end:Menu item-->
 
                         <!--begin:Menu item-->
-                        <div class="menu-item">
+                        {{-- <div class="menu-item">
                             <!--begin:Menu link-->
                             <a class="menu-link" href="{{url('plan/listado')}}">
                                 <span class="menu-bullet">
@@ -63,7 +75,7 @@
                                 <span class="menu-title text-white">Planes de sistema</span>
                             </a>
                             <!--end:Menu link-->
-                        </div>
+                        </div> --}}
                         <!--end:Menu item-->
                     </div>
                     <!--end:Menu sub-->
@@ -75,7 +87,7 @@
                         <span class="menu-icon">
                             <i class="fa fa-university clase-icono"></i>
                         </span>
-                        <span class="menu-title text-white">Siat</span>
+                        <span class="menu-title text-white">Administracion</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
@@ -84,11 +96,11 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link" href="{{url('sincronizacion/listado')}}">
+                            <a class="menu-link" href="{{url('propietario/listadoPropietario')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title text-white">Sincronizacion de Catalogos</span>
+                                <span class="menu-title text-white">Propietarios</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
@@ -103,7 +115,52 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title text-white">Apis SIAT</span>
+                                <span class="menu-title text-white">Usuarios</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                    </div>
+                    <!--end:Menu sub-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link" href="{{url('localidad/listadoPais')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title text-white">Localidad</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                    </div>
+                    <!--end:Menu sub-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link" href="{{url('rol/listado')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title text-white">Roles</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                    </div>
+                    <!--end:Menu sub-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link" href="{{url('raza/listado')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title text-white">Razas</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
@@ -116,7 +173,7 @@
                         <span class="menu-icon">
                             <i class="fa fa-industry clase-icono"></i>
                         </span>
-                        <span class="menu-title text-white">Perfil de Empresa</span>
+                        <span class="menu-title text-white">Control Sanitario</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion">
@@ -125,13 +182,13 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title text-white">Datos de Empresa</span>
+                                <span class="menu-title text-white">Listado</span>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                {{-- <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <i class="fa fa-list-alt clase-icono"></i>
@@ -218,7 +275,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <!--end:Menu item-->
             </div>
             <!--end::Menu-->
