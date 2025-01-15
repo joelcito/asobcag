@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/guardar', [EjemplarController::class, 'guardar']);
         Route::get('/listado', [EjemplarController::class, 'listado']);
         Route::post('/ajaxListado', [EjemplarController::class, 'ajaxListado']);
+        Route::post('/buscarEjemplar', [EjemplarController::class, 'buscarEjemplar']);
     });
 
     Route::prefix('/raza')->group(function(){

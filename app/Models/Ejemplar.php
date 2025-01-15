@@ -27,5 +27,10 @@ class Ejemplar extends Model
     public function comunidad(){
         return $this->belongsTo('App\Models\Comunidad', 'comunidad_id');
     }
-
+    public function padre(){
+        return $this->belongsTo('App\Models\Ejemplar', 'padre_id');
+    }
+    public function madre(){
+        return $this->belongsTo('App\Models\Ejemplar', 'madre_id');
+    }
 }

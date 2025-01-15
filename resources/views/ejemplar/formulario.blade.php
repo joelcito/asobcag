@@ -25,24 +25,25 @@
                         <div class="col-md-6">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Numero Registro</label>
-                                <input type="number" class="form-control form-control-sm" id="fecha_contingencia" name="fecha_contingencia">
+                                <input type="number" class="form-control form-control-sm buscar_ejemplar" id="numero_registro_busqueda" name="numero_registro_busqueda">
+                                <input type="hidden" id="sexo_busqueda" name="sexo_busqueda">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Nombre Ejemplar</label>
-                                <input type="text" class="form-control form-control-sm" id="fecha_contingencia" name="fecha_contingencia">
+                                <input type="text" class="form-control form-control-sm buscar_ejemplar" id="nombre_busquedas" name="nombre_busquedas">
                             </div>
                         </div>
                     </div>
                 </form>
-                <div id="table_ejemplares">
+                <div id="table_ejemplares_buscados">
 
                 </div>
             </div>
-            <div class="modal-body">
+            {{-- <div class="modal-body">
                 <h4>ESt fofoer</h4>
-            </div>
+            </div> --}}
             <!--end::Modal body-->
         </div>
     </div>
@@ -106,65 +107,29 @@
                 </div>
 
                 <div class="card-body py-4">
-                    {{-- <form id="formulario-busqueda-factura">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label class="fw-semibold fs-6 mb-2">No. Factura</label>
-                                <input type="number" class="form-control form-control-sm" name="buscar_nro_factura" id="buscar_nro_factura">
-                            </div>
-                            <div class="col-md-2">
-                                <label class="fw-semibold fs-6 mb-2">C.I. Persona</label>
-                                <input type="number" class="form-control form-control-sm" name="buscar_nro_cedula" id="buscar_nro_cedula">
-                            </div>
-                            <div class="col-md-2">
-                                <label class="fw-semibold fs-6 mb-2">NIT</label>
-                                <input type="number" class="form-control form-control-sm" name="buscar_nit" id="buscar_nit">
-                            </div>
-                            <div class="col-md-2">
-                                <label class="fw-semibold fs-6 mb-2">Fecha Inicio</label>
-                                <input type="date" class="form-control form-control-sm" name="buscar_fecha_inicio" id="buscar_fecha_inicio">
-                            </div>
-                            <div class="col-md-2">
-                                <label class="fw-semibold fs-6 mb-2">Fecha Fin</label>
-                                <input type="date" class="form-control form-control-sm" name="buscar_fecha_fin" id="buscar_fecha_fin">
-                            </div>
-                            <div class="col-md-2">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <button type="button" id="botom_genera_buscar" class="btn btn-success btn-sm w-100 mt-8 btn-icon" onclick="ajaxListado()"><i class="fa fa-search"></i></button>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <button type="button" id="botom_genera_pdf" class="btn btn-danger btn-sm w-100 btn-icon mt-8" title="Expotar en PDF" onclick="reportePDF()"><i class="fa fa-file-pdf"></i></button>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <button type="button" id="botom_genera_excel" class="btn btn-success btn-sm w-100 btn-icon mt-8" title="Expotar en Excel" onclick="exportarExcel()"><i class="fa fa-file-excel"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form> --}}
                     <form id="formularioEjemplar">
                         <div class="row">
                             <div class="col-md-4">
                                 <label class="fw-semibold fs-6 mb-2 required">Nombre</label>
-                                <input type="text" class="form-control form-control-sm" name="nombre" id="nombre" required>
+                                <input type="text" class="form-control form-control-sm" name="nombre" id="nombre" required value="{{ $ejemplar != null ? $ejemplar->nombre : null }}">
+                                <input type="hidden" name="ejemplar_id" id="ejemplar_id" value="{{ $ejemplar != null ? $ejemplar->id : 0 }}">
                             </div>
                             <div class="col-md-2">
                                 <label class="fw-semibold fs-6 mb-2 required">Color</label>
-                                <input type="text" class="form-control form-control-sm" name="color" id="color" required>
+                                <input type="text" class="form-control form-control-sm" name="color" id="color" required value="{{ $ejemplar != null ? $ejemplar->color : null }}">
                             </div>
                             <div class="col-md-2">
                                 <label class="fw-semibold fs-6 mb-2 required">Sexo</label>
                                 <select name="sexo" id="sexo" class="form-control form-control-sm" required>
-                                    <option value="Macho">Macho</option>
-                                    <option value="Hembra">Hembra</option>
+                                    <option {{ $ejemplar != null ? (($ejemplar->sexo == 'Macho')? 'selected' : '' ) : '' }} value="Macho">Macho</option>
+                                    <option {{ $ejemplar != null ? (($ejemplar->sexo == 'Hembra')? 'selected' : '' ) : '' }} value="Hembra">Hembra</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label class="fw-semibold fs-6 mb-2 required">Raza</label>
                                 <select name="raza_id" id="raza_id" class="form-control form-control-sm" required>
                                     @foreach ($razas as $r)
-                                        <option value="{{ $r->id }}">{{ $r->nombre }}</option>
+                                        <option {{ $ejemplar != null ? (($ejemplar->raza_id == $r->id)? 'selected' : '' ) : '' }} value="{{ $r->id }}">{{ $r->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -172,19 +137,19 @@
                         <div class="row mt-3">
                             <div class="col-md-2">
                                 <label class="fw-semibold fs-6 mb-2 required">Numero Registro</label>
-                                <input type="number" value="{{ $numeroRegistroSiguiente }}" readonly class="form-control form-control-sm">
+                                <input type="number" value="{{  $ejemplar != null ? $ejemplar->numero_registro : $numeroRegistroSiguiente }}" readonly class="form-control form-control-sm">
                             </div>
                             <div class="col-md-2">
                                 <label class="fw-semibold fs-6 mb-2 required">Fecha Nacimiento</label>
-                                <input type="date" class="form-control form-control-sm" name="fecha_nacimiento" id="fecha_nacimiento" required>
+                                <input type="date" class="form-control form-control-sm" name="fecha_nacimiento" id="fecha_nacimiento" required value="{{  $ejemplar != null ? $ejemplar->fecha_nacimiento : null }}">
                             </div>
                             <div class="col-md-4">
                                 <label class="fw-semibold fs-6 mb-2 required">Color Tradicional</label>
-                                <input type="text" class="form-control form-control-sm" name="color_tradicional" id="color_tradicional" required>
+                                <input type="text" class="form-control form-control-sm" name="color_tradicional" id="color_tradicional" required value="{{  $ejemplar != null ? $ejemplar->color_tradicional : null }}">
                             </div>
                             <div class="col-md-4">
                                 <label class="fw-semibold fs-6 mb-2 required">Numero Arete</label>
-                                <input type="text" class="form-control form-control-sm" name="numero_arete" id="numero_arete" required>
+                                <input type="text" class="form-control form-control-sm" name="numero_arete" id="numero_arete" required value="{{  $ejemplar != null ? $ejemplar->numero_arete : null }}">
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -192,7 +157,7 @@
                                 <label class="fw-semibold fs-6 mb-2 required">Comunidad</label>
                                 <select name="comunidad_id" id="comunidad_id" class="form-control form-control-sm" required>
                                     @foreach ($cominidades as $comunidad)
-                                        <option value="{{ $comunidad->id }}">{{ $comunidad->nombre }}</option>
+                                        <option {{ $ejemplar != null ? (($ejemplar->comunidad_id == $comunidad->id)? 'selected' : '' ) : '' }} value="{{ $comunidad->id }}">{{ $comunidad->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -200,59 +165,59 @@
                                 <label class="fw-semibold fs-6 mb-2 required">Propietario</label>
                                 <select name="propietario_id" id="propietario_id" class="form-control form-control-sm" required>
                                     @foreach ($propietarios as $r)
-                                        <option value="{{ $r->id }}">{{ $r->name }}</option>
+                                        <option {{ $ejemplar != null ? (($ejemplar->propietario_id == $r->id)? 'selected' : '' ) : '' }} value="{{ $r->id }}">{{ $r->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label class="fw-semibold fs-6 mb-2 required">Fecha Registro</label>
-                                <input type="date" class="form-control form-control-sm" name="fecha_registro" id="fecha_registro" value="{{ date('Y-m-d') }}" required>
+                                <input type="date" class="form-control form-control-sm" name="fecha_registro" id="fecha_registro" value="{{ $ejemplar != null ? $ejemplar->fecha_registro :  date('Y-m-d') }}" required>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
-                                <button type="button" class="btn btn-primary btn-sm w-100" onclick="abraModalPadres('PADRE')">PADRE</button>
-                                <input type="text" id="padre_id" name="padre_id">
+                                <button type="button" class="btn btn-primary btn-sm w-100" onclick="abraModalPadres('PADRE')"><span id="nombre_padre">{{ $ejemplar != null ? (($ejemplar->padre)? $ejemplar->padre->nombre : 'PADRE' ) : 'PADRE'}}</span></button>
+                                <input type="hidden" id="padre_id" name="padre_id" value="{{ $ejemplar != null ? $ejemplar->padre_id : null }}">
                             </div>
                             <div class="col-md-6">
-                                <button type="button" class="btn btn-info btn-sm w-100" onclick="abraModalPadres('MADRE')">MADRE</button>
-                                <input type="text" id="madre_id" name="madre_id">
+                                <button type="button" class="btn btn-info btn-sm w-100" onclick="abraModalPadres('MADRE')"><span id="nombre_madre">{{ $ejemplar != null ? (($ejemplar->madre)? $ejemplar->madre->nombre : 'MADRE' ) : 'MADRE'}}</span></button>
+                                <input type="hidden" id="madre_id" name="madre_id" value="{{ $ejemplar != null ? $ejemplar->madre_id : null }}">
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-3">
                                 <label class="fw-semibold fs-6 mb-2 required">Peso Nacimiento</label>
-                                <input type="number" class="form-control form-control-sm" name="peso_nacimiento" id="peso_nacimiento" required>
+                                <input type="number" class="form-control form-control-sm" name="peso_nacimiento" id="peso_nacimiento" required value="{{ $ejemplar != null ? $ejemplar->peso_nacimiento : null }}">
                             </div>
                             <div class="col-md-3">
                                 <label class="fw-semibold fs-6 mb-2 required">Peso Vivo</label>
-                                <input type="text" class="form-control form-control-sm" name="peso_vivo" id="peso_vivo" required>
+                                <input type="text" class="form-control form-control-sm" name="peso_vivo" id="peso_vivo" required value="{{ $ejemplar != null ? $ejemplar->peso_vivo : null }}">
                             </div>
                             <div class="col-md-3">
                                 <label class="fw-semibold fs-6 mb-2 required">Perimetro Toracico</label>
-                                <input type="text" class="form-control form-control-sm" name="perimetro_toracico" id="perimetro_toracico" required>
+                                <input type="text" class="form-control form-control-sm" name="perimetro_toracico" id="perimetro_toracico" required value="{{ $ejemplar != null ? $ejemplar->perimetro_toracico : null }}">
                             </div>
                             <div class="col-md-3">
                                 <label class="fw-semibold fs-6 mb-2 required">Altura Cruz</label>
-                                <input type="text" class="form-control form-control-sm" name="altura_cruz" id="altura_cruz" required>
+                                <input type="text" class="form-control form-control-sm" name="altura_cruz" id="altura_cruz" required value="{{ $ejemplar != null ? $ejemplar->altura_cruz : null }}">
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-3">
                                 <label class="fw-semibold fs-6 mb-2 required">Altura Grupa</label>
-                                <input type="text" class="form-control form-control-sm" name="altura_grupa" id="altura_grupa" required>
+                                <input type="text" class="form-control form-control-sm" name="altura_grupa" id="altura_grupa" required value="{{ $ejemplar != null ? $ejemplar->altura_grupa : null }}">
                             </div>
                             <div class="col-md-3">
                                 <label class="fw-semibold fs-6 mb-2 required">Largo Cuerpo</label>
-                                <input type="text" class="form-control form-control-sm" name="largo_cuerpo" id="largo_cuerpo" required>
+                                <input type="text" class="form-control form-control-sm" name="largo_cuerpo" id="largo_cuerpo" required value="{{ $ejemplar != null ? $ejemplar->largo_cuerpo : null }}">
                             </div>
                             <div class="col-md-3">
                                 <label class="fw-semibold fs-6 mb-2 required">Ancho Anca</label>
-                                <input type="text" class="form-control form-control-sm" name="ancho_anca" id="ancho_anca" required>
+                                <input type="text" class="form-control form-control-sm" name="ancho_anca" id="ancho_anca" required value="{{ $ejemplar != null ? $ejemplar->ancho_anca : null }}">
                             </div>
                             <div class="col-md-3">
                                 <label class="fw-semibold fs-6 mb-2 required">Largo Cuello</label>
-                                <input type="text" class="form-control form-control-sm" name="largo_cuello" id="largo_cuello" required>
+                                <input type="text" class="form-control form-control-sm" name="largo_cuello" id="largo_cuello" required value="{{ $ejemplar != null ? $ejemplar->largo_cuello : null }}">
                             </div>
                         </div>
                     </form>
@@ -263,7 +228,7 @@
                             <button type="button" class="btn btn-success btn-sm w-100" onclick="guardar()">Guardar</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-dark btn-sm w-100">Volver</button>
+                            <a href="{{ url('ejemplar/listado') }}" type="button" class="btn btn-dark btn-sm w-100">Volver</a>
                         </div>
                     </div>
                 </div>
@@ -288,11 +253,44 @@
         })
 
         $(document).ready(function() {
-            // ajaxListado();
+
+            let debounceTimer;
+            $('.buscar_ejemplar').keyup(function(){
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(function() {
+                    buscarEjemplar();
+                }, 300);
+            })
+
         });
+
+        function buscarEjemplar(){
+            let datos = {
+                numero_registro : $('#numero_registro_busqueda').val(),
+                sexo            : $('#sexo_busqueda').val(),
+                nombre          : $('#nombre_busquedas').val()
+            }
+            $.ajax({
+                url: "{{ url('ejemplar/buscarEjemplar') }}",
+                method: "POST",
+                data: datos,
+                success: function (resultado) {
+                    if(resultado.estado){
+                        $('#table_ejemplares_buscados').html(resultado.data.listado)
+                    }else{
+
+                    }
+                }
+            })
+        }
 
         function abraModalPadres(tipo){
             $('#nombre_busqueda').text(tipo)
+            let sexo = tipo == 'PADRE' ? 'Macho': 'Hembra'
+            $('#sexo_busqueda').val(sexo)
+            $('#numero_registro_busqueda').val('')
+            $('#nombre_busquedas').val('')
+            $('#table_ejemplares_buscados').html('')
             $('#modalBuscarEjemplar').modal('show')
         }
 
@@ -314,6 +312,20 @@
             }else{
                 $("#formularioEjemplar")[0].reportValidity();
             }
+        }
+
+        function seleccionarEjemplar(ejemplar, sexo, nombre){
+
+            if(sexo == 'Macho'){
+                $('#padre_id').val(ejemplar)
+                $('#nombre_padre').text(nombre)
+            }else{
+                $('#madre_id').val(ejemplar)
+                $('#nombre_madre').text(nombre)
+            }
+
+            $('#modalBuscarEjemplar').modal('hide')
+
         }
 
 

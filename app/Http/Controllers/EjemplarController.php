@@ -22,17 +22,19 @@ class EjemplarController extends Controller
         $usuarioModel       = new User();
         $id_rol_propietario = 2;
         $cominidades        = Comunidad::all();
+        $ejemplar           = Ejemplar::find($ejemplar_id);
+
 
         $propietarios            = $usuarioModel->listaUsuarios($id_rol_propietario);
         $numeroRegistroSiguiente = $ejemplarModel->sacarCorrelativoRegsitro();
-        return view('ejemplar.formulario')->with(compact('razas', 'numeroRegistroSiguiente', 'propietarios', 'cominidades'));
+        return view('ejemplar.formulario')->with(compact('razas', 'numeroRegistroSiguiente', 'propietarios', 'cominidades', 'ejemplar'));
     }
 
     public function guardar(Request $request){
         if($request->ajax()){
 
-            $usuario     = Auth::user();
-
+            $usuario            = Auth::user();
+            $ejemplar_id        = $request->input('ejemplar_id');
             $nombre             = $request->input('nombre');
             $sexo               = $request->input('sexo');
             $color              = $request->input('color');
@@ -54,15 +56,21 @@ class EjemplarController extends Controller
             $ancho_anca         = $request->input('ancho_anca');
             $largo_cuello       = $request->input('largo_cuello');
 
-            $ejemplar                     = new Ejemplar();
-            $ejemplar->usuario_creador_id = $usuario->id;
+            if($ejemplar_id == '0'){
+                $ejemplar                     = new Ejemplar();
+                $ejemplar->usuario_creador_id = $usuario->id;
+                $ejemplar->numero_registro    = $ejemplar->sacarCorrelativoRegsitro();
+            }else{
+                $ejemplar                         = Ejemplar::find($ejemplar_id);
+                $ejemplar->usuario_modificador_id = $usuario->id;
+            }
+
             $ejemplar->nombre             = $nombre;
             $ejemplar->propietario_id     = $propietario_id;
             $ejemplar->raza_id            = $raza_id;
             $ejemplar->padre_id           = $padre_id;
             $ejemplar->madre_id           = $madre_id;
             $ejemplar->comunidad_id       = $comunidad_id;
-            $ejemplar->numero_registro    = $ejemplar->sacarCorrelativoRegsitro();
             $ejemplar->color              = $color;
             $ejemplar->sexo               = $sexo;
             $ejemplar->fecha_nacimiento   = $fecha_nacimiento;
@@ -78,12 +86,6 @@ class EjemplarController extends Controller
             $ejemplar->ancho_anca         = $ancho_anca;
             $ejemplar->largo_cuello       = $largo_cuello;
             $ejemplar->save();
-
-
-            // $pais                     = new Pais();
-            // $pais->usuario_creador_id = $usuario->id;
-            // $pais->nombre             = $nombre;
-            // $pais->save();
 
             $data = Respuesta::success(null, "Se proceso con exito");
 
@@ -110,12 +112,40 @@ class EjemplarController extends Controller
         return $data;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Ejemplar $ejemplar)
-    {
-        //
+    public function buscarEjemplar(Request $request){
+        if($request->ajax()){
+
+            $numero_registro = $request->input('numero_registro');
+            $sexo            = $request->input('sexo');
+            $nombre          = $request->input('nombre');
+
+            $query = Ejemplar::query();
+
+            if(!is_null($numero_registro)){
+                $query->where('numero_registro', $numero_registro);
+            }
+
+            if(!is_null($nombre)){
+                $query->where('nombre', 'LIKE',"%$nombre%");
+            }
+
+            $query->where('sexo', $sexo);
+
+            if(!is_null($nombre) && !is_null($numero_registro)){
+                $ejemplares = $query->limit(5)->get();
+            }else{
+                $ejemplares = $query->orderBy('id', 'desc')->limit(10)->get();
+            }
+
+            $valores = [
+                'listado' => view('ejemplar.buscarEjemplar')->with(compact('ejemplares'))->render()
+            ];
+            $data = Respuesta::success($valores, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "Error al obtener los datos");
+        }
+        return $data;
     }
 
     /**
