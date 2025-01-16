@@ -20,11 +20,13 @@ return new class extends Migration
             $table->foreign('usuario_eliminador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_eliminador_id')->nullable();
 
+            $table->foreign('padre_id')->references('id')->on('ejemplares');
+            $table->unsignedBigInteger('padre_id')->nullable();
+            $table->foreign('madre_id')->references('id')->on('ejemplares');
+            $table->unsignedBigInteger('madre_id')->nullable();
             $table->string('descripcion')->nullable();
             $table->foreign('monta_id')->references('id')->on('montas');
             $table->unsignedBigInteger('monta_id')->nullable();
-            $table->foreign('ejemplar_id')->references('id')->on('ejemplares');
-            $table->unsignedBigInteger('ejemplar_id')->nullable();
             $table->date('fecha_nacimiento')->nullable();
             $table->integer('numero_parto_padre')->nullable();
             $table->integer('numero_parto_madre')->nullable();

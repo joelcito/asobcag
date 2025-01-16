@@ -38,6 +38,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/listado', [EjemplarController::class, 'listado']);
         Route::post('/ajaxListado', [EjemplarController::class, 'ajaxListado']);
         Route::post('/buscarEjemplar', [EjemplarController::class, 'buscarEjemplar']);
+        Route::prefix('/camada')->group(function(){
+            Route::get('/formularioCamada', [EjemplarController::class, 'formularioCamada']);
+        });
     });
 
     Route::prefix('/raza')->group(function(){

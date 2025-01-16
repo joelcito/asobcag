@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreign('madre_id')->references('id')->on('ejemplares');
             $table->unsignedBigInteger('comunidad_id')->nullable()->after('madre_id');
             $table->foreign('comunidad_id')->references('id')->on('comunidades');
+            $table->unsignedBigInteger('camada_id')->nullable()->after('madre_id');
+            $table->foreign('camada_id')->references('id')->on('camadas');
         });
     }
 
@@ -33,6 +35,8 @@ return new class extends Migration
             $table->dropColumn('madre_id');
             $table->dropForeign(['comunidad_id']);
             $table->dropColumn('comunidad_id');
+            $table->dropForeign(['camada_id']);
+            $table->dropColumn('camada_id');
         });
     }
 };

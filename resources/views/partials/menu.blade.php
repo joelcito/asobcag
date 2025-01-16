@@ -43,7 +43,7 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link" href="{{url('empresa/listado')}}">
+                            <a class="menu-link" href="{{url('ejemplar/camada/formularioCamada')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>

@@ -148,19 +148,16 @@ class EjemplarController extends Controller
         return $data;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Ejemplar $ejemplar)
-    {
-        //
+    public function formularioCamada(Request $request){
+
+        $razas              = Raza::all();
+        $cominidades        = Comunidad::all();
+        $usuarioModel       = new User();
+        $id_rol_propietario = 2;
+        $propietarios       = $usuarioModel->listaUsuarios($id_rol_propietario);
+        $cominidades        = Comunidad::all();
+
+        return view('ejemplar.camada.formularioCamada')->with(compact('razas', 'cominidades', 'propietarios'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Ejemplar $ejemplar)
-    {
-        //
-    }
 }
