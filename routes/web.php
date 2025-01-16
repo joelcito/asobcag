@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/buscarEjemplar', [EjemplarController::class, 'buscarEjemplar']);
         Route::prefix('/camada')->group(function(){
             Route::get('/formularioCamada', [EjemplarController::class, 'formularioCamada']);
+            Route::post('/guardarCamada', [EjemplarController::class, 'guardarCamada']);
         });
     });
 

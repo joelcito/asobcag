@@ -16,7 +16,8 @@
 <div class="modal fade" id="modalBuscarEjemplar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header" id="kt_modal_add_user_header">
+            @include("ejemplar.components.formularioBusqueda")
+            {{-- <div class="modal-header" id="kt_modal_add_user_header">
                 <h3 class="fw-bold">BUSQUEDA DE EJEMPLAR <span class="text-info" id="nombre_busqueda"></span></h3>
             </div>
             <div class="modal-body scroll-y">
@@ -39,7 +40,7 @@
                 </form>
                 <div id="table_ejemplares_buscados">
 
-                </div>
+                </div> --}}
             </div>
             {{-- <div class="modal-body">
                 <h4>ESt fofoer</h4>

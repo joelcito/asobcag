@@ -13,10 +13,11 @@
 @section('content')
 
 <!--begin::Modal - Add task-->
-{{-- <div class="modal fade" id="modalBuscarEjemplar" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalBuscarEjemplar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header" id="kt_modal_add_user_header">
+            @include("ejemplar.components.formularioBusqueda")
+            {{-- <div class="modal-header" id="kt_modal_add_user_header">
                 <h3 class="fw-bold">BUSQUEDA DE EJEMPLAR <span class="text-info" id="nombre_busqueda"></span></h3>
             </div>
             <div class="modal-body scroll-y">
@@ -40,12 +41,12 @@
                 <div id="table_ejemplares_buscados">
 
                 </div>
-            </div>
+            </div> --}}
             <!--end::Modal body-->
         </div>
     </div>
     <!--end::Modal dialog-->
-</div> --}}
+</div>
 <!--end::Modal - Add task-->
 
 <!--begin::Content wrapper-->
@@ -80,26 +81,13 @@
         <!--begin::Content container-->
         <div id="kt_app_content_container" class="app-container container-xxlg">
             <!--begin::Card-->
-            <div class="card">
-                <div class="card-header flex-wrap bg-light-info py-4">
-                    <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
-                        <!--begin::Page title-->
-                        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                            <!--begin::Title-->
-                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">FORMULARIO DE CAMADA</h1>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Page title-->
-
-                        <!--begin::Actions-->
-                        {{-- <div class="d-flex align-items-center gap-2 gap-lg-3">
-                            <a class="btn btn-sm fw-bold btn-primary" href="{{ url('factura/formularioFacturacionCv') }}"><i class="fa fa-plus"></i>Nueva Venta Compra Venta</a>
-
-                            <a class="btn btn-sm fw-bold btn-primary" href="{{ url('factura/formularioFacturacionTc') }}"><i class="fa fa-plus"></i>Nueva Venta Tasa Cero</a>
-
-                            <a class="btn btn-sm fw-bold btn-primary" href="{{ url('factura/formularioFacturacionSe') }}"><i class="fa fa-plus"></i>Nueva Venta Sector Educativo</a>
-                        </div> --}}
-                        <!--end::Actions-->
+            <div class="card shadow-sm">
+                <div class="card-header bg-light-info">
+                    <h3 class="card-title">FORMULARIO DE CAMADA</h3>
+                    <div class="card-toolbar">
+                        {{-- <button type="button" class="btn btn-sm btn-light">
+                            Action
+                        </button> --}}
                     </div>
                 </div>
 
@@ -183,68 +171,69 @@
                                                 <div class="row mt-3">
                                                     <div class="col-md-3">
                                                         <label class="form-label">Nombre:</label>
-                                                        <input type="email" class="form-control mb-2 mb-md-0 form-control-sm" />
+                                                        <input type="text" class="form-control mb-2 mb-md-0 form-control-sm" name="nombre" id="nombre" />
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Color:</label>
-                                                        <input type="email" class="form-control mb-2 mb-md-0 form-control-sm"  />
+                                                        <input type="text" class="form-control mb-2 mb-md-0 form-control-sm" name="color" id="color" />
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Sexo:</label>
-                                                        <select name="sexo" id="sexo" class="form-control form-control-sm" required>
+                                                        <select name="sexo" id="sexo" class="form-control form-control-sm" required name="sexo" id="sexo">
                                                             <option value="Macho">Macho</option>
                                                             <option value="Hembra">Hembra</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <label class="form-label">Fecha Registro:</label>
-                                                        <input type="date" class="form-control mb-2 mb-md-0 form-control-sm" value="{{ date('Y-m-d') }}" readonly />
+                                                        {{-- <label class="form-label">Fecha Registro:</label>
+                                                        <input type="date" class="form-control mb-2 mb-md-0 form-control-sm" name="fechaRegistro" id="fechaRegistro" value="{{ date('Y-m-d') }}" readonly /> --}}
+                                                        <label class="form-label">Color Tradicional:</label>
+                                                        <input type="text" class="form-control mb-2 mb-md-0 form-control-sm" anme="colorTradicional" id="colorTradicional" />
                                                     </div>
                                                 </div>
                                                 <div class="row mt-3">
                                                     <div class="col-md-3">
-                                                        <label class="form-label">Color Tradicional:</label>
-                                                        <input type="email" class="form-control mb-2 mb-md-0 form-control-sm" />
-                                                    </div>
-                                                    <div class="col-md-3">
                                                         <label class="form-label">Numero Arete:</label>
-                                                        <input type="email" class="form-control mb-2 mb-md-0 form-control-sm" />
+                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm" name="numeroArete" id="numeroArete" />
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Peso Nacimiento:</label>
-                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm" />
+                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm" name="pesoNacimiento" id="pesoNacimiento" />
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Peso Vivo:</label>
-                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm" />
+                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm" name="pesoVivo" id="pesoVivo" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Perimetro Toracico:</label>
+                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm" name="perimetroToracico" id="perimetroToracico" />
                                                     </div>
                                                 </div>
                                                 <div class="row mt-3">
                                                     <div class="col-md-3">
-                                                        <label class="form-label">Perimetro Toracico:</label>
-                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm"  />
-                                                    </div>
-                                                    <div class="col-md-3">
                                                         <label class="form-label">Altura Cruz:</label>
-                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm"  />
+                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm" name="alturaCruz" id="alturaCruz" />
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Largo Cuerpo:</label>
-                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm"  />
+                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm" name="largoCuello" id="largoCuello" />
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Altura Grupa:</label>
-                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm"  />
+                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm" name="alturaGrupa" id="alturaGrupa" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Ancho Anca:</label>
+                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm" name="anchoAnca" id="anchoAnca" />
                                                     </div>
                                                 </div>
                                                 <div class="row mt-3">
                                                     <div class="col-md-6">
-                                                        <label class="form-label">Ancho Anca:</label>
-                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm"  />
+
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="form-label">Largo Cuello:</label>
-                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm"  />
+                                                        <input type="number" class="form-control mb-2 mb-md-0 form-control-sm" name="largoCuello" id="largoCuello" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -276,7 +265,7 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-success btn-sm w-100" onclick="guardar()">Guardar</button>
+                            <button type="button" class="btn btn-success btn-sm w-100" onclick="guardarCamada()">Guardar</button>
                         </div>
                         <div class="col-md-6">
                             <a href="{{ url('ejemplar/listado') }}" type="button" class="btn btn-dark btn-sm w-100">Volver</a>
@@ -306,13 +295,13 @@
 
         $(document).ready(function() {
 
-            let debounceTimer;
-            $('.buscar_ejemplar').keyup(function(){
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(function() {
-                    buscarEjemplar();
-                }, 300);
-            })
+            // let debounceTimer;
+            // $('.buscar_ejemplar').keyup(function(){
+            //     clearTimeout(debounceTimer);
+            //     debounceTimer = setTimeout(function() {
+            //         buscarEjemplar();
+            //     }, 300);
+            // })
 
             $('#kt_docs_repeater_basic').repeater({
                 initEmpty: false,
@@ -362,23 +351,23 @@
             $('#modalBuscarEjemplar').modal('show')
         }
 
-        function guardar(){
-            if($("#formularioEjemplar")[0].checkValidity()){
-                let datos = $('#formularioEjemplar').serializeArray();
+        function guardarCamada(){
+            if($("#formularioEjemplarCamada")[0].checkValidity()){
+                let datos = $('#formularioEjemplarCamada').serializeArray();
                 $.ajax({
-                    url: "{{ url('ejemplar/guardar') }}",
+                    url: "{{ url('ejemplar/camada/guardarCamada') }}",
                     method: "POST",
                     data: datos,
                     success: function (resultado) {
                         if(resultado.estado){
-                            window.location.href = "{{ url('ejemplar/listado') }}";
+                            window.location.href = "{{ url('ejemplar/guardarCamada') }}";
                         }else{
 
                         }
                     }
                 })
             }else{
-                $("#formularioEjemplar")[0].reportValidity();
+                $("#formularioEjemplarCamada")[0].reportValidity();
             }
         }
 

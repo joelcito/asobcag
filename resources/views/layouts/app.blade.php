@@ -141,6 +141,8 @@
         <script src="{{ asset('assets/js/ajaxGlobal.js') }}"></script>
 		@section('js')
         @show
+        @section('formularioBusquedaJs')
+        @show
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	</body>

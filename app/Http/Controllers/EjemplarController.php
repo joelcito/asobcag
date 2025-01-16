@@ -160,4 +160,21 @@ class EjemplarController extends Controller
         return view('ejemplar.camada.formularioCamada')->with(compact('razas', 'cominidades', 'propietarios'));
     }
 
+    public function  guardarCamada(Request $request){
+        if($request->ajax()){
+
+            dd($request->all());
+
+            $ejemplares = Ejemplar::all();
+            $valores = [
+                'listado' => view('ejemplar.ajaxListado')->with(compact('ejemplares'))->render()
+            ];
+            $data = Respuesta::success($valores, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "Error al obtener los datos");
+        }
+        return $data;
+    }
+
 }
