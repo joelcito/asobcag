@@ -11,17 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('paises', function (Blueprint $table) {
+        Schema::create('campanias', function (Blueprint $table) {
             $table->id();
-            $table->foreign('usuario_creador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
-            $table->foreign('usuario_modificador_id')->references('id')->on('users');
+            $table->foreign('usuario_creador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_modificador_id')->nullable();
-            $table->foreign('usuario_eliminador_id')->references('id')->on('users');
+            $table->foreign('usuario_modificador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_eliminador_id')->nullable();
+            $table->foreign('usuario_eliminador_id')->references('id')->on('users');
 
             $table->string('nombre')->nullable();
-
+            $table->date('fecha_ini')->nullable();
+            $table->date('fecha_fin')->nullable();
+            $table->tinyInteger('actual')->nullable();
+            
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();
             $table->timestamps();
@@ -33,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('paises');
+        Schema::dropIfExists('campanias');
     }
 };

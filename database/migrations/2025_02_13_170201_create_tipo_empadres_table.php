@@ -11,19 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('municipios', function (Blueprint $table) {
+        Schema::create('tipo_empadres', function (Blueprint $table) {
             $table->id();
-            $table->foreign('usuario_creador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
-            $table->foreign('usuario_modificador_id')->references('id')->on('users');
+            $table->foreign('usuario_creador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_modificador_id')->nullable();
-            $table->foreign('usuario_eliminador_id')->references('id')->on('users');
+            $table->foreign('usuario_modificador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_eliminador_id')->nullable();
+            $table->foreign('usuario_eliminador_id')->references('id')->on('users');
 
-            $table->foreign('provincia_id')->references('id')->on('provincias');
-            $table->unsignedBigInteger('provincia_id')->nullable();
             $table->string('nombre')->nullable();
-
+            
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();
             $table->timestamps();
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('municipios');
+        Schema::dropIfExists('tipo_empadres');
     }
 };

@@ -11,20 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sanitarios', function (Blueprint $table) {
+        Schema::create('categorias', function (Blueprint $table) {
             $table->id();
-            $table->foreign('usuario_creador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
-            $table->foreign('usuario_modificador_id')->references('id')->on('users');
+            $table->foreign('usuario_creador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_modificador_id')->nullable();
-            $table->foreign('usuario_eliminador_id')->references('id')->on('users');
+            $table->foreign('usuario_modificador_id')->references('id')->on('users');
             $table->unsignedBigInteger('usuario_eliminador_id')->nullable();
+            $table->foreign('usuario_eliminador_id')->references('id')->on('users');
 
-            $table->foreign('ejemplar_id')->references('id')->on('ejemplares');
-            $table->unsignedBigInteger('ejemplar_id')->nullable();
-            $table->string('descripcion')->nullable();
-            $table->date('fecha')->nullable();
-            $table->string('tratamiento')->nullable();
+            $table->string('nombre')->nullable();
+            $table->string('sigla')->nullable();
+            $table->decimal('desde', 12, 2)->nullable();
+            $table->decimal('hasta', 12, 2)->nullable();
 
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();
@@ -37,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sanitarios');
+        Schema::dropIfExists('categorias');
     }
 };
