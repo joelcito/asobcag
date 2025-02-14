@@ -40,9 +40,10 @@ class LocalidadController extends Controller
             $nombre      = $request->input('nombre');
             $usuario     = Auth::user();
 
-            $localidad = new Localidad();
+            $localidad                     = new Localidad();
             $localidad->usuario_creador_id = $usuario->id;
-            $localidad->nombre = $nombre;
+            $localidad->nombre             = $nombre;
+            $localidad->nivel              = 1;
             $localidad->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
@@ -235,7 +236,8 @@ class LocalidadController extends Controller
                 $hijos     = $padre->localidadesHijo()->get();
 
                 $valores = [
-                    'listado' => view('localidad.ajaxListadoComunidad')->with(compact('comunidades', 'municipio_id'))->render()
+                    'listado' => $hijos,
+                    'nivel' => $padre->nivel,
                 ];
                 $data = Respuesta::success($valores, "Datos obtenidos correctamente");
 

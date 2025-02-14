@@ -18,6 +18,7 @@ class Localidad extends Model
         'usuario_eliminador_id',
         'superior_id',
         'nombre',
+        'nivel',
         'estado',
         'deleted_at'
     ];
