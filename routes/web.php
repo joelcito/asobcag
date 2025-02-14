@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/usuario', [UserController::class, 'usuario'])->name('usuario');
         Route::post('/ajaxListadoUsuario', [UserController::class, 'ajaxListadoUsuario'])->name('ajaxListadoUsuario');
         Route::post('/guardarUsuario', [userController::class, 'guardarUsuario'])->name('guardarUsuario');
-        
+
         Route::get('/clienteProvedor', [CriaderoController::class, 'clienteProvedor'])->name('clienteProvedor');
         Route::post('/ajaxListadoClienteProvedor', [CriaderoController::class, 'ajaxListadoClienteProvedor'])->name('ajaxListadoClienteProvedor');
         Route::post('/guardarClienteProvedor', [CriaderoController::class, 'guardarClienteProvedor'])->name('guardarClienteProvedor');
@@ -93,6 +93,8 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/ajaxListadoComunidad', [LocalidadController::class, 'ajaxListadoComunidad']);
         Route::post('/guardarComunidad', [LocalidadController::class, 'guardarComunidad']);
+
+        Route::post('/buscarHijos', [LocalidadController::class, 'buscarHijos']);
     });
 });
 

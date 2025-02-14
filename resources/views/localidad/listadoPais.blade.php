@@ -282,6 +282,18 @@
 </div>
 <!--end::Modal - Add task-->
 
+<!--begin::Modal - Add task-->
+<div class="modal fade" id="modalLocalidad" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            @include("localidad.components.registroLocalidad")
+        </div>
+    </div>
+</div>
+<!--end::Modal - Add task-->
+
+
+
 <!--begin::Content wrapper-->
 <div class="d-flex flex-column flex-column-fluid">
     <!--begin::Toolbar-->
@@ -328,6 +340,10 @@
                         <!--begin::Actions-->
                         <div class="d-flex gap-2 gap-lg-3">
                             <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoRol()"><i class="fa fa-plus"></i>Nuevo Pais</a>
+                        </div>
+
+                        <div class="d-flex gap-2 gap-lg-3">
+                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalLocalidad()"><i class="fa fa-plus"></i>Registro Localidad</a>
                         </div>
 
                         <!--end::Actions-->
@@ -658,6 +674,10 @@
 
         function cerrarmodalpais(){
             $('#modalpais').modal('hide');
+        }
+
+        function modalLocalidad(){
+            $('#modalLocalidad').modal('show');
         }
 
    </script>

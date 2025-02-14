@@ -21,4 +21,9 @@ class Localidad extends Model
         'estado',
         'deleted_at'
     ];
+
+    public function localidadesHijo(){
+        return $this->hasMany(Localidad::class, 'superior_id');
+    }
+
 }
