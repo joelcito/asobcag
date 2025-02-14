@@ -2,22 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Localidad extends Model
+class Criadero extends Model
 {
     use HasFactory, SoftDeletes;
-
-    protected $table = 'localidades';
+    protected $table = 'criaderos';
 
     protected $fillable = [
         'usuario_creador_id',
         'usuario_modificador_id',
         'usuario_eliminador_id',
-        'superior_id',
+        'propietario_id',
+        'tecnico_id',
+        'pastor_id',
+        'localidad_id',
         'nombre',
+        'negocio_fibra',
+        'negocio_carne',
+        'negocio_animal',
         'estado',
         'deleted_at'
     ];

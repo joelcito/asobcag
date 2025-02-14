@@ -23,6 +23,18 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'usuario_creador_id',
+        'usuario_modificador_id',
+        'usuario_eliminador_id',
+        'rol_id',
+        'nombres',
+        'ap_paterno',
+        'ap_materno',
+        'cedula',
+        'direccion',
+        'celular',
+        'estado',
+        'deleted_at'
     ];
 
     /**

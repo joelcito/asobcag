@@ -1,12 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\RazaController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CriaderoController;
 use App\Http\Controllers\EjemplarController;
 use App\Http\Controllers\LocalidadController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RazaController;
-use App\Http\Controllers\RolController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,20 @@ Route::middleware('auth')->group(function () {
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::prefix('/ingreso')->group(function(){
+        Route::get('/usuario', [UserController::class, 'usuario'])->name('usuario');
+        Route::post('/ajaxListadoUsuario', [UserController::class, 'ajaxListadoUsuario'])->name('ajaxListadoUsuario');
+        Route::post('/guardarUsuario', [userController::class, 'guardarUsuario'])->name('guardarUsuario');
+        
+        Route::get('/clienteProvedor', [CriaderoController::class, 'clienteProvedor'])->name('clienteProvedor');
+        Route::post('/ajaxListadoClienteProvedor', [CriaderoController::class, 'ajaxListadoClienteProvedor'])->name('ajaxListadoClienteProvedor');
+        Route::post('/guardarClienteProvedor', [CriaderoController::class, 'guardarClienteProvedor'])->name('guardarClienteProvedor');
+
+        Route::get('/fundador', [EjemplarController::class, 'fundador'])->name('fundador');
+        Route::post('/ajaxListadoFundador', [EjemplarController::class, 'ajaxListadoFundador'])->name('ajaxListadoFundador');
+        Route::post('/guardarFundador', [EjemplarController::class, 'guardarFundador'])->name('guardarFundador');
+
+    });
 
     Route::prefix('/ejemplar')->group(function(){
         Route::get('/formulario/{ejemplar_id}', [EjemplarController::class, 'formulario']);

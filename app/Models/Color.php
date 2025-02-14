@@ -2,21 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Localidad extends Model
+class Color extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'localidades';
+    protected $table = 'colores';
 
     protected $fillable = [
         'usuario_creador_id',
         'usuario_modificador_id',
         'usuario_eliminador_id',
-        'superior_id',
         'nombre',
         'estado',
         'deleted_at'

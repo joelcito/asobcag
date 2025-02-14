@@ -11,6 +11,27 @@ class Ejemplar extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'ejemplares';
 
+    protected $fillable = [
+        'usuario_creador_id',
+        'usuario_modificador_id',
+        'usuario_eliminador_id',
+        'raza_id',
+        'fenotipo_id',
+        'categoria_id',
+        'color_id',
+        'criadero_id',
+        'nombre',
+        'sexo',
+        'fecha_nacimiento',
+        'numero_registro',
+        'microchip',
+        'arete',
+        'fecha_registro',
+        'ejemplarescol',
+        'estado',
+        'deleted_at'
+    ];
+
     public function sacarCorrelativoRegsitro(){
         $datos = $this->orderBy('numero_registro', 'desc')->first();
         return $datos ? $datos->numero_registro + 1 : 1;

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comunidad;
-use App\Models\Ejemplar;
 use App\Models\Raza;
 use App\Models\User;
+use App\Models\Color;
+use App\Models\Ejemplar;
+use App\Models\Fenotipo;
 use App\Utils\Respuesta;
+use App\Models\Comunidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +17,7 @@ class EjemplarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function formulario(Request $request, $ejemplar_id){
+    /* public function formulario(Request $request, $ejemplar_id){
 
         $razas              = Raza::all();
         $ejemplarModel      = new Ejemplar();
@@ -173,6 +175,67 @@ class EjemplarController extends Controller
 
         }else{
             $data = Respuesta::error(null, "Error al obtener los datos");
+        }
+        return $data;
+    } */
+
+
+    public function fundador(){
+        $colores = Color::all();
+        $fenotipos = Fenotipo::all();
+
+        return view('ingresos.fundador.listado')->with(compact(['colores', 'fenotipos']));
+    }
+
+    public function ajaxListadoFundador(Request $request){
+        if($request->ajax()){
+
+            $ejemplares = Ejemplar::all();
+            $valores = [
+                'listado' => view('ingresos.fundador.ajaxListado')->with(compact('ejemplares'))->render()
+            ];
+            $data = Respuesta::success($valores, "Datos obtenidos correctamente");
+        }else{
+            $data = Respuesta::error(null, "Error al obtener los datos");
+        }
+        return $data;
+    }
+
+    public function guardarFundador(Request $request){
+        if($request->ajax()){
+
+            $car_id           = $request->input('car_id');
+            $microchip        = $request->input('microchip');
+            $nombre           = $request->input('nombre');
+            $arete            = $request->input('arete');
+            $fenotipo_id      = $request->input('fenotipo_id');
+            $color_id         = $request->input('color_id');
+            $sexo             = $request->input('sexo');
+            $fecha_nacimiento = $request->input('fecha_nacimiento');
+            $fecha_registro   = $request->input('fecha_registro');
+            $precio           = $request->input('precio');
+            $criadero_id      = $request->input('criadero_id');
+            $majada           = $request->input('majada');
+            $usuarioLoguado   = Auth::user();
+
+            $ejemplar                     = new Ejemplar();
+            $ejemplar->usuario_creador_id = $usuarioLoguado->id;
+            $ejemplar->microchip        = $microchip;
+            $ejemplar->nombre           = $nombre;
+            $ejemplar->arete            = $arete;
+            $ejemplar->fenotipo_id      = $fenotipo_id;
+            $ejemplar->color_id         = $color_id;
+            $ejemplar->sexo             = $sexo;
+            $ejemplar->fecha_nacimiento = $fecha_nacimiento;
+            $ejemplar->fecha_registro   = $fecha_registro;
+            //$ejemplar->precio           = $precio;
+            //$ejemplar->criadero_id      = $criadero_id;
+            $ejemplar->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
         }
         return $data;
     }
