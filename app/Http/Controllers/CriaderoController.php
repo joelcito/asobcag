@@ -11,19 +11,19 @@ use Illuminate\Support\Facades\Auth;
 
 class CriaderoController extends Controller
 {
-    public function clienteProvedor(){
+    public function listado(){
         $localidades = Localidad::all();
         $usuarios = User::all();
-        return view('ingresos.clienteProvedor.listado')->with(compact(['localidades', 'usuarios']));
+        return view('criadero.listado')->with(compact(['localidades', 'usuarios']));
     }
 
 
-    public function ajaxListadoClienteProvedor(Request $request){
+    public function ajaxListado(Request $request){
         if($request->ajax()){
 
             $criaderos = Criadero::all();
             $valores = [
-                'listado' => view('ingresos.clienteProvedor.ajaxListado')->with(compact('criaderos'))->render()
+                'listado' => view('criadero.ajaxListado')->with(compact('criaderos'))->render()
             ];
             $data = Respuesta::success($valores, "Datos obtenidos correctamente");
         }else{
@@ -32,17 +32,12 @@ class CriaderoController extends Controller
         return $data;
     }
 
-    public function guardarClienteProvedor(Request $request){
+    public function guardarCriadero(Request $request){
         if($request->ajax()){
 
             $nombre         = $request->input('nombre');
             /* $dni            = $request->input('dni');
-            $direccion      = $request->input('direccion');
-            $pais           = $request->input('pais');
-            $departamento   = $request->input('departamento');
-            $provincia      = $request->input('provincia');
-            $distrito       = $request->input('distrito');
-            $celular        = $request->input('celular'); */
+            $direccion      = $request->input('direccion'); */
             $negocio_fibra  = $request->input('negocio_fibra');
             $negocio_carne  = $request->input('negocio_carne');
             $negocio_animal = $request->input('negocio_animal');
@@ -53,15 +48,10 @@ class CriaderoController extends Controller
             $criadero->usuario_creador_id = $usuarioLoguado->id;
             $criadero->nombre             = $nombre;
             /* $criadero->dni                = $dni;
-            $criadero->direccion          = $direccion;
-            $criadero->pais               = $pais;
-            $criadero->departamento       = $departamento;
-            $criadero->provincia          = $provincia;
-            $criadero->distrito           = $distrito;
-            $criadero->celular            = $celular; */
-            $criadero->negocio_fibra      = $negocio_fibra;
-            $criadero->negocio_carne      = $negocio_carne;
-            $criadero->negocio_animal     = $negocio_animal;
+            $criadero->direccion          = $direccion; */
+            $criadero->negocio_fibra      = $negocio_fibra && $negocio_fibra == 'on' ? true : false;
+            $criadero->negocio_carne      = $negocio_carne && $negocio_carne == 'on' ? true : false;
+            $criadero->negocio_animal     = $negocio_animal && $negocio_animal == 'on' ? true : false;
             $criadero->propietario_id     = $propietario_id;
             $criadero->save();
 

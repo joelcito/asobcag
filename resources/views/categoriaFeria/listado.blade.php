@@ -13,51 +13,19 @@
 @section('content')
 
 <!--begin::Modal - Add task-->
-<div class="modal fade" id="modalPropietario" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalCategoriaFeria" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="kt_modal_add_user_header">
-                <h3 class="fw-bold">FORMULARIO DE PROPIETARIO</h3>
+                <h3 class="fw-bold">FORMULARIO DE CATEGORIA DE FERIAS <span class="text-info" id="nombre_busqueda"></span></h3>
             </div>
             <div class="modal-body scroll-y">
-                <form id="formularioPropietario">
+                <form id="formularioCategoriaFeria">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Nombres</label>
-                                <input type="text" class="form-control form-control-sm" id="nombres" name="nombres">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Ap. Paterno</label>
-                                <input type="text" class="form-control form-control-sm" id="ap_paterno" name="ap_paterno">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Ap. Materno</label>
-                                <input type="text" class="form-control form-control-sm" id="ap_materno" name="ap_materno">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Celular</label>
-                                <input type="text" class="form-control form-control-sm" id="celular" name="celular">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Correo</label>
-                                <input type="text" class="form-control form-control-sm" id="correo" name="correo">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Contraseña</label>
-                                <input type="text" class="form-control form-control-sm" id="contrasenia" name="contrasenia">
+                                <label class="required fw-semibold fs-6 mb-2">Nombre</label>
+                                <input type="text" class="form-control form-control-sm" id="nombre" name="nombre">
                             </div>
                         </div>
                     </div>
@@ -66,7 +34,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-sm w-100 btn-success" onclick="guardarPropietario()">Guardar</button>
+                        <button class="btn btn-sm w-100 btn-success" onclick="guardarCategoriaFeria()">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -115,14 +83,14 @@
                         <!--begin::Page title-->
                         <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                             <!--begin::Title-->
-                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">LISTADO DE PROPIETARIOS</h1>
+                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">LISTADO DE CATEGORIAS DE FERIAS</h1>
                             <!--end::Title-->
                         </div>
                         <!--end::Page title-->
 
                         <!--begin::Actions-->
                         <div class="d-flex gap-2 gap-lg-3">
-                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoRol()"><i class="fa fa-plus"></i>Nuevo Propietario</a>
+                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoCategoriaFeria()"><i class="fa fa-plus"></i>Nuevo Registro</a>
                         </div>
 
                         <!--end::Actions-->
@@ -172,7 +140,7 @@
 
             let datos = {};
             $.ajax({
-                url: "{{ url('propietario/ajaxListadoPropietario') }}",
+                url: "{{ route('categoriaFeria.ajaxListado') }}",
                 method: "POST",
                 data: datos,
                 success: function (resultado) {
@@ -188,26 +156,21 @@
             })
         }
 
-        function modalNuevoRol(){
-            $('#nombres').val('')
-            $('#ap_paterno').val('')
-            $('#ap_materno').val('')
-            $('#celular').val('')
-            $('#correo').val('')
-            $('#contrasenia').val('')
-            $('#modalPropietario').modal('show')
+        function modalNuevoCategoriaFeria(){
+            $('#nombre').val('')
+            $('#modalCategoriaFeria').modal('show')
         }
 
-        function guardarPropietario(){
-            let datos = $('#formularioPropietario').serializeArray();
+        function guardarCategoriaFeria(){
+            let datos = $('#formularioCategoriaFeria').serializeArray();
             $.ajax({
-                url: "{{ url('propietario/guardarPropietario') }}",
+                url: "{{ route('categoriaFeria.guardarCategoriaFeria') }}",
                 method: "POST",
                 data: datos,
                 success: function (resultado) {
                     if(resultado.estado){
                         ajaxListado();
-                        $('#modalPropietario').modal('hide')
+                        $('#modalCategoriaFeria').modal('hide')
                     }else{
 
                     }

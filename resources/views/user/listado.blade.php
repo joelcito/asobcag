@@ -207,7 +207,7 @@
 
             let datos = {};
             $.ajax({
-                url: "{{ route('ajaxListadoUsuario') }}",
+                url: "{{ route('usuario.ajaxListado') }}",
                 method: "POST",
                 data: datos,
                 success: function (resultado) {
@@ -242,7 +242,7 @@
         function guardarUsuario(){
             let datos = $('#formularioUsuario').serializeArray();
             $.ajax({
-                url: "{{ route('guardarUsuario') }}",
+                url: "{{ route('usuario.guardarUsuario') }}",
                 method: "POST",
                 data: datos,
                 success: function (resultado) {

@@ -3,22 +3,14 @@
     <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
         <thead>
             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                <th>Nombres</th>
-                <th>Ap Paterno</th>
-                <th>Ap Materno</th>
-                <th>Correo</th>
-                <th>Celular</th>
+                <th>Nombre</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody class="text-gray-600 fw-semibold">
-            @forelse ( $propietarios as $propiteario)
+            @forelse ( $metodos as $metodo)
                 <tr>
-                    <td>{{ $propiteario->nombres }}</td>
-                    <td>{{ $propiteario->ap_paterno }}</td>
-                    <td>{{ $propiteario->ap_materno }}</td>
-                    <td>{{ $propiteario->email  }}</td>
-                    <td>{{ $propiteario->numero_celular }}</td>
+                    <td>{{ $metodo->nombre }}</td>
                     <td>
                         <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza"><i class="fa fa-edit"></i></button>
                         <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza"><i class="fa fa-trash"></i></button>

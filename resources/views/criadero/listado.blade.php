@@ -13,111 +13,80 @@
 @section('content')
 
 <!--begin::Modal - Add task-->
-<div class="modal fade" id="modalFundador" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalClienteProvedor" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="kt_modal_add_user_header">
-                <h3 class="fw-bold">FORMULARIO DE FUNDADORES</h3>
+                <h3 class="fw-bold">FORMULARIO DE CRIADEROS</h3>
             </div>
             <div class="modal-body scroll-y">
-                <form id="formularioFundador">
+                <form id="formularioClienteProvedor">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">ID Car</label>
-                                <input type="text" class="form-control form-control-sm" id="car_id" name="car_id">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">ID Microchip</label>
-                                <input type="text" class="form-control form-control-sm" id="microchip" name="microchip">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Nombre</label>
+                                <label class="required fw-semibold fs-6 mb-2">Nombre/Razon</label>
                                 <input type="text" class="form-control form-control-sm" id="nombre" name="nombre">
                             </div>
                         </div>
-                    </div>
-                    <div class="row mt-3">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Arete</label>
-                                <input type="text" class="form-control form-control-sm" id="arete" name="arete">
+                                <label class="required fw-semibold fs-6 mb-2">DNI/RUC</label>
+                                <input type="text" class="form-control form-control-sm" id="dni" name="dni">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Fenotipo</label>
-                                <select name="fenotipo_id" id="fenotipo_id" class="form-control form-control-sm" required>
-                                    @foreach ($fenotipos as $fenotipo)
-                                        <option value={{ $fenotipo->id }}>{{ $fenotipo->nombre }}</option>
+                                <label class="required fw-semibold fs-6 mb-2">Direccion Fisica</label>
+                                <input type="text" class="form-control form-control-sm" id="direccion" name="direccion">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Propietario</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalClienteProvedor"
+                                    class="form-select form-select-solid fw-bold" name="propietario_id" id="propietario_id">
+                                    <option></option>
+                                    @foreach ($usuarios as $usuario)
+                                        <option value="{{ $usuario->id }}">{{ $usuario->nombres.' '.$usuario->ap_paterno }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Color</label>
-                                <select name="color_id" id="color_id" class="form-control form-control-sm" required>
-                                    @foreach ($colores as $color)
-                                        <option value={{ $color->id }}>{{ $color->nombre }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Sexo</label>
-                                <select name="sexo" id="sexo" class="form-control form-control-sm" required>
-                                    <option value="Macho">Macho</option>
-                                    <option value="Hembra">Hembra</option>
-                                </select>
+                            <div class="form-check form-check-custom form-check-solid me-10">
+                                <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_fibra" name="negocio_fibra"/>
+                                <label class="form-check-label" for="negocio_fibra">
+                                    Negocio de Fibra
+                                </label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Fecha de Nacimiento</label>
-                                <input type="date" class="form-control form-control-sm" id="fecha_nacimiento" name="fecha_nacimiento">
+                            <div class="form-check form-check-custom form-check-solid me-10">
+                                <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_carne" name="negocio_carne"/>
+                                <label class="form-check-label" for="negocio_carne">
+                                    Negocio de Carne
+                                </label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Fecha de Registro</label>
-                                <input type="date" class="form-control form-control-sm" id="fecha_registro" name="fecha_registro">
+                            <div class="form-check form-check-custom form-check-solid me-10">
+                                <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_animal" name="negocio_animal"/>
+                                <label class="form-check-label" for="negocio_animal">
+                                    Negocio de Animal
+                                </label>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Precio</label>
-                                <input type="number" class="form-control form-control-sm" id="precio" name="precio">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Propietario</label>
-                                <input type="text" class="form-control form-control-sm" id="criadero_id" name="criadero_id">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Majada</label>
-                                <input type="text" class="form-control form-control-sm" id="majada" name="majada">
-                            </div>
-                        </div>
-                    </div>
+                    </div>                    
                 </form>
             </div>
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-sm w-100 btn-success" onclick="guardarFundador()">Guardar</button>
+                        <button class="btn btn-sm w-100 btn-success" onclick="guardarClienteProvedor()">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -166,14 +135,14 @@
                         <!--begin::Page title-->
                         <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                             <!--begin::Title-->
-                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">LISTADO DE FUNDADORES</h1>
+                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">LISTADO DE CRIADEROS</h1>
                             <!--end::Title-->
                         </div>
                         <!--end::Page title-->
 
                         <!--begin::Actions-->
                         <div class="d-flex gap-2 gap-lg-3">
-                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoRol()"><i class="fa fa-plus"></i>Nuevo Registro</a>
+                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoClienteProvedor()"><i class="fa fa-plus"></i>Nuevo Registro</a>
                         </div>
 
                         <!--end::Actions-->
@@ -214,7 +183,7 @@
 
             let datos = {};
             $.ajax({
-                url: "{{ route('ajaxListadoFundador') }}",
+                url: "{{ route('criadero.ajaxListado') }}",
                 method: "POST",
                 data: datos,
                 success: function (resultado) {
@@ -230,32 +199,27 @@
             })
         }
 
-        function modalNuevoRol(){
-            $('#car_id').val('')
-            $('#microchip').val('')
+        function modalNuevoClienteProvedor(){
             $('#nombre').val('')
-            $('#arete').val('')
-            $('#fenotipo_id').val('')
-            $('#color_id').val('')
-            $('#sexo').val('')
-            $('#fecha_nacimiento').val('')
-            $('#fecha_registro').val('')
-            $('#precio').val('')
-            $('#criadero_id').val('')
-            $('#majada').val('')
-            $('#modalFundador').modal('show')
+            $('#dni').val('')
+            $('#direccion').val('')
+            $('#negocio_fibra').val('')
+            $('#negocio_carne').val('')
+            $('#negocio_animal').val('')
+            $('#propietario_id').val('')
+            $('#modalClienteProvedor').modal('show')
         }
 
-        function guardarFundador(){
-            let datos = $('#formularioFundador').serializeArray();
+        function guardarClienteProvedor(){
+            let datos = $('#formularioClienteProvedor').serializeArray();
             $.ajax({
-                url: "{{ route('guardarFundador') }}",
+                url: "{{ route('criadero.guardarCriadero') }}",
                 method: "POST",
                 data: datos,
                 success: function (resultado) {
                     if(resultado.estado){
                         ajaxListado();
-                        $('#modalFundador').modal('hide')
+                        $('#modalClienteProvedor').modal('hide')
                     }else{
 
                     }
