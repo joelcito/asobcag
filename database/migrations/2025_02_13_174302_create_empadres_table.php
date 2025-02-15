@@ -32,7 +32,7 @@ return new class extends Migration
             $table->date('fecha')->nullable();
             $table->text('descripcion')->nullable();
             $table->string('tiempo_copula')->nullable();
-            $table->text('observaciones')->nullable();
+            $table->text('observacion')->nullable();
             
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();

@@ -8,6 +8,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\FeriaController;
 use App\Http\Controllers\MetodoController;
 use App\Http\Controllers\PremioController;
+use App\Http\Controllers\EmpadreController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CampaniaController;
 use App\Http\Controllers\CriaderoController;
@@ -60,6 +61,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/guardarEjemplar', [EjemplarController::class, 'guardarEjemplar'])->name('ejemplar.guardarEjemplar');
         Route::get('/formulario', [EjemplarController::class, 'formulario'])->name('ejemplar.formulario');
         Route::get('/formularioNacimiento', [EjemplarController::class, 'formularioNacimiento'])->name('ejemplar.formularioNacimiento');
+    });
+
+    Route::prefix('/empadre')->group(function(){
+        Route::get('/listado', [EmpadreController::class, 'listado'])->name('empadre.listado');
+        Route::post('/ajaxListado', [EmpadreController::class, 'ajaxListado'])->name('empadre.ajaxListado');
+        Route::post('/guardarEmpadre', [EmpadreController::class, 'guardarEmpadre'])->name('empadre.guardarEmpadre');
     });
 
     Route::prefix('/raza')->group(function(){
