@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/ajaxListado', [EjemplarController::class, 'ajaxListado'])->name('ejemplar.ajaxListado');
         Route::post('/guardarEjemplar', [EjemplarController::class, 'guardarEjemplar'])->name('ejemplar.guardarEjemplar');
         Route::get('/formulario', [EjemplarController::class, 'formulario'])->name('ejemplar.formulario');
+        Route::get('/formularioNacimiento', [EjemplarController::class, 'formularioNacimiento'])->name('ejemplar.formularioNacimiento');
     });
 
     Route::prefix('/raza')->group(function(){

@@ -197,6 +197,16 @@ class EjemplarController extends Controller
         return view('ejemplar2.formulario')->with(compact(['colores', 'fenotipos', 'criaderos']));
     }
 
+    public function formularioNacimiento(){
+        $colores   = Color::all();
+        $fenotipos = Fenotipo::all();
+        $criaderos = Criadero::all();
+        $machos    = Ejemplar::where('sexo', 'Macho')->get();
+        $hembras   = Ejemplar::where('sexo', 'Hembra')->get();
+
+        return view('ejemplar2.formularioNacimiento')->with(compact(['colores', 'fenotipos', 'criaderos', 'machos', 'hembras']));
+    }
+
     public function ajaxListado(Request $request){
         if($request->ajax()){
 
@@ -223,6 +233,8 @@ class EjemplarController extends Controller
         $fecha_nacimiento = $request->input('fecha_nacimiento');
         $fecha_registro   = $request->input('fecha_registro');
         $criadero_id      = $request->input('criadero_id');
+        $padre_id         = $request->input('padre_id');
+        $madre_id         = $request->input('madre_id');
         $usuarioLoguado   = Auth::user();
 
         $ejemplar                     = new Ejemplar();
@@ -236,6 +248,8 @@ class EjemplarController extends Controller
         $ejemplar->fecha_nacimiento = $fecha_nacimiento;
         $ejemplar->fecha_registro   = $fecha_registro;
         $ejemplar->criadero_id      = $criadero_id;
+        $ejemplar->padre_id         = $padre_id;
+        $ejemplar->madre_id         = $madre_id;
         $ejemplar->save();
 
         return redirect()->route('ejemplar.listado');

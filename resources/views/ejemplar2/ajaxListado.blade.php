@@ -8,6 +8,10 @@
                 <th>Fenotipo</th>
                 <th>Color</th>
                 <th>Sexo</th>
+                <th>Padre</th>
+                <th>Madre</th>
+                <th>Fecha Reg.</th>
+                <th>Fecha Nac.</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -19,6 +23,10 @@
                     <td>{{ $ejemplar->fenotipo_id }}</td>
                     <td>{{ $ejemplar->color_id  }}</td>
                     <td>{{ $ejemplar->sexo }}</td>
+                    <td>{{ $ejemplar->padre_id }}</td>
+                    <td>{{ $ejemplar->madre_id }}</td>
+                    <td>{{ $ejemplar->fecha_registro }}</td>
+                    <td>{{ $ejemplar->fecha_nacimiento }}</td>
                     <td>
                         <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza"><i class="fa fa-edit"></i></button>
                         <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza"><i class="fa fa-trash"></i></button>

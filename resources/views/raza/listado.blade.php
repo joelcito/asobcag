@@ -177,6 +177,7 @@
                 success: function (resultado) {
                     if(resultado.estado){
                         ajaxListado();
+                        $('#modalRaza').modal('hide')
                     }else{
 
                     }
