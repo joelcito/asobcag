@@ -69,6 +69,14 @@
                                 <span class="menu-title text-white">Diagnosticos</span>
                             </a>
                         </div>
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{route('medicacion.listado')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title text-white">Medicaciones</span>
+                            </a>
+                        </div>
                     </div>
                     <!--end:Menu sub-->
                 </div>

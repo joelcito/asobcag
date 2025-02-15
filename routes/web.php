@@ -16,6 +16,7 @@ use App\Http\Controllers\EjemplarController;
 use App\Http\Controllers\FenotipoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\LocalidadController;
+use App\Http\Controllers\MedicacionController;
 use App\Http\Controllers\DiagnosticoController;
 use App\Http\Controllers\TipoEmpadreController;
 use App\Http\Controllers\CategoriaFeriaController;
@@ -74,6 +75,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/listado', [DiagnosticoController::class, 'listado'])->name('diagnostico.listado');
         Route::post('/ajaxListado', [DiagnosticoController::class, 'ajaxListado'])->name('diagnostico.ajaxListado');
         Route::post('/guardarDiagnostico', [DiagnosticoController::class, 'guardarDiagnostico'])->name('diagnostico.guardarDiagnostico');
+    });
+
+    Route::prefix('/medicacion')->group(function(){
+        Route::get('/listado', [MedicacionController::class, 'listado'])->name('medicacion.listado');
+        Route::post('/ajaxListado', [MedicacionController::class, 'ajaxListado'])->name('medicacion.ajaxListado');
+        Route::post('/guardarMedicacion', [MedicacionController::class, 'guardarMedicacion'])->name('medicacion.guardarMedicacion');
     });
 
     Route::prefix('/raza')->group(function(){
