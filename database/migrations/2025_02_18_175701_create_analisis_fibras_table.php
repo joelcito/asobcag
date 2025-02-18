@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('feria_ejemplares', function (Blueprint $table) {
+        Schema::create('analisis_fibras', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->foreign('usuario_creador_id')->references('id')->on('users');
@@ -22,17 +22,22 @@ return new class extends Migration
 
             $table->unsignedBigInteger('ejemplar_id')->nullable();
             $table->foreign('ejemplar_id')->references('id')->on('ejemplares');
-            $table->unsignedBigInteger('feria_id')->nullable();
-            $table->foreign('feria_id')->references('id')->on('ferias');
-            $table->unsignedBigInteger('categoria_feria_id')->nullable();
-            $table->foreign('categoria_feria_id')->references('id')->on('categoria_ferias');
-            $table->unsignedBigInteger('premio_id')->nullable();
-            $table->foreign('premio_id')->references('id')->on('premios');
-            $table->unsignedBigInteger('juez_principal_id')->nullable();
-            $table->foreign('juez_principal_id')->references('id')->on('users');
-            $table->unsignedBigInteger('juez_adjunto_id')->nullable();
-            $table->foreign('juez_adjunto_id')->references('id')->on('users');
+            $table->unsignedBigInteger('laboratorio_id')->nullable();
+            $table->foreign('laboratorio_id')->references('id')->on('laboratorios');
+            $table->unsignedBigInteger('equipo_id')->nullable();
+            $table->foreign('equipo_id')->references('id')->on('equipos');
 
+            $table->date('fecha_muestreo')->nullable();
+            $table->date('fecha_analisis')->nullable();
+            $table->string('zona_corporal')->nullable();
+            $table->decimal('fd', 12, 2)->nullable();
+            $table->decimal('sd', 12, 2)->nullable();
+            $table->decimal('cv', 12, 2)->nullable();
+            $table->decimal('fc', 12, 2)->nullable();
+            $table->decimal('pm', 12, 2)->nullable();
+            $table->decimal('mfd', 12, 2)->nullable();
+            $table->string('laboratorio')->nullable();
+            
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();
             $table->timestamps();
@@ -44,6 +49,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('feria_ejemplares');
+        Schema::dropIfExists('analisis_fibras');
     }
 };

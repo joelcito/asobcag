@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ferias', function (Blueprint $table) {
+        Schema::create('esquilas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->foreign('usuario_creador_id')->references('id')->on('users');
@@ -20,11 +20,20 @@ return new class extends Migration
             $table->unsignedBigInteger('usuario_eliminador_id')->nullable();
             $table->foreign('usuario_eliminador_id')->references('id')->on('users');
 
-            $table->unsignedBigInteger('localidad_id')->nullable()->after('usuario_eliminador_id');
-            $table->foreign('localidad_id')->references('id')->on('localidades');
+            $table->unsignedBigInteger('ejemplar_id')->nullable();
+            $table->foreign('ejemplar_id')->references('id')->on('ejemplares');
+            $table->unsignedBigInteger('esquilador_id')->nullable();
+            $table->foreign('esquilador_id')->references('id')->on('users');
 
-            $table->string('nombre')->nullable();
             $table->date('fecha')->nullable();
+            $table->string('tipo_esquila')->nullable();
+            $table->tinyInteger('inca_esquila')->nullable();
+            $table->decimal('peso_manto', 12, 2)->nullable();
+            $table->decimal('peso_cuello', 12, 2)->nullable();
+            $table->decimal('peso_braga', 12, 2)->nullable();
+            $table->decimal('peso_total', 12, 2)->nullable();
+            $table->decimal('longitud', 12, 2)->nullable();
+            $table->text('observacion')->nullable();
             
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();
@@ -37,6 +46,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ferias');
+        Schema::dropIfExists('esquilas');
     }
 };

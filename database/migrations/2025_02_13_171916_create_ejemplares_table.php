@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('microchip')->nullable();
             $table->string('arete')->nullable();
             $table->dateTime('fecha_registro')->nullable();
-            $table->string('ejemplarescol')->nullable();
+            $table->string('tipo')->nullable();
             
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();

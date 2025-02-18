@@ -21,6 +21,8 @@ return new class extends Migration
             
             $table->unsignedBigInteger('rol_id')->nullable()->after('usuario_eliminador_id');
             $table->foreign('rol_id')->references('id')->on('roles');
+            $table->unsignedBigInteger('localidad_id')->nullable()->after('rol_id');
+            $table->foreign('localidad_id')->references('id')->on('localidades');
 
             $table->string('nombres')->nullable()->after('password');
             $table->string('ap_paterno')->nullable()->after('nombres');
@@ -48,6 +50,8 @@ return new class extends Migration
             $table->dropColumn('usuario_eliminador_id');
             $table->dropForeign(['rol_id']);
             $table->dropColumn('rol_id');
+            $table->dropForeign(['localidad_id']);
+            $table->dropColumn('localidad_id');
 
             $table->dropColumn('nombres');
             $table->dropColumn('ap_paterno');

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ferias', function (Blueprint $table) {
+        Schema::create('equipos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->foreign('usuario_creador_id')->references('id')->on('users');
@@ -20,11 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('usuario_eliminador_id')->nullable();
             $table->foreign('usuario_eliminador_id')->references('id')->on('users');
 
-            $table->unsignedBigInteger('localidad_id')->nullable()->after('usuario_eliminador_id');
-            $table->foreign('localidad_id')->references('id')->on('localidades');
-
             $table->string('nombre')->nullable();
-            $table->date('fecha')->nullable();
             
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();
@@ -37,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ferias');
+        Schema::dropIfExists('equipos');
     }
 };
