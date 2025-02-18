@@ -27,7 +27,7 @@ class Ejemplar extends Model
         'microchip',
         'arete',
         'fecha_registro',
-        'ejemplarescol',
+        'tipo',
         'estado',
         'deleted_at'
     ];

@@ -29,6 +29,13 @@ class CategoriaController extends Controller
     public function guardarCategoria(Request $request){
         if($request->ajax()){
 
+            $request->validate([
+                'nombre' => 'required',
+                'sigla'  => 'required',
+                'desde'  => 'required',
+                'hasta'  => 'required',
+            ]);
+
             $nombre      = $request->input('nombre');
             $sigla      = $request->input('sigla');
             $desde      = $request->input('desde');

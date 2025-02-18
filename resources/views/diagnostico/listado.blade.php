@@ -32,6 +32,7 @@
                                         <option value="{{ $empadre->id }}">{{ $empadre->id }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-empadre_id"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -44,6 +45,7 @@
                                         <option value="{{ $metodo->id }}">{{ $metodo->nombre }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-metodo_id"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -56,6 +58,7 @@
                                         <option value="{{ $supervisor->id }}">{{ $supervisor->nombres.' '.$supervisor->ap_paterno }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-supervisor_id"></div>
                             </div>
                         </div>
                     </div>
@@ -64,12 +67,14 @@
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Fecha</label>
                                 <input type="date" class="form-control form-control-sm" id="fecha" name="fecha">
+                                <div class="text-danger error-message" id="error-fecha"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Diagnostico</label>
                                 <input type="text" class="form-control form-control-sm" id="diagnostico" name="diagnostico">
+                                <div class="text-danger error-message" id="error-diagnostico"></div>
                             </div>
                         </div>
                     </div>
@@ -147,15 +152,6 @@
         });
 
         function ajaxListado(){
-            // Mostrar SweetAlert2 antes de enviar la solicitud
-            // Swal.fire({
-            //     title: 'Generando Listado...',
-            //     text: 'Por favor espera mientras generamos el listado.',
-            //     allowOutsideClick: false, // Evitar que se cierre al hacer clic fuera
-            //     didOpen: () => {
-            //         Swal.showLoading(); // Mostrar el spinner de carga
-            //     }
-            // });
 
             let datos = {};
             $.ajax({
@@ -176,6 +172,9 @@
         }
 
         function modalNuevoDiagnostico(){
+            $('.error-message').html('');
+            $('.is-invalid').removeClass('is-invalid');
+
             $('#empadre_id').val(null).trigger('change')
             $('#metodo_id').val(null).trigger('change')
             $('#supervisor_id').val(null).trigger('change')
@@ -197,8 +196,31 @@
                     }else{
 
                     }
+                },
+                error: function (xhr) {
+                    $('.error-message').html('');
+                    $('.is-invalid').removeClass('is-invalid');
+
+                    if (xhr.status === 422) { 
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, messages) {
+                            let input = $('[name="' + key + '"]');
+                            let errorDiv = $('#error-' + key);
+
+                            if (input.length > 0) {
+                                input.addClass('is-invalid'); // Agregar clase de error
+                                errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error inesperado.',
+                        });
+                    }
                 }
-            })
+            });
         }
 
    </script>

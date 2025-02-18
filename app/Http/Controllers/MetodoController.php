@@ -29,6 +29,10 @@ class MetodoController extends Controller
     public function guardarMetodo(Request $request){
         if($request->ajax()){
 
+            $request->validate([
+                'nombre' => 'required',
+            ]);
+
             $nombre      = $request->input('nombre');
             $usuario     = Auth::user();
 

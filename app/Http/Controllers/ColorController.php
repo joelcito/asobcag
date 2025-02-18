@@ -29,6 +29,10 @@ class ColorController extends Controller
     public function guardarColor(Request $request){
         if($request->ajax()){
 
+            $request->validate([
+                'nombre' => 'required',
+            ]);
+
             $nombre      = $request->input('nombre');
             $usuario     = Auth::user();
 

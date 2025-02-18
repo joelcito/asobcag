@@ -35,9 +35,15 @@ class CriaderoController extends Controller
     public function guardarCriadero(Request $request){
         if($request->ajax()){
 
+            $request->validate([
+                'nombre'         => 'required',
+                'estancia'       => 'required',
+                'propietario_id' => 'required',
+            ]);
+
             $nombre         = $request->input('nombre');
-            /* $dni            = $request->input('dni');
-            $direccion      = $request->input('direccion'); */
+            $nit            = $request->input('nit');
+            /* $direccion      = $request->input('direccion'); */
             $negocio_fibra  = $request->input('negocio_fibra');
             $negocio_carne  = $request->input('negocio_carne');
             $negocio_animal = $request->input('negocio_animal');
@@ -48,8 +54,8 @@ class CriaderoController extends Controller
             $criadero                     = new Criadero();
             $criadero->usuario_creador_id = $usuarioLoguado->id;
             $criadero->nombre             = $nombre;
-            /* $criadero->dni                = $dni;
-            $criadero->direccion          = $direccion; */
+            $criadero->nit                = $nit;
+            /* $criadero->direccion          = $direccion; */
             $criadero->negocio_fibra      = $negocio_fibra && $negocio_fibra == 'on' ? true : false;
             $criadero->negocio_carne      = $negocio_carne && $negocio_carne == 'on' ? true : false;
             $criadero->negocio_animal     = $negocio_animal && $negocio_animal == 'on' ? true : false;

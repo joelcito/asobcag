@@ -222,6 +222,20 @@ class EjemplarController extends Controller
     }
 
     public function guardarEjemplar(Request $request){
+        //TODO: agregar 'tipo' para LLAMA o ALPACA
+        $request->validate([
+            'microchip'        => 'required',
+            'nombre'           => 'required',
+            'arete'            => 'required',
+            'fenotipo_id'      => 'required',
+            'color_id'         => 'required',
+            'sexo'             => 'required',
+            'fecha_nacimiento' => 'required',
+            'fecha_registro'   => 'required',
+            'criadero_id'      => 'required',
+            'padre_id'         => 'required',
+            'madre_id'         => 'required',
+        ]);
 
         $car_id           = $request->input('car_id');
         $microchip        = $request->input('microchip');

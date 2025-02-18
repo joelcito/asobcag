@@ -46,12 +46,14 @@
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">ID Microchip</label>
                                     <input type="text" class="form-control form-control-sm" id="microchip" name="microchip">
+                                    <div class="text-danger error-message" id="error-microchip"></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Nombre</label>
                                     <input type="text" class="form-control form-control-sm" id="nombre" name="nombre">
+                                    <div class="text-danger error-message" id="error-nombre"></div>
                                 </div>
                             </div>
                         </div>
@@ -60,6 +62,7 @@
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Arete</label>
                                     <input type="text" class="form-control form-control-sm" id="arete" name="arete">
+                                    <div class="text-danger error-message" id="error-arete"></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -72,6 +75,7 @@
                                             <option value={{ $fenotipo->id }}>{{ $fenotipo->nombre }}</option>
                                         @endforeach
                                     </select>
+                                    <div class="text-danger error-message" id="error-fenotipo_id"></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -84,6 +88,7 @@
                                             <option value={{ $color->id }}>{{ $color->nombre }}</option>
                                         @endforeach
                                     </select>
+                                    <div class="text-danger error-message" id="error-color_id"></div>
                                 </div>
                             </div>
                         </div>
@@ -96,18 +101,21 @@
                                         <option value="Macho">Macho</option>
                                         <option value="Hembra">Hembra</option>
                                     </select>
+                                    <div class="text-danger error-message" id="error-sexo"></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Fecha de Nacimiento</label>
                                     <input type="date" class="form-control form-control-sm" id="fecha_nacimiento" name="fecha_nacimiento">
+                                    <div class="text-danger error-message" id="error-fecha_nacimiento"></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Fecha de Registro</label>
                                     <input type="date" class="form-control form-control-sm" id="fecha_registro" name="fecha_registro">
+                                    <div class="text-danger error-message" id="error-fecha_registro"></div>
                                 </div>
                             </div>
                         </div>
@@ -121,6 +129,7 @@
                                         <option value="{{ $criadero->id }}">{{ $criadero->nombre }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-criadero_id"></div>
                             </div>
                             <div class="col-md-4">
                                 <label class="fs-6 fw-semibold form-label mb-2 required">Padre</label>
@@ -131,6 +140,7 @@
                                         <option value="{{ $macho->id }}">{{ $macho->arete }} - {{ optional($macho->color)->nombre ?? 'Sin color' }} - {{ optional($macho->fenotipo)->nombre ?? 'Sin fenotipo' }} - {{ $macho->nombre }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-padre_id"></div>
                             </div>
                             <div class="col-md-4">
                                 <label class="fs-6 fw-semibold form-label mb-2 required">Madre</label>
@@ -141,6 +151,7 @@
                                         <option value="{{ $hembra->id }}">{{ $hembra->arete }} - {{ optional($hembra->color)->nombre ?? 'Sin color' }} - {{ optional($hembra->fenotipo)->nombre ?? 'Sin fenotipo' }} - {{ $hembra->nombre }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-madre_id"></div>
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -172,7 +183,40 @@
         })
 
         $(document).ready(function() {
+            $('#formularioNacimiento').on('submit', function(event) {
+                event.preventDefault(); // Evita la recarga del formulario
 
+                let formData = $(this).serialize(); // Captura los datos del formulario
+
+                // Limpiar mensajes de error previos
+                $('.error-message').html('');
+                $('.is-invalid').removeClass('is-invalid');
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        // Si todo está bien, redirigir o mostrar mensaje de éxito
+                        window.location.href = "{{ route('ejemplar.listado') }}";
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, messages) {
+                                let input = $('[name="' + key + '"]');
+                                let errorDiv = $('#error-' + key);
+
+                                if (input.length > 0) {
+                                    input.addClass('is-invalid'); // Agregar clase de error
+                                    errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
+                                }
+                            });
+                        }
+                    }
+                });
+            });
         });
 
    </script>

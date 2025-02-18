@@ -32,7 +32,19 @@ class UserController extends Controller
     }
 
     public function guardarUsuario(Request $request){
+        //TODO: adicionar localidad_id del usuario
         if($request->ajax()){
+
+            $request->validate([
+                'nombres'    => 'required',
+                'ap_paterno' => 'required',
+                'ap_materno' => 'required',
+                'cedula'     => 'required',
+                'direccion'  => 'required',
+                'email'      => 'required',
+                'celular'    => 'required',
+                'rol_id'     => 'required',
+            ]);
 
             $nombres        = $request->input('nombres');
             $ap_paterno     = $request->input('ap_paterno');
@@ -40,10 +52,6 @@ class UserController extends Controller
             $cedula        = $request->input('cedula');
             $direccion         = $request->input('direccion');
             $email    = $request->input('email');
-            /* $pais    = $request->input('pais');
-            $departamento    = $request->input('departamento');
-            $provincia    = $request->input('provincia');
-            $distrito    = $request->input('distrito'); */
             $celular    = $request->input('celular');
             $rol_id    = $request->input('rol_id');
             $usuarioLoguado = Auth::user();
@@ -56,10 +64,6 @@ class UserController extends Controller
             $usuario->cedula             = $cedula;
             $usuario->direccion          = $direccion;
             $usuario->email              = $email;
-            /* $usuario->pais               = $pais;
-            $usuario->departamento       = $departamento;
-            $usuario->provincia          = $provincia;
-            $usuario->distrito           = $distrito; */
             $usuario->celular            = $celular;
             $usuario->rol_id             = $rol_id;                                         //ROL DE Tecnico
             $usuario->name               = $nombres." ".$ap_paterno." ".$ap_materno;

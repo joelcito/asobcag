@@ -36,6 +36,16 @@ class MedicacionController extends Controller
     public function guardarMedicacion(Request $request){
         if($request->ajax()){
 
+            $request->validate([
+                'ejemplar_id' => 'required',
+                'producto_veterinario_id' => 'required',
+                'responsable_id' => 'required',
+                'fecha' => 'required',
+                'tipo' => 'required',
+                'dosis' => 'required',
+                'unidades' => 'required',
+            ]);
+
             $ejemplar_id             = $request->input('ejemplar_id');
             $producto_veterinario_id = $request->input('producto_veterinario_id');
             $responsable_id          = $request->input('responsable_id');

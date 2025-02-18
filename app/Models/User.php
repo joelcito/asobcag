@@ -27,6 +27,7 @@ class User extends Authenticatable
         'usuario_modificador_id',
         'usuario_eliminador_id',
         'rol_id',
+        'localidad_id',
         'nombres',
         'ap_paterno',
         'ap_materno',

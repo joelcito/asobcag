@@ -26,17 +26,18 @@
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Nombre/Razon</label>
                                 <input type="text" class="form-control form-control-sm" id="nombre" name="nombre">
+                                <div class="text-danger error-message" id="error-nombre"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">DNI/RUC</label>
-                                <input type="text" class="form-control form-control-sm" id="dni" name="dni">
+                                <label class="fw-semibold fs-6 mb-2">NIT</label>
+                                <input type="text" class="form-control form-control-sm" id="nit" name="nit">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Direccion Fisica</label>
+                                <label class="fw-semibold fs-6 mb-2">Direccion Fisica</label>
                                 <input type="text" class="form-control form-control-sm" id="direccion" name="direccion">
                             </div>
                         </div>
@@ -46,6 +47,7 @@
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Estancia</label>
                                 <input type="text" class="form-control form-control-sm" id="estancia" name="estancia">
+                                <div class="text-danger error-message" id="error-estancia"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -58,6 +60,7 @@
                                         <option value="{{ $usuario->id }}">{{ $usuario->nombres.' '.$usuario->ap_paterno }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-propietario_id"></div>
                             </div>
                         </div>
                     </div>
@@ -206,8 +209,11 @@
         }
 
         function modalNuevoClienteProvedor(){
+            $('.error-message').html('');
+            $('.is-invalid').removeClass('is-invalid');
+
             $('#nombre').val('')
-            $('#dni').val('')
+            $('#nit').val('')
             $('#direccion').val('')
             $('#negocio_fibra').prop('checked', false)
             $('#negocio_carne').prop('checked', false)
@@ -229,6 +235,29 @@
                         $('#modalClienteProvedor').modal('hide')
                     }else{
 
+                    }
+                },
+                error: function (xhr) {
+                    $('.error-message').html('');
+                    $('.is-invalid').removeClass('is-invalid');
+
+                    if (xhr.status === 422) { 
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, messages) {
+                            let input = $('[name="' + key + '"]');
+                            let errorDiv = $('#error-' + key);
+
+                            if (input.length > 0) {
+                                input.addClass('is-invalid'); // Agregar clase de error
+                                errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error inesperado.',
+                        });
                     }
                 }
             })

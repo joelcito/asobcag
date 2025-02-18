@@ -29,6 +29,10 @@ class PremioController extends Controller
     public function guardarPremio(Request $request){
         if($request->ajax()){
 
+            $request->validate([
+                'nombre' => 'required',
+            ]);
+
             $nombre      = $request->input('nombre');
             $usuario     = Auth::user();
 

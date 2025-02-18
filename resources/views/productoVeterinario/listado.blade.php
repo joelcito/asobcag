@@ -61,31 +61,6 @@
 
 <!--begin::Content wrapper-->
 <div class="d-flex flex-column flex-column-fluid">
-    <!--begin::Toolbar-->
-    {{-- <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
-        <!--begin::Toolbar container-->
-        <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
-            <!--begin::Page title-->
-            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <!--begin::Title-->
-                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Listado de Facturas</h1>
-                <!--end::Title-->
-            </div>
-            <!--end::Page title-->
-
-            <!--begin::Actions-->
-            <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <a class="btn btn-sm fw-bold btn-primary" href="{{ url('factura/formularioFacturacionCv') }}"><i class="fa fa-plus"></i>Nueva Venta Compra Venta</a>
-
-                <a class="btn btn-sm fw-bold btn-primary" href="{{ url('factura/formularioFacturacionTc') }}"><i class="fa fa-plus"></i>Nueva Venta Tasa Cero</a>
-
-                <a class="btn btn-sm fw-bold btn-primary" href="{{ url('factura/formularioFacturacionSe') }}"><i class="fa fa-plus"></i>Nueva Venta Sector Educativo</a>
-            </div>
-            <!--end::Actions-->
-        </div>
-        <!--end::Toolbar container-->
-    </div> --}}
-    <!--end::Toolbar-->
     <!--begin::Content-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
@@ -142,15 +117,6 @@
         });
 
         function ajaxListado(){
-            // Mostrar SweetAlert2 antes de enviar la solicitud
-            // Swal.fire({
-            //     title: 'Generando Listado...',
-            //     text: 'Por favor espera mientras generamos el listado.',
-            //     allowOutsideClick: false, // Evitar que se cierre al hacer clic fuera
-            //     didOpen: () => {
-            //         Swal.showLoading(); // Mostrar el spinner de carga
-            //     }
-            // });
 
             let datos = {};
             $.ajax({
@@ -171,6 +137,9 @@
         }
 
         function modalNuevoProductoVeterinario(){
+            $(".invalid-feedback").remove();
+            $(".is-invalid").removeClass("is-invalid");
+
             $('#nombre').val('')
             $('#ingrediente_activo').val('')
             $('#presentacion').val('')
@@ -190,8 +159,30 @@
                     }else{
 
                     }
+                },
+                error: function (xhr) {
+                    $(".invalid-feedback").remove();
+                    $(".is-invalid").removeClass("is-invalid");
+
+                    if (xhr.status === 422) { 
+                        let errores = xhr.responseJSON.errors;
+
+                        for (let campo in errores) {
+                            let mensaje = errores[campo][0]; 
+
+                            let input = $(`[name="${campo}"]`);
+                            input.addClass("is-invalid"); 
+                            input.after(`<div class="invalid-feedback">${mensaje}</div>`); 
+                        }
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error inesperado.',
+                        });
+                    }
                 }
-            })
+            });
         }
 
    </script>

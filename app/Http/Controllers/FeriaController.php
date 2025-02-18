@@ -29,16 +29,22 @@ class FeriaController extends Controller
     public function guardarFeria(Request $request){
         if($request->ajax()){
 
+            $request->validate([
+                'nombre' => 'required',
+                'fecha' => 'required',
+                'localidad_id' => 'required',
+            ]);
+
             $nombre     = $request->input('nombre');
             $fecha      = $request->input('fecha');
-            $feriascol  = $request->input('feriascol');
+            $localidad_id      = $request->input('localidad_id');//anadir a vista
             $usuario    = Auth::user();
 
             $feria                     = new Feria();
             $feria->usuario_creador_id = $usuario->id;
             $feria->nombre             = $nombre;
             $feria->fecha              = $fecha;
-            $feria->feriascol          = $feriascol;
+            $feria->localidad_id       = $localidad_id;
             $feria->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");

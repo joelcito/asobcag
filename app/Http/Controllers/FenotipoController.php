@@ -29,6 +29,10 @@ class FenotipoController extends Controller
     public function guardarFenotipo(Request $request){
         if($request->ajax()){
 
+            $request->validate([
+                'nombre' => 'required',
+            ]);
+
             $nombre      = $request->input('nombre');
             $usuario     = Auth::user();
 

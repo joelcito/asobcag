@@ -32,6 +32,7 @@
                                         <option value="{{ $campania->id }}">{{ $campania->nombre }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-campania_id"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -44,6 +45,7 @@
                                         <option value="{{ $macho->id }}">{{ $macho->arete.' - '.$macho->nombre }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-padre_id"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -56,6 +58,7 @@
                                         <option value="{{ $hembra->id }}">{{ $hembra->arete.' - '.$hembra->nombre }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-madre_id"></div>
                             </div>
                         </div>
                     </div>
@@ -64,6 +67,7 @@
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Fecha</label>
                                 <input type="date" class="form-control form-control-sm" id="fecha" name="fecha">
+                                <div class="text-danger error-message" id="error-fecha"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -76,19 +80,21 @@
                                         <option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-tipo_empadre_id"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Tiempo Copula</label>
                                 <input type="text" class="form-control form-control-sm" id="tiempo_copula" name="tiempo_copula">
+                                <div class="text-danger error-message" id="error-tiempo_copula"></div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Observaciones</label>
+                                <label class="fw-semibold fs-6 mb-2">Observaciones</label>
                                 <input type="text" class="form-control form-control-sm" id="observacion" name="observacion">
                             </div>
                         </div>
@@ -221,8 +227,8 @@
         }
 
         function modalNuevoEmpadre(){
-            $(".invalid-feedback").remove();
-            $(".is-invalid").removeClass("is-invalid");
+            $('.error-message').html('');
+            $('.is-invalid').removeClass('is-invalid');
 
             $('#campania_id').val(null).trigger('change')
             $('#padre_id').val(null).trigger('change')
@@ -249,21 +255,20 @@
                     }
                 },
                 error: function (xhr) {
-                    // Limpiar mensajes previos
-                    $(".invalid-feedback").remove();
-                    $(".is-invalid").removeClass("is-invalid");
+                    $('.error-message').html('');
+                    $('.is-invalid').removeClass('is-invalid');
 
                     if (xhr.status === 422) { // Código HTTP 422 = Errores de validación
-                        let errores = xhr.responseJSON.errors;
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, messages) {
+                            let input = $('[name="' + key + '"]');
+                            let errorDiv = $('#error-' + key);
 
-                        // Recorrer errores y mostrarlos en los inputs correspondientes
-                        for (let campo in errores) {
-                            let mensaje = errores[campo][0]; // Obtener primer mensaje de error
-
-                            let input = $(`[name="${campo}"]`);
-                            input.addClass("is-invalid"); // Agregar clase de Bootstrap
-                            input.after(`<div class="invalid-feedback">${mensaje}</div>`); // Mostrar mensaje
-                        }
+                            if (input.length > 0) {
+                                input.addClass('is-invalid'); // Agregar clase de error
+                                errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
+                            }
+                        });
                     } else {
                         Swal.fire({
                             icon: 'error',

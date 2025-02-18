@@ -38,6 +38,11 @@ class RazaController extends Controller
     public function guardarRaza(Request $request){
         if($request->ajax()){
 
+            $request->validate([
+                'nombre' => 'required',
+                'descripcion' => 'required',
+            ]);
+
             $nombre      = $request->input('nombre');
             $descripcion = $request->input('descripcion');
             $usuario     = Auth::user();

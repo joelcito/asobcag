@@ -29,6 +29,13 @@ class CampaniaController extends Controller
     public function guardarCampania(Request $request){
         if($request->ajax()){
 
+            $request->validate([
+                'nombre'    => 'required',
+                'fecha_ini' => 'required',
+                'fecha_fin' => 'required',
+                'actual'    => 'required',
+            ]);
+
             $nombre      = $request->input('nombre');
             $fecha_ini   = $request->input('fecha_ini');
             $fecha_fin   = $request->input('fecha_fin');

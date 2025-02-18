@@ -177,6 +177,9 @@
         }
 
         function modalNuevoCategoria(){
+            $(".invalid-feedback").remove();
+            $(".is-invalid").removeClass("is-invalid");
+            
             $('#nombre').val('')
             $('#sigla').val('')
             $('#desde').val('')
@@ -196,6 +199,28 @@
                         $('#modalCategoria').modal('hide')
                     }else{
 
+                    }
+                },
+                error: function (xhr) {
+                    $(".invalid-feedback").remove();
+                    $(".is-invalid").removeClass("is-invalid");
+
+                    if (xhr.status === 422) { 
+                        let errores = xhr.responseJSON.errors;
+
+                        for (let campo in errores) {
+                            let mensaje = errores[campo][0]; 
+
+                            let input = $(`[name="${campo}"]`);
+                            input.addClass("is-invalid"); 
+                            input.after(`<div class="invalid-feedback">${mensaje}</div>`); 
+                        }
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error inesperado.',
+                        });
                     }
                 }
             })

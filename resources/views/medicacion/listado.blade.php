@@ -32,6 +32,7 @@
                                         <option value="{{ $ejemplar->id }}">{{ $ejemplar->nombre }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-ejemplar_id"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -44,6 +45,7 @@
                                         <option value="{{ $producto->id }}">{{ $producto->nombre }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-producto_veterinario_id"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -56,6 +58,7 @@
                                         <option value="{{ $responsable->id }}">{{ $responsable->nombres.' '.$responsable->ap_paterno }}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger error-message" id="error-responsable_id"></div>
                             </div>
                         </div>
                     </div>
@@ -64,18 +67,21 @@
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Fecha</label>
                                 <input type="date" class="form-control form-control-sm" id="fecha" name="fecha">
+                                <div class="text-danger error-message" id="error-fecha"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Tipo</label>
                                 <input type="text" class="form-control form-control-sm" id="tipo" name="tipo">
+                                <div class="text-danger error-message" id="error-tipo"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Dosis</label>
                                 <input type="number" class="form-control form-control-sm" id="dosis" name="dosis">
+                                <div class="text-danger error-message" id="error-dosis"></div>
                             </div>
                         </div>
                     </div>
@@ -84,11 +90,12 @@
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Unidades</label>
                                 <input type="text" class="form-control form-control-sm" id="unidades" name="unidades">
+                                <div class="text-danger error-message" id="error-unidades"></div>
                             </div>
                         </div>
                         <div class="col-md-8">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Observacion</label>
+                                <label class="fw-semibold fs-6 mb-2">Observacion</label>
                                 <input type="text" class="form-control form-control-sm" id="observacion" name="observacion">
                             </div>
                         </div>
@@ -167,15 +174,6 @@
         });
 
         function ajaxListado(){
-            // Mostrar SweetAlert2 antes de enviar la solicitud
-            // Swal.fire({
-            //     title: 'Generando Listado...',
-            //     text: 'Por favor espera mientras generamos el listado.',
-            //     allowOutsideClick: false, // Evitar que se cierre al hacer clic fuera
-            //     didOpen: () => {
-            //         Swal.showLoading(); // Mostrar el spinner de carga
-            //     }
-            // });
 
             let datos = {};
             $.ajax({
@@ -196,6 +194,9 @@
         }
 
         function modalNuevoMedicacion(){
+            $('.error-message').html('');
+            $('.is-invalid').removeClass('is-invalid');
+
             $('#ejemplar_id').val(null).trigger('change')
             $('#producto_veterinario_id').val(null).trigger('change')
             $('#responsable_id').val(null).trigger('change')
@@ -220,8 +221,31 @@
                     }else{
 
                     }
+                },
+                error: function (xhr) {
+                    $('.error-message').html('');
+                    $('.is-invalid').removeClass('is-invalid');
+
+                    if (xhr.status === 422) { 
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, messages) {
+                            let input = $('[name="' + key + '"]');
+                            let errorDiv = $('#error-' + key);
+
+                            if (input.length > 0) {
+                                input.addClass('is-invalid'); // Agregar clase de error
+                                errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error inesperado.',
+                        });
+                    }
                 }
-            })
+            });
         }
 
    </script>

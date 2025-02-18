@@ -29,10 +29,16 @@ class ProductoVeterinarioController extends Controller
     public function guardarProductoVeterinario(Request $request){
         if($request->ajax()){
 
-            $nombre      = $request->input('nombre');
-            $ingrediente_activo      = $request->input('ingrediente_activo');
-            $presentacion      = $request->input('presentacion');
-            $usuario     = Auth::user();
+            $request->validate([
+                'nombre' => 'required',
+                'ingrediente_activo' => 'required',
+                'presentacion' => 'required',
+            ]);
+
+            $nombre             = $request->input('nombre');
+            $ingrediente_activo = $request->input('ingrediente_activo');
+            $presentacion       = $request->input('presentacion');
+            $usuario            = Auth::user();
 
             $producto                     = new ProductoVeterinario();
             $producto->usuario_creador_id = $usuario->id;

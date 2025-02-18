@@ -36,6 +36,14 @@ class DiagnosticoController extends Controller
     public function guardarDiagnostico(Request $request){
         if($request->ajax()){
 
+            $request->validate([
+                'empadre_id'    => 'required',
+                'metodo_id'     => 'required',
+                'supervisor_id' => 'required',
+                'fecha'         => 'required',
+                'diagnostico'   => 'required',
+            ]);
+
             $empadre_id    = $request->input('empadre_id');
             $metodo_id     = $request->input('metodo_id');
             $supervisor_id = $request->input('supervisor_id');

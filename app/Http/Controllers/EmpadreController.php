@@ -44,7 +44,6 @@ class EmpadreController extends Controller
                 'tipo_empadre_id' => 'required',
                 'fecha'           => 'required',
                 'tiempo_copula'   => 'required',
-                'observacion'     => 'required',
             ]);
 
             $padre_id        = $request->input('padre_id');
