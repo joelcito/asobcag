@@ -30,6 +30,7 @@ return new class extends Migration
             $table->foreign('localidad_id')->references('id')->on('localidades');
 
             $table->string('nombre')->nullable();
+            $table->string('estancia')->nullable();
             $table->tinyInteger('negocio_fibra')->nullable();
             $table->tinyInteger('negocio_carne')->nullable();
             $table->tinyInteger('negocio_animal')->nullable();

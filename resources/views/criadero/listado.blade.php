@@ -44,6 +44,12 @@
                     <div class="row mt-3">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Estancia</label>
+                                <input type="text" class="form-control form-control-sm" id="estancia" name="estancia">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
                                 <label class="fs-6 fw-semibold form-label mb-2 required">Propietario</label>
                                 <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalClienteProvedor"
                                     class="form-select form-select-solid fw-bold" name="propietario_id" id="propietario_id">
@@ -203,10 +209,11 @@
             $('#nombre').val('')
             $('#dni').val('')
             $('#direccion').val('')
-            $('#negocio_fibra').val('')
-            $('#negocio_carne').val('')
-            $('#negocio_animal').val('')
-            $('#propietario_id').val('')
+            $('#negocio_fibra').prop('checked', false)
+            $('#negocio_carne').prop('checked', false)
+            $('#negocio_animal').prop('checked', false)
+            $('#estancia').val('')
+            $('#propietario_id').val(null).trigger('change')
             $('#modalClienteProvedor').modal('show')
         }
 

@@ -128,7 +128,7 @@
                                      class="form-select form-select-solid fw-bold" name="padre_id" id="padre_id">
                                     <option></option>
                                     @foreach ($machos as $macho)
-                                        <option value="{{ $macho->id }}">{{ $macho->nombre }}</option>
+                                        <option value="{{ $macho->id }}">{{ $macho->arete }} - {{ optional($macho->color)->nombre ?? 'Sin color' }} - {{ optional($macho->fenotipo)->nombre ?? 'Sin fenotipo' }} - {{ $macho->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -138,7 +138,7 @@
                                      class="form-select form-select-solid fw-bold" name="madre_id" id="madre_id">
                                     <option></option>
                                     @foreach ($hembras as $hembra)
-                                        <option value="{{ $hembra->id }}">{{ $hembra->nombre }}</option>
+                                        <option value="{{ $hembra->id }}">{{ $hembra->arete }} - {{ optional($hembra->color)->nombre ?? 'Sin color' }} - {{ optional($hembra->fenotipo)->nombre ?? 'Sin fenotipo' }} - {{ $hembra->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>

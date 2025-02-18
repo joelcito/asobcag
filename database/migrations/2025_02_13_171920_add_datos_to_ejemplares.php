@@ -27,6 +27,8 @@ return new class extends Migration
         Schema::table('ejemplares', function (Blueprint $table) {
             $table->dropForeign(['padre_id']);
             $table->dropColumn('padre_id');
+            $table->dropForeign(['madre_id']);
+            $table->dropColumn('madre_id');
         });
     }
 };

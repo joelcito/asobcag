@@ -24,4 +24,8 @@ class Diagnostico extends Model
         'estado',
         'deleted_at'
     ];
+
+    public function empadre(){
+        return $this->belongsTo('App\Models\Empadre', 'empadre_id');
+    }
 }

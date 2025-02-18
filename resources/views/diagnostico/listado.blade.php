@@ -176,9 +176,9 @@
         }
 
         function modalNuevoDiagnostico(){
-            $('#empadre_id').val('')
-            $('#metodo_id').val('')
-            $('#supervisor_id').val('')
+            $('#empadre_id').val(null).trigger('change')
+            $('#metodo_id').val(null).trigger('change')
+            $('#supervisor_id').val(null).trigger('change')
             $('#fecha').val('')
             $('#diagnostico').val('')
             $('#modalDiagnostico').modal('show')

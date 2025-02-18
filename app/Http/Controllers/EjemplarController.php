@@ -201,8 +201,8 @@ class EjemplarController extends Controller
         $colores   = Color::all();
         $fenotipos = Fenotipo::all();
         $criaderos = Criadero::all();
-        $machos    = Ejemplar::where('sexo', 'Macho')->get();
-        $hembras   = Ejemplar::where('sexo', 'Hembra')->get();
+        $machos    = Ejemplar::with(['color', 'fenotipo'])->where('sexo', 'Macho')->get();
+        $hembras   = Ejemplar::with(['color', 'fenotipo'])->where('sexo', 'Hembra')->get();
 
         return view('ejemplar2.formularioNacimiento')->with(compact(['colores', 'fenotipos', 'criaderos', 'machos', 'hembras']));
     }

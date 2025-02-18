@@ -37,6 +37,16 @@ class EmpadreController extends Controller
     public function guardarEmpadre(Request $request){
         if($request->ajax()){
 
+            $request->validate([
+                'campania_id'     => 'required',
+                'padre_id'        => 'required',
+                'madre_id'        => 'required',
+                'tipo_empadre_id' => 'required',
+                'fecha'           => 'required',
+                'tiempo_copula'   => 'required',
+                'observacion'     => 'required',
+            ]);
+
             $padre_id        = $request->input('padre_id');
             $madre_id        = $request->input('madre_id');
             $campania_id     = $request->input('campania_id');

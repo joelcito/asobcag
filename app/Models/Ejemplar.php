@@ -32,26 +32,12 @@ class Ejemplar extends Model
         'deleted_at'
     ];
 
-    public function sacarCorrelativoRegsitro(){
-        $datos = $this->orderBy('numero_registro', 'desc')->first();
-        return $datos ? $datos->numero_registro + 1 : 1;
+    public function color(){
+        return $this->belongsTo('App\Models\Color', 'color_id');
     }
 
-    public function propietario(){
-        return $this->belongsTo('App\Models\User', 'propietario_id');
+    public function fenotipo(){
+        return $this->belongsTo('App\Models\Fenotipo', 'fenotipo_id');
     }
 
-    public function raza(){
-        return $this->belongsTo('App\Models\Raza', 'raza_id');
-    }
-
-    public function comunidad(){
-        return $this->belongsTo('App\Models\Comunidad', 'comunidad_id');
-    }
-    public function padre(){
-        return $this->belongsTo('App\Models\Ejemplar', 'padre_id');
-    }
-    public function madre(){
-        return $this->belongsTo('App\Models\Ejemplar', 'madre_id');
-    }
 }

@@ -20,6 +20,7 @@ class Criadero extends Model
         'pastor_id',
         'localidad_id',
         'nombre',
+        'estancia',
         'negocio_fibra',
         'negocio_carne',
         'negocio_animal',

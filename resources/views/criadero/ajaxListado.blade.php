@@ -7,6 +7,7 @@
                 <th>Propietario</th>
                 <th>Tecnico</th>
                 <th>Pastor</th>
+                <th>Estancia</th>
                 <th>localidad</th>
                 <th>Actions</th>
             </tr>
@@ -18,6 +19,7 @@
                     <td>{{ $criadero->propietario_id }}</td>
                     <td>{{ $criadero->tecnico_id }}</td>
                     <td>{{ $criadero->pastor_id  }}</td>
+                    <td>{{ $criadero->estancia  }}</td>
                     <td>{{ $criadero->localidad_id }}</td>
                     <td>
                         <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza"><i class="fa fa-edit"></i></button>

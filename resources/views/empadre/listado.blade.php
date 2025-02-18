@@ -41,7 +41,7 @@
                                     class="form-select form-select-solid fw-bold" name="padre_id" id="padre_id">
                                     <option></option>
                                     @foreach ($machos as $macho)
-                                        <option value="{{ $macho->id }}">{{ $macho->nombre }}</option>
+                                        <option value="{{ $macho->id }}">{{ $macho->arete.' - '.$macho->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -53,7 +53,7 @@
                                     class="form-select form-select-solid fw-bold" name="madre_id" id="madre_id">
                                     <option></option>
                                     @foreach ($hembras as $hembra)
-                                        <option value="{{ $hembra->id }}">{{ $hembra->nombre }}</option>
+                                        <option value="{{ $hembra->id }}">{{ $hembra->arete.' - '.$hembra->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -221,11 +221,14 @@
         }
 
         function modalNuevoEmpadre(){
-            $('#campania_id').val('')
-            $('#padre_id').val('')
-            $('#madre_id').val('')
+            $(".invalid-feedback").remove();
+            $(".is-invalid").removeClass("is-invalid");
+
+            $('#campania_id').val(null).trigger('change')
+            $('#padre_id').val(null).trigger('change')
+            $('#madre_id').val(null).trigger('change')
             $('#fecha').val('')
-            $('#tipo_empadre_id').val('')
+            $('#tipo_empadre_id').val(null).trigger('change')
             $('#tiempo_copula').val('')
             $('#observacion').val('')
             $('#modalEmpadre').modal('show')
@@ -244,8 +247,32 @@
                     }else{
 
                     }
+                },
+                error: function (xhr) {
+                    // Limpiar mensajes previos
+                    $(".invalid-feedback").remove();
+                    $(".is-invalid").removeClass("is-invalid");
+
+                    if (xhr.status === 422) { // Código HTTP 422 = Errores de validación
+                        let errores = xhr.responseJSON.errors;
+
+                        // Recorrer errores y mostrarlos en los inputs correspondientes
+                        for (let campo in errores) {
+                            let mensaje = errores[campo][0]; // Obtener primer mensaje de error
+
+                            let input = $(`[name="${campo}"]`);
+                            input.addClass("is-invalid"); // Agregar clase de Bootstrap
+                            input.after(`<div class="invalid-feedback">${mensaje}</div>`); // Mostrar mensaje
+                        }
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error inesperado.',
+                        });
+                    }
                 }
-            })
+            });
         }
 
    </script>

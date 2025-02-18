@@ -27,4 +27,5 @@ class Empadre extends Model
         'estado',
         'deleted_at'
     ];
+
 }

@@ -196,9 +196,9 @@
         }
 
         function modalNuevoMedicacion(){
-            $('#ejemplar_id').val('')
-            $('#producto_veterinario_id').val('')
-            $('#responsable_id').val('')
+            $('#ejemplar_id').val(null).trigger('change')
+            $('#producto_veterinario_id').val(null).trigger('change')
+            $('#responsable_id').val(null).trigger('change')
             $('#fecha').val('')
             $('#tipo').val('')
             $('#dosis').val('')
