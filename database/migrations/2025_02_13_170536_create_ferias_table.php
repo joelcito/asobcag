@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('usuario_eliminador_id')->nullable();
             $table->foreign('usuario_eliminador_id')->references('id')->on('users');
 
-            $table->unsignedBigInteger('localidad_id')->nullable()->after('usuario_eliminador_id');
+            $table->unsignedBigInteger('localidad_id')->nullable();
             $table->foreign('localidad_id')->references('id')->on('localidades');
 
             $table->string('nombre')->nullable();
