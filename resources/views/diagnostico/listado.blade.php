@@ -22,7 +22,7 @@
             <div class="modal-body scroll-y">
                 <form id="formularioDiagnostico">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="fv-row mb-7">
                                 <label class="fs-6 fw-semibold form-label mb-2 required">Empadre</label>
                                 <div class="input-group">
@@ -33,6 +33,9 @@
                                 <div class="text-danger error-message" id="error-empadre_id"></div>
                             </div>
                         </div>
+                        
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
                                 <label class="fs-6 fw-semibold form-label mb-2 required">Metodo</label>
@@ -59,16 +62,16 @@
                                 <div class="text-danger error-message" id="error-supervisor_id"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Fecha</label>
                                 <input type="date" class="form-control form-control-sm" id="fecha" name="fecha">
                                 <div class="text-danger error-message" id="error-fecha"></div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Diagnostico</label>
                                 <input type="text" class="form-control form-control-sm" id="diagnostico" name="diagnostico">
@@ -221,7 +224,8 @@
             $('.error-message').html('');
             $('.is-invalid').removeClass('is-invalid');
 
-            $('#empadre_id').val(null).trigger('change')
+            $('#empadre_id').val('')
+            $('#empadre_nombre').val('')
             $('#metodo_id').val(null).trigger('change')
             $('#supervisor_id').val(null).trigger('change')
             $('#fecha').val('')

@@ -85,7 +85,7 @@ class DiagnosticoController extends Controller
                 ->limit(10)
                 ->get();
 
-            $html = view('diagnostico.partials.listado_empadres', compact('empadres'))->render();
+            $html = view('diagnostico.components.listado_empadres', compact('empadres'))->render();
 
             return response()->json(['estado' => true, 'html' => $html]);
         }

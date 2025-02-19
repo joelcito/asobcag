@@ -182,11 +182,7 @@ class EjemplarController extends Controller
 
 
     public function listado(){
-        $colores = Color::all();
-        $fenotipos = Fenotipo::all();
-        $criaderos = Criadero::all();
-
-        return view('ejemplar2.listado')->with(compact(['colores', 'fenotipos', 'criaderos']));
+        return view('ejemplar2.listado');
     }
 
     public function formulario(){
@@ -223,50 +219,57 @@ class EjemplarController extends Controller
 
     public function guardarEjemplar(Request $request){
         //TODO: agregar 'tipo' para LLAMA o ALPACA
-        $request->validate([
-            'microchip'        => 'required',
-            'nombre'           => 'required',
-            'arete'            => 'required',
-            'fenotipo_id'      => 'required',
-            'color_id'         => 'required',
-            'sexo'             => 'required',
-            //'fecha_nacimiento' => 'required',
-            'fecha_registro'   => 'required',
-            'criadero_id'      => 'required',
-            'padre_id'         => 'required',
-            'madre_id'         => 'required',
-        ]);
+        if($request->ajax()){
+            $request->validate([
+                'microchip'        => 'required',
+                'nombre'           => 'required',
+                'arete'            => 'required',
+                'fenotipo_id'      => 'required',
+                'color_id'         => 'required',
+                'sexo'             => 'required',
+                //'fecha_nacimiento' => 'required',
+                'fecha_registro'   => 'required',
+                'criadero_id'      => 'required',
+                //'padre_id'         => 'required',
+                // 'madre_id'         => 'required',
+            ]);
 
-        $car_id           = $request->input('car_id');
-        $microchip        = $request->input('microchip');
-        $nombre           = $request->input('nombre');
-        $arete            = $request->input('arete');
-        $fenotipo_id      = $request->input('fenotipo_id');
-        $color_id         = $request->input('color_id');
-        $sexo             = $request->input('sexo');
-        $fecha_nacimiento = $request->input('fecha_nacimiento');
-        $fecha_registro   = $request->input('fecha_registro');
-        $criadero_id      = $request->input('criadero_id');
-        $padre_id         = $request->input('padre_id');
-        $madre_id         = $request->input('madre_id');
-        $usuarioLoguado   = Auth::user();
+            $car_id           = $request->input('car_id');
+            $microchip        = $request->input('microchip');
+            $nombre           = $request->input('nombre');
+            $arete            = $request->input('arete');
+            $fenotipo_id      = $request->input('fenotipo_id');
+            $color_id         = $request->input('color_id');
+            $sexo             = $request->input('sexo');
+            $fecha_nacimiento = $request->input('fecha_nacimiento');
+            $fecha_registro   = $request->input('fecha_registro');
+            $criadero_id      = $request->input('criadero_id');
+            $padre_id         = $request->input('padre_id');
+            $madre_id         = $request->input('madre_id');
+            $usuarioLoguado   = Auth::user();
 
-        $ejemplar                     = new Ejemplar();
-        $ejemplar->usuario_creador_id = $usuarioLoguado->id;
-        $ejemplar->microchip        = $microchip;
-        $ejemplar->nombre           = $nombre;
-        $ejemplar->arete            = $arete;
-        $ejemplar->fenotipo_id      = $fenotipo_id;
-        $ejemplar->color_id         = $color_id;
-        $ejemplar->sexo             = $sexo;
-        $ejemplar->fecha_nacimiento = $fecha_nacimiento;
-        $ejemplar->fecha_registro   = $fecha_registro;
-        $ejemplar->criadero_id      = $criadero_id;
-        $ejemplar->padre_id         = $padre_id;
-        $ejemplar->madre_id         = $madre_id;
-        $ejemplar->save();
+            $ejemplar                     = new Ejemplar();
+            $ejemplar->usuario_creador_id = $usuarioLoguado->id;
+            $ejemplar->microchip        = $microchip;
+            $ejemplar->nombre           = $nombre;
+            $ejemplar->arete            = $arete;
+            $ejemplar->fenotipo_id      = $fenotipo_id;
+            $ejemplar->color_id         = $color_id;
+            $ejemplar->sexo             = $sexo;
+            $ejemplar->fecha_nacimiento = $fecha_nacimiento;
+            $ejemplar->fecha_registro   = $fecha_registro;
+            $ejemplar->criadero_id      = $criadero_id;
+            $ejemplar->padre_id         = $padre_id;
+            $ejemplar->madre_id         = $madre_id;
+            $ejemplar->save();
 
-        return redirect()->route('ejemplar.listado');
+            //return view('ejemplar2.listado');
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
 
     }
 
