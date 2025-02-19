@@ -28,4 +28,7 @@ class Empadre extends Model
         'deleted_at'
     ];
 
+    public function madre(){
+        return $this->belongsTo('App\Models\Ejemplar', 'madre_id');
+    }
 }

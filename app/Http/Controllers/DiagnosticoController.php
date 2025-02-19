@@ -67,4 +67,31 @@ class DiagnosticoController extends Controller
         }
         return $data;
     }
+
+    public function buscarEmpadre(Request $request){
+        if ($request->ajax()) {
+            $query = $request->input('query');
+
+            if (strlen($query) < 3) {
+                return response()->json(['estado' => false, 'mensaje' => 'Ingrese al menos 3 caracteres.']);
+            }
+
+            // Buscar empadres junto con la madre (ejemplar relacionado)
+            $empadres = Empadre::with('madre') // Cargamos la relación madre
+                ->whereHas('madre', function ($q) use ($query) {
+                    $q->where('nombre', 'LIKE', "%{$query}%") // Búsqueda en el nombre del ejemplar
+                    ->orWhere('arete', 'LIKE', "%{$query}%");
+                })
+                ->limit(10)
+                ->get();
+
+            $html = view('diagnostico.partials.listado_empadres', compact('empadres'))->render();
+
+            return response()->json(['estado' => true, 'html' => $html]);
+        }
+
+        return response()->json(['estado' => false, 'mensaje' => 'Solicitud no válida.']);
+    }
+
+
 }

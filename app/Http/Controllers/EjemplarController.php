@@ -230,7 +230,7 @@ class EjemplarController extends Controller
             'fenotipo_id'      => 'required',
             'color_id'         => 'required',
             'sexo'             => 'required',
-            'fecha_nacimiento' => 'required',
+            //'fecha_nacimiento' => 'required',
             'fecha_registro'   => 'required',
             'criadero_id'      => 'required',
             'padre_id'         => 'required',

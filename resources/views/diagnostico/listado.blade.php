@@ -24,14 +24,12 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2 required">Empadre ID</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalDiagnostico"
-                                    class="form-select form-select-solid fw-bold" name="empadre_id" id="empadre_id">
-                                    <option></option>
-                                    @foreach ($empadres as $empadre)
-                                        <option value="{{ $empadre->id }}">{{ $empadre->id }}</option>
-                                    @endforeach
-                                </select>
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Empadre</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="empadre_nombre" readonly>
+                                    <input type="hidden" id="empadre_id" name="empadre_id">
+                                    <button class="btn btn-primary" type="button" onclick="mostrarModalBusqueda()">Buscar</button>
+                                </div>
                                 <div class="text-danger error-message" id="error-empadre_id"></div>
                             </div>
                         </div>
@@ -93,6 +91,21 @@
     <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Add task-->
+<!-- Modal de Búsqueda -->
+<div class="modal fade" id="modalBuscarEmpadre" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="fw-bold">Buscar Empadre</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-3" id="inputBusquedaEmpadre" placeholder="Ingrese al menos 3 letras...">
+                <div id="resultadosEmpadre"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!--begin::Content wrapper-->
 <div class="d-flex flex-column flex-column-fluid">
@@ -169,6 +182,39 @@
                     // Swal.close();
                 }
             })
+        }
+
+        function mostrarModalBusqueda() {
+            $('#modalBuscarEmpadre').modal('show');
+            $('#inputBusquedaEmpadre').val('').focus();
+            $('#resultadosEmpadre').html('');
+        }
+
+        $('#inputBusquedaEmpadre').on('input', function () {
+            let query = $(this).val();
+
+            if (query.length >= 3) {
+                $.ajax({
+                    url: "{{ route('diagnostico.buscarEmpadre') }}",
+                    method: "POST",
+                    data: { query: query },
+                    success: function (response) {
+                        if (response.estado) {
+                            $('#resultadosEmpadre').html(response.html);
+                        } else {
+                            $('#resultadosEmpadre').html('<p class="text-center text-muted">' + response.mensaje + '</p>');
+                        }
+                    }
+                });
+            } else {
+                $('#resultadosEmpadre').html('');
+            }
+        });
+
+        function seleccionarEmpadre(id, nombre, arete) {
+            $('#empadre_id').val(id);
+            $('#empadre_nombre').val(nombre+' - '+arete);
+            $('#modalBuscarEmpadre').modal('hide');
         }
 
         function modalNuevoDiagnostico(){
