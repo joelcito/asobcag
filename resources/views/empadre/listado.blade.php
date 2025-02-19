@@ -21,6 +21,7 @@
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioEmpadre">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
@@ -226,10 +227,15 @@
             })
         }
 
-        function modalNuevoEmpadre(){
+        function limpiarErorres(){
             $('.error-message').html('');
             $('.is-invalid').removeClass('is-invalid');
+        }
 
+        function modalNuevoEmpadre(){
+            limpiarErorres();
+
+            $('#id').val(0)
             $('#campania_id').val(null).trigger('change')
             $('#padre_id').val(null).trigger('change')
             $('#madre_id').val(null).trigger('change')
@@ -255,8 +261,7 @@
                     }
                 },
                 error: function (xhr) {
-                    $('.error-message').html('');
-                    $('.is-invalid').removeClass('is-invalid');
+                    limpiarErorres();
 
                     if (xhr.status === 422) { // Código HTTP 422 = Errores de validación
                         let errors = xhr.responseJSON.errors;
@@ -278,6 +283,67 @@
                     }
                 }
             });
+        }
+
+        function editarEmpadre(empadre){
+            limpiarErorres();
+
+            Object.keys(empadre).forEach(key => {
+                let input = $(`#${key}`);
+
+                if (input.is(':checkbox')) {
+                    // Marcar si el valor es 1, true o "on"
+                    input.prop('checked', empadre[key] == 1 || empadre[key] === true || empadre[key] === "on");
+                } else if (input.is('select')) {
+                    // Para selects con librerías como Select2
+                    input.val(empadre[key]).trigger('change');
+                } else if (input.length) {
+                    // Para inputs normales (text, number, email, etc.)
+                    input.val(empadre[key]);
+                }
+            });
+
+            $('#modalEmpadre').modal('show')
+        }
+
+        function eliminarEmpadre(empadre){
+            Swal.fire({
+                title: "Quieres eliminar ",
+                text: "Ya no podras recuperarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('empadre.eliminarEmpadre') }}",
+                        method: "POST",
+                        data: empadre,
+                        success: function (resultado) {
+                            if(resultado.estado){
+                                ajaxListado();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                                
+                            });                    
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelado",
+                        "La operacion fue cancelada",
+                        "error"
+                    )
+                }
+            });
+            
         }
 
    </script>

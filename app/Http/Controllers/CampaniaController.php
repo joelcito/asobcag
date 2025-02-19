@@ -36,19 +36,47 @@ class CampaniaController extends Controller
                 'actual'    => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $nombre      = $request->input('nombre');
             $fecha_ini   = $request->input('fecha_ini');
             $fecha_fin   = $request->input('fecha_fin');
             $actual      = $request->input('actual');
             $usuario     = Auth::user();
 
-            $campania                     = new Campania();
-            $campania->usuario_creador_id = $usuario->id;
+            if( $id == 0 ){
+                $campania = new Campania();
+                $campania->usuario_creador_id = $usuario->id;
+            }else{
+                $campania = Campania::find($id);
+                $campania->usuario_modificador_id = $usuario->id;                
+            }
+
             $campania->nombre             = $nombre;
             $campania->fecha_ini          = $fecha_ini;
             $campania->fecha_fin          = $fecha_fin;
             $campania->actual             = $actual;
             $campania->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function eliminarCampania(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $campania = Campania::find($id);
+            $campania->usuario_eliminador_id = $usuario->id;
+            $campania->save();
+
+            Campania::destroy($id);
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

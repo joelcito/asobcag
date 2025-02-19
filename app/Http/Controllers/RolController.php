@@ -34,12 +34,20 @@ class RolController extends Controller
                 'nombre' => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $nombre      = $request->input('nombre');
             $usuario     = Auth::user();
 
-            $rol                     = new Rol();
-            $rol->usuario_creador_id = $usuario->id;
-            $rol->nombre             = $nombre;
+            if( $id == 0 ){
+                $rol                     = new Rol();
+                $rol->usuario_creador_id = $usuario->id;
+            }else{
+                $rol = Rol::find($id);
+                $rol->usuario_modificador_id = $usuario->id;
+            }
+
+            $rol->nombre = $nombre;
             $rol->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
@@ -50,4 +58,23 @@ class RolController extends Controller
         return $data;
     }
 
+    public function eliminarRol(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $rol = Rol::find($id);
+            $rol->usuario_eliminador_id = $usuario->id;
+            $rol->save();
+
+            Rol::destroy($id);
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
 }

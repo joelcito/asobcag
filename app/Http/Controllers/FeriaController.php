@@ -35,17 +35,45 @@ class FeriaController extends Controller
                 //'localidad_id' => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $nombre     = $request->input('nombre');
             $fecha      = $request->input('fecha');
             $localidad_id      = $request->input('localidad_id');//anadir a vista
             $usuario    = Auth::user();
 
-            $feria                     = new Feria();
-            $feria->usuario_creador_id = $usuario->id;
+            if( $id == 0 ){
+                $feria = new Feria();
+                $feria->usuario_creador_id = $usuario->id;
+            }else{
+                $feria = Feria::find($id);
+                $feria->usuario_modificador_id = $usuario->id;
+            }
+
             $feria->nombre             = $nombre;
             $feria->fecha              = $fecha;
             $feria->localidad_id       = $localidad_id;
             $feria->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function eliminarFeria(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $feria = Feria::find($id);
+            $feria->usuario_eliminador_id = $usuario->id;
+            $feria->save();
+
+            Feria::destroy($id);
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

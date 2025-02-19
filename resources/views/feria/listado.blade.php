@@ -21,6 +21,7 @@
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioFeria">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="fv-row mb-7">
@@ -128,10 +129,15 @@
             })
         }
 
-        function modalNuevoFeria(){
+        function limpiarErorres(){
             $(".invalid-feedback").remove();
             $(".is-invalid").removeClass("is-invalid");
+        }
 
+        function modalNuevoFeria(){
+            limpiarErorres();
+
+            $('#id').val(0)
             $('#nombre').val('')
             $('#fecha').val('')
             $('#modalFeria').modal('show')
@@ -152,8 +158,7 @@
                     }
                 },
                 error: function (xhr) {
-                    $(".invalid-feedback").remove();
-                    $(".is-invalid").removeClass("is-invalid");
+                    limpiarErorres();
 
                     if (xhr.status === 422) { 
                         let errores = xhr.responseJSON.errors;
@@ -174,6 +179,58 @@
                     }
                 }
             });
+        }
+
+        function editarFeria(feria){
+            limpiarErorres();
+
+            Object.keys(feria).forEach(key => {
+                let input = $(`#${key}`);
+                if (input.length) {
+                    input.val(feria[key]);
+                }
+            });
+            $('#modalFeria').modal('show');
+        }
+
+        function eliminarFeria(feria){
+            Swal.fire({
+                title: "Quieres eliminar "+feria.nombre,
+                text: "Ya no podras recuperarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('feria.eliminarFeria') }}",
+                        method: "POST",
+                        data: feria,
+                        success: function (resultado) {
+                            if(resultado.estado){
+                                ajaxListado();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                                
+                            });                    
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelado",
+                        "La operacion fue cancelada",
+                        "error"
+                    )
+                }
+            });
+            
         }
 
    </script>

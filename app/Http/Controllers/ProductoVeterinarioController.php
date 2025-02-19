@@ -35,17 +35,45 @@ class ProductoVeterinarioController extends Controller
                 'presentacion' => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $nombre             = $request->input('nombre');
             $ingrediente_activo = $request->input('ingrediente_activo');
             $presentacion       = $request->input('presentacion');
             $usuario            = Auth::user();
 
-            $producto                     = new ProductoVeterinario();
-            $producto->usuario_creador_id = $usuario->id;
+            if( $id == 0 ){
+                $producto = new ProductoVeterinario();
+                $producto->usuario_creador_id = $usuario->id;
+            }else{
+                $producto = ProductoVeterinario::find($id);
+                $producto->usuario_modificador_id = $usuario->id;                
+            }
+
             $producto->nombre             = $nombre;
             $producto->ingrediente_activo = $ingrediente_activo;
             $producto->presentacion       = $presentacion;
             $producto->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function eliminarProductoVeterinario(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $productoVeterinario = ProductoVeterinario::find($id);
+            $productoVeterinario->usuario_eliminador_id = $usuario->id;
+            $productoVeterinario->save();
+
+            ProductoVeterinario::destroy($id);
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

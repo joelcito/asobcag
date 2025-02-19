@@ -21,6 +21,7 @@
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioProductoVeterinario">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="fv-row mb-7">
@@ -136,10 +137,15 @@
             })
         }
 
-        function modalNuevoProductoVeterinario(){
+        function limpiarErorres(){
             $(".invalid-feedback").remove();
             $(".is-invalid").removeClass("is-invalid");
+        }
 
+        function modalNuevoProductoVeterinario(){
+            limpiarErorres();
+
+            $('#id').val(0)
             $('#nombre').val('')
             $('#ingrediente_activo').val('')
             $('#presentacion').val('')
@@ -161,8 +167,7 @@
                     }
                 },
                 error: function (xhr) {
-                    $(".invalid-feedback").remove();
-                    $(".is-invalid").removeClass("is-invalid");
+                    limpiarErorres();
 
                     if (xhr.status === 422) { 
                         let errores = xhr.responseJSON.errors;
@@ -183,6 +188,58 @@
                     }
                 }
             });
+        }
+
+        function editarProductoVeterinario(productoVeterinario){
+            limpiarErorres();
+
+            Object.keys(productoVeterinario).forEach(key => {
+                let input = $(`#${key}`);
+                if (input.length) {
+                    input.val(productoVeterinario[key]);
+                }
+            });
+            $('#modalProductoVeterinario').modal('show')
+        }
+
+        function eliminarProductoVeterinario(productoVeterinario){
+            Swal.fire({
+                title: "Quieres eliminar "+productoVeterinario.nombre,
+                text: "Ya no podras recuperarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('productoVeterinario.eliminarProductoVeterinario') }}",
+                        method: "POST",
+                        data: productoVeterinario,
+                        success: function (resultado) {
+                            if(resultado.estado){
+                                ajaxListado();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                                
+                            });                    
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelado",
+                        "La operacion fue cancelada",
+                        "error"
+                    )
+                }
+            });
+            
         }
 
    </script>

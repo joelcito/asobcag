@@ -21,6 +21,7 @@
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioDiagnostico">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="fv-row mb-7">
@@ -220,10 +221,15 @@
             $('#modalBuscarEmpadre').modal('hide');
         }
 
-        function modalNuevoDiagnostico(){
+        function limpiarErorres(){
             $('.error-message').html('');
             $('.is-invalid').removeClass('is-invalid');
+        }
 
+        function modalNuevoDiagnostico(){
+            limpiarErorres();
+
+            $('#id').val(0)
             $('#empadre_id').val('')
             $('#empadre_nombre').val('')
             $('#metodo_id').val(null).trigger('change')
@@ -248,8 +254,7 @@
                     }
                 },
                 error: function (xhr) {
-                    $('.error-message').html('');
-                    $('.is-invalid').removeClass('is-invalid');
+                    limpiarErorres();
 
                     if (xhr.status === 422) { 
                         let errors = xhr.responseJSON.errors;
@@ -271,6 +276,67 @@
                     }
                 }
             });
+        }
+
+        function editarDiagnostico(diagnostico){
+            limpiarErorres();
+
+            Object.keys(diagnostico).forEach(key => {
+                let input = $(`#${key}`);
+
+                if (input.is(':checkbox')) {
+                    // Marcar si el valor es 1, true o "on"
+                    input.prop('checked', diagnostico[key] == 1 || diagnostico[key] === true || diagnostico[key] === "on");
+                } else if (input.is('select')) {
+                    // Para selects con librerías como Select2
+                    input.val(diagnostico[key]).trigger('change');
+                } else if (input.length) {
+                    // Para inputs normales (text, number, email, etc.)
+                    input.val(diagnostico[key]);
+                }
+            });
+            $('#empadre_nombre').val(diagnostico.empadre.madre.nombre +' - '+diagnostico.empadre.madre.arete);
+            $('#modalDiagnostico').modal('show');
+        }
+
+        function eliminarDiagnostico(diagnostico){
+            Swal.fire({
+                title: "Quieres eliminar ",
+                text: "Ya no podras recuperarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('diagnostico.eliminarDiagnostico') }}",
+                        method: "POST",
+                        data: diagnostico,
+                        success: function (resultado) {
+                            if(resultado.estado){
+                                ajaxListado();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                                
+                            });                    
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelado",
+                        "La operacion fue cancelada",
+                        "error"
+                    )
+                }
+            });
+            
         }
 
    </script>

@@ -21,6 +21,7 @@
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioUsuario">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
@@ -223,20 +224,25 @@
             })
         }
 
-        function modalNuevoUsuario(){
+        function limpiarErorres(){
             $(".invalid-feedback").remove();
             $(".is-invalid").removeClass("is-invalid");
+        }
 
+        function modalNuevoUsuario(){
+            limpiarErorres();
+
+            $('#id').val(0)
             $('#nombres').val('')
             $('#ap_paterno').val('')
             $('#ap_materno').val('')
             $('#cedula').val('')
             $('#direccion').val('')
             $('#email').val('')
-            $('#pais').val('')
+            /* $('#pais').val('')
             $('#departamento').val('')
             $('#provincia').val('')
-            $('#distrito').val('')
+            $('#distrito').val('') */
             $('#celular').val('')
             $('#rol_id').val('')
             $('#modalUsuario').modal('show')
@@ -257,8 +263,7 @@
                     }
                 },
                 error: function (xhr) {
-                    $(".invalid-feedback").remove();
-                    $(".is-invalid").removeClass("is-invalid");
+                    limpiarErorres();
 
                     if (xhr.status === 422) {
                         let errores = xhr.responseJSON.errors;
@@ -279,6 +284,58 @@
                     }
                 }
             });
+        }
+
+        function editarUsuario(usuario){
+            limpiarErorres();
+
+            Object.keys(usuario).forEach(key => {
+                let input = $(`#${key}`);
+                if (input.length) {
+                    input.val(usuario[key]);
+                }
+            });
+            $('#modalUsuario').modal('show')
+        }
+
+        function eliminarUsuario(usuario){
+            Swal.fire({
+                title: "Quieres eliminar "+usuario.nombres,
+                text: "Ya no podras recuperarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('usuario.eliminarUsuario') }}",
+                        method: "POST",
+                        data: usuario,
+                        success: function (resultado) {
+                            if(resultado.estado){
+                                ajaxListado();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                                
+                            });                    
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelado",
+                        "La operacion fue cancelada",
+                        "error"
+                    )
+                }
+            });
+            
         }
 
    </script>

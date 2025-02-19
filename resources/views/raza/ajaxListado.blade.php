@@ -14,8 +14,8 @@
                     <td>{{ $raza->nombre }}</td>
                     <td>{{ $raza->descripcion }}</td>
                     <td>
-                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza" onclick="editarRaza({{ json_encode($raza) }})"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza" onclick="eliminarRaza({{ json_encode($raza) }})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
             @empty

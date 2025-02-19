@@ -21,6 +21,7 @@
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioCategoriaFeria">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="fv-row mb-7">
@@ -156,10 +157,15 @@
             })
         }
 
-        function modalNuevoCategoriaFeria(){
+        function limpiarErorres(){
             $(".invalid-feedback").remove();
             $(".is-invalid").removeClass("is-invalid");
+        }
 
+        function modalNuevoCategoriaFeria(){
+            limpiarErorres();
+
+            $('#id').val(0)
             $('#nombre').val('')
             $('#modalCategoriaFeria').modal('show')
         }
@@ -179,8 +185,7 @@
                     }
                 },
                 error: function (xhr) {
-                    $(".invalid-feedback").remove();
-                    $(".is-invalid").removeClass("is-invalid");
+                    limpiarErorres();
 
                     if (xhr.status === 422) { 
                         let errores = xhr.responseJSON.errors;
@@ -201,6 +206,58 @@
                     }
                 }
             });
+        }
+
+        function editarCategoriaFeria(categoriaFeria){
+            limpiarErorres();
+
+            Object.keys(categoriaFeria).forEach(key => {
+                let input = $(`#${key}`);
+                if (input.length) {
+                    input.val(categoriaFeria[key]);
+                }
+            });
+            $('#modalCategoriaFeria').modal('show')
+        }
+
+        function eliminarCategoriaFeria(categoriaFeria){
+            Swal.fire({
+                title: "Quieres eliminar "+categoriaFeria.nombre,
+                text: "Ya no podras recuperarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('categoriaFeria.eliminarCategoriaFeria') }}",
+                        method: "POST",
+                        data: categoriaFeria,
+                        success: function (resultado) {
+                            if(resultado.estado){
+                                ajaxListado();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                                
+                            });                    
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelado",
+                        "La operacion fue cancelada",
+                        "error"
+                    )
+                }
+            });
+            
         }
 
    </script>

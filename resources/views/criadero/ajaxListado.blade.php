@@ -22,8 +22,8 @@
                     <td>{{ $criadero->estancia  }}</td>
                     <td>{{ $criadero->localidad_id }}</td>
                     <td>
-                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza" onclick="editarCriadero({{ json_encode($criadero) }})"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza" onclick="eliminarCriadero({{ json_encode($criadero) }})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
             @empty

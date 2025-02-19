@@ -22,7 +22,7 @@ class DiagnosticoController extends Controller
 
     public function ajaxListado(Request $request){
         if($request->ajax()){
-            $diagnosticos = Diagnostico::all();
+            $diagnosticos = Diagnostico::with(['empadre.madre'])->get();
             $valores = [
                 'listado' => view('diagnostico.ajaxListado')->with(compact('diagnosticos'))->render()
             ];
@@ -44,6 +44,8 @@ class DiagnosticoController extends Controller
                 'diagnostico'   => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $empadre_id    = $request->input('empadre_id');
             $metodo_id     = $request->input('metodo_id');
             $supervisor_id = $request->input('supervisor_id');
@@ -51,8 +53,14 @@ class DiagnosticoController extends Controller
             $diagnostico_form   = $request->input('diagnostico');
             $usuario       = Auth::user();
 
-            $diagnostico                     = new Diagnostico();
-            $diagnostico->usuario_creador_id = $usuario->id;
+            if( $id == 0 ){
+                $diagnostico = new Diagnostico();
+                $diagnostico->usuario_creador_id = $usuario->id;
+            }else{
+                $diagnostico = Diagnostico::find($id);
+                $diagnostico->usuario_modificador_id = $usuario->id;                
+            }
+
             $diagnostico->empadre_id         = $empadre_id;
             $diagnostico->metodo_id          = $metodo_id;
             $diagnostico->supervisor_id      = $supervisor_id;
@@ -91,6 +99,26 @@ class DiagnosticoController extends Controller
         }
 
         return response()->json(['estado' => false, 'mensaje' => 'Solicitud no válida.']);
+    }
+
+    public function eliminarDiagnostico(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $diagnostico = Diagnostico::find($id);
+            $diagnostico->usuario_eliminador_id = $usuario->id;
+            $diagnostico->save();
+
+            Diagnostico::destroy($id);
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
     }
 
 

@@ -16,8 +16,8 @@
                     <td>{{ $producto->ingrediente_activo }}</td>
                     <td>{{ $producto->presentacion }}</td>
                     <td>
-                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza" onclick="editarProductoVeterinario({{ json_encode($producto) }})"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza" onclick="eliminarProductoVeterinario({{ json_encode($producto) }})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
             @empty

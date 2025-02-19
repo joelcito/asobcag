@@ -46,18 +46,27 @@ class UserController extends Controller
                 'rol_id'     => 'required',
             ]);
 
-            $nombres        = $request->input('nombres');
-            $ap_paterno     = $request->input('ap_paterno');
-            $ap_materno     = $request->input('ap_materno');
-            $cedula        = $request->input('cedula');
-            $direccion         = $request->input('direccion');
-            $email    = $request->input('email');
-            $celular    = $request->input('celular');
+            $id = $request->input('id');
+
+            $nombres    = $request->input('nombres');
+            $ap_paterno = $request->input('ap_paterno');
+            $ap_materno = $request->input('ap_materno');
+            $cedula    = $request->input('cedula');
+            $direccion = $request->input('direccion');
+            $email     = $request->input('email');
+            $celular   = $request->input('celular');
             $rol_id    = $request->input('rol_id');
             $usuarioLoguado = Auth::user();
 
-            $usuario                     = new User();
-            $usuario->usuario_creador_id = $usuarioLoguado->id;
+            if( $id == 0 ){
+                $usuario                     = new User();
+                $usuario->usuario_creador_id = $usuarioLoguado->id;
+                $usuario->password           = Hash::make($cedula);
+            }else{
+                $usuario = User::find($id);
+                $usuario->usuario_modificador_id = $usuarioLoguado->id;
+            }
+
             $usuario->nombres            = $nombres;
             $usuario->ap_paterno         = $ap_paterno;
             $usuario->ap_materno         = $ap_materno;
@@ -67,8 +76,27 @@ class UserController extends Controller
             $usuario->celular            = $celular;
             $usuario->rol_id             = $rol_id;                                         //ROL DE Tecnico
             $usuario->name               = $nombres." ".$ap_paterno." ".$ap_materno;
-            $usuario->password           = Hash::make($cedula);
             $usuario->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function eliminarUsuario(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuarioLogueado = Auth::user();
+
+            $usuario = User::find($id);
+            $usuario->usuario_eliminador_id = $usuarioLogueado->id;
+            $usuario->save();
+
+            User::destroy($id);
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

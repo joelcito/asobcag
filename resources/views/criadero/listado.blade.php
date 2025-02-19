@@ -13,14 +13,15 @@
 @section('content')
 
 <!--begin::Modal - Add task-->
-<div class="modal fade" id="modalClienteProvedor" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalCriadero" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="kt_modal_add_user_header">
                 <h3 class="fw-bold">FORMULARIO DE CRIADEROS</h3>
             </div>
             <div class="modal-body scroll-y">
-                <form id="formularioClienteProvedor">
+                <form id="formularioCriadero">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
@@ -53,7 +54,7 @@
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
                                 <label class="fs-6 fw-semibold form-label mb-2 required">Propietario</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalClienteProvedor"
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCriadero"
                                     class="form-select form-select-solid fw-bold" name="propietario_id" id="propietario_id">
                                     <option></option>
                                     @foreach ($usuarios as $usuario)
@@ -95,7 +96,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-sm w-100 btn-success" onclick="guardarClienteProvedor()">Guardar</button>
+                        <button class="btn btn-sm w-100 btn-success" onclick="guardarCriadero()">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -151,7 +152,7 @@
 
                         <!--begin::Actions-->
                         <div class="d-flex gap-2 gap-lg-3">
-                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoClienteProvedor()"><i class="fa fa-plus"></i>Nuevo Registro</a>
+                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoCriadero()"><i class="fa fa-plus"></i>Nuevo Registro</a>
                         </div>
 
                         <!--end::Actions-->
@@ -208,10 +209,15 @@
             })
         }
 
-        function modalNuevoClienteProvedor(){
+        function limpiarErorres(){
             $('.error-message').html('');
             $('.is-invalid').removeClass('is-invalid');
+        }
 
+        function modalNuevoCriadero(){
+            limpiarErorres();
+
+            $('#id').val(0)
             $('#nombre').val('')
             $('#nit').val('')
             $('#direccion').val('')
@@ -220,11 +226,11 @@
             $('#negocio_animal').prop('checked', false)
             $('#estancia').val('')
             $('#propietario_id').val(null).trigger('change')
-            $('#modalClienteProvedor').modal('show')
+            $('#modalCriadero').modal('show')
         }
 
-        function guardarClienteProvedor(){
-            let datos = $('#formularioClienteProvedor').serializeArray();
+        function guardarCriadero(){
+            let datos = $('#formularioCriadero').serializeArray();
             $.ajax({
                 url: "{{ route('criadero.guardarCriadero') }}",
                 method: "POST",
@@ -232,14 +238,13 @@
                 success: function (resultado) {
                     if(resultado.estado){
                         ajaxListado();
-                        $('#modalClienteProvedor').modal('hide')
+                        $('#modalCriadero').modal('hide')
                     }else{
 
                     }
                 },
                 error: function (xhr) {
-                    $('.error-message').html('');
-                    $('.is-invalid').removeClass('is-invalid');
+                    limpiarErorres();
 
                     if (xhr.status === 422) {
                         let errors = xhr.responseJSON.errors;
@@ -261,6 +266,68 @@
                     }
                 }
             })
+        }
+
+        function editarCriadero(criadero){
+            limpiarErorres();
+            console.log(criadero);
+
+            Object.keys(criadero).forEach(key => {
+                let input = $(`#${key}`);
+
+                if (input.is(':checkbox')) {
+                    // Marcar si el valor es 1, true o "on"
+                    input.prop('checked', criadero[key] == 1 || criadero[key] === true || criadero[key] === "on");
+                } else if (input.is('select')) {
+                    // Para selects con librerías como Select2
+                    input.val(criadero[key]).trigger('change');
+                } else if (input.length) {
+                    // Para inputs normales (text, number, email, etc.)
+                    input.val(criadero[key]);
+                }
+            });
+
+            $('#modalCriadero').modal('show');
+        }
+
+        function eliminarCriadero(criadero){
+            Swal.fire({
+                title: "Quieres eliminar "+criadero.nombre,
+                text: "Ya no podras recuperarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('criadero.eliminarCriadero') }}",
+                        method: "POST",
+                        data: criadero,
+                        success: function (resultado) {
+                            if(resultado.estado){
+                                ajaxListado();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                                
+                            });                    
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelado",
+                        "La operacion fue cancelada",
+                        "error"
+                    )
+                }
+            });
+            
         }
 
    </script>

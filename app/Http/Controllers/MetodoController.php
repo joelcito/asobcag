@@ -33,13 +33,41 @@ class MetodoController extends Controller
                 'nombre' => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $nombre      = $request->input('nombre');
             $usuario     = Auth::user();
 
-            $metodo                     = new Metodo();
-            $metodo->usuario_creador_id = $usuario->id;
+            if( $id == 0 ){
+                $metodo = new Metodo();
+                $metodo->usuario_creador_id = $usuario->id;
+            }else{
+                $metodo = Metodo::find($id);
+                $metodo->usuario_modificador_id = $usuario->id;
+            }
+
             $metodo->nombre             = $nombre;
             $metodo->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function eliminarMetodo(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $metodo = Metodo::find($id);
+            $metodo->usuario_eliminador_id = $usuario->id;
+            $metodo->save();
+
+            Metodo::destroy($id);
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

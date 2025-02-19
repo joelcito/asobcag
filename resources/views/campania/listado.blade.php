@@ -21,6 +21,7 @@
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioCampania">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="fv-row mb-7">
@@ -142,10 +143,15 @@
             })
         }
 
-        function modalNuevoCampania(){
+        function limpiarErorres(){
             $(".invalid-feedback").remove();
             $(".is-invalid").removeClass("is-invalid");
+        }
+
+        function modalNuevoCampania(){
+            limpiarErorres();
             
+            $('#id').val(0)
             $('#nombre').val('')
             $('#actual').val('')
             $('#fecha_ini').val('')
@@ -169,8 +175,7 @@
                 },
                 error: function (xhr) {
                     // Limpiar mensajes previos
-                    $(".invalid-feedback").remove();
-                    $(".is-invalid").removeClass("is-invalid");
+                    limpiarErorres();
 
                     if (xhr.status === 422) { // Código HTTP 422 = Errores de validación
                         let errores = xhr.responseJSON.errors;
@@ -192,6 +197,58 @@
                     }
                 }
             });
+        }
+
+        function editarCampania(campania){
+            limpiarErorres();
+
+            Object.keys(campania).forEach(key => {
+                let input = $(`#${key}`);
+                if (input.length) {
+                    input.val(campania[key]);
+                }
+            });
+            $('#modalCampania').modal('show')
+        }
+
+        function eliminarCampania(campania){
+            Swal.fire({
+                title: "Quieres eliminar "+campania.nombre,
+                text: "Ya no podras recuperarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('campania.eliminarCampania') }}",
+                        method: "POST",
+                        data: campania,
+                        success: function (resultado) {
+                            if(resultado.estado){
+                                ajaxListado();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                                
+                            });                    
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelado",
+                        "La operacion fue cancelada",
+                        "error"
+                    )
+                }
+            });
+            
         }
 
    </script>

@@ -46,6 +46,8 @@ class EmpadreController extends Controller
                 'tiempo_copula'   => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $padre_id        = $request->input('padre_id');
             $madre_id        = $request->input('madre_id');
             $campania_id     = $request->input('campania_id');
@@ -56,8 +58,14 @@ class EmpadreController extends Controller
             $observacion     = $request->input('observacion');
             $usuario         = Auth::user();
 
-            $empadre                     = new Empadre();
-            $empadre->usuario_creador_id = $usuario->id;
+            if( $id == 0 ){
+                $empadre = new Empadre();
+                $empadre->usuario_creador_id = $usuario->id;
+            }else{
+                $empadre = Empadre::find($id);
+                $empadre->usuario_modificador_id = $usuario->id;                
+            }
+
             $empadre->padre_id           = $padre_id;
             $empadre->madre_id           = $madre_id;
             $empadre->campania_id        = $campania_id;
@@ -67,6 +75,26 @@ class EmpadreController extends Controller
             $empadre->tiempo_copula      = $tiempo_copula;
             $empadre->observacion        = $observacion;
             $empadre->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function eliminarEmpadre(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $empadre = Empadre::find($id);
+            $empadre->usuario_eliminador_id = $usuario->id;
+            $empadre->save();
+
+            Empadre::destroy($id);
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

@@ -33,11 +33,19 @@ class CategoriaFeriaController extends Controller
                 'nombre' => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $nombre      = $request->input('nombre');
             $usuario     = Auth::user();
 
-            $color                     = new CategoriaFeria();
-            $color->usuario_creador_id = $usuario->id;
+            if( $id == 0 ){
+                $color                     = new CategoriaFeria();
+                $color->usuario_creador_id = $usuario->id;
+            }else{
+                $color = CategoriaFeria::find($id);
+                $color->usuario_modificador_id = $usuario->id;
+            }
+
             $color->nombre             = $nombre;
             $color->save();
 
@@ -48,4 +56,25 @@ class CategoriaFeriaController extends Controller
         }
         return $data;
     }
+
+    public function eliminarCategoriaFeria(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $categoriaFeria = CategoriaFeria::find($id);
+            $categoriaFeria->usuario_eliminador_id = $usuario->id;
+            $categoriaFeria->save();
+
+            CategoriaFeria::destroy($id);
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
 }

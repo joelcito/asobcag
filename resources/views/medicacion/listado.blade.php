@@ -21,6 +21,7 @@
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioMedicacion">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
@@ -193,10 +194,15 @@
             })
         }
 
-        function modalNuevoMedicacion(){
+        function limpiarErorres(){
             $('.error-message').html('');
             $('.is-invalid').removeClass('is-invalid');
+        }
 
+        function modalNuevoMedicacion(){
+            limpiarErorres();
+
+            $('#id').val(0)
             $('#ejemplar_id').val(null).trigger('change')
             $('#producto_veterinario_id').val(null).trigger('change')
             $('#responsable_id').val(null).trigger('change')
@@ -223,8 +229,7 @@
                     }
                 },
                 error: function (xhr) {
-                    $('.error-message').html('');
-                    $('.is-invalid').removeClass('is-invalid');
+                    limpiarErorres();
 
                     if (xhr.status === 422) { 
                         let errors = xhr.responseJSON.errors;
@@ -246,6 +251,67 @@
                     }
                 }
             });
+        }
+
+        function editarMedicacion(medicacion){
+            limpiarErorres();
+
+            Object.keys(medicacion).forEach(key => {
+                let input = $(`#${key}`);
+
+                if (input.is(':checkbox')) {
+                    // Marcar si el valor es 1, true o "on"
+                    input.prop('checked', medicacion[key] == 1 || medicacion[key] === true || medicacion[key] === "on");
+                } else if (input.is('select')) {
+                    // Para selects con librerías como Select2
+                    input.val(medicacion[key]).trigger('change');
+                } else if (input.length) {
+                    // Para inputs normales (text, number, email, etc.)
+                    input.val(medicacion[key]);
+                }
+            });
+
+            $('#modalMedicacion').modal('show');
+        }
+
+        function eliminarMedicacion(medicacion){
+            Swal.fire({
+                title: "Quieres eliminar ",
+                text: "Ya no podras recuperarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('medicacion.eliminarMedicacion') }}",
+                        method: "POST",
+                        data: medicacion,
+                        success: function (resultado) {
+                            if(resultado.estado){
+                                ajaxListado();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                                
+                            });                    
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelado",
+                        "La operacion fue cancelada",
+                        "error"
+                    )
+                }
+            });
+            
         }
 
    </script>

@@ -21,6 +21,7 @@
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioFenotipo">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="fv-row mb-7">
@@ -122,10 +123,15 @@
             })
         }
 
-        function modalNuevoFenotipo(){
+        function limpiarErorres(){
             $(".invalid-feedback").remove();
             $(".is-invalid").removeClass("is-invalid");
+        }
 
+        function modalNuevoFenotipo(){
+            limpiarErorres();
+
+            $('#id').val(0)
             $('#nombre').val('')
             $('#modalFenotipo').modal('show')
         }
@@ -145,8 +151,7 @@
                     }
                 },
                 error: function (xhr) {
-                    $(".invalid-feedback").remove();
-                    $(".is-invalid").removeClass("is-invalid");
+                    limpiarErorres();
 
                     if (xhr.status === 422) { 
                         let errores = xhr.responseJSON.errors;
@@ -167,6 +172,58 @@
                     }
                 }
             });
+        }
+
+        function editarFenotipo(fenotipo){
+            limpiarErorres();
+
+            Object.keys(fenotipo).forEach(key => {
+                let input = $(`#${key}`);
+                if (input.length) {
+                    input.val(fenotipo[key]);
+                }
+            });
+            $('#modalFenotipo').modal('show')
+        }
+
+        function eliminarFenotipo(fenotipo){
+            Swal.fire({
+                title: "Quieres eliminar "+fenotipo.nombre,
+                text: "Ya no podras recuperarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('fenotipo.eliminarFenotipo') }}",
+                        method: "POST",
+                        data: fenotipo,
+                        success: function (resultado) {
+                            if(resultado.estado){
+                                ajaxListado();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                                
+                            });                    
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelado",
+                        "La operacion fue cancelada",
+                        "error"
+                    )
+                }
+            });
+            
         }
 
    </script>

@@ -33,13 +33,41 @@ class ColorController extends Controller
                 'nombre' => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $nombre      = $request->input('nombre');
             $usuario     = Auth::user();
 
-            $color                     = new Color();
-            $color->usuario_creador_id = $usuario->id;
-            $color->nombre             = $nombre;
+            if( $id == 0 ){
+                $color                     = new Color();
+                $color->usuario_creador_id = $usuario->id;
+            }else{
+                $color = Color::find($id);
+                $color->usuario_modificador_id = $usuario->id;
+            }
+
+            $color->nombre = $nombre;
             $color->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function eliminarColor(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $color = Color::find($id);
+            $color->usuario_eliminador_id = $usuario->id;
+            $color->save();
+
+            Color::destroy($id);
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

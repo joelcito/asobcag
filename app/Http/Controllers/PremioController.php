@@ -33,13 +33,41 @@ class PremioController extends Controller
                 'nombre' => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $nombre      = $request->input('nombre');
             $usuario     = Auth::user();
 
-            $premio                     = new Premio();
-            $premio->usuario_creador_id = $usuario->id;
+            if( $id == 0 ){
+                $premio = new Premio();
+                $premio->usuario_creador_id = $usuario->id;
+            }else{
+                $premio = Premio::find($id);
+                $premio->usuario_modificador_id = $usuario->id;                
+            }
+
             $premio->nombre             = $nombre;
             $premio->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function eliminarPremio(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $premio = Premio::find($id);
+            $premio->usuario_eliminador_id = $usuario->id;
+            $premio->save();
+
+            Premio::destroy($id);
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

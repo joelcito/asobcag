@@ -41,6 +41,8 @@ class CriaderoController extends Controller
                 'propietario_id' => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $nombre         = $request->input('nombre');
             $nit            = $request->input('nit');
             /* $direccion      = $request->input('direccion'); */
@@ -51,8 +53,14 @@ class CriaderoController extends Controller
             $propietario_id = $request->input('propietario_id');
             $usuarioLoguado = Auth::user();
 
-            $criadero                     = new Criadero();
-            $criadero->usuario_creador_id = $usuarioLoguado->id;
+            if( $id == 0 ){
+                $criadero = new Criadero();
+                $criadero->usuario_creador_id = $usuarioLoguado->id;
+            }else{
+                $criadero = Criadero::find($id);
+                $criadero->usuario_modificador_id= $usuarioLoguado->id;
+            }
+
             $criadero->nombre             = $nombre;
             $criadero->nit                = $nit;
             /* $criadero->direccion          = $direccion; */
@@ -62,6 +70,26 @@ class CriaderoController extends Controller
             $criadero->estancia           = $estancia;
             $criadero->propietario_id     = $propietario_id;
             $criadero->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function eliminarCriadero(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $criadero = Criadero::find($id);
+            $criadero->usuario_eliminador_id = $usuario->id;
+            $criadero->save();
+
+            Criadero::destroy($id);
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

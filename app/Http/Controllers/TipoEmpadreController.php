@@ -33,11 +33,19 @@ class TipoEmpadreController extends Controller
                 'nombre' => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $nombre      = $request->input('nombre');
             $usuario     = Auth::user();
 
-            $tipo                     = new TipoEmpadre();
-            $tipo->usuario_creador_id = $usuario->id;
+            if( $id == 0 ){
+                $tipo = new TipoEmpadre();
+                $tipo->usuario_creador_id = $usuario->id;
+            }else{
+                $tipo = TipoEmpadre::find($id);
+                $tipo->usuario_modificador_id = $usuario->id;                
+            }
+
             $tipo->nombre             = $nombre;
             $tipo->save();
 
@@ -48,4 +56,25 @@ class TipoEmpadreController extends Controller
         }
         return $data;
     }
+
+    public function eliminarTipoEmpadre(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $tipoEmpadre = TipoEmpadre::find($id);
+            $tipoEmpadre->usuario_eliminador_id = $usuario->id;
+            $tipoEmpadre->save();
+
+            TipoEmpadre::destroy($id);
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
 }

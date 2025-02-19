@@ -36,19 +36,47 @@ class CategoriaController extends Controller
                 'hasta'  => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $nombre      = $request->input('nombre');
             $sigla      = $request->input('sigla');
             $desde      = $request->input('desde');
             $hasta      = $request->input('hasta');
             $usuario     = Auth::user();
 
-            $categoria                     = new Categoria();
-            $categoria->usuario_creador_id = $usuario->id;
+            if( $id == 0 ){
+                $categoria                     = new Categoria();
+                $categoria->usuario_creador_id = $usuario->id;
+            }else{
+                $categoria = Categoria::find($id);
+                $categoria->usuario_modificador_id = $usuario->id;                
+            }
+
             $categoria->nombre             = $nombre;
             $categoria->sigla              = $sigla;
             $categoria->desde              = $desde;
             $categoria->hasta              = $hasta;
             $categoria->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function eliminarCategoria(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $categoria = Categoria::find($id);
+            $categoria->usuario_eliminador_id = $usuario->id;
+            $categoria->save();
+
+            Categoria::destroy($id);
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

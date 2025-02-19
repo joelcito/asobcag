@@ -43,15 +43,43 @@ class RazaController extends Controller
                 'descripcion' => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $nombre      = $request->input('nombre');
             $descripcion = $request->input('descripcion');
             $usuario     = Auth::user();
 
-            $raza                     = new Raza();
-            $raza->usuario_creador_id = $usuario->id;
+            if( $id == 0 ){
+                $raza                     = new Raza();
+                $raza->usuario_creador_id = $usuario->id;
+            }else{
+                $raza = Raza::find($id);
+                $raza->usuario_modificador_id = $usuario->id;
+            }
+
             $raza->nombre             = $nombre;
             $raza->descripcion        = $descripcion;
             $raza->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function eliminarRaza(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $raza = Raza::find($id);
+            $raza->usuario_eliminador_id = $usuario->id;
+            $raza->save();
+
+            Raza::destroy($id);
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

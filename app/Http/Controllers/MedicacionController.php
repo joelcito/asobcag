@@ -46,6 +46,8 @@ class MedicacionController extends Controller
                 'unidades' => 'required',
             ]);
 
+            $id = $request->input('id');
+
             $ejemplar_id             = $request->input('ejemplar_id');
             $producto_veterinario_id = $request->input('producto_veterinario_id');
             $responsable_id          = $request->input('responsable_id');
@@ -56,8 +58,14 @@ class MedicacionController extends Controller
             $observacion             = $request->input('observacion');
             $usuario                 = Auth::user();
 
-            $medicacion                     = new Medicacion();
-            $medicacion->usuario_creador_id = $usuario->id;
+            if( $id == 0 ){
+                $medicacion = new Medicacion();
+                $medicacion->usuario_creador_id = $usuario->id;
+            }else{
+                $medicacion = Medicacion::find($id);
+                $medicacion->usuario_modificador_id = $usuario->id;                
+            }
+
             $medicacion->ejemplar_id             = $ejemplar_id;
             $medicacion->producto_veterinario_id = $producto_veterinario_id;
             $medicacion->responsable_id          = $responsable_id;
@@ -67,6 +75,26 @@ class MedicacionController extends Controller
             $medicacion->unidades                = $unidades;
             $medicacion->observacion             = $observacion;
             $medicacion->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function eliminarMedicacion(Request $request){
+        if($request->ajax()){
+
+            $id = $request->input('id');
+            $usuario = Auth::user();
+
+            $medicacion = Medicacion::find($id);
+            $medicacion->usuario_eliminador_id = $usuario->id;
+            $medicacion->save();
+
+            Medicacion::destroy($id);
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

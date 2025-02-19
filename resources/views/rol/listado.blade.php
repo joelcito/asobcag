@@ -21,6 +21,7 @@
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioRol">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="fv-row mb-7">
@@ -140,7 +141,7 @@
 
             let datos = {};
             $.ajax({
-                url: "{{ url('rol/ajaxListado') }}",
+                url: "{{ route('rol.ajaxListado') }}",
                 method: "POST",
                 data: datos,
                 success: function (resultado) {
@@ -156,10 +157,15 @@
             })
         }
 
-        function modalNuevoRol(){
+        function limpiarErorres(){
             $(".invalid-feedback").remove();
             $(".is-invalid").removeClass("is-invalid");
+        }
 
+        function modalNuevoRol(){
+            limpiarErorres();
+
+            $('#id').val(0)
             $('#nombre').val('')
             $('#modalRol').modal('show')
         }
@@ -167,7 +173,7 @@
         function guardarRol(){
             let datos = $('#formularioRol').serializeArray();
             $.ajax({
-                url: "{{ url('rol/guardarRol') }}",
+                url: "{{ route('rol.guardarRol') }}",
                 method: "POST",
                 data: datos,
                 success: function (resultado) {
@@ -179,8 +185,7 @@
                     }
                 },
                 error: function (xhr) {
-                    $(".invalid-feedback").remove();
-                    $(".is-invalid").removeClass("is-invalid");
+                    limpiarErorres();
 
                     if (xhr.status === 422) { 
                         let errores = xhr.responseJSON.errors;
@@ -201,6 +206,58 @@
                     }
                 }
             });
+        }
+
+        function editarRol(rol){
+            limpiarErorres();
+
+            Object.keys(rol).forEach(key => {
+                let input = $(`#${key}`);
+                if (input.length) {
+                    input.val(rol[key]);
+                }
+            });
+            $('#modalRol').modal('show')
+        }
+
+        function eliminarRol(rol){
+            Swal.fire({
+                title: "Quieres eliminar "+rol.nombre,
+                text: "Ya no podras recuperarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('rol.eliminarRol') }}",
+                        method: "POST",
+                        data: rol,
+                        success: function (resultado) {
+                            if(resultado.estado){
+                                ajaxListado();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                                
+                            });                    
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelado",
+                        "La operacion fue cancelada",
+                        "error"
+                    )
+                }
+            });
+            
         }
 
    </script>

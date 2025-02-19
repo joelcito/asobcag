@@ -18,8 +18,8 @@
                     <td>{{ $campania->fecha_ini }}</td>
                     <td>{{ $campania->fecha_fin }}</td>
                     <td>
-                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza" onclick="editarCampania({{ json_encode($campania) }})"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza" onclick="eliminarCampania({{ json_encode($campania) }})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
             @empty

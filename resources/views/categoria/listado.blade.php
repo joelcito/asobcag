@@ -21,6 +21,7 @@
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioCategoria">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="fv-row mb-7">
@@ -176,10 +177,15 @@
             })
         }
 
-        function modalNuevoCategoria(){
+        function limpiarErorres(){
             $(".invalid-feedback").remove();
             $(".is-invalid").removeClass("is-invalid");
+        }
+
+        function modalNuevoCategoria(){
+            limpiarErorres();
             
+            $('#id').val(0)
             $('#nombre').val('')
             $('#sigla').val('')
             $('#desde').val('')
@@ -202,8 +208,7 @@
                     }
                 },
                 error: function (xhr) {
-                    $(".invalid-feedback").remove();
-                    $(".is-invalid").removeClass("is-invalid");
+                    limpiarErorres();
 
                     if (xhr.status === 422) { 
                         let errores = xhr.responseJSON.errors;
@@ -224,6 +229,58 @@
                     }
                 }
             })
+        }
+
+        function editarCategoria(categoria){
+            limpiarErorres();
+
+            Object.keys(categoria).forEach(key => {
+                let input = $(`#${key}`);
+                if (input.length) {
+                    input.val(categoria[key]);
+                }
+            });
+            $('#modalCategoria').modal('show');
+        }
+
+        function eliminarCategoria(categoria){
+            Swal.fire({
+                title: "Quieres eliminar "+categoria.nombre,
+                text: "Ya no podras recuperarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('categoria.eliminarCategoria') }}",
+                        method: "POST",
+                        data: categoria,
+                        success: function (resultado) {
+                            if(resultado.estado){
+                                ajaxListado();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                                
+                            });                    
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelado",
+                        "La operacion fue cancelada",
+                        "error"
+                    )
+                }
+            });
+            
         }
 
    </script>
