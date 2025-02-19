@@ -107,14 +107,14 @@
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Fecha de Nacimiento</label>
-                                    <input type="date" class="form-control form-control-sm" id="fecha_nacimiento" name="fecha_nacimiento">
+                                    <input type="date" class="form-control form-control-sm" id="fecha_nacimiento" name="fecha_nacimiento" >
                                     <div class="text-danger error-message" id="error-fecha_nacimiento"></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Fecha de Registro</label>
-                                    <input type="date" class="form-control form-control-sm" id="fecha_registro" name="fecha_registro">
+                                    <input type="date" class="form-control form-control-sm" id="fecha_registro" name="fecha_registro" value="{{date('Y-m-d')}}" readonly>
                                     <div class="text-danger error-message" id="error-fecha_registro"></div>
                                 </div>
                             </div>
