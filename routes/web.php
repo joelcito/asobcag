@@ -76,6 +76,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/listado', [DiagnosticoController::class, 'listado'])->name('diagnostico.listado');
         Route::post('/ajaxListado', [DiagnosticoController::class, 'ajaxListado'])->name('diagnostico.ajaxListado');
         Route::post('/guardarDiagnostico', [DiagnosticoController::class, 'guardarDiagnostico'])->name('diagnostico.guardarDiagnostico');
+        Route::post('/buscarEmpadre', [DiagnosticoController::class, 'buscarEmpadre'])->name('diagnostico.buscarEmpadre');
+
     });
 
     Route::prefix('/medicacion')->group(function(){

@@ -32,7 +32,7 @@ class FeriaController extends Controller
             $request->validate([
                 'nombre' => 'required',
                 'fecha' => 'required',
-                'localidad_id' => 'required',
+                //'localidad_id' => 'required',
             ]);
 
             $nombre     = $request->input('nombre');
