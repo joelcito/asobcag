@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Biometria;
 use App\Models\Raza;
 use App\Models\User;
 use App\Models\Color;
@@ -10,6 +11,7 @@ use App\Models\Fenotipo;
 use App\Utils\Respuesta;
 use App\Models\Comunidad;
 use App\Models\Criadero;
+use App\Models\Morfologico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -185,23 +187,28 @@ class EjemplarController extends Controller
         return view('ejemplar2.listado');
     }
 
-    public function formulario(){
-        $colores = Color::all();
-        $fenotipos = Fenotipo::all();
-        $criaderos = Criadero::all();
+    // public function formulario(Request $request, $ejemplar_id){
+    //     $colores = Color::all();
+    //     $fenotipos = Fenotipo::all();
+    //     $criaderos = Criadero::all();
+    //     $numeroSiguiente = $this->sacarSiguienteNumeroRegistroEjemplar();
+
+    //     $ejemplar = Ejemplar::find($ejemplar_id);
+
+    //     return view('ejemplar2.formulario')->with(compact(['colores', 'fenotipos', 'criaderos', 'numeroSiguiente', 'ejemplar']));
+    // }
+
+    public function formularioNacimiento(Request $request, $ejemplar_id){
+        $colores         = Color::all();
+        $fenotipos       = Fenotipo::all();
+        $criaderos       = Criadero::all();
+        $machos          = Ejemplar::with(['color', 'fenotipo'])->where('sexo', 'Macho')->get();
+        $hembras         = Ejemplar::with(['color', 'fenotipo'])->where('sexo', 'Hembra')->get();
         $numeroSiguiente = $this->sacarSiguienteNumeroRegistroEjemplar();
+        $ejemplar        = Ejemplar::find($ejemplar_id);
+        $usuarios        = User::all();
 
-        return view('ejemplar2.formulario')->with(compact(['colores', 'fenotipos', 'criaderos', 'numeroSiguiente']));
-    }
-
-    public function formularioNacimiento(){
-        $colores   = Color::all();
-        $fenotipos = Fenotipo::all();
-        $criaderos = Criadero::all();
-        $machos    = Ejemplar::with(['color', 'fenotipo'])->where('sexo', 'Macho')->get();
-        $hembras   = Ejemplar::with(['color', 'fenotipo'])->where('sexo', 'Hembra')->get();
-
-        return view('ejemplar2.formularioNacimiento')->with(compact(['colores', 'fenotipos', 'criaderos', 'machos', 'hembras']));
+        return view('ejemplar2.formularioNacimiento')->with(compact(['colores', 'fenotipos', 'criaderos', 'machos', 'hembras', 'numeroSiguiente', 'ejemplar', 'usuarios']));
     }
 
     public function ajaxListado(Request $request){
@@ -283,6 +290,185 @@ class EjemplarController extends Controller
 
         return view('ejemplar2.detalle')->with(compact('ejemplar'));
 
+    }
+
+    public function ajaxListadoBiometria(Request $request){
+        if($request->ajax()){
+
+            $ejemplar_id = $request->input('ejemplar_id');
+            $biometrias  = Biometria::where('ejemplar_id', $ejemplar_id)->orderBy('id', 'desc')->get();
+
+            $valores = [
+                'listado' => view('ejemplar2.ajaxListadoBiometria')->with(compact('biometrias'))->render()
+            ];
+            $data = Respuesta::success($valores, "Datos obtenidos correctamente");
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function guardarBiometria(Request $request){
+        if($request->ajax()){
+
+            $request->validate([
+                'motivo'               => 'required',
+                'fecha'                => 'required',
+                'evaluador_id'         => 'required',
+                'peso'                 => 'required',
+                'altura_cruz'          => 'required',
+                'altura_grupa'         => 'required',
+                'altura_cabeza'        => 'required',
+                'ancho_pecho'          => 'required',
+                'ancho_esquiones'      => 'required',
+                'perimetro_toraxico'   => 'required',
+                'perimetro_abdominal'  => 'required',
+                'largo_cuello'         => 'required',
+                'cuello_perimetro_sup' => 'required',
+                'cuello_perimetro_inf' => 'required',
+                'largo_oreja'          => 'required',
+                'largo_cola'           => 'required',
+                'diametro_ant'         => 'required',
+                'diametro_post'        => 'required',
+            ]);
+
+            $motivo               = $request->input('motivo');
+            $fecha                = $request->input('fecha');
+            $evaluador_id         = $request->input('evaluador_id');
+            $ejemplar_id          = $request->input('ejemplar_id');
+            $peso                 = $request->input('peso');
+            $altura_cruz          = $request->input('altura_cruz');
+            $altura_grupa         = $request->input('altura_grupa');
+            $altura_cabeza        = $request->input('altura_cabeza');
+            $ancho_pecho          = $request->input('ancho_pecho');
+            $ancho_esquiones      = $request->input('ancho_esquiones');
+            $perimetro_toraxico   = $request->input('perimetro_toraxico');
+            $perimetro_abdominal  = $request->input('perimetro_abdominal');
+            $largo_cuello         = $request->input('largo_cuello');
+            $cuello_perimetro_sup = $request->input('cuello_perimetro_sup');
+            $cuello_perimetro_inf = $request->input('cuello_perimetro_inf');
+            $largo_oreja          = $request->input('largo_oreja');
+            $largo_cola           = $request->input('largo_cola');
+            $diametro_ant         = $request->input('diametro_ant');
+            $diametro_post        = $request->input('diametro_post');
+            $usuarioLoguado       = Auth::user();
+
+            $biometria                       = new Biometria();
+            $biometria->usuario_creador_id   = $usuarioLoguado->id;
+            $biometria->ejemplar_id          = $ejemplar_id;
+            $biometria->motivo               = $motivo;
+            $biometria->fecha                = $fecha;
+            $biometria->evaluador_id         = $evaluador_id;
+            $biometria->peso                 = $peso;
+            $biometria->altura_cruz          = $altura_cruz;
+            $biometria->altura_grupa         = $altura_grupa;
+            $biometria->altura_cabeza        = $altura_cabeza;
+            $biometria->ancho_pecho          = $ancho_pecho;
+            $biometria->ancho_isquiones      = $ancho_esquiones;
+            $biometria->perimetro_toraxico   = $perimetro_toraxico;
+            $biometria->perimetro_abdominal  = $perimetro_abdominal;
+            $biometria->largo_cuello         = $largo_cuello;
+            $biometria->cuello_perimetro_sup = $cuello_perimetro_sup;
+            $biometria->cuello_perimetro_inf = $cuello_perimetro_inf;
+            $biometria->largo_oreja          = $largo_oreja;
+            $biometria->largo_cola           = $largo_cola;
+            $biometria->diametro_cania_ant   = $diametro_ant;
+            $biometria->diametro_cania_post  = $diametro_post;
+            $biometria->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+
+        return $data;
+    }
+
+    public function ajaxListadoMorfilogicos(Request $request){
+        if($request->ajax()){
+
+            $ejemplar_id  = $request->input('ejemplar_id');
+            $morfologicos = Morfologico::where('ejemplar_id', $ejemplar_id)->orderBy('id', 'desc')->get();
+
+            $valores = [
+                'listado' => view('ejemplar2.ajaxListadoMorfilogicos')->with(compact('morfologicos'))->render()
+            ];
+            $data = Respuesta::success($valores, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function guardarMorfologico(Request $request){
+        if($request->ajax()){
+
+            $request->validate([
+                'motivo_morfologico'         => 'required',
+                'fecha_morfologico'          => 'required',
+                'ejemplar_id'                => 'required',
+                'evaluador_id_morfologico'   => 'required',
+                'oreja_morfologico'          => 'required',
+                'cuello_morfologico'         => 'required',
+                'cabeza_morfologico'         => 'required',
+                'alzada_morfologico'         => 'required',
+                'largo_cuerpo_morfologico'   => 'required',
+                'amplitud_pecho_morfologico' => 'required',
+                'fortaleza_morfologico'      => 'required',
+                'balance_morfologico'        => 'required',
+                'canias_morfologico'         => 'required',
+                'copete_morfologico'         => 'required',
+                'linea_superior_morfologico' => 'required',
+                'grupa_morfologico'          => 'required',
+            ]);
+
+            $motivo_morfologico         = $request->input('motivo_morfologico');
+            $ejemplar_id                = $request->input('ejemplar_id');
+            $fecha_morfologico          = $request->input('fecha_morfologico');
+            $evaluador_id_morfologico   = $request->input('evaluador_id_morfologico');
+            $oreja_morfologico          = $request->input('oreja_morfologico');
+            $cuello_morfologico         = $request->input('cuello_morfologico');
+            $cabeza_morfologico         = $request->input('cabeza_morfologico');
+            $alzada_morfologico         = $request->input('alzada_morfologico');
+            $largo_cuerpo_morfologico   = $request->input('largo_cuerpo_morfologico');
+            $amplitud_pecho_morfologico = $request->input('amplitud_pecho_morfologico');
+            $fortaleza_morfologico      = $request->input('fortaleza_morfologico');
+            $balance_morfologico        = $request->input('balance_morfologico');
+            $canias_morfologico         = $request->input('canias_morfologico');
+            $copete_morfologico         = $request->input('copete_morfologico');
+            $linea_superior_morfologico = $request->input('linea_superior_morfologico');
+            $grupa_morfologico          = $request->input('grupa_morfologico');
+            $usuarioLoguado             = Auth::user();
+
+            $morfologico                     = new Morfologico();
+            $morfologico->usuario_creador_id = $usuarioLoguado->id;
+            $morfologico->ejemplar_id        = $ejemplar_id;
+            $morfologico->evaluador_id       = $evaluador_id_morfologico;
+            $morfologico->motivo             = $motivo_morfologico;
+            $morfologico->fecha_evaluacion   = $fecha_morfologico;
+            $morfologico->oreja              = $oreja_morfologico;
+            $morfologico->cuello             = $cuello_morfologico;
+            $morfologico->cabeza             = $cabeza_morfologico;
+            $morfologico->alzada             = $alzada_morfologico;
+            $morfologico->largo_cuerpo       = $largo_cuerpo_morfologico;
+            $morfologico->amplitud_pecho     = $amplitud_pecho_morfologico;
+            $morfologico->fortaleza          = $fortaleza_morfologico;
+            $morfologico->balance            = $balance_morfologico;
+            $morfologico->canias             = $canias_morfologico;
+            $morfologico->copete             = $copete_morfologico;
+            $morfologico->linea_superior     = $linea_superior_morfologico;
+            $morfologico->grupa              = $grupa_morfologico;
+            $morfologico->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+
+        return $data;
     }
 
 

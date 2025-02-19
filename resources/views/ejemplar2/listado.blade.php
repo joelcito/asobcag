@@ -32,10 +32,10 @@
 
                         <!--begin::Actions-->
                         <div class="d-flex gap-2 gap-lg-3">
-                            <a class="btn btn-sm fw-bold btn-primary" href="{{ route('ejemplar.formulario') }}"><i class="fa fa-plus"></i>Nuevo Registro</a>
+                            {{-- <a class="btn btn-sm fw-bold btn-primary" href="{{ route('ejemplar.formulario', [0]) }}"><i class="fa fa-plus"></i>Nuevo Registro</a> --}}
                         </div>
                         <div class="d-flex gap-2 gap-lg-3 mx-3">
-                            <a class="btn btn-sm fw-bold btn-primary" href="{{ route('ejemplar.formularioNacimiento') }}"><i class="fa fa-plus"></i>Nuevo Nacimiento</a>
+                            <a class="btn btn-sm fw-bold btn-primary" href="{{ route('ejemplar.formularioNacimiento', [0]) }}"><i class="fa fa-plus"></i>Nuevo Nacimiento</a>
                         </div>
 
                         <!--end::Actions-->
