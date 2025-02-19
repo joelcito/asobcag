@@ -128,16 +128,6 @@
         });
 
         function ajaxListado(){
-            // Mostrar SweetAlert2 antes de enviar la solicitud
-            // Swal.fire({
-            //     title: 'Generando Listado...',
-            //     text: 'Por favor espera mientras generamos el listado.',
-            //     allowOutsideClick: false, // Evitar que se cierre al hacer clic fuera
-            //     didOpen: () => {
-            //         Swal.showLoading(); // Mostrar el spinner de carga
-            //     }
-            // });
-
             let datos = {};
             $.ajax({
                 url: "{{ url('ejemplar/ajaxListado') }}",

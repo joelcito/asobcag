@@ -63,9 +63,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/listado', [EjemplarController::class, 'listado'])->name('ejemplar.listado');
         Route::post('/ajaxListado', [EjemplarController::class, 'ajaxListado'])->name('ejemplar.ajaxListado');
         Route::post('/guardarEjemplar', [EjemplarController::class, 'guardarEjemplar'])->name('ejemplar.guardarEjemplar');
-        Route::get('/formulario', [EjemplarController::class, 'formulario'])->name('ejemplar.formulario');
-        Route::get('/formularioNacimiento', [EjemplarController::class, 'formularioNacimiento'])->name('ejemplar.formularioNacimiento');
+        // Route::get('/formulario/{ejemplar_id}', [EjemplarController::class, 'formulario'])->name('ejemplar.formulario');
+        Route::get('/formularioNacimiento/{ejemplar_id}', [EjemplarController::class, 'formularioNacimiento'])->name('ejemplar.formularioNacimiento');
         Route::get('/detalle/{ejemplar_id}', [EjemplarController::class, 'detalle'])->name('ejemplar.detalle');
+        Route::post('/ajaxListadoBiometria', [EjemplarController::class, 'ajaxListadoBiometria'])->name('ejemplar.ajaxListadoBiometria');
+        Route::post('/guardarBiometria', [EjemplarController::class, 'guardarBiometria'])->name('ejemplar.guardarBiometria');
+        Route::post('/ajaxListadoMorfilogicos', [EjemplarController::class, 'ajaxListadoMorfilogicos'])->name('ejemplar.ajaxListadoMorfilogicos');
+        Route::post('/guardarMorfologico', [EjemplarController::class, 'guardarMorfologico'])->name('ejemplar.guardarMorfologico');
     });
 
     Route::prefix('/empadre')->group(function(){
