@@ -193,8 +193,9 @@ class EjemplarController extends Controller
         $colores = Color::all();
         $fenotipos = Fenotipo::all();
         $criaderos = Criadero::all();
+        $numeroSiguiente = $this->sacarSiguienteNumeroRegistroEjemplar();
 
-        return view('ejemplar2.formulario')->with(compact(['colores', 'fenotipos', 'criaderos']));
+        return view('ejemplar2.formulario')->with(compact(['colores', 'fenotipos', 'criaderos', 'numeroSiguiente']));
     }
 
     public function formularioNacimiento(){
@@ -233,8 +234,8 @@ class EjemplarController extends Controller
             'fecha_nacimiento' => 'required',
             'fecha_registro'   => 'required',
             'criadero_id'      => 'required',
-            'padre_id'         => 'required',
-            'madre_id'         => 'required',
+            // 'padre_id'         => 'required',
+            // 'madre_id'         => 'required',
         ]);
 
         $car_id           = $request->input('car_id');
@@ -245,6 +246,7 @@ class EjemplarController extends Controller
         $color_id         = $request->input('color_id');
         $sexo             = $request->input('sexo');
         $fecha_nacimiento = $request->input('fecha_nacimiento');
+        $fecha_nacimiento = $request->input('fecha_nacimiento');
         $fecha_registro   = $request->input('fecha_registro');
         $criadero_id      = $request->input('criadero_id');
         $padre_id         = $request->input('padre_id');
@@ -253,21 +255,45 @@ class EjemplarController extends Controller
 
         $ejemplar                     = new Ejemplar();
         $ejemplar->usuario_creador_id = $usuarioLoguado->id;
-        $ejemplar->microchip        = $microchip;
-        $ejemplar->nombre           = $nombre;
-        $ejemplar->arete            = $arete;
-        $ejemplar->fenotipo_id      = $fenotipo_id;
-        $ejemplar->color_id         = $color_id;
-        $ejemplar->sexo             = $sexo;
-        $ejemplar->fecha_nacimiento = $fecha_nacimiento;
-        $ejemplar->fecha_registro   = $fecha_registro;
-        $ejemplar->criadero_id      = $criadero_id;
-        $ejemplar->padre_id         = $padre_id;
-        $ejemplar->madre_id         = $madre_id;
+        $ejemplar->microchip          = $microchip;
+        $ejemplar->nombre             = $nombre;
+        $ejemplar->arete              = $arete;
+        $ejemplar->fenotipo_id        = $fenotipo_id;
+        $ejemplar->color_id           = $color_id;
+        $ejemplar->sexo               = $sexo;
+        $ejemplar->fecha_nacimiento   = $fecha_nacimiento;
+        $ejemplar->fecha_registro     = $fecha_registro;
+        $ejemplar->criadero_id        = $criadero_id;
+        $ejemplar->padre_id           = $padre_id;
+        $ejemplar->madre_id           = $madre_id;
+        $ejemplar->numero_registro    = $car_id;
         $ejemplar->save();
 
         return redirect()->route('ejemplar.listado');
 
     }
+
+    public function detalle(Request $request, $ejemplar_id){
+
+        // dd($ejemplar_id);
+
+        $ejemplar = Ejemplar::find($ejemplar_id);
+
+        return view('ejemplar2.detalle')->with(compact('ejemplar'));
+
+    }
+
+
+    // FUNCIONES PRIVADAS
+    private function sacarSiguienteNumeroRegistroEjemplar(){
+        $numero = 0;
+        $registro = Ejemplar::latest()->first();
+        $numero = $registro ? $registro->numero_registro + 1 : $numero + 1;
+        return $numero;
+
+    }
+    // FUNCIONES PRIVADAS
+
+
 
 }

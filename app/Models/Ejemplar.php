@@ -40,4 +40,8 @@ class Ejemplar extends Model
         return $this->belongsTo('App\Models\Fenotipo', 'fenotipo_id');
     }
 
+    public function criadero(){
+        return $this->belongsTo('App\Models\Criadero', 'criadero_id');
+    }
+
 }

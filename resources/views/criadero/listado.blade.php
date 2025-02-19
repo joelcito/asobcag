@@ -89,7 +89,7 @@
                                 </label>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -241,7 +241,7 @@
                     $('.error-message').html('');
                     $('.is-invalid').removeClass('is-invalid');
 
-                    if (xhr.status === 422) { 
+                    if (xhr.status === 422) {
                         let errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, messages) {
                             let input = $('[name="' + key + '"]');

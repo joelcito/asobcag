@@ -17,7 +17,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="kt_modal_add_user_header">
-                <h3 class="fw-bold">FORMULARIO DE CLIENTE-PROVEDOR</h3>
+                <h3 class="fw-bold">FORMULARIO DE USUARIOS</h3>
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioUsuario">
@@ -260,15 +260,15 @@
                     $(".invalid-feedback").remove();
                     $(".is-invalid").removeClass("is-invalid");
 
-                    if (xhr.status === 422) { 
+                    if (xhr.status === 422) {
                         let errores = xhr.responseJSON.errors;
 
                         for (let campo in errores) {
-                            let mensaje = errores[campo][0]; 
+                            let mensaje = errores[campo][0];
 
                             let input = $(`[name="${campo}"]`);
-                            input.addClass("is-invalid"); 
-                            input.after(`<div class="invalid-feedback">${mensaje}</div>`); 
+                            input.addClass("is-invalid");
+                            input.after(`<div class="invalid-feedback">${mensaje}</div>`);
                         }
                     } else {
                         Swal.fire({

@@ -20,14 +20,15 @@
                 <tr>
                     <td>{{ $ejemplar->nombre }}</td>
                     <td>{{ $ejemplar->arete }}</td>
-                    <td>{{ $ejemplar->fenotipo_id }}</td>
-                    <td>{{ $ejemplar->color_id  }}</td>
+                    <td>{{ $ejemplar->fenotipo->nombre }}</td>
+                    <td>{{ $ejemplar->color->nombre  }}</td>
                     <td>{{ $ejemplar->sexo }}</td>
                     <td>{{ $ejemplar->padre_id }}</td>
                     <td>{{ $ejemplar->madre_id }}</td>
                     <td>{{ $ejemplar->fecha_registro }}</td>
                     <td>{{ $ejemplar->fecha_nacimiento }}</td>
                     <td>
+                        <a href="{{ url('ejemplar/detalle', [$ejemplar->id]) }}" class="btn btn-icon btn-sm btn-info btn-circle" title="Detalle de ejemplar"><i class="fa-solid fa-horse-head"></i></a>
                         <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza"><i class="fa fa-edit"></i></button>
                         <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza"><i class="fa fa-trash"></i></button>
                     </td>

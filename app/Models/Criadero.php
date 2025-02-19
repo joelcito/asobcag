@@ -28,4 +28,8 @@ class Criadero extends Model
         'estado',
         'deleted_at'
     ];
+
+    public function propietario(){
+        return $this->belongsTo('App\Models\User', 'propietario_id');
+    }
 }

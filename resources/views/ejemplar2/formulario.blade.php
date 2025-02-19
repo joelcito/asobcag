@@ -38,21 +38,21 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
-                                    <label class="required fw-semibold fs-6 mb-2">ID Car</label>
-                                    <input type="text" class="form-control form-control-sm" id="car_id" name="car_id">
+                                    <label class="required fw-semibold fs-6 mb-2">Numero de registro</label>
+                                    <input type="text" class="form-control form-control-sm" id="car_id" name="car_id" required value="{{ $numeroSiguiente }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
-                                    <label class="required fw-semibold fs-6 mb-2">ID Microchip</label>
-                                    <input type="text" class="form-control form-control-sm" id="microchip" name="microchip">
+                                    <label class="required fw-semibold fs-6 mb-2">Microchip</label>
+                                    <input type="text" class="form-control form-control-sm" id="microchip" name="microchip" required>
                                     <div class="text-danger error-message" id="error-microchip"></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Nombre</label>
-                                    <input type="text" class="form-control form-control-sm" id="nombre" name="nombre">
+                                    <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" required>
                                     <div class="text-danger error-message" id="error-nombre"></div>
                                 </div>
                             </div>
@@ -61,15 +61,14 @@
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Arete</label>
-                                    <input type="text" class="form-control form-control-sm" id="arete" name="arete">
+                                    <input type="text" class="form-control form-control-sm" id="arete" name="arete" required>
                                     <div class="text-danger error-message" id="error-arete"></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
                                     <label class="fs-6 fw-semibold form-label mb-2 required">Fenotipo</label>
-                                    <select data-control="select2" data-placeholder="Seleccione"
-                                        class="form-select form-select-solid fw-bold" name="fenotipo_id" id="fenotipo_id">
+                                    <select data-control="select2" data-placeholder="Seleccione" class="form-select form-select-solid fw-bold" name="fenotipo_id" id="fenotipo_id" required>
                                         <option></option>
                                         @foreach ($fenotipos as $fenotipo)
                                             <option value={{ $fenotipo->id }}>{{ $fenotipo->nombre }}</option>
@@ -114,7 +113,7 @@
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Fecha de Registro</label>
-                                    <input type="date" class="form-control form-control-sm" id="fecha_registro" name="fecha_registro">
+                                    <input type="date" class="form-control form-control-sm" id="fecha_registro" name="fecha_registro" value="{{ date('Y-m-d') }}" readonly>
                                     <div class="text-danger error-message" id="error-fecha_registro"></div>
                                 </div>
                             </div>

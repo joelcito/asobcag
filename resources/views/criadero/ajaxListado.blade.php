@@ -16,7 +16,7 @@
             @forelse ( $criaderos as $criadero)
                 <tr>
                     <td>{{ $criadero->nombre }}</td>
-                    <td>{{ $criadero->propietario_id }}</td>
+                    <td>{{ $criadero->propietario->name }}</td>
                     <td>{{ $criadero->tecnico_id }}</td>
                     <td>{{ $criadero->pastor_id  }}</td>
                     <td>{{ $criadero->estancia  }}</td>

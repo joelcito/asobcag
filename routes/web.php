@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/guardarEjemplar', [EjemplarController::class, 'guardarEjemplar'])->name('ejemplar.guardarEjemplar');
         Route::get('/formulario', [EjemplarController::class, 'formulario'])->name('ejemplar.formulario');
         Route::get('/formularioNacimiento', [EjemplarController::class, 'formularioNacimiento'])->name('ejemplar.formularioNacimiento');
+        Route::get('/detalle/{ejemplar_id}', [EjemplarController::class, 'detalle'])->name('ejemplar.detalle');
     });
 
     Route::prefix('/empadre')->group(function(){
@@ -130,7 +131,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/ajaxListado', [PremioController::class, 'ajaxListado'])->name('premio.ajaxListado');
         Route::post('/guardarPremio', [PremioController::class, 'guardarPremio'])->name('premio.guardarPremio');
     });
-    
+
     Route::prefix('/productoVeterinario')->group(function(){
         Route::get('/listado', [ProductoVeterinarioController::class, 'listado'])->name('productoVeterinario.listado');
         Route::post('/ajaxListado', [ProductoVeterinarioController::class, 'ajaxListado'])->name('productoVeterinario.ajaxListado');
@@ -165,7 +166,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/formularioCamada', [EjemplarController::class, 'formularioCamada']);
             Route::post('/guardarCamada', [EjemplarController::class, 'guardarCamada']);
         });
-    }); */    
+    }); */
 
     Route::prefix('/propietario')->group(function(){
         Route::get('/listadoPropietario', [UserController::class, 'listadoPropietario']);
