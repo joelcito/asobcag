@@ -20,11 +20,11 @@
                 <tr>
                     <td>{{ $ejemplar->nombre }}</td>
                     <td>{{ $ejemplar->arete }}</td>
-                    <td>{{ $ejemplar->fenotipo->nombre }}</td>
-                    <td>{{ $ejemplar->color->nombre  }}</td>
+                    <td>{{ optional($ejemplar->fenotipo)->nombre }}</td>
+                    <td>{{ optional($ejemplar->color)->nombre  }}</td>
                     <td>{{ $ejemplar->sexo }}</td>
-                    <td>{{ $ejemplar->padre_id }}</td>
-                    <td>{{ $ejemplar->madre_id }}</td>
+                    <td>{{ optional($ejemplar->padre)->nombre }}</td>
+                    <td>{{ optional($ejemplar->madre)->nombre }}</td>
                     <td>{{ $ejemplar->fecha_registro }}</td>
                     <td>{{ $ejemplar->fecha_nacimiento }}</td>
                     <td>

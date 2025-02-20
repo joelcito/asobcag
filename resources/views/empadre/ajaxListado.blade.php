@@ -16,11 +16,11 @@
         <tbody class="text-gray-600 fw-semibold">
             @forelse ( $empadres as $empadre)
                 <tr>
-                    <td>{{ $empadre->campania_id }}</td>
-                    <td>{{ $empadre->padre_id }}</td>
-                    <td>{{ $empadre->madre_id }}</td>
+                    <td>{{ optional($empadre->campania)->nombre }}</td>
+                    <td>{{ optional($empadre->madre)->nombre }}</td>
+                    <td>{{ optional($empadre->padre)->nombre }}</td>
                     <td>{{ $empadre->fecha }}</td>
-                    <td>{{ $empadre->tipo_empadre_id }}</td>
+                    <td>{{ optional($empadre->tipoEmpadre)->nombre }}</td>
                     <td>{{ $empadre->tiempo_copula }}</td>
                     <td>{{ $empadre->observacion }}</td>
                     <td>

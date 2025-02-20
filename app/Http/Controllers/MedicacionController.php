@@ -22,7 +22,7 @@ class MedicacionController extends Controller
 
     public function ajaxListado(Request $request){
         if($request->ajax()){
-            $medicaciones = Medicacion::all();
+            $medicaciones = Medicacion::with(['ejemplar', 'responsable', 'productoVeterinario'])->get();
             $valores = [
                 'listado' => view('medicacion.ajaxListado')->with(compact('medicaciones'))->render()
             ];

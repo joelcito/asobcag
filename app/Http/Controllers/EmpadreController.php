@@ -23,7 +23,7 @@ class EmpadreController extends Controller
 
     public function ajaxListado(Request $request){
         if($request->ajax()){
-            $empadres = Empadre::all();
+            $empadres = Empadre::with(['madre', 'padre', 'campania', 'tipoEmpadre'])->get();
             $valores = [
                 'listado' => view('empadre.ajaxListado')->with(compact('empadres'))->render()
             ];

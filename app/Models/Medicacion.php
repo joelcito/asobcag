@@ -27,4 +27,16 @@ class Medicacion extends Model
         'estado',
         'deleted_at'
     ];
+
+    public function ejemplar(){
+        return $this->belongsTo('App\Models\Ejemplar', 'ejemplar_id');
+    }
+
+    public function responsable(){
+        return $this->belongsTo('App\Models\User', 'responsable_id');
+    }
+
+    public function productoVeterinario(){
+        return $this->belongsTo('App\Models\ProductoVeterinario', 'producto_veterinario_id');
+    }
 }

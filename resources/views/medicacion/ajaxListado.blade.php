@@ -17,9 +17,9 @@
         <tbody class="text-gray-600 fw-semibold">
             @forelse ( $medicaciones as $medicacion)
                 <tr>
-                    <td>{{ $medicacion->ejemplar_id }}</td>
-                    <td>{{ $medicacion->producto_veterinario_id }}</td>
-                    <td>{{ $medicacion->respondable_id }}</td>
+                    <td>{{ optional($medicacion->ejemplar)->nombre }}</td>
+                    <td>{{ optional($medicacion->productoVeterinario)->nombre }}</td>
+                    <td>{{ optional($medicacion->responsable)->name }}</td>
                     <td>{{ $medicacion->fecha }}</td>
                     <td>{{ $medicacion->tipo }}</td>
                     <td>{{ $medicacion->dosis }}</td>

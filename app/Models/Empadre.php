@@ -31,4 +31,17 @@ class Empadre extends Model
     public function madre(){
         return $this->belongsTo('App\Models\Ejemplar', 'madre_id');
     }
+
+    public function padre(){
+        return $this->belongsTo('App\Models\Ejemplar', 'padre_id');
+    }
+
+    public function campania(){
+        return $this->belongsTo('App\Models\Campania', 'campania_id');
+    }
+
+    public function tipoEmpadre(){
+        return $this->belongsTo('App\Models\TipoEmpadre', 'tipo_empadre_id');
+    }
+
 }
