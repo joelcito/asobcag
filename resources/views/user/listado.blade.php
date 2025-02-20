@@ -137,7 +137,7 @@
                         <div class="col-md-12">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Nueva Contraseña</label>
-                                <input type="text" class="form-control form-control-sm" id="password" name="password">
+                                <input type="password" class="form-control form-control-sm" id="password" name="password">
                             </div>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                         <div class="col-md-12">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Confirmar Contraseña</label>
-                                <input type="text" class="form-control form-control-sm" id="password_confirmation" name="password_confirmation">
+                                <input type="password" class="form-control form-control-sm" id="password_confirmation" name="password_confirmation">
                             </div>
                         </div>
                     </div>
@@ -390,6 +390,8 @@
 
         function abrirModalResetPassword(usuarioId) {
             $('#usuario_id_reset').val(usuarioId);
+            $('#password').val('');
+            $('#password_confirmation').val('');
             $('#modalResetPassword').modal('show');
         }
 
