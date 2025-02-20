@@ -559,40 +559,43 @@
             ajaxListadoMorfologico();
         });
 
-        function ajaxListado(){
-            let datos = {ejemplar_id:{{ $ejemplar->id }}};
-            $.ajax({
-                url: "{{ url('ejemplar/ajaxListadoBiometria') }}",
-                method: "POST",
-                data: datos,
-                success: function (resultado) {
-                    if(resultado.estado){
+        @if($ejemplar)
+            function ajaxListado(){
+                let datos = {ejemplar_id:{{ $ejemplar->id }}};
+                $.ajax({
+                    url: "{{ url('ejemplar/ajaxListadoBiometria') }}",
+                    method: "POST",
+                    data: datos,
+                    success: function (resultado) {
+                        if(resultado.estado){
 
-                        console.log(resultado);
+                            console.log(resultado);
 
-                        $('#tabla_biometrias').html(resultado.data.listado)
-                    }else{
+                            $('#tabla_biometrias').html(resultado.data.listado)
+                        }else{
 
+                        }
                     }
-                }
-            })
-        }
+                })
+            }
 
-        function ajaxListadoMorfologico(){
-            let datos = {ejemplar_id:{{ $ejemplar->id }}};
-            $.ajax({
-                url: "{{ url('ejemplar/ajaxListadoMorfilogicos') }}",
-                method: "POST",
-                data: datos,
-                success: function (resultado) {
-                    if(resultado.estado){
-                        $('#tabla_morfilogicos').html(resultado.data.listado)
-                    }else{
+            function ajaxListadoMorfologico(){
+                let datos = {ejemplar_id:{{ $ejemplar->id }}};
+                $.ajax({
+                    url: "{{ url('ejemplar/ajaxListadoMorfilogicos') }}",
+                    method: "POST",
+                    data: datos,
+                    success: function (resultado) {
+                        if(resultado.estado){
+                            $('#tabla_morfilogicos').html(resultado.data.listado)
+                        }else{
 
+                        }
                     }
-                }
-            })
-        }
+                })
+            }
+        @endif
+
 
         function agregarNuevoRegistroBiometrico(){
 
