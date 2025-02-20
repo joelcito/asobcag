@@ -53,7 +53,7 @@ class EjemplarController extends Controller
 
             $tipo = $request->input('tipo');
 
-            $ejemplares = Ejemplar::where('tipo', $tipo)->get();
+            $ejemplares = Ejemplar::with(['fenotipo', 'color', 'padre', 'madre'])->where('tipo', $tipo)->get();
             $valores = [
                 'listado' => view('ejemplar2.ajaxListado')->with(compact(['ejemplares', 'tipo']))->render()
             ];

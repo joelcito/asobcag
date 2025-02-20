@@ -19,6 +19,7 @@ use App\Http\Controllers\LocalidadController;
 use App\Http\Controllers\MedicacionController;
 use App\Http\Controllers\DiagnosticoController;
 use App\Http\Controllers\TipoEmpadreController;
+use App\Http\Controllers\FeriaEjemplarController;
 use App\Http\Controllers\CategoriaFeriaController;
 use App\Http\Controllers\ProductoVeterinarioController;
 
@@ -94,6 +95,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/ajaxListado', [MedicacionController::class, 'ajaxListado'])->name('medicacion.ajaxListado');
         Route::post('/guardarMedicacion', [MedicacionController::class, 'guardarMedicacion'])->name('medicacion.guardarMedicacion');
         Route::post('/eliminarMedicacion', [MedicacionController::class, 'eliminarMedicacion'])->name('medicacion.eliminarMedicacion');
+    });
+
+    Route::prefix('/feriaEjemplar')->group(function(){
+        Route::get('/listado', [FeriaEjemplarController::class, 'listado'])->name('feriaEjemplar.listado');
+        Route::post('/ajaxListado', [FeriaEjemplarController::class, 'ajaxListado'])->name('feriaEjemplar.ajaxListado');
+        Route::post('/guardarFeriaEjemplar', [FeriaEjemplarController::class, 'guardarFeriaEjemplar'])->name('feriaEjemplar.guardarFeriaEjemplar');
+        Route::post('/eliminarFeriaEjemplar', [FeriaEjemplarController::class, 'eliminarFeriaEjemplar'])->name('feriaEjemplar.eliminarFeriaEjemplar');
     });
 
     Route::prefix('/raza')->group(function(){

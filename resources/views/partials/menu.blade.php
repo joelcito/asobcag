@@ -17,11 +17,11 @@
                 <!--end:Menu item-->
 
                 {{-- INGRESOS --}}
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('criadero/*', 'ejemplar/*', 'empadre/*', 'diagnostico/*', 'medicacion/*') ? 'show' : '' }}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('criadero/*', 'ejemplar/*', 'empadre/*', 'diagnostico/*', 'medicacion/*', 'feriaEjemplar/*') ? 'show' : '' }}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
-                            <i class="fa fa-industry clase-icono"></i>
+                            <i class="fa fa-industry"></i>
                         </span>
                         <span class="menu-title text-white">Ingresos</span>
                         <span class="menu-arrow"></span>
@@ -85,6 +85,14 @@
                                 <span class="menu-title text-white">Medicaciones</span>
                             </a>
                         </div>
+                        <div class="menu-item">
+                            <a class="menu-link {{ Route::currentRouteName() == 'feriaEjemplar.listado' ? 'active' : '' }}" href="{{route('feriaEjemplar.listado')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title text-white">Feria Ejemplares</span>
+                            </a>
+                        </div>
                     </div>
                     <!--end:Menu sub-->
                 </div>
@@ -94,7 +102,7 @@
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
-                            <i class="fa fa-industry clase-icono"></i>
+                            <i class="fa fa-industry"></i>
                         </span>
                         <span class="menu-title text-white">Ejemplares</span>
                         <span class="menu-arrow"></span>
@@ -146,7 +154,7 @@
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
-                            <i class="fa fa-university clase-icono"></i>
+                            <i class="fa fa-university"></i>
                         </span>
                         <span class="menu-title text-white">Administracion</span>
                         <span class="menu-arrow"></span>

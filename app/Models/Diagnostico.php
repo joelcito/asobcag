@@ -28,4 +28,12 @@ class Diagnostico extends Model
     public function empadre(){
         return $this->belongsTo('App\Models\Empadre', 'empadre_id');
     }
+
+    public function metodo(){
+        return $this->belongsTo('App\Models\Metodo', 'metodo_id');
+    }
+
+    public function supervisor(){
+        return $this->belongsTo('App\Models\User', 'supervisor_id');
+    }
 }

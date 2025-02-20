@@ -13,111 +13,95 @@
 @section('content')
 
 <!--begin::Modal - Add task-->
-<div class="modal fade" id="modalCriadero" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalFeriaEjemplar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="kt_modal_add_user_header">
-                <h3 class="fw-bold">FORMULARIO DE CRIADEROS</h3>
+                <h3 class="fw-bold">FORMULARIO DE FERIA EJEMPLAR <span class="text-info" id="nombre_busqueda"></span></h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body scroll-y">
-                <form id="formularioCriadero">
+                <form id="formularioFeriaEjemplar">
                     <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Nombre/Razon</label>
-                                <input type="text" class="form-control form-control-sm" id="nombre" name="nombre">
-                                <div class="text-danger error-message" id="error-nombre"></div>
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Ejemplar</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeriaEjemplar"
+                                    class="form-select form-select-solid fw-bold" name="ejemplar_id" id="ejemplar_id">
+                                    <option></option>
+                                    @foreach ($ejemplares as $ejemplar)
+                                        <option value="{{ $ejemplar->id }}">{{ $ejemplar->nombre }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-ejemplar_id"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="fw-semibold fs-6 mb-2">NIT</label>
-                                <input type="text" class="form-control form-control-sm" id="nit" name="nit">
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Feria</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeriaEjemplar"
+                                    class="form-select form-select-solid fw-bold" name="feria_id" id="feria_id">
+                                    <option></option>
+                                    @foreach ($ferias as $feria)
+                                        <option value="{{ $feria->id }}">{{ $feria->nombre }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-feria_id"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="fw-semibold fs-6 mb-2">Direccion Fisica</label>
-                                <input type="text" class="form-control form-control-sm" id="direccion" name="direccion">
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Categoria</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeriaEjemplar"
+                                    class="form-select form-select-solid fw-bold" name="categoria_feria_id" id="categoria_feria_id">
+                                    <option></option>
+                                    @foreach ($categorias as $categoria)
+                                        <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-categoria_feria_id"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-3">
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Estancia</label>
-                                <input type="text" class="form-control form-control-sm" id="estancia" name="estancia">
-                                <div class="text-danger error-message" id="error-estancia"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2 required">Propietario</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCriadero"
-                                    class="form-select form-select-solid fw-bold" name="propietario_id" id="propietario_id">
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Premios</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeriaEjemplar"
+                                    class="form-select form-select-solid fw-bold" name="premio_id" id="premio_id">
                                     <option></option>
-                                    @foreach ($usuarios as $usuario)
-                                        <option value="{{ $usuario->id }}">{{ $usuario->nombres.' '.$usuario->ap_paterno }}</option>
+                                    @foreach ($premios as $premio)
+                                        <option value="{{ $premio->id }}">{{ $premio->nombre }}</option>
                                     @endforeach
                                 </select>
-                                <div class="text-danger error-message" id="error-propietario_id"></div>
+                                <div class="text-danger error-message" id="error-premio_id"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2">Tecnico</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCriadero"
-                                    class="form-select form-select-solid fw-bold" name="tecnico_id" id="tecnico_id">
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Juez Principal</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeriaEjemplar"
+                                    class="form-select form-select-solid fw-bold" name="juez_principal_id" id="juez_principal_id">
                                     <option></option>
                                     @foreach ($usuarios as $usuario)
-                                        <option value="{{ $usuario->id }}">{{ $usuario->nombres.' '.$usuario->ap_paterno }}</option>
+                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
                                     @endforeach
                                 </select>
-                                <div class="text-danger error-message" id="error-tecnico_id"></div>
+                                <div class="text-danger error-message" id="error-juez_principal_id"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mt-3">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2">Pastor</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCriadero"
-                                    class="form-select form-select-solid fw-bold" name="pastor_id" id="pastor_id">
+                                <label class="fs-6 fw-semibold form-label mb-2">Juez Adjunto</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeriaEjemplar"
+                                    class="form-select form-select-solid fw-bold" name="juez_adjunto_id" id="juez_adjunto_id">
                                     <option></option>
                                     @foreach ($usuarios as $usuario)
-                                        <option value="{{ $usuario->id }}">{{ $usuario->nombres.' '.$usuario->ap_paterno }}</option>
+                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
                                     @endforeach
                                 </select>
-                                <div class="text-danger error-message" id="error-pastor_id"></div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <div class="form-check form-check-custom form-check-solid me-10">
-                                <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_fibra" name="negocio_fibra"/>
-                                <label class="form-check-label" for="negocio_fibra">
-                                    Negocio de Fibra
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check form-check-custom form-check-solid me-10">
-                                <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_carne" name="negocio_carne"/>
-                                <label class="form-check-label" for="negocio_carne">
-                                    Negocio de Carne
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check form-check-custom form-check-solid me-10">
-                                <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_animal" name="negocio_animal"/>
-                                <label class="form-check-label" for="negocio_animal">
-                                    Negocio de Animal
-                                </label>
+                                <div class="text-danger error-message" id="error-juez_adjunto_id"></div>
                             </div>
                         </div>
                     </div>
@@ -126,7 +110,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-sm w-100 btn-success" onclick="guardarCriadero()">Guardar</button>
+                        <button class="btn btn-sm w-100 btn-success" onclick="guardarFeriaEjemplar()">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -139,31 +123,6 @@
 
 <!--begin::Content wrapper-->
 <div class="d-flex flex-column flex-column-fluid">
-    <!--begin::Toolbar-->
-    {{-- <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
-        <!--begin::Toolbar container-->
-        <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
-            <!--begin::Page title-->
-            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <!--begin::Title-->
-                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Listado de Facturas</h1>
-                <!--end::Title-->
-            </div>
-            <!--end::Page title-->
-
-            <!--begin::Actions-->
-            <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <a class="btn btn-sm fw-bold btn-primary" href="{{ url('factura/formularioFacturacionCv') }}"><i class="fa fa-plus"></i>Nueva Venta Compra Venta</a>
-
-                <a class="btn btn-sm fw-bold btn-primary" href="{{ url('factura/formularioFacturacionTc') }}"><i class="fa fa-plus"></i>Nueva Venta Tasa Cero</a>
-
-                <a class="btn btn-sm fw-bold btn-primary" href="{{ url('factura/formularioFacturacionSe') }}"><i class="fa fa-plus"></i>Nueva Venta Sector Educativo</a>
-            </div>
-            <!--end::Actions-->
-        </div>
-        <!--end::Toolbar container-->
-    </div> --}}
-    <!--end::Toolbar-->
     <!--begin::Content-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
@@ -175,14 +134,14 @@
                         <!--begin::Page title-->
                         <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                             <!--begin::Title-->
-                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">LISTADO DE CRIADEROS</h1>
+                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">LISTADO DE FERIAS DE EJEMPLARES</h1>
                             <!--end::Title-->
                         </div>
                         <!--end::Page title-->
 
                         <!--begin::Actions-->
                         <div class="d-flex gap-2 gap-lg-3">
-                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoCriadero()"><i class="fa fa-plus"></i>Nuevo Registro</a>
+                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoFeriaEjemplar()"><i class="fa fa-plus"></i>Nueva Feria Ejemplar</a>
                         </div>
 
                         <!--end::Actions-->
@@ -223,7 +182,7 @@
 
             let datos = {};
             $.ajax({
-                url: "{{ route('criadero.ajaxListado') }}",
+                url: "{{ route('feriaEjemplar.ajaxListado') }}",
                 method: "POST",
                 data: datos,
                 success: function (resultado) {
@@ -244,27 +203,23 @@
             $('.is-invalid').removeClass('is-invalid');
         }
 
-        function modalNuevoCriadero(){
+        function modalNuevoFeriaEjemplar(){
             limpiarErorres();
 
             $('#id').val(0)
-            $('#nombre').val('')
-            $('#nit').val('')
-            $('#direccion').val('')
-            $('#negocio_fibra').prop('checked', false)
-            $('#negocio_carne').prop('checked', false)
-            $('#negocio_animal').prop('checked', false)
-            $('#estancia').val('')
-            $('#propietario_id').val(null).trigger('change')
-            $('#tecnico_id').val(null).trigger('change')
-            $('#pastor_id').val(null).trigger('change')
-            $('#modalCriadero').modal('show')
+            $('#ejemplar_id').val(null).trigger('change')
+            $('#feria_id').val(null).trigger('change')
+            $('#categoria_feria_id').val(null).trigger('change')
+            $('#premio_id').val(null).trigger('change')
+            $('#juez_principal_id').val(null).trigger('change')
+            $('#juez_adjunto_id').val(null).trigger('change')
+            $('#modalFeriaEjemplar').modal('show')
         }
 
-        function guardarCriadero(){
-            let datos = $('#formularioCriadero').serializeArray();
+        function guardarFeriaEjemplar(){
+            let datos = $('#formularioFeriaEjemplar').serializeArray();
             $.ajax({
-                url: "{{ route('criadero.guardarCriadero') }}",
+                url: "{{ route('feriaEjemplar.guardarFeriaEjemplar') }}",
                 method: "POST",
                 data: datos,
                 success: function (resultado) {
@@ -276,7 +231,7 @@
                             showConfirmButton: false
                         });
                         ajaxListado();
-                        $('#modalCriadero').modal('hide')
+                        $('#modalFeriaEjemplar').modal('hide')
                     }else{
 
                     }
@@ -284,7 +239,7 @@
                 error: function (xhr) {
                     limpiarErorres();
 
-                    if (xhr.status === 422) {
+                    if (xhr.status === 422) { 
                         let errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, messages) {
                             let input = $('[name="' + key + '"]');
@@ -303,33 +258,33 @@
                         });
                     }
                 }
-            })
+            });
         }
 
-        function editarCriadero(criadero){
+        function editarFeriaEjemplar(feriaEjemplar){
             limpiarErorres();
 
-            Object.keys(criadero).forEach(key => {
+            Object.keys(feriaEjemplar).forEach(key => {
                 let input = $(`#${key}`);
 
                 if (input.is(':checkbox')) {
                     // Marcar si el valor es 1, true o "on"
-                    input.prop('checked', criadero[key] == 1 || criadero[key] === true || criadero[key] === "on");
+                    input.prop('checked', feriaEjemplar[key] == 1 || feriaEjemplar[key] === true || feriaEjemplar[key] === "on");
                 } else if (input.is('select')) {
                     // Para selects con librerías como Select2
-                    input.val(criadero[key]).trigger('change');
+                    input.val(feriaEjemplar[key]).trigger('change');
                 } else if (input.length) {
                     // Para inputs normales (text, number, email, etc.)
-                    input.val(criadero[key]);
+                    input.val(feriaEjemplar[key]);
                 }
             });
 
-            $('#modalCriadero').modal('show');
+            $('#modalFeriaEjemplar').modal('show');
         }
 
-        function eliminarCriadero(criadero){
+        function eliminarFeriaEjemplar(feriaEjemplar){
             Swal.fire({
-                title: "Quieres eliminar "+criadero.nombre,
+                title: "Quieres eliminar ",
                 text: "Ya no podras recuperarlo!",
                 icon: "warning",
                 showCancelButton: true,
@@ -339,9 +294,9 @@
             }).then(function(result) {
                 if (result.value) {
                     $.ajax({
-                        url: "{{ route('criadero.eliminarCriadero') }}",
+                        url: "{{ route('feriaEjemplar.eliminarFeriaEjemplar') }}",
                         method: "POST",
-                        data: criadero,
+                        data: feriaEjemplar,
                         success: function (resultado) {
                             if(resultado.estado){
                                 ajaxListado();

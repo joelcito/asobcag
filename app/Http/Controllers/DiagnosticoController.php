@@ -22,7 +22,7 @@ class DiagnosticoController extends Controller
 
     public function ajaxListado(Request $request){
         if($request->ajax()){
-            $diagnosticos = Diagnostico::with(['empadre.madre'])->get();
+            $diagnosticos = Diagnostico::with(['empadre.madre', 'metodo', 'supervisor'])->get();
             $valores = [
                 'listado' => view('diagnostico.ajaxListado')->with(compact('diagnosticos'))->render()
             ];

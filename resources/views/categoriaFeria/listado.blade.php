@@ -18,6 +18,7 @@
         <div class="modal-content">
             <div class="modal-header" id="kt_modal_add_user_header">
                 <h3 class="fw-bold">FORMULARIO DE CATEGORIA DE FERIAS <span class="text-info" id="nombre_busqueda"></span></h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioCategoriaFeria">

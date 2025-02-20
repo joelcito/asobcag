@@ -21,7 +21,7 @@ class CriaderoController extends Controller
     public function ajaxListado(Request $request){
         if($request->ajax()){
 
-            $criaderos = Criadero::all();
+            $criaderos = Criadero::with(['propietario', 'tecnico', 'pastor'])->get();
             $valores = [
                 'listado' => view('criadero.ajaxListado')->with(compact('criaderos'))->render()
             ];

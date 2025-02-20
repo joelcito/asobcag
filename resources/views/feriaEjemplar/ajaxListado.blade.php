@@ -3,34 +3,27 @@
     <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
         <thead>
             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                <th>Nombre</th>
-                <th>Arete</th>
-                <th>Fenotipo</th>
-                <th>Color</th>
-                <th>Sexo</th>
-                <th>Padre</th>
-                <th>Madre</th>
-                <th>Fecha Reg.</th>
-                <th>Fecha Nac.</th>
+                <th>Ejemplar</th>
+                <th>Feria</th>
+                <th>Categoria</th>
+                <th>Premio</th>
+                <th>Juez Principal</th>
+                <th>Juez Adjunto</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody class="text-gray-600 fw-semibold">
-            @forelse ( $ejemplares as $ejemplar)
+            @forelse ( $ferias as $feria)
                 <tr>
-                    <td>{{ $ejemplar->nombre }}</td>
-                    <td>{{ $ejemplar->arete }}</td>
-                    <td>{{ optional($ejemplar->fenotipo)->nombre }}</td>
-                    <td>{{ optional($ejemplar->color)->nombre  }}</td>
-                    <td>{{ $ejemplar->sexo }}</td>
-                    <td>{{ optional($ejemplar->padre)->nombre }}</td>
-                    <td>{{ optional($ejemplar->madre)->nombre }}</td>
-                    <td>{{ $ejemplar->fecha_registro }}</td>
-                    <td>{{ $ejemplar->fecha_nacimiento }}</td>
+                    <td>{{ optional($feria->ejemplar)->nombre }}</td>
+                    <td>{{ optional($feria->feria)->nombre }}</td>
+                    <td>{{ optional($feria->categoriaFeria)->nombre }}</td>
+                    <td>{{ optional($feria->premio)->nombre }}</td>
+                    <td>{{ optional($feria->juezPrincipal)->name }}</td>
+                    <td>{{ optional($feria->juezAdjunto)->name }}</td>
                     <td>
-                        <a href="{{ url('ejemplar/detalle', [$ejemplar->id]) }}" class="btn btn-icon btn-sm btn-info btn-circle" title="Detalle de ejemplar"><i class="fa-solid fa-horse-head"></i></a>
-                        <a href="{{ url('ejemplar/formulario', [$tipo, $ejemplar->id]) }}" class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza"><i class="fa fa-edit"></i></a>
-                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza" onclick="editarFeriaEjemplar({{ json_encode($feria) }})"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza" onclick="eliminarFeriaEjemplar({{ json_encode($feria) }})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
             @empty

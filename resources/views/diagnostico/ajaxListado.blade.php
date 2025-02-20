@@ -15,8 +15,8 @@
             @forelse ( $diagnosticos as $diagnostico)
                 <tr>
                     <td>{{ $diagnostico->empadre_id }}</td>
-                    <td>{{ $diagnostico->metodo_id }}</td>
-                    <td>{{ $diagnostico->supervisor_id }}</td>
+                    <td>{{ optional($diagnostico->metodo)->nombre }}</td>
+                    <td>{{ optional($diagnostico->supervisor)->name }}</td>
                     <td>{{ $diagnostico->fecha }}</td>
                     <td>{{ $diagnostico->diagnostico }}</td>
                     <td>

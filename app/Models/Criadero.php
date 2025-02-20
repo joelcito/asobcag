@@ -32,4 +32,12 @@ class Criadero extends Model
     public function propietario(){
         return $this->belongsTo('App\Models\User', 'propietario_id');
     }
+
+    public function tecnico(){
+        return $this->belongsTo('App\Models\User', 'tecnico_id');
+    }
+
+    public function pastor(){
+        return $this->belongsTo('App\Models\User', 'pastor_id');
+    }
 }
