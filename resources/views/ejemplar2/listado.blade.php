@@ -35,7 +35,7 @@
                             {{-- <a class="btn btn-sm fw-bold btn-primary" href="{{ route('ejemplar.formulario', [0]) }}"><i class="fa fa-plus"></i>Nuevo Registro</a> --}}
                         </div>
                         <div class="d-flex gap-2 gap-lg-3 mx-3">
-                            <a class="btn btn-sm fw-bold btn-primary" href="{{ route('ejemplar.formularioNacimiento', [0]) }}"><i class="fa fa-plus"></i>Nuevo Nacimiento</a>
+                            <a class="btn btn-sm fw-bold btn-primary" href="{{ route('ejemplar.formulario', [$tipo, 0]) }}"><i class="fa fa-plus"></i>Nuevo Ejemplar</a>
                         </div>
 
                         <!--end::Actions-->
@@ -75,7 +75,7 @@
 
         function ajaxListado(){
 
-            let datos = {};
+            let datos = {tipo: "{{ $tipo }}"};
             $.ajax({
                 url: "{{ route('ejemplar.ajaxListado') }}",
                 method: "POST",

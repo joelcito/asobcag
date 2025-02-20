@@ -46,11 +46,19 @@
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'ejemplar.listado' ? 'active' : '' }}" href="{{route('ejemplar.listado')}}">
+                            <a class="menu-link {{ request()->route('tipo') == 'LLAMA' ? 'active' : '' }}" href="{{ route('ejemplar.listado', ['LLAMA']) }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title text-white">Ejemplares</span>
+                                <span class="menu-title text-white">Ejemplares - Llamas</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link {{ request()->route('tipo') == 'ALPACA' ? 'active' : '' }}" href="{{ route('ejemplar.listado', ['ALPACA']) }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title text-white">Ejemplares - Alpacas</span>
                             </a>
                         </div>
                         <div class="menu-item">

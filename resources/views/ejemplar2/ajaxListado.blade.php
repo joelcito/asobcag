@@ -29,7 +29,7 @@
                     <td>{{ $ejemplar->fecha_nacimiento }}</td>
                     <td>
                         <a href="{{ url('ejemplar/detalle', [$ejemplar->id]) }}" class="btn btn-icon btn-sm btn-info btn-circle" title="Detalle de ejemplar"><i class="fa-solid fa-horse-head"></i></a>
-                        <a href="{{ url('ejemplar/formularioNacimiento', [$ejemplar->id]) }}" class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza"><i class="fa fa-edit"></i></a>
+                        <a href="{{ url('ejemplar/formulario', [$tipo, $ejemplar->id]) }}" class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza"><i class="fa fa-edit"></i></a>
                         <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>

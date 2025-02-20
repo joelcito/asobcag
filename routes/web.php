@@ -61,11 +61,11 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('/ejemplar')->group(function(){
-        Route::get('/listado', [EjemplarController::class, 'listado'])->name('ejemplar.listado');
+        Route::get('/listado/{tipo}', [EjemplarController::class, 'listado'])->name('ejemplar.listado');
         Route::post('/ajaxListado', [EjemplarController::class, 'ajaxListado'])->name('ejemplar.ajaxListado');
         Route::post('/guardarEjemplar', [EjemplarController::class, 'guardarEjemplar'])->name('ejemplar.guardarEjemplar');
         // Route::get('/formulario/{ejemplar_id}', [EjemplarController::class, 'formulario'])->name('ejemplar.formulario');
-        Route::get('/formularioNacimiento/{ejemplar_id}', [EjemplarController::class, 'formularioNacimiento'])->name('ejemplar.formularioNacimiento');
+        Route::get('/formulario/{tipo}/{ejemplar_id}', [EjemplarController::class, 'formulario'])->name('ejemplar.formulario');
         Route::get('/detalle/{ejemplar_id}', [EjemplarController::class, 'detalle'])->name('ejemplar.detalle');
         Route::post('/ajaxListadoBiometria', [EjemplarController::class, 'ajaxListadoBiometria'])->name('ejemplar.ajaxListadoBiometria');
         Route::post('/guardarBiometria', [EjemplarController::class, 'guardarBiometria'])->name('ejemplar.guardarBiometria');

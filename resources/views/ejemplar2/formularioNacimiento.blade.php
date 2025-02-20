@@ -343,6 +343,7 @@
                 <div class="card-body py-4">
                     <form id="formularioNacimiento" action="{{ route('ejemplar.guardarEjemplar') }}" method="POST" autocomplete="off">
                         @csrf
+                        <input type="hidden" id="tipo" name="tipo" value="{{ $tipo }}">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
@@ -536,7 +537,7 @@
                     dataType: 'json',
                     success: function(response) {
                         // Si todo está bien, redirigir o mostrar mensaje de éxito
-                        window.location.href = "{{ route('ejemplar.listado') }}";
+                        window.location.href = "{{ route('ejemplar.listado', [$tipo]) }}";
                     },
                     error: function(xhr) {
                         if (xhr.status === 422) {
