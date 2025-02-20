@@ -201,6 +201,12 @@
                 data: datos,
                 success: function (resultado) {
                     if(resultado.estado){
+                        Swal.fire({
+                            title: "EL REGISTRO FUE EXITOSO.",
+                            icon: "success",
+                            timer: 3000, // Se cierra en 3 segundos
+                            showConfirmButton: false
+                        });
                         ajaxListado();
                         $('#modalCategoria').modal('hide')
                     }else{

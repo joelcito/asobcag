@@ -64,6 +64,35 @@
                                 <div class="text-danger error-message" id="error-propietario_id"></div>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <label class="fs-6 fw-semibold form-label mb-2">Tecnico</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCriadero"
+                                    class="form-select form-select-solid fw-bold" name="tecnico_id" id="tecnico_id">
+                                    <option></option>
+                                    @foreach ($usuarios as $usuario)
+                                        <option value="{{ $usuario->id }}">{{ $usuario->nombres.' '.$usuario->ap_paterno }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-tecnico_id"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <label class="fs-6 fw-semibold form-label mb-2">Pastor</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCriadero"
+                                    class="form-select form-select-solid fw-bold" name="pastor_id" id="pastor_id">
+                                    <option></option>
+                                    @foreach ($usuarios as $usuario)
+                                        <option value="{{ $usuario->id }}">{{ $usuario->nombres.' '.$usuario->ap_paterno }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-pastor_id"></div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
@@ -226,6 +255,8 @@
             $('#negocio_animal').prop('checked', false)
             $('#estancia').val('')
             $('#propietario_id').val(null).trigger('change')
+            $('#tecnico_id').val(null).trigger('change')
+            $('#pastor_id').val(null).trigger('change')
             $('#modalCriadero').modal('show')
         }
 
@@ -237,6 +268,12 @@
                 data: datos,
                 success: function (resultado) {
                     if(resultado.estado){
+                        Swal.fire({
+                            title: "EL REGISTRO FUE EXITOSO.",
+                            icon: "success",
+                            timer: 3000, // Se cierra en 3 segundos
+                            showConfirmButton: false
+                        });
                         ajaxListado();
                         $('#modalCriadero').modal('hide')
                     }else{
@@ -270,7 +307,6 @@
 
         function editarCriadero(criadero){
             limpiarErorres();
-            console.log(criadero);
 
             Object.keys(criadero).forEach(key => {
                 let input = $(`#${key}`);

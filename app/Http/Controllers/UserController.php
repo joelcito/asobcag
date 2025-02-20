@@ -105,4 +105,26 @@ class UserController extends Controller
         }
         return $data;
     }
+
+    public function resetPassword(Request $request){
+        if($request->ajax()){
+            $request->validate([
+                'usuario_id' => 'required|exists:users,id',
+                'password' => 'required|min:6|confirmed',
+            ]);
+
+            $usuario_id = $request->usuario_id;
+            $password = $request->password;
+
+            $usuario = User::find($usuario_id);
+            $usuario->password = Hash::make($password);
+            $usuario->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
 }

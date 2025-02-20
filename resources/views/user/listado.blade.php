@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">E-mail</label>
+                                <label class="required fw-semibold fs-6 mb-2">E-mail (USUARIO DE INGRESO)</label>
                                 <input type="text" class="form-control form-control-sm" id="email" name="email">
                             </div>
                         </div>
@@ -121,6 +121,50 @@
     <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Add task-->
+{{-- Modal contrasenia --}}
+<div class="modal fade" id="modalResetPassword" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" id="kt_modal_add_user_header">
+                <h3 class="fw-bold">Restablecer Contraseña</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body scroll-y">
+                <form id="formResetPassword">
+                    @csrf
+                    <input type="hidden" id="usuario_id_reset" name="usuario_id">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Nueva Contraseña</label>
+                                <input type="text" class="form-control form-control-sm" id="password" name="password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Confirmar Contraseña</label>
+                                <input type="text" class="form-control form-control-sm" id="password_confirmation" name="password_confirmation">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-sm w-100 btn-success" onclick="resetPassword()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+            <!--end::Modal body-->
+        </div>
+    </div>
+    <!--end::Modal dialog-->
+</div>
+
+{{-- Fin Modal contrasenia --}}
 
 <!--begin::Content wrapper-->
 <div class="d-flex flex-column flex-column-fluid">
@@ -256,6 +300,12 @@
                 data: datos,
                 success: function (resultado) {
                     if(resultado.estado){
+                        Swal.fire({
+                            title: "EL REGISTRO FUE EXITOSO.",
+                            icon: "success",
+                            timer: 3000, // Se cierra en 3 segundos
+                            showConfirmButton: false
+                        });
                         ajaxListado();
                         $('#modalUsuario').modal('hide')
                     }else{
@@ -336,6 +386,45 @@
                 }
             });
             
+        }
+
+        function abrirModalResetPassword(usuarioId) {
+            $('#usuario_id_reset').val(usuarioId);
+            $('#modalResetPassword').modal('show');
+        }
+
+        function resetPassword() {
+            let usuarioId = $('#usuario_id_reset').val();
+            let password = $('#password').val();
+            let passwordConfirmation = $('#password_confirmation').val();
+
+            if (password !== passwordConfirmation) {
+                Swal.fire('Error', 'Las contraseñas no coinciden', 'error');
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('usuario.resetPassword') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    usuario_id: usuarioId,
+                    password: password,
+                    password_confirmation: passwordConfirmation,
+                },
+                success: function(response) {
+                    Swal.fire({
+                        title: "Contraseña Actualizada con Exito!",
+                        icon: "success",
+                        timer: 2000, // Se cierra en 2 segundos
+                        showConfirmButton: false
+                    });
+                    $('#modalResetPassword').modal('hide');
+                },
+                error: function(xhr) {
+                    Swal.fire('Error', 'Hubo un problema al actualizar la contraseña', 'error');
+                }
+            });
         }
 
    </script>

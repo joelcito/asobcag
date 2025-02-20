@@ -48,8 +48,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/usuario')->group(function(){
         Route::get('/listado', [UserController::class, 'listado'])->name('usuario.listado');
         Route::post('/ajaxListado', [UserController::class, 'ajaxListado'])->name('usuario.ajaxListado');
-        Route::post('/guardarUsuario', [userController::class, 'guardarUsuario'])->name('usuario.guardarUsuario');
-        Route::post('/eliminarUsuario', [userController::class, 'eliminarUsuario'])->name('usuario.eliminarUsuario');
+        Route::post('/guardarUsuario', [UserController::class, 'guardarUsuario'])->name('usuario.guardarUsuario');
+        Route::post('/eliminarUsuario', [UserController::class, 'eliminarUsuario'])->name('usuario.eliminarUsuario');
+        Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('usuario.resetPassword');
     });
 
     Route::prefix('/criadero')->group(function(){

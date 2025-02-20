@@ -51,6 +51,8 @@ class CriaderoController extends Controller
             $negocio_animal = $request->input('negocio_animal');
             $estancia       = $request->input('estancia');
             $propietario_id = $request->input('propietario_id');
+            $tecnico_id     = $request->input('tecnico_id');
+            $pastor_id      = $request->input('pastor_id');
             $usuarioLoguado = Auth::user();
 
             if( $id == 0 ){
@@ -69,6 +71,8 @@ class CriaderoController extends Controller
             $criadero->negocio_animal     = $negocio_animal && $negocio_animal == 'on' ? true : false;
             $criadero->estancia           = $estancia;
             $criadero->propietario_id     = $propietario_id;
+            $criadero->tecnico_id         = $tecnico_id;
+            $criadero->pastor_id          = $pastor_id;
             $criadero->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
