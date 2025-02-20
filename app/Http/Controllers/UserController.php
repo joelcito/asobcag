@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Localidad;
 use App\Models\Rol;
 use App\Models\User;
 use App\Utils\Respuesta;
@@ -14,7 +15,8 @@ class UserController extends Controller
     /* NUEVAS FUNCIONALIDADES */
     public function listado(){
         $roles = Rol::all();
-        return view('user.listado')->with(compact(['roles']));
+        $paises = Localidad::whereNull('superior_id')->get();
+        return view('user.listado')->with(compact(['roles', 'paises']));
     }
 
     public function ajaxListado(Request $request){
@@ -46,16 +48,16 @@ class UserController extends Controller
                 'rol_id'     => 'required',
             ]);
 
-            $id = $request->input('id');
-
-            $nombres    = $request->input('nombres');
-            $ap_paterno = $request->input('ap_paterno');
-            $ap_materno = $request->input('ap_materno');
-            $cedula    = $request->input('cedula');
-            $direccion = $request->input('direccion');
-            $email     = $request->input('email');
-            $celular   = $request->input('celular');
-            $rol_id    = $request->input('rol_id');
+            $id             = $request->input('id');
+            $nombres        = $request->input('nombres');
+            $ap_paterno     = $request->input('ap_paterno');
+            $ap_materno     = $request->input('ap_materno');
+            $cedula         = $request->input('cedula');
+            $direccion      = $request->input('direccion');
+            $email          = $request->input('email');
+            $celular        = $request->input('celular');
+            $rol_id         = $request->input('rol_id');
+            $localidad_id   = $request->input('comunidad_id');
             $usuarioLoguado = Auth::user();
 
             if( $id == 0 ){
@@ -67,15 +69,16 @@ class UserController extends Controller
                 $usuario->usuario_modificador_id = $usuarioLoguado->id;
             }
 
-            $usuario->nombres            = $nombres;
-            $usuario->ap_paterno         = $ap_paterno;
-            $usuario->ap_materno         = $ap_materno;
-            $usuario->cedula             = $cedula;
-            $usuario->direccion          = $direccion;
-            $usuario->email              = $email;
-            $usuario->celular            = $celular;
-            $usuario->rol_id             = $rol_id;                                         //ROL DE Tecnico
-            $usuario->name               = $nombres." ".$ap_paterno." ".$ap_materno;
+            $usuario->nombres      = $nombres;
+            $usuario->ap_paterno   = $ap_paterno;
+            $usuario->ap_materno   = $ap_materno;
+            $usuario->cedula       = $cedula;
+            $usuario->direccion    = $direccion;
+            $usuario->email        = $email;
+            $usuario->celular      = $celular;
+            $usuario->rol_id       = $rol_id;                                   //ROL DE Tecnico
+            $usuario->name         = $nombres." ".$ap_paterno." ".$ap_materno;
+            $usuario->localidad_id = $localidad_id;
             $usuario->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");

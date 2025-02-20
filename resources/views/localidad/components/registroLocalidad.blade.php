@@ -4,7 +4,7 @@
             <div class="col-md-4">
                 <div class="fv-row mb-7">
                     <label class="fs-6 fw-semibold form-label mb-2 required">Pais</label>
-                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalLocalidad" data-hide-search="true" class="form-select form-select-solid fw-bold" name="pais_id" id="pais_id" class="form-control" onchange="buscarHijos(this)">
+                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#{{ $nameModalPadre }}" data-hide-search="true" class="form-select form-select-solid fw-bold" name="pais_id" id="pais_id" class="form-control" onchange="buscarHijos(this)" required>
                         <option></option>
                         @foreach ($paises as $pais)
                             <option value="{{ $pais->id }}">{{ $pais->nombre }}</option>
@@ -15,7 +15,7 @@
             <div class="col-md-4">
                 <div class="fv-row mb-7">
                     <label class="fs-6 fw-semibold form-label mb-2 required">Departamento</label>
-                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalLocalidad" data-hide-search="true" class="form-select form-select-solid fw-bold" name="departamento_id" id="departamento_id" class="form-control" onchange="buscarHijos(this)">
+                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#{{ $nameModalPadre }}" data-hide-search="true" class="form-select form-select-solid fw-bold" name="departamento_id" id="departamento_id" class="form-control" onchange="buscarHijos(this)" required>
                         <option></option>
                     </select>
                 </div>
@@ -23,7 +23,7 @@
             <div class="col-md-4">
                 <div class="fv-row mb-7">
                     <label class="fs-6 fw-semibold form-label mb-2 required">Provincia</label>
-                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalLocalidad" data-hide-search="true" class="form-select form-select-solid fw-bold" name="provincia_id" id="provincia_id" class="form-control" onchange="buscarHijos(this)">
+                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#{{ $nameModalPadre }}" data-hide-search="true" class="form-select form-select-solid fw-bold" name="provincia_id" id="provincia_id" class="form-control" onchange="buscarHijos(this)" required>
                         <option></option>
                     </select>
                 </div>
@@ -33,7 +33,7 @@
             <div class="col-md-6">
                 <div class="fv-row mb-7">
                     <label class="fs-6 fw-semibold form-label mb-2 required">Municipio</label>
-                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalLocalidad" data-hide-search="true" class="form-select form-select-solid fw-bold" name="municipio_id" id="municipio_id" class="form-control" onchange="buscarHijos(this)">
+                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#{{ $nameModalPadre }}" data-hide-search="true" class="form-select form-select-solid fw-bold" name="municipio_id" id="municipio_id" class="form-control" onchange="buscarHijos(this)" required>
                         <option></option>
                     </select>
                 </div>
@@ -41,7 +41,7 @@
             <div class="col-md-6">
                 <div class="fv-row mb-7">
                     <label class="fs-6 fw-semibold form-label mb-2 required">Comunidad</label>
-                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalLocalidad" data-hide-search="true" class="form-select form-select-solid fw-bold" name="comunidad_id" id="comunidad_id" class="form-control" onchange="buscarHijos(this)">
+                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#{{ $nameModalPadre }}" data-hide-search="true" class="form-select form-select-solid fw-bold" name="comunidad_id" id="comunidad_id" class="form-control" onchange="buscarHijos(this)" required>
                         <option></option>
                     </select>
                 </div>

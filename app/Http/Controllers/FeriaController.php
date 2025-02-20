@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Feria;
+use App\Models\Localidad;
 use App\Utils\Respuesta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 class FeriaController extends Controller
 {
     public function listado(Request $request){
-        return view('feria.listado');
+        $paises = Localidad::whereNull('superior_id')->get();
+        return view('feria.listado')->with(compact('paises'));
     }
 
     public function ajaxListado(Request $request){
@@ -32,15 +34,16 @@ class FeriaController extends Controller
             $request->validate([
                 'nombre' => 'required',
                 'fecha' => 'required',
-                //'localidad_id' => 'required',
+                'comunidad_id' => 'required',
             ]);
 
             $id = $request->input('id');
 
-            $nombre     = $request->input('nombre');
-            $fecha      = $request->input('fecha');
-            $localidad_id      = $request->input('localidad_id');//anadir a vista
-            $usuario    = Auth::user();
+            $nombre       = $request->input('nombre');
+            $fecha        = $request->input('fecha');
+            $comunidad_id = $request->input('comunidad_id');
+            $tipo_feria   = $request->input('tipo_feria');
+            $usuario      = Auth::user();
 
             if( $id == 0 ){
                 $feria = new Feria();
@@ -52,9 +55,21 @@ class FeriaController extends Controller
 
             $feria->nombre             = $nombre;
             $feria->fecha              = $fecha;
-            $feria->localidad_id       = $localidad_id;
+            $feria->localidad_id       = $comunidad_id;
+            if($tipo_feria == "nacional"){
+                $feria->nacional      = 1;
+                $feria->departamental = null;
+                $feria->municipal     = null;
+            }else if($tipo_feria == "departamental"){
+                $feria->departamental = 1;
+                $feria->nacional      = null;
+                $feria->municipal     = null;
+            }else if($tipo_feria == "municipal"){
+                $feria->municipal = 1;
+                $feria->departamental = null;
+                $feria->nacional      = null;
+            }
             $feria->save();
-
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 
         }else{

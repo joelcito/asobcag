@@ -25,7 +25,11 @@ return new class extends Migration
 
             $table->string('nombre')->nullable();
             $table->date('fecha')->nullable();
-            
+            $table->tinyInteger('nacional')->nullable();
+            $table->tinyInteger('departamental')->nullable();
+            $table->tinyInteger('municipal')->nullable();
+
+
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();
             $table->timestamps();

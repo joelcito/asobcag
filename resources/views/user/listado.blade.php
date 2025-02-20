@@ -62,40 +62,14 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="row mt-3">
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Pais</label>
-                                <input type="text" class="form-control form-control-sm" id="pais" name="pais">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Departamento</label>
-                                <input type="text" class="form-control form-control-sm" id="departamento" name="departamento">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Provincia</label>
-                                <input type="text" class="form-control form-control-sm" id="provincia" name="provincia">
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="row mt-3">
-                        {{-- <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Distrito</label>
-                                <input type="text" class="form-control form-control-sm" id="distrito" name="distrito">
-                            </div>
-                        </div> --}}
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Celular</label>
                                 <input type="text" class="form-control form-control-sm" id="celular" name="celular">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Rol</label>
                                 <select name="rol_id" id="rol_id" class="form-control form-control-sm" required>
@@ -104,6 +78,11 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            @include("localidad.components.registroLocalidad", ['nameModalPadre' => 'modalUsuario'])
                         </div>
                     </div>
                 </form>
@@ -293,47 +272,53 @@
         }
 
         function guardarUsuario(){
-            let datos = $('#formularioUsuario').serializeArray();
-            $.ajax({
-                url: "{{ route('usuario.guardarUsuario') }}",
-                method: "POST",
-                data: datos,
-                success: function (resultado) {
-                    if(resultado.estado){
-                        Swal.fire({
-                            title: "EL REGISTRO FUE EXITOSO.",
-                            icon: "success",
-                            timer: 3000, // Se cierra en 3 segundos
-                            showConfirmButton: false
-                        });
-                        ajaxListado();
-                        $('#modalUsuario').modal('hide')
-                    }else{
 
-                    }
-                },
-                error: function (xhr) {
-                    limpiarErorres();
+            if($('#formularioUsuario')[0].checkValidity()){
+                let datos = $('#formularioUsuario').serializeArray();
+                $.ajax({
+                    url: "{{ route('usuario.guardarUsuario') }}",
+                    method: "POST",
+                    data: datos,
+                    success: function (resultado) {
+                        if(resultado.estado){
+                            Swal.fire({
+                                title: "EL REGISTRO FUE EXITOSO.",
+                                icon: "success",
+                                timer: 3000, // Se cierra en 3 segundos
+                                showConfirmButton: false
+                            });
+                            ajaxListado();
+                            $('#modalUsuario').modal('hide')
+                        }else{
 
-                    if (xhr.status === 422) {
-                        let errores = xhr.responseJSON.errors;
-
-                        for (let campo in errores) {
-                            let mensaje = errores[campo][0];
-
-                            let input = $(`[name="${campo}"]`);
-                            input.addClass("is-invalid");
-                            input.after(`<div class="invalid-feedback">${mensaje}</div>`);
                         }
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Ocurrió un error inesperado.',
-                        });
+                    },
+                    error: function (xhr) {
+                        limpiarErorres();
+
+                        if (xhr.status === 422) {
+                            let errores = xhr.responseJSON.errors;
+
+                            for (let campo in errores) {
+                                let mensaje = errores[campo][0];
+
+                                let input = $(`[name="${campo}"]`);
+                                input.addClass("is-invalid");
+                                input.after(`<div class="invalid-feedback">${mensaje}</div>`);
+                            }
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                            });
+                        }
                     }
-                }
-            });
+                });
+            }else{
+                $('#formularioUsuario')[0].reportValidity();
+            }
+
         }
 
         function editarUsuario(usuario){
@@ -373,8 +358,8 @@
                                 icon: 'error',
                                 title: 'Error',
                                 text: 'Ocurrió un error inesperado.',
-                                
-                            });                    
+
+                            });
                         }
                     });
                 } else if (result.dismiss === "cancel") {
@@ -385,7 +370,7 @@
                     )
                 }
             });
-            
+
         }
 
         function abrirModalResetPassword(usuarioId) {

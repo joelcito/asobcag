@@ -170,11 +170,12 @@ class LocalidadController extends Controller
             $provincia_id = $request->input('provincia_id_municipio');
             $usuario      = Auth::user();
 
-            $municipio                     = new Municipio();
-            $municipio->usuario_creador_id = $usuario->id;
-            $municipio->nombre             = $nombre;
-            $municipio->provincia_id       = $provincia_id;
-            $municipio->save();
+            $localidad                     = new Localidad();
+            $localidad->usuario_creador_id = $usuario->id;
+            $localidad->superior_id        = $provincia_id;
+            $localidad->nombre             = $nombre;
+            $localidad->nivel              = 4;
+            $localidad->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 
@@ -214,11 +215,12 @@ class LocalidadController extends Controller
             $municipio_id = $request->input('municipio_id_comunidad');
             $usuario      = Auth::user();
 
-            $comunidad                     = new Comunidad();
-            $comunidad->usuario_creador_id = $usuario->id;
-            $comunidad->nombre             = $nombre;
-            $comunidad->municipio_id       = $municipio_id;
-            $comunidad->save();
+            $localidad                     = new Localidad();
+            $localidad->usuario_creador_id = $usuario->id;
+            $localidad->superior_id        = $municipio_id;
+            $localidad->nombre             = $nombre;
+            $localidad->nivel              = 5;
+            $localidad->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

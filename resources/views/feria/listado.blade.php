@@ -36,6 +36,39 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <div class="form-check form-check-custom form-check-solid me-10">
+                                <input class="form-check-input h-15px w-15px" type="radio" id="negocio_fibra" value="nacional" name="tipo_feria"/>
+                                <label class="form-check-label" for="negocio_fibra">
+                                    Nacional
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check form-check-custom form-check-solid me-10">
+                                <input class="form-check-input h-15px w-15px" type="radio" id="negocio_carne" value="departamental" name="tipo_feria"/>
+                                <label class="form-check-label" for="negocio_carne">
+                                    Departamental
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check form-check-custom form-check-solid me-10">
+                                <input class="form-check-input h-15px w-15px" type="radio" id="negocio_animal" value="municipal" name="tipo_feria"/>
+                                <label class="form-check-label" for="negocio_animal">
+                                    Municipal
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            @include("localidad.components.registroLocalidad", ['nameModalPadre' => 'modalFeria'])
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -166,15 +199,15 @@
                 error: function (xhr) {
                     limpiarErorres();
 
-                    if (xhr.status === 422) { 
+                    if (xhr.status === 422) {
                         let errores = xhr.responseJSON.errors;
 
                         for (let campo in errores) {
-                            let mensaje = errores[campo][0]; 
+                            let mensaje = errores[campo][0];
 
                             let input = $(`[name="${campo}"]`);
-                            input.addClass("is-invalid"); 
-                            input.after(`<div class="invalid-feedback">${mensaje}</div>`); 
+                            input.addClass("is-invalid");
+                            input.after(`<div class="invalid-feedback">${mensaje}</div>`);
                         }
                     } else {
                         Swal.fire({
@@ -224,8 +257,8 @@
                                 icon: 'error',
                                 title: 'Error',
                                 text: 'Ocurrió un error inesperado.',
-                                
-                            });                    
+
+                            });
                         }
                     });
                 } else if (result.dismiss === "cancel") {
@@ -236,7 +269,7 @@
                     )
                 }
             });
-            
+
         }
 
    </script>
