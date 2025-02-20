@@ -25,4 +25,28 @@ class FeriaEjemplar extends Model
         'estado',
         'deleted_at'
     ];
+
+    public function ejemplar(){
+        return $this->belongsTo('App\Models\Ejemplar', 'ejemplar_id');
+    }
+
+    public function feria(){
+        return $this->belongsTo('App\Models\Feria', 'feria_id');
+    }
+
+    public function categoriaFeria(){
+        return $this->belongsTo('App\Models\CategoriaFeria', 'categoria_feria_id');
+    }
+
+    public function premio(){
+        return $this->belongsTo('App\Models\Premio', 'premio_id');
+    }
+
+    public function juezPrincipal(){
+        return $this->belongsTo('App\Models\User', 'juez_principal_id');
+    }
+
+    public function juezAdjunto(){
+        return $this->belongsTo('App\Models\User', 'juez_adjunto_id');
+    }
 }
