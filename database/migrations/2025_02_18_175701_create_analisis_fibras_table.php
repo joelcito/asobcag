@@ -36,8 +36,7 @@ return new class extends Migration
             $table->decimal('fc', 12, 2)->nullable();
             $table->decimal('pm', 12, 2)->nullable();
             $table->decimal('mfd', 12, 2)->nullable();
-            $table->string('laboratorio')->nullable();
-            
+
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();
             $table->timestamps();

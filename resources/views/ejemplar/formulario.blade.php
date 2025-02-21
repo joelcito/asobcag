@@ -543,12 +543,6 @@
                         }
                     })
 
-
-                    // Swal.fire({
-                    // title: "Deleted!",
-                    // text: "Your file has been deleted.",
-                    // icon: "success"
-                    // });
                 }
             });
         }
@@ -601,16 +595,6 @@
 
         function exportarExcel(){
             let datos = $('#formulario-busqueda-factura').serializeArray();
-
-            // // Mostrar SweetAlert2 antes de enviar la solicitud
-            // Swal.fire({
-            //     title: 'Generando PDF...',
-            //     text: 'Por favor espera mientras generamos el archivo.',
-            //     allowOutsideClick: false, // Evitar que se cierre al hacer clic fuera
-            //     didOpen: () => {
-            //         Swal.showLoading(); // Mostrar el spinner de carga
-            //     }
-            // });
 
             // Mostrar SweetAlert2 antes de enviar la solicitud
             Swal.fire({

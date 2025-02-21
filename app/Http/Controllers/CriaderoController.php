@@ -13,8 +13,9 @@ class CriaderoController extends Controller
 {
     public function listado(){
         $localidades = Localidad::all();
-        $usuarios = User::all();
-        return view('criadero.listado')->with(compact(['localidades', 'usuarios']));
+        $usuarios    = User::all();
+        $paises      = Localidad::whereNull('superior_id')->get();
+        return view('criadero.listado')->with(compact(['localidades', 'usuarios', 'paises']));
     }
 
 
@@ -39,13 +40,14 @@ class CriaderoController extends Controller
                 'nombre'         => 'required',
                 'estancia'       => 'required',
                 'propietario_id' => 'required',
+                'comunidad_id' => 'required',
             ]);
 
             $id = $request->input('id');
 
-            $nombre         = $request->input('nombre');
-            $nit            = $request->input('nit');
-            /* $direccion      = $request->input('direccion'); */
+            $nombre = $request->input('nombre');
+            $nit    = $request->input('nit');
+              /* $direccion      = $request->input('direccion'); */
             $negocio_fibra  = $request->input('negocio_fibra');
             $negocio_carne  = $request->input('negocio_carne');
             $negocio_animal = $request->input('negocio_animal');
@@ -53,6 +55,7 @@ class CriaderoController extends Controller
             $propietario_id = $request->input('propietario_id');
             $tecnico_id     = $request->input('tecnico_id');
             $pastor_id      = $request->input('pastor_id');
+            $comunidad_id   = $request->input('comunidad_id');
             $usuarioLoguado = Auth::user();
 
             if( $id == 0 ){
@@ -63,16 +66,17 @@ class CriaderoController extends Controller
                 $criadero->usuario_modificador_id= $usuarioLoguado->id;
             }
 
-            $criadero->nombre             = $nombre;
-            $criadero->nit                = $nit;
-            /* $criadero->direccion          = $direccion; */
-            $criadero->negocio_fibra      = $negocio_fibra && $negocio_fibra == 'on' ? true : false;
-            $criadero->negocio_carne      = $negocio_carne && $negocio_carne == 'on' ? true : false;
-            $criadero->negocio_animal     = $negocio_animal && $negocio_animal == 'on' ? true : false;
-            $criadero->estancia           = $estancia;
-            $criadero->propietario_id     = $propietario_id;
-            $criadero->tecnico_id         = $tecnico_id;
-            $criadero->pastor_id          = $pastor_id;
+            $criadero->nombre = $nombre;
+            $criadero->nit    = $nit;
+              /* $criadero->direccion          = $direccion; */
+            $criadero->negocio_fibra  = $negocio_fibra && $negocio_fibra   == 'on' ? true : false;
+            $criadero->negocio_carne  = $negocio_carne && $negocio_carne   == 'on' ? true : false;
+            $criadero->negocio_animal = $negocio_animal && $negocio_animal == 'on' ? true : false;
+            $criadero->estancia       = $estancia;
+            $criadero->propietario_id = $propietario_id;
+            $criadero->tecnico_id     = $tecnico_id;
+            $criadero->pastor_id      = $pastor_id;
+            $criadero->localidad_id   = $comunidad_id;
             $criadero->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");

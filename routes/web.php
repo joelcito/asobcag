@@ -72,6 +72,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/guardarBiometria', [EjemplarController::class, 'guardarBiometria'])->name('ejemplar.guardarBiometria');
         Route::post('/ajaxListadoMorfilogicos', [EjemplarController::class, 'ajaxListadoMorfilogicos'])->name('ejemplar.ajaxListadoMorfilogicos');
         Route::post('/guardarMorfologico', [EjemplarController::class, 'guardarMorfologico'])->name('ejemplar.guardarMorfologico');
+        Route::post('/ajaxListadoFibras', [EjemplarController::class, 'ajaxListadoFibras'])->name('ejemplar.ajaxListadoFibras');
+        Route::post('/guardarFibra', [EjemplarController::class, 'guardarFibra'])->name('ejemplar.guardarFibra');
+        Route::post('/ajaxListadoEsquila', [EjemplarController::class, 'ajaxListadoEsquila'])->name('ejemplar.ajaxListadoEsquila');
+        Route::post('/guardarEsquila', [EjemplarController::class, 'guardarEsquila'])->name('ejemplar.guardarEsquila');
     });
 
     Route::prefix('/empadre')->group(function(){

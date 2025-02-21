@@ -30,4 +30,9 @@ class Esquila extends Model
         'estado',
         'deleted_at'
     ];
+
+    public function esquilador(){
+        return $this->belongsTo('App\Models\User', 'esquilador_id');
+    }
+
 }

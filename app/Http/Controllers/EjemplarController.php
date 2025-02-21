@@ -12,6 +12,10 @@ use App\Utils\Respuesta;
 use App\Models\Comunidad;
 use App\Models\Criadero;
 use App\Models\Morfologico;
+use App\Models\AnalisisFibra;
+use App\Models\Laboratorio;
+use App\Models\Equipo;
+use App\Models\Esquila;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,7 +38,7 @@ class EjemplarController extends Controller
     // }
 
     public function formulario($tipo, $ejemplar_id){
-        
+
         $colores         = Color::all();
         $fenotipos       = Fenotipo::all();
         $criaderos       = Criadero::all();
@@ -43,9 +47,11 @@ class EjemplarController extends Controller
         $numeroSiguiente = $this->sacarSiguienteNumeroRegistroEjemplar();
         $ejemplar        = $ejemplar_id > 0 ? Ejemplar::find($ejemplar_id) : null;
         $usuarios        = User::all();
+        $laboratorios    = Laboratorio::all();
+        $equipos         = Equipo::all();
 
-        return view('ejemplar2.formularioNacimiento')->with(compact(['colores', 'fenotipos', 'criaderos', 'machos', 'hembras', 'numeroSiguiente', 'ejemplar', 'usuarios', 'tipo']));
-        
+        return view('ejemplar2.formularioNacimiento')->with(compact(['colores', 'fenotipos', 'criaderos', 'machos', 'hembras', 'numeroSiguiente', 'ejemplar', 'usuarios', 'tipo', 'laboratorios', 'equipos']));
+
     }
 
     public function ajaxListado(Request $request){
@@ -309,6 +315,153 @@ class EjemplarController extends Controller
             $data = Respuesta::error(null, "No existe");
         }
 
+        return $data;
+    }
+
+    public function ajaxListadoFibras(Request $request){
+        if($request->ajax()){
+
+            $ejemplar_id  = $request->input('ejemplar_id');
+            // $analisisFibras = AnalisisFibra::where('ejemplar_id', $ejemplar_id)->orderBy('id', 'desc')->get();
+            $analisisFibras = AnalisisFibra::where('ejemplar_id', $ejemplar_id)->orderBy('id', 'desc')->get();
+
+            $valores = [
+                'listado' => view('ejemplar2.ajaxListadoFibras')->with(compact('analisisFibras'))->render()
+            ];
+            $data = Respuesta::success($valores, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function guardarFibra(Request $request){
+        if($request->ajax()){
+
+            $request->validate([
+                'laboratorio_id' => 'required',
+                'ejemplar_id'    => 'required',
+                'equipo_id'      => 'required',
+                'fecha_muestreo' => 'required',
+                'fecha_analisis' => 'required',
+                'zona_corporal'  => 'required',
+                'fd'             => 'required',
+                'sd'             => 'required',
+                'cv'             => 'required',
+                'fc'             => 'required',
+                'pm'             => 'required',
+                'mfd'            => 'required',
+            ]);
+
+            $laboratorio_id = $request->input('laboratorio_id');
+            $ejemplar_id    = $request->input('ejemplar_id');
+            $equipo_id      = $request->input('equipo_id');
+            $fecha_muestreo = $request->input('fecha_muestreo');
+            $fecha_analisis = $request->input('fecha_analisis');
+            $zona_corporal  = $request->input('zona_corporal');
+            $fd             = $request->input('fd');
+            $sd             = $request->input('sd');
+            $cv             = $request->input('cv');
+            $fc             = $request->input('fc');
+            $pm             = $request->input('pm');
+            $mfd            = $request->input('mfd');
+            $usuarioLoguado = Auth::user();
+
+            $anilisis                     = new AnalisisFibra();
+            $anilisis->usuario_creador_id = $usuarioLoguado->id;
+            $anilisis->ejemplar_id        = $ejemplar_id;
+            $anilisis->laboratorio_id     = $laboratorio_id;
+            $anilisis->equipo_id          = $equipo_id;
+            $anilisis->fecha_muestreo     = $fecha_muestreo;
+            $anilisis->fecha_analisis     = $fecha_analisis;
+            $anilisis->zona_corporal      = $zona_corporal;
+            $anilisis->fd                 = $fd;
+            $anilisis->sd                 = $sd;
+            $anilisis->cv                 = $cv;
+            $anilisis->fc                 = $fc;
+            $anilisis->pm                 = $pm;
+            $anilisis->mfd                = $mfd;
+            $anilisis->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+
+
+    public function ajaxListadoEsquila(Request $request){
+        if($request->ajax()){
+
+            $ejemplar_id  = $request->input('ejemplar_id');
+            $esquilas = Esquila::where('ejemplar_id', $ejemplar_id)->orderBy('id', 'desc')->get();
+
+            $valores = [
+                'listado' => view('ejemplar2.ajaxListadoEsquila')->with(compact('esquilas'))->render()
+            ];
+            $data = Respuesta::success($valores, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function guardarEsquila(Request $request){
+        if($request->ajax()){
+
+            $request->validate([
+                'esquilador_id' => 'required',
+                'fecha_esquila' => 'required',
+                'tipo_esquila'  => 'required',
+                'inca_esquila'  => 'required',
+                'peso_manto'    => 'required',
+                'peso_cuello'   => 'required',
+                'peso_braga'    => 'required',
+                'peso_total'    => 'required',
+                'longitud'      => 'required',
+                'observacion'   => 'required',
+                'ejemplar_id'   => 'required',
+            ]);
+
+            $esquilador_id = $request->input('esquilador_id');
+            $fecha_esquila = $request->input('fecha_esquila');
+            $ejemplar_id   = $request->input('ejemplar_id');
+            $tipo_esquila  = $request->input('tipo_esquila');
+              // $inca_esquila   = $request->input('inca_esquila');
+            $inca_esquila   = $request->has('inca_esquila')? 1 : 0;
+            $peso_manto     = $request->input('peso_manto');
+            $peso_cuello    = $request->input('peso_cuello');
+            $peso_braga     = $request->input('peso_braga');
+            $peso_total     = $request->input('peso_total');
+            $longitud       = $request->input('longitud');
+            $observacion    = $request->input('observacion');
+            $usuarioLoguado = Auth::user();
+
+            $esquila                     = new Esquila();
+            $esquila->usuario_creador_id = $usuarioLoguado->id;
+            $esquila->ejemplar_id        = $ejemplar_id;
+            $esquila->esquilador_id      = $esquilador_id;
+            $esquila->fecha              = $fecha_esquila;
+            $esquila->tipo_esquila       = $tipo_esquila;
+            $esquila->inca_esquila       = $inca_esquila;
+            $esquila->peso_manto         = $peso_manto;
+            $esquila->peso_cuello        = $peso_cuello;
+            $esquila->peso_braga         = $peso_braga;
+            $esquila->peso_total         = $peso_total;
+            $esquila->longitud           = $longitud;
+            $esquila->observacion        = $observacion;
+            $esquila->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
         return $data;
     }
 

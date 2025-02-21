@@ -28,8 +28,16 @@ class AnalisisFibra extends Model
         'fc',
         'pm',
         'mfd',
-        'laboratorio',
+        // 'laboratorio',
         'estado',
         'deleted_at'
     ];
+
+    public function laboratorioRelacion(){
+        return $this->belongsTo('App\Models\Laboratorio', 'laboratorio_id');
+    }
+
+    public function equipo(){
+        return $this->belongsTo('App\Models\Equipo', 'equipo_id');
+    }
 }

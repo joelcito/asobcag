@@ -45,14 +45,14 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Estancia</label>
                                 <input type="text" class="form-control form-control-sm" id="estancia" name="estancia">
                                 <div class="text-danger error-message" id="error-estancia"></div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="fv-row mb-7">
                                 <label class="fs-6 fw-semibold form-label mb-2 required">Propietario</label>
                                 <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCriadero"
@@ -65,7 +65,7 @@
                                 <div class="text-danger error-message" id="error-propietario_id"></div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="fv-row mb-7">
                                 <label class="fs-6 fw-semibold form-label mb-2">Tecnico</label>
                                 <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCriadero"
@@ -78,9 +78,7 @@
                                 <div class="text-danger error-message" id="error-tecnico_id"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="fv-row mb-7">
                                 <label class="fs-6 fw-semibold form-label mb-2">Pastor</label>
                                 <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCriadero"
@@ -93,7 +91,6 @@
                                 <div class="text-danger error-message" id="error-pastor_id"></div>
                             </div>
                         </div>
-
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
@@ -119,6 +116,11 @@
                                     Negocio de Animal
                                 </label>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            @include("localidad.components.registroLocalidad", ['nameModalPadre' => 'modalCriadero'])
                         </div>
                     </div>
                 </form>
@@ -352,8 +354,8 @@
                                 icon: 'error',
                                 title: 'Error',
                                 text: 'Ocurrió un error inesperado.',
-                                
-                            });                    
+
+                            });
                         }
                     });
                 } else if (result.dismiss === "cancel") {
@@ -364,7 +366,7 @@
                     )
                 }
             });
-            
+
         }
 
    </script>

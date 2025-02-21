@@ -286,7 +286,7 @@
 <div class="modal fade" id="modalLocalidad" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            @include("localidad.components.registroLocalidad")
+            @include("localidad.components.registroLocalidad", ['nameModalPadre' => 'modalLocalidad'])
         </div>
     </div>
 </div>

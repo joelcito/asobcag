@@ -21,7 +21,7 @@
                 <h3 class="fw-bold">FORMULARIO DE REGISTRO MORFOLOGICO</h3>
             </div>
             <div class="modal-body scroll-y">
-                <form id="formularioRegistroBiometrico">
+                <form id="formularioRegistroMorfologico">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
@@ -319,6 +319,232 @@
 </div>
 <!--end::Modal - Add task-->
 
+<!--begin::Modal - Add task-->
+<div class="modal fade" id="modalRegistroFibras" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" id="kt_modal_add_user_header">
+                <h3 class="fw-bold">FORMULARIO DE REGISTRO FIBRAS</h3>
+            </div>
+            <div class="modal-body scroll-y">
+                <form id="formularioRegistroFibras">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Laboratorio</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalRegistroFibras" class="form-select form-select-solid fw-bold"  name="laboratorio_id" id="laboratorio_id"  required required>
+                                    <option></option>
+                                    @foreach ($laboratorios as $laboratorio)
+                                        <option value="{{ $laboratorio->id }}">{{ $laboratorio->nombre }}</option>
+|                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-laboratorio_id"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Equipo</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalRegistroFibras" class="form-select form-select-solid fw-bold"  name="equipo_id" id="equipo_id"  required required>
+                                    <option></option>
+                                    @foreach ($equipos as $equipo)
+                                        <option value="{{ $equipo->id }}">{{ $equipo->nombre }}</option>
+|                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-equipo_id"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Fecha Muestreo</label>
+                                <input type="date" class="form-control form-control-sm" id="fecha_muestreo" name="fecha_muestreo" required>
+                                <div class="text-danger error-message" id="error-fecha_muestreo"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Fecha Analisis</label>
+                                <input type="date" class="form-control form-control-sm" id="fecha_analisis" name="fecha_analisis" required>
+                                <div class="text-danger error-message" id="error-fecha_analisis"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Zona corporal</label>
+                                <input type="text" class="form-control form-control-sm" id="zona_corporal" name="zona_corporal" required>
+                                <div class="text-danger error-message" id="error-zona_corporal"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">FD</label>
+                                <input type="text" class="form-control form-control-sm" id="fd" name="fd" required>
+                                <div class="text-danger error-message" id="error-fd"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">SD</label>
+                                <input type="text" class="form-control form-control-sm" id="sd" name="sd" required>
+                                <div class="text-danger error-message" id="error-sd"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">CV</label>
+                                <input type="text" class="form-control form-control-sm" id="cv" name="cv" required>
+                                <div class="text-danger error-message" id="error-cv"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">FC</label>
+                                <input type="text" class="form-control form-control-sm" id="fc" name="fc" required>
+                                <div class="text-danger error-message" id="error-fc"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">PM</label>
+                                <input type="text" class="form-control form-control-sm" id="pm" name="pm" required>
+                                <div class="text-danger error-message" id="error-pm"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">MFD</label>
+                                <input type="text" class="form-control form-control-sm" id="mfd" name="mfd" required>
+                                <div class="text-danger error-message" id="error-mfd"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-sm w-100 btn-success" onclick="guardarFibra()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+            <!--end::Modal body-->
+        </div>
+    </div>
+    <!--end::Modal dialog-->
+</div>
+<!--end::Modal - Add task-->
+
+
+
+<!--begin::Modal - Add task-->
+<div class="modal fade" id="modalRegistroEsquila" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" id="kt_modal_add_user_header">
+                <h3 class="fw-bold">FORMULARIO DE REGISTRO ESQUILAS</h3>
+            </div>
+            <div class="modal-body scroll-y">
+                <form id="formularioRegistroEsquila">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Esquilador</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalRegistroEsquila" class="form-select form-select-solid fw-bold"  name="esquilador_id" id="esquilador_id"  required required>
+                                    <option></option>
+                                    @foreach ($usuarios as $usuario)
+                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+|                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-esquilador_id"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Fecha</label>
+                                <input type="date" class="form-control form-control-sm" id="fecha_esquila" name="fecha_esquila" required>
+                                <div class="text-danger error-message" id="error-fecha_esquila"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Tipo Esquila</label>
+                                <input type="text" class="form-control form-control-sm" id="tipo_esquila" name="tipo_esquila" required>
+                                <div class="text-danger error-message" id="error-tipo_esquila"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <div class="form-check form-switch form-check-custom form-check-solid mt-9">
+                                    <input class="form-check-input" type="checkbox" id="inca_esquila" name="inca_esquila"/>
+                                    <label class="form-check-label" for="inca_esquila">
+                                        Inca Esquila ?
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Peso Manto</label>
+                                <input type="text" class="form-control form-control-sm" id="peso_manto" name="peso_manto" required>
+                                <div class="text-danger error-message" id="error-peso_manto"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Peso Cuello</label>
+                                <input type="text" class="form-control form-control-sm" id="peso_cuello" name="peso_cuello" required>
+                                <div class="text-danger error-message" id="error-peso_cuello"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Peso Braga</label>
+                                <input type="text" class="form-control form-control-sm" id="peso_braga" name="peso_braga" required>
+                                <div class="text-danger error-message" id="error-peso_braga"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Peso Total</label>
+                                <input type="text" class="form-control form-control-sm" id="peso_total" name="peso_total" required>
+                                <div class="text-danger error-message" id="error-peso_total"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Longitud</label>
+                                <input type="text" class="form-control form-control-sm" id="longitud" name="longitud" required>
+                                <div class="text-danger error-message" id="error-longitud"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Observacion</label>
+                                <input type="text" class="form-control form-control-sm" id="observacion" name="observacion" required>
+                                <div class="text-danger error-message" id="error-observacion"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-sm w-100 btn-success" onclick="guardarEsquila()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+            <!--end::Modal body-->
+        </div>
+    </div>
+    <!--end::Modal dialog-->
+</div>
+<!--end::Modal - Add task-->
+
+
 
 <!--begin::Content wrapper-->
 <div class="d-flex flex-column flex-column-fluid">
@@ -343,13 +569,13 @@
                 <div class="card-body py-4">
                     <form id="formularioNacimiento" action="{{ route('ejemplar.guardarEjemplar') }}" method="POST" autocomplete="off">
                         @csrf
-                        <input type="hidden" id="tipo" name="tipo" value="{{ $tipo }}">
+                        <input type="text" id="tipo" name="tipo" value="{{ $tipo }}">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Numero Registro</label>
                                     <input type="text" class="form-control form-control-sm" id="car_id" name="car_id" value="{{ ($ejemplar)? $ejemplar->numero_registro : $numeroSiguiente }}">
-                                    <input type="text" id="ejemplar_id" name="ejemplar_id" value="{{ $ejemplar ? $ejemplar->id : 0  }}">
+                                    <input type="hidden" id="ejemplar_id" name="ejemplar_id" value="{{ $ejemplar ? $ejemplar->id : 0  }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -465,33 +691,47 @@
                         </div>
                         <br>
                         <div class="separator separator-solid"></div>
-                        <div class="row">
-                            <div class="col-md-12">
+                        @if($ejemplar)
+                            <div class="row">
+                                <div class="col-md-12">
 
-                                <div class="mb-5 hover-scroll-x">
-                                    <div class="d-grid">
-                                        <ul class="nav nav-tabs flex-nowrap text-nowrap">
-                                            <li class="nav-item w-100">
-                                                <a class="nav-link active btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0" data-bs-toggle="tab" href="#kt_tab_pane_1">Registro Biometrico</a>
-                                            </li>
-                                            <li class="nav-item w-100">
-                                                <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0" data-bs-toggle="tab" href="#kt_tab_pane_2">Registro Morfologico</a>
-                                            </li>
-                                        </ul>
+                                    <div class="mb-5 hover-scroll-x">
+                                        <div class="d-grid">
+                                            <ul class="nav nav-tabs flex-nowrap text-nowrap">
+                                                <li class="nav-item w-100">
+                                                    <a class="nav-link active btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0" data-bs-toggle="tab" href="#kt_tab_pane_1">Registro Biometrico</a>
+                                                </li>
+                                                <li class="nav-item w-100">
+                                                    <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0" data-bs-toggle="tab" href="#kt_tab_pane_2">Registro Morfologico</a>
+                                                </li>
+                                                <li class="nav-item w-100">
+                                                    <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0" data-bs-toggle="tab" href="#kt_tab_pane_3">Ingreso de Fibra</a>
+                                                </li>
+                                                <li class="nav-item w-100">
+                                                    <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0" data-bs-toggle="tab" href="#kt_tab_pane_4">Registro de Esquila</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
+
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
+                                            <div id="tabla_biometrias"></div>
+                                        </div>
+                                        <div class="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
+                                            <div id="tabla_morfilogicos"></div>
+                                        </div>
+                                        <div class="tab-pane fade" id="kt_tab_pane_3" role="tabpanel">
+                                            <div id="tabla_analisis_fibras"></div>
+                                        </div>
+                                        <div class="tab-pane fade" id="kt_tab_pane_4" role="tabpanel">
+                                            <div id="tabla_registro_esquilas"></div>
+                                        </div>
+                                    </div>
+
                                 </div>
-
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
-                                        <div id="tabla_biometrias"></div>
-                                    </div>
-                                    <div class="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
-                                        <div id="tabla_morfilogicos"></div>
-                                    </div>
-                                </div>
-
                             </div>
-                        </div>
+                        @endif
                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-sm w-100 btn-success">Guardar</button>
@@ -558,6 +798,8 @@
 
             ajaxListado();
             ajaxListadoMorfologico();
+            ajaxListadoFibras();
+            ajaxListadoEsquila();
         });
 
         @if($ejemplar)
@@ -595,6 +837,38 @@
                     }
                 })
             }
+
+            function ajaxListadoFibras(){
+                let datos = {ejemplar_id:{{ $ejemplar->id }}};
+                $.ajax({
+                    url: "{{ url('ejemplar/ajaxListadoFibras') }}",
+                    method: "POST",
+                    data: datos,
+                    success: function (resultado) {
+                        if(resultado.estado){
+                            $('#tabla_analisis_fibras').html(resultado.data.listado)
+                        }else{
+
+                        }
+                    }
+                })
+            }
+
+            function ajaxListadoEsquila(){
+                let datos = {ejemplar_id:{{ $ejemplar->id }}};
+                $.ajax({
+                    url: "{{ url('ejemplar/ajaxListadoEsquila') }}",
+                    method: "POST",
+                    data: datos,
+                    success: function (resultado) {
+                        if(resultado.estado){
+                            $('#tabla_registro_esquilas').html(resultado.data.listado)
+                        }else{
+
+                        }
+                    }
+                })
+            }
         @endif
 
 
@@ -624,6 +898,7 @@
         }
 
         function guardarBiometria(){
+
             if($("#formularioRegistroBiometrico")[0].checkValidity()){
                 let datos = $('#formularioRegistroBiometrico').serializeArray();
                 datos.push({ name: "ejemplar_id", value: $('#ejemplar_id').val() });
@@ -698,8 +973,9 @@
         }
 
         function guardarMorfologico(){
-            if($("#formularioRegistroBiometrico")[0].checkValidity()){
-                let datos = $('#formularioRegistroBiometrico').serializeArray();
+
+            if($("#formularioRegistroMorfologico")[0].checkValidity()){
+                let datos = $('#formularioRegistroMorfologico').serializeArray();
                 datos.push({ name: "ejemplar_id", value: $('#ejemplar_id').val() });
                 $.ajax({
                     url: "{{ url('ejemplar/guardarMorfologico') }}",
@@ -743,7 +1019,116 @@
                     }
                 })
             }else{
-                $("#formularioRegistroBiometrico")[0].reportValidity();
+                $("#formularioRegistroMorfologico")[0].reportValidity();
+            }
+
+        }
+
+        function agregarNuevoRegistroFibra(){
+            $('#modalRegistroFibras').modal('show')
+        }
+
+        function guardarFibra(){
+            if($("#formularioRegistroFibras")[0].checkValidity()){
+                let datos = $('#formularioRegistroFibras').serializeArray();
+                datos.push({ name: "ejemplar_id", value: $('#ejemplar_id').val() });
+                $.ajax({
+                    url: "{{ url('ejemplar/guardarFibra') }}",
+                    method: "POST",
+                    data: datos,
+                    success: function (resultado) {
+                        if(resultado.estado){
+                            ajaxListadoFibras();
+                            $('#modalRegistroFibras').modal('hide');
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: resultado.data,
+                            });
+                        }
+                    },
+                    error:function(error){
+                        $('.error-message').html('');
+                        $('.is-invalid').removeClass('is-invalid');
+
+                        if (error.status === 422) {
+                            let errors = error.responseJSON.errors;
+                            $.each(errors, function(key, messages) {
+                                let input = $('[name="' + key + '"]');
+                                let errorDiv = $('#error-' + key);
+
+                                if (input.length > 0) {
+                                    input.addClass('is-invalid'); // Agregar clase de error
+                                    errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                            });
+                        }
+
+                    }
+                })
+            }else{
+                $("#formularioRegistroFibras")[0].reportValidity();
+            }
+        }
+
+        function agregarNuevoRegistroEsquila(){
+            $('#modalRegistroEsquila').modal('show')
+        }
+
+        function guardarEsquila(){
+            if($("#formularioRegistroEsquila")[0].checkValidity()){
+                let datos = $('#formularioRegistroEsquila').serializeArray();
+                datos.push({ name: "ejemplar_id", value: $('#ejemplar_id').val() });
+                $.ajax({
+                    url: "{{ url('ejemplar/guardarEsquila') }}",
+                    method: "POST",
+                    data: datos,
+                    success: function (resultado) {
+                        if(resultado.estado){
+                            ajaxListadoEsquila();
+                            $('#modalRegistroEsquila').modal('hide');
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: resultado.data,
+                            });
+                        }
+                    },
+                    error:function(error){
+                        $('.error-message').html('');
+                        $('.is-invalid').removeClass('is-invalid');
+
+                        if (error.status === 422) {
+                            let errors = error.responseJSON.errors;
+                            $.each(errors, function(key, messages) {
+                                let input = $('[name="' + key + '"]');
+                                let errorDiv = $('#error-' + key);
+
+                                if (input.length > 0) {
+                                    input.addClass('is-invalid'); // Agregar clase de error
+                                    errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                            });
+                        }
+
+                    }
+                })
+            }else{
+                $("#formularioRegistroEsquila")[0].reportValidity();
             }
         }
    </script>
