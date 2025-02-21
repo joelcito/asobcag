@@ -567,9 +567,9 @@
                 </div>
 
                 <div class="card-body py-4">
-                    <form id="formularioNacimiento" action="{{ route('ejemplar.guardarEjemplar') }}" method="POST" autocomplete="off">
+                    <form id="formularioNacimiento" action="{{ route('ejemplar.guardarEjemplar') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
                         @csrf
-                        <input type="text" id="tipo" name="tipo" value="{{ $tipo }}">
+                        <input type="hidden" id="tipo" name="tipo" value="{{ $tipo }}">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="fv-row mb-7">
@@ -628,7 +628,7 @@
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Sexo</label>
                                     <select name="sexo" id="sexo" class="form-control form-control-sm" required>
@@ -639,18 +639,25 @@
                                     <div class="text-danger error-message" id="error-sexo"></div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="fv-row mb-7">
-                                    <label class="required fw-semibold fs-6 mb-2">Fecha de Nacimiento</label>
+                                    <label class="fw-semibold fs-6 mb-2">Fecha de Nacimiento</label>
                                     <input type="date" class="form-control form-control-sm" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ ($ejemplar)? $ejemplar->fecha_nacimiento : '' }}" >
                                     <div class="text-danger error-message" id="error-fecha_nacimiento"></div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Fecha de Registro</label>
                                     <input type="date" class="form-control form-control-sm" id="fecha_registro" name="fecha_registro" value="{{ ($ejemplar)? $ejemplar->fecha_nacimiento : date('Y-m-d') }}" readonly>
                                     <div class="text-danger error-message" id="error-fecha_registro"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Tipo Parto</label>
+                                    <input type="text" class="form-control form-control-sm" id="tipo_parto" name="tipo_parto" value="{{ ($ejemplar)? $ejemplar->tipo_parto : '' }}">
+                                    <div class="text-danger error-message" id="error-tipo_parto"></div>
                                 </div>
                             </div>
                         </div>
@@ -667,7 +674,7 @@
                                 <div class="text-danger error-message" id="error-criadero_id"></div>
                             </div>
                             <div class="col-md-4">
-                                <label class="fs-6 fw-semibold form-label mb-2 required">Padre</label>
+                                <label class="fs-6 fw-semibold form-label mb-2">Padre</label>
                                 <select data-control="select2" data-placeholder="Seleccione"
                                      class="form-select form-select-solid fw-bold" name="padre_id" id="padre_id">
                                     <option></option>
@@ -678,7 +685,7 @@
                                 <div class="text-danger error-message" id="error-padre_id"></div>
                             </div>
                             <div class="col-md-4">
-                                <label class="fs-6 fw-semibold form-label mb-2 required">Madre</label>
+                                <label class="fs-6 fw-semibold form-label mb-2">Madre</label>
                                 <select data-control="select2" data-placeholder="Seleccione"
                                      class="form-select form-select-solid fw-bold" name="madre_id" id="madre_id">
                                     <option></option>
@@ -687,6 +694,31 @@
                                     @endforeach
                                 </select>
                                 <div class="text-danger error-message" id="error-madre_id"></div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <label class="fs-6 fw-semibold form-label mb-2">Imagenes</label>
+                                <input type="file" class="form-control form-control-sm" id="imagenes" name="imagenes[]" multiple>
+                            </div>
+                        </div>
+                        <!-- Tabla de vista previa -->
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <h6>Vista previa de imágenes</h6>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Imagen</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaVistaPrevia">
+                                        <tr id="filaVacia">
+                                            <td colspan="2" class="text-center text-muted">No hay imágenes seleccionadas</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <br>
@@ -764,7 +796,9 @@
             $('#formularioNacimiento').on('submit', function(event) {
                 event.preventDefault(); // Evita la recarga del formulario
 
-                let formData = $(this).serialize(); // Captura los datos del formulario
+                //let formData = $(this).serialize(); // Captura los datos del formulario
+                // Usar FormData para incluir archivos
+                let formData = new FormData(this);
 
                 // Limpiar mensajes de error previos
                 $('.error-message').html('');
@@ -775,6 +809,8 @@
                     type: 'POST',
                     data: formData,
                     dataType: 'json',
+                    processData: false,  // IMPORTANTE
+                    contentType: false,  // IMPORTANTE
                     success: function(response) {
                         // Si todo está bien, redirigir o mostrar mensaje de éxito
                         window.location.href = "{{ route('ejemplar.listado', [$tipo]) }}";
@@ -1131,5 +1167,83 @@
                 $("#formularioRegistroEsquila")[0].reportValidity();
             }
         }
+
+        /* Adicion de imagenes  */
+        document.addEventListener("DOMContentLoaded", function () {
+            let inputImagenes = document.getElementById("imagenes");
+            let tablaVistaPrevia = document.getElementById("tablaVistaPrevia");
+            let filaVacia = document.getElementById("filaVacia");
+
+            let archivosSeleccionados = []; // Array para manejar las imágenes seleccionadas
+
+            inputImagenes.addEventListener("change", function (event) {
+                let archivos = Array.from(event.target.files); // Convertir FileList a Array
+                if (archivos.length > 0) {
+                    filaVacia.style.display = "none"; // Ocultar mensaje "No hay imágenes"
+
+                    archivos.forEach((archivo) => {
+                        let reader = new FileReader();
+                        reader.onload = function (e) {
+                            let nuevaFila = document.createElement("tr");
+                            nuevaFila.innerHTML = `
+                                <td><img src="${e.target.result}" alt="Imagen" width="80"></td>
+                                <td><button type="button" class="btn btn-danger btn-sm eliminarImagen">Eliminar</button></td>
+                            `;
+                            tablaVistaPrevia.appendChild(nuevaFila);
+                        };
+                        reader.readAsDataURL(archivo);
+                        archivosSeleccionados.push(archivo); // Agregar al array
+                    });
+
+                    actualizarInputArchivos(); // Refrescar el input con los archivos actuales
+                    actualizarIndices(); // Actualizar índices en botones
+                }
+            });
+
+            // Delegación de eventos para eliminar imágenes
+            tablaVistaPrevia.addEventListener("click", function (event) {
+                if (event.target.classList.contains("eliminarImagen")) {
+                    let fila = event.target.closest("tr");
+                    // Obtener el índice guardado en un atributo de la fila (que actualizaremos)
+                    let index = parseInt(fila.getAttribute("data-index"));
+                    archivosSeleccionados.splice(index, 1); // Remover del array
+                    fila.remove(); // Eliminar fila de la tabla
+
+                    // Si no quedan imágenes, mostrar mensaje "No hay imágenes"
+                    if (archivosSeleccionados.length === 0) {
+                        filaVacia.style.display = "table-row";
+                    }
+
+                    actualizarInputArchivos(); // Refrescar el input con los archivos actuales
+                    actualizarIndices(); // Actualizar los índices en el DOM
+                }
+            });
+
+            function actualizarInputArchivos() {
+                let dataTransfer = new DataTransfer();
+                archivosSeleccionados.forEach(file => dataTransfer.items.add(file));
+                inputImagenes.files = dataTransfer.files; // Reemplazar archivos en el input
+            }
+
+            function actualizarIndices() {
+                // Recorre todas las filas y actualiza el índice almacenado en la fila o en el botón
+                const filas = tablaVistaPrevia.querySelectorAll("tr");
+                filas.forEach((fila, index) => {
+                    fila.setAttribute("data-index", index);
+                    const btn = fila.querySelector(".eliminarImagen");
+                    if (btn) {
+                        btn.setAttribute("data-index", index);
+                    }
+                });
+            }
+        });
+
+    
+
+
+
+        /* Fin Adicion de imagenes  */
+
+
    </script>
 @endsection

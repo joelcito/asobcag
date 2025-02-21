@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Biometria;
 use App\Models\Raza;
 use App\Models\User;
 use App\Models\Color;
+use App\Models\Equipo;
+use App\Models\Esquila;
+use App\Models\Criadero;
 use App\Models\Ejemplar;
 use App\Models\Fenotipo;
 use App\Utils\Respuesta;
+use App\Models\Biometria;
 use App\Models\Comunidad;
-use App\Models\Criadero;
-use App\Models\Morfologico;
-use App\Models\AnalisisFibra;
 use App\Models\Laboratorio;
-use App\Models\Equipo;
-use App\Models\Esquila;
+use App\Models\Morfologico;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\AnalisisFibra;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EjemplarController extends Controller
 {
@@ -71,7 +73,7 @@ class EjemplarController extends Controller
     }
 
     public function guardarEjemplar(Request $request){
-        //TODO: agregar 'tipo' para LLAMA o ALPACA
+
         if($request->ajax()){
             $request->validate([
                 'microchip'        => 'required',
@@ -95,6 +97,7 @@ class EjemplarController extends Controller
             $color_id         = $request->input('color_id');
             $sexo             = $request->input('sexo');
             $fecha_nacimiento = $request->input('fecha_nacimiento');
+            $tipo_parto       = $request->input('tipo_parto');
             $fecha_registro   = $request->input('fecha_registro');
             $criadero_id      = $request->input('criadero_id');
             $padre_id         = $request->input('padre_id');
@@ -111,6 +114,7 @@ class EjemplarController extends Controller
             $ejemplar->color_id           = $color_id;
             $ejemplar->sexo               = $sexo;
             $ejemplar->fecha_nacimiento   = $fecha_nacimiento;
+            $ejemplar->tipo_parto         = $tipo_parto;
             $ejemplar->fecha_registro     = $fecha_registro;
             $ejemplar->criadero_id        = $criadero_id;
             $ejemplar->padre_id           = $padre_id;
@@ -118,6 +122,20 @@ class EjemplarController extends Controller
             $ejemplar->tipo               = $tipo;
             $ejemplar->numero_registro    = $car_id;
             $ejemplar->save();
+
+            // Guardar imágenes asociadas al ejemplar
+            if ($request->hasFile('imagenes')) {
+                foreach ($request->file('imagenes') as $imagen) {
+                    $nombreArchivo = time() . '_' . Str::random(10) . '_' . $imagen->getClientOriginalName();
+                    $ruta = $imagen->storeAs("public/imagenes/{$tipo}", $nombreArchivo);
+
+                    $ejemplar->imagenes()->create([
+                        'usuario_creador_id' => $usuarioLoguado->id,
+                        'ruta' => Storage::url("imagenes/{$tipo}/" . $nombreArchivo),
+                        'estado' => 1,
+                    ]);
+                }
+            }
 
             //return view('ejemplar2.listado');
             $data = Respuesta::success(null, "Datos obtenidos correctamente");

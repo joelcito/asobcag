@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('nombre')->nullable();
             $table->string('sexo', 20)->nullable();
             $table->date('fecha_nacimiento')->nullable();
+            $table->string('tipo_parto')->nullable();
             $table->integer('numero_registro')->nullable();
             $table->string('microchip')->nullable();
             $table->string('arete')->nullable();

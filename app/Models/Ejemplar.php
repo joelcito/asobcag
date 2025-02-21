@@ -23,6 +23,7 @@ class Ejemplar extends Model
         'nombre',
         'sexo',
         'fecha_nacimiento',
+        'tipo_parto',
         'numero_registro',
         'microchip',
         'arete',
@@ -52,4 +53,7 @@ class Ejemplar extends Model
         return $this->belongsTo('App\Models\Ejemplar', 'madre_id');
     }
 
+    public function imagenes(){
+        return $this->hasMany(EjemplarImagen::class);
+    }
 }
