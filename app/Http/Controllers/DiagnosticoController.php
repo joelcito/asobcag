@@ -12,17 +12,28 @@ use Illuminate\Support\Facades\Auth;
 
 class DiagnosticoController extends Controller
 {
-    public function listado(Request $request){
+    public function listado($tipo){
         $supervisores = User::all();
         $metodos = Metodo::all();
-        $empadres = Empadre::all();
+        $empadres = Empadre::with(['madre'])
+                            ->whereHas('madre', function ($q) use ($tipo) {
+                                $q->where('tipo', $tipo);
+                            })
+                            ->get();
 
-        return view('diagnostico.listado')->with(compact(['supervisores', 'metodos', 'empadres']));
+        return view('diagnostico.listado')->with(compact(['supervisores', 'metodos', 'empadres', 'tipo']));
     }
 
     public function ajaxListado(Request $request){
         if($request->ajax()){
-            $diagnosticos = Diagnostico::with(['empadre.madre', 'metodo', 'supervisor'])->get();
+
+            $tipo = $request->input('tipo');
+
+            $diagnosticos = Diagnostico::with(['empadre.madre', 'metodo', 'supervisor'])
+                                        ->whereHas('empadre.madre', function ($q) use ($tipo) {
+                                            $q->where('tipo', $tipo);
+                                        })
+                                        ->get();
             $valores = [
                 'listado' => view('diagnostico.ajaxListado')->with(compact('diagnosticos'))->render()
             ];
@@ -79,6 +90,7 @@ class DiagnosticoController extends Controller
     public function buscarEmpadre(Request $request){
         if ($request->ajax()) {
             $query = $request->input('query');
+            $tipo = $request->input('tipo');
 
             if (strlen($query) < 3) {
                 return response()->json(['estado' => false, 'mensaje' => 'Ingrese al menos 3 caracteres.']);
@@ -89,6 +101,9 @@ class DiagnosticoController extends Controller
                 ->whereHas('madre', function ($q) use ($query) {
                     $q->where('nombre', 'LIKE', "%{$query}%") // Búsqueda en el nombre del ejemplar
                     ->orWhere('arete', 'LIKE', "%{$query}%");
+                })
+                ->whereHas('madre', function ($q) use ($tipo) {
+                    $q->where('tipo', $tipo);
                 })
                 ->limit(10)
                 ->get();

@@ -78,8 +78,8 @@
                                 <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalEmpadre"
                                     class="form-select form-select-solid fw-bold" name="tipo_empadre_id" id="tipo_empadre_id">
                                     <option></option>
-                                    @foreach ($tipos as $tipo)
-                                        <option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
+                                    @foreach ($tipoEmpadres as $tipoEmpadre)
+                                        <option value="{{ $tipoEmpadre->id }}">{{ $tipoEmpadre->nombre }}</option>
                                     @endforeach
                                 </select>
                                 <div class="text-danger error-message" id="error-tipo_empadre_id"></div>
@@ -210,7 +210,7 @@
             //     }
             // });
 
-            let datos = {};
+            let datos = {tipo: "{{ $tipo }}"};
             $.ajax({
                 url: "{{ route('empadre.ajaxListado') }}",
                 method: "POST",

@@ -180,7 +180,7 @@
 
         function ajaxListado(){
 
-            let datos = {};
+            let datos = {tipo: "{{ $tipo }}"};
             $.ajax({
                 url: "{{ route('feriaEjemplar.ajaxListado') }}",
                 method: "POST",

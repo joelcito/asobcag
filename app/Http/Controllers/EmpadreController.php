@@ -12,18 +12,28 @@ use Illuminate\Support\Facades\Auth;
 
 class EmpadreController extends Controller
 {
-    public function listado(Request $request){
+    public function listado($tipo){
         $campanias = Campania::all();
-        $machos  = Ejemplar::where('sexo', 'Macho')->get();
-        $hembras = Ejemplar::where('sexo', 'Hembra')->get();
-        $tipos   = TipoEmpadre::all();
+        $machos  = Ejemplar::where('sexo', 'Macho')->where('tipo', $tipo)->get();
+        $hembras = Ejemplar::where('sexo', 'Hembra')->where('tipo', $tipo)->get();
+        $tipoEmpadres   = TipoEmpadre::all();
 
-        return view('empadre.listado')->with(compact(['campanias', 'machos', 'hembras', 'tipos']));
+        return view('empadre.listado')->with(compact(['campanias', 'machos', 'hembras', 'tipoEmpadres', 'tipo']));
     }
 
     public function ajaxListado(Request $request){
         if($request->ajax()){
-            $empadres = Empadre::with(['madre', 'padre', 'campania', 'tipoEmpadre'])->get();
+
+            $tipo = $request->input('tipo');
+
+            $empadres = Empadre::with(['madre', 'padre', 'campania', 'tipoEmpadre'])
+                                ->whereHas('padre', function ($q) use ($tipo) {
+                                    $q->where('tipo', $tipo);
+                                })
+                                ->whereHas('madre', function ($q) use ($tipo) {
+                                    $q->where('tipo', $tipo);
+                                })
+                                ->get();
             $valores = [
                 'listado' => view('empadre.ajaxListado')->with(compact('empadres'))->render()
             ];

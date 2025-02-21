@@ -14,19 +14,26 @@ use Illuminate\Support\Facades\Auth;
 
 class FeriaEjemplarController extends Controller
 {
-    public function listado(Request $request){
-        $ejemplares = Ejemplar::all();
+    public function listado($tipo){
+        $ejemplares = Ejemplar::where('tipo', $tipo)->get();
         $ferias     = Feria::all();
         $categorias = CategoriaFeria::all();
         $premios    = Premio::all();
         $usuarios   = User::all();
 
-        return view('feriaEjemplar.listado')->with(compact(['ejemplares', 'ferias', 'categorias', 'premios', 'usuarios']));
+        return view('feriaEjemplar.listado')->with(compact(['ejemplares', 'ferias', 'categorias', 'premios', 'usuarios', 'tipo']));
     }
 
     public function ajaxListado(Request $request){
         if($request->ajax()){
-            $ferias = FeriaEjemplar::with(['ejemplar', 'feria', 'categoriaFeria', 'premio', 'juezPrincipal', 'juezAdjunto'])->get();
+
+            $tipo = $request->input('tipo');
+
+            $ferias = FeriaEjemplar::with(['ejemplar', 'feria', 'categoriaFeria', 'premio', 'juezPrincipal', 'juezAdjunto'])
+                                    ->whereHas('ejemplar', function ($q) use ($tipo) {
+                                        $q->where('tipo', $tipo);
+                                    })
+                                    ->get();
             $valores = [
                 'listado' => view('feriaEjemplar.ajaxListado')->with(compact('ferias'))->render()
             ];

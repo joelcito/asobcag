@@ -12,17 +12,24 @@ use Illuminate\Support\Facades\Auth;
 
 class MedicacionController extends Controller
 {
-    public function listado(Request $request){
-        $ejemplares = Ejemplar::all();
+    public function listado($tipo){
+        $ejemplares = Ejemplar::where('tipo', $tipo)->get();
         $productos = ProductoVeterinario::all();
         $responsables = User::all();
 
-        return view('medicacion.listado')->with(compact(['ejemplares', 'productos', 'responsables']));
+        return view('medicacion.listado')->with(compact(['ejemplares', 'productos', 'responsables', 'tipo']));
     }
 
     public function ajaxListado(Request $request){
         if($request->ajax()){
-            $medicaciones = Medicacion::with(['ejemplar', 'responsable', 'productoVeterinario'])->get();
+
+            $tipo = $request->input('tipo');
+
+            $medicaciones = Medicacion::with(['ejemplar', 'responsable', 'productoVeterinario'])
+                                    ->whereHas('ejemplar', function ($q) use ($tipo) {
+                                        $q->where('tipo', $tipo);
+                                    })
+                                    ->get();
             $valores = [
                 'listado' => view('medicacion.ajaxListado')->with(compact('medicaciones'))->render()
             ];

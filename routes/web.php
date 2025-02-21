@@ -62,11 +62,11 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('/ejemplar')->group(function(){
-        Route::get('/listado/{tipo}', [EjemplarController::class, 'listado'])->name('ejemplar.listado');
+        Route::get('/listado/{tipo}', [EjemplarController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('ejemplar.listado');
         Route::post('/ajaxListado', [EjemplarController::class, 'ajaxListado'])->name('ejemplar.ajaxListado');
         Route::post('/guardarEjemplar', [EjemplarController::class, 'guardarEjemplar'])->name('ejemplar.guardarEjemplar');
         // Route::get('/formulario/{ejemplar_id}', [EjemplarController::class, 'formulario'])->name('ejemplar.formulario');
-        Route::get('/formulario/{tipo}/{ejemplar_id}', [EjemplarController::class, 'formulario'])->name('ejemplar.formulario');
+        Route::get('/formulario/{tipo}/{ejemplar_id}', [EjemplarController::class, 'formulario'])->where('tipo', 'LLAMA|ALPACA')->name('ejemplar.formulario');
         Route::get('/detalle/{ejemplar_id}', [EjemplarController::class, 'detalle'])->name('ejemplar.detalle');
         Route::post('/ajaxListadoBiometria', [EjemplarController::class, 'ajaxListadoBiometria'])->name('ejemplar.ajaxListadoBiometria');
         Route::post('/guardarBiometria', [EjemplarController::class, 'guardarBiometria'])->name('ejemplar.guardarBiometria');
@@ -75,14 +75,14 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('/empadre')->group(function(){
-        Route::get('/listado', [EmpadreController::class, 'listado'])->name('empadre.listado');
+        Route::get('/listado/{tipo}', [EmpadreController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('empadre.listado');
         Route::post('/ajaxListado', [EmpadreController::class, 'ajaxListado'])->name('empadre.ajaxListado');
         Route::post('/guardarEmpadre', [EmpadreController::class, 'guardarEmpadre'])->name('empadre.guardarEmpadre');
         Route::post('/eliminarEmpadre', [EmpadreController::class, 'eliminarEmpadre'])->name('empadre.eliminarEmpadre');
     });
 
     Route::prefix('/diagnostico')->group(function(){
-        Route::get('/listado', [DiagnosticoController::class, 'listado'])->name('diagnostico.listado');
+        Route::get('/listado/{tipo}', [DiagnosticoController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('diagnostico.listado');
         Route::post('/ajaxListado', [DiagnosticoController::class, 'ajaxListado'])->name('diagnostico.ajaxListado');
         Route::post('/guardarDiagnostico', [DiagnosticoController::class, 'guardarDiagnostico'])->name('diagnostico.guardarDiagnostico');
         Route::post('/eliminarDiagnostico', [DiagnosticoController::class, 'eliminarDiagnostico'])->name('diagnostico.eliminarDiagnostico');
@@ -91,14 +91,14 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('/medicacion')->group(function(){
-        Route::get('/listado', [MedicacionController::class, 'listado'])->name('medicacion.listado');
+        Route::get('/listado/{tipo}', [MedicacionController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('medicacion.listado');
         Route::post('/ajaxListado', [MedicacionController::class, 'ajaxListado'])->name('medicacion.ajaxListado');
         Route::post('/guardarMedicacion', [MedicacionController::class, 'guardarMedicacion'])->name('medicacion.guardarMedicacion');
         Route::post('/eliminarMedicacion', [MedicacionController::class, 'eliminarMedicacion'])->name('medicacion.eliminarMedicacion');
     });
 
     Route::prefix('/feriaEjemplar')->group(function(){
-        Route::get('/listado', [FeriaEjemplarController::class, 'listado'])->name('feriaEjemplar.listado');
+        Route::get('/listado/{tipo}', [FeriaEjemplarController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('feriaEjemplar.listado');
         Route::post('/ajaxListado', [FeriaEjemplarController::class, 'ajaxListado'])->name('feriaEjemplar.ajaxListado');
         Route::post('/guardarFeriaEjemplar', [FeriaEjemplarController::class, 'guardarFeriaEjemplar'])->name('feriaEjemplar.guardarFeriaEjemplar');
         Route::post('/eliminarFeriaEjemplar', [FeriaEjemplarController::class, 'eliminarFeriaEjemplar'])->name('feriaEjemplar.eliminarFeriaEjemplar');

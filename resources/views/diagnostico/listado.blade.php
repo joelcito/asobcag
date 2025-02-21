@@ -171,7 +171,7 @@
 
         function ajaxListado(){
 
-            let datos = {};
+            let datos = {tipo: "{{ $tipo }}"};
             $.ajax({
                 url: "{{ route('diagnostico.ajaxListado') }}",
                 method: "POST",
@@ -202,7 +202,7 @@
                 $.ajax({
                     url: "{{ route('diagnostico.buscarEmpadre') }}",
                     method: "POST",
-                    data: { query: query },
+                    data: { query: query, tipo: "{{ $tipo }}" },
                     success: function (response) {
                         if (response.estado) {
                             $('#resultadosEmpadre').html(response.html);

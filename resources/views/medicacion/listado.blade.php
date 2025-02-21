@@ -177,7 +177,7 @@
 
         function ajaxListado(){
 
-            let datos = {};
+            let datos = {tipo: "{{ $tipo }}"};
             $.ajax({
                 url: "{{ route('medicacion.ajaxListado') }}",
                 method: "POST",
