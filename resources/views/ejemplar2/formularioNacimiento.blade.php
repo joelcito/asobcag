@@ -704,23 +704,14 @@
                         </div>
                         <!-- Tabla de vista previa -->
                         <div class="row mt-3">
-                            <div class="col-md-4">
-                                <h6>Vista previa de imágenes</h6>
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Imagen</th>
-                                            <th>Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tablaVistaPrevia">
-                                        <tr id="filaVacia">
-                                            <td colspan="2" class="text-center text-muted">No hay imágenes seleccionadas</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="col-md-12">
+                                <h6>Vista previa de nuevas imágenes</h6>
+                                <div id="vistaPrevia" class="d-flex flex-wrap gap-2 border p-2">
+                                    <div id="mensajeVacio" class="text-muted">No hay imágenes seleccionadas</div>
+                                </div>
                             </div>
                         </div>
+                        
                         <br>
                         <div class="separator separator-solid"></div>
                         @if($ejemplar)
@@ -1171,75 +1162,77 @@
         /* Adicion de imagenes  */
         document.addEventListener("DOMContentLoaded", function () {
             let inputImagenes = document.getElementById("imagenes");
-            let tablaVistaPrevia = document.getElementById("tablaVistaPrevia");
-            let filaVacia = document.getElementById("filaVacia");
+            let contenedorVistaPrevia = document.getElementById("vistaPrevia");
+            let mensajeVacio = document.getElementById("mensajeVacio");
 
             let archivosSeleccionados = []; // Array para manejar las imágenes seleccionadas
 
             inputImagenes.addEventListener("change", function (event) {
                 let archivos = Array.from(event.target.files); // Convertir FileList a Array
                 if (archivos.length > 0) {
-                    filaVacia.style.display = "none"; // Ocultar mensaje "No hay imágenes"
+                    mensajeVacio.style.display = "none"; // Ocultar mensaje "No hay imágenes"
 
                     archivos.forEach((archivo) => {
                         let reader = new FileReader();
                         reader.onload = function (e) {
-                            let nuevaFila = document.createElement("tr");
-                            nuevaFila.innerHTML = `
-                                <td><img src="${e.target.result}" alt="Imagen" width="80"></td>
-                                <td><button type="button" class="btn btn-danger btn-sm eliminarImagen">Eliminar</button></td>
+                            // Crear contenedor para la imagen y el botón
+                            let cuadro = document.createElement("div");
+                            cuadro.classList.add("d-flex", "flex-column", "align-items-center", "border", "p-1", "m-1");
+                            cuadro.style.width = "100px";
+                            cuadro.style.height = "130px"; // Espacio para imagen y botón
+
+                            cuadro.innerHTML = `
+                                <img src="${e.target.result}" alt="Imagen" class="img-fluid" style="max-width:100%; max-height:100px;">
+                                <button type="button" class="btn btn-danger btn-sm eliminarImagen mt-1">Eliminar</button>
                             `;
-                            tablaVistaPrevia.appendChild(nuevaFila);
+                            contenedorVistaPrevia.appendChild(cuadro);
+                            
+                            // Agregar archivo al array y asignar índice
+                            archivosSeleccionados.push(archivo);
+                            cuadro.setAttribute("data-index", archivosSeleccionados.length - 1);
+
+                            // Listener para eliminar
+                            cuadro.querySelector(".eliminarImagen").addEventListener("click", function () {
+                                eliminarImagen(cuadro);
+                            });
+                            
+                            actualizarIndices();
+                            actualizarInputArchivos(); // Actualizar input tras cada lectura
                         };
                         reader.readAsDataURL(archivo);
-                        archivosSeleccionados.push(archivo); // Agregar al array
                     });
-
-                    actualizarInputArchivos(); // Refrescar el input con los archivos actuales
-                    actualizarIndices(); // Actualizar índices en botones
                 }
             });
 
-            // Delegación de eventos para eliminar imágenes
-            tablaVistaPrevia.addEventListener("click", function (event) {
-                if (event.target.classList.contains("eliminarImagen")) {
-                    let fila = event.target.closest("tr");
-                    // Obtener el índice guardado en un atributo de la fila (que actualizaremos)
-                    let index = parseInt(fila.getAttribute("data-index"));
-                    archivosSeleccionados.splice(index, 1); // Remover del array
-                    fila.remove(); // Eliminar fila de la tabla
-
-                    // Si no quedan imágenes, mostrar mensaje "No hay imágenes"
-                    if (archivosSeleccionados.length === 0) {
-                        filaVacia.style.display = "table-row";
-                    }
-
-                    actualizarInputArchivos(); // Refrescar el input con los archivos actuales
-                    actualizarIndices(); // Actualizar los índices en el DOM
+            function eliminarImagen(cuadro) {
+                let indice = parseInt(cuadro.getAttribute("data-index"));
+                archivosSeleccionados.splice(indice, 1);
+                cuadro.remove();
+                actualizarIndices();
+                actualizarInputArchivos();
+                if (archivosSeleccionados.length === 0) {
+                    mensajeVacio.style.display = "block";
                 }
-            });
+            }
 
             function actualizarInputArchivos() {
                 let dataTransfer = new DataTransfer();
                 archivosSeleccionados.forEach(file => dataTransfer.items.add(file));
-                inputImagenes.files = dataTransfer.files; // Reemplazar archivos en el input
+                inputImagenes.files = dataTransfer.files;
+                console.log("Input actualizado:", inputImagenes.files); // Verificar en consola
             }
 
             function actualizarIndices() {
-                // Recorre todas las filas y actualiza el índice almacenado en la fila o en el botón
-                const filas = tablaVistaPrevia.querySelectorAll("tr");
-                filas.forEach((fila, index) => {
-                    fila.setAttribute("data-index", index);
-                    const btn = fila.querySelector(".eliminarImagen");
+                const cuadros = contenedorVistaPrevia.querySelectorAll("div[data-index]");
+                cuadros.forEach((cuadro, index) => {
+                    cuadro.setAttribute("data-index", index);
+                    let btn = cuadro.querySelector(".eliminarImagen");
                     if (btn) {
                         btn.setAttribute("data-index", index);
                     }
                 });
             }
         });
-
-    
-
 
 
         /* Fin Adicion de imagenes  */
