@@ -18,6 +18,8 @@ use App\Models\Morfologico;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AnalisisFibra;
+use App\Models\Medicacion;
+use App\Models\ProductoVeterinario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -51,8 +53,9 @@ class EjemplarController extends Controller
         $usuarios        = User::all();
         $laboratorios    = Laboratorio::all();
         $equipos         = Equipo::all();
+        $productos = ProductoVeterinario::all();
 
-        return view('ejemplar2.formularioNacimiento')->with(compact(['colores', 'fenotipos', 'criaderos', 'machos', 'hembras', 'numeroSiguiente', 'ejemplar', 'usuarios', 'tipo', 'laboratorios', 'equipos']));
+        return view('ejemplar2.formularioNacimiento')->with(compact(['colores', 'fenotipos', 'criaderos', 'machos', 'hembras', 'numeroSiguiente', 'ejemplar', 'usuarios', 'tipo', 'laboratorios', 'equipos', 'productos']));
 
     }
 
@@ -162,9 +165,10 @@ class EjemplarController extends Controller
 
             $ejemplar_id = $request->input('ejemplar_id');
             $biometrias  = Biometria::where('ejemplar_id', $ejemplar_id)->orderBy('id', 'desc')->get();
+            $ejemplar    = Ejemplar::find($ejemplar_id);
 
             $valores = [
-                'listado' => view('ejemplar2.ajaxListadoBiometria')->with(compact('biometrias'))->render()
+                'listado' => view('ejemplar2.ajaxListadoBiometria')->with(compact('biometrias', 'ejemplar'))->render()
             ];
             $data = Respuesta::success($valores, "Datos obtenidos correctamente");
         }else{
@@ -255,9 +259,10 @@ class EjemplarController extends Controller
 
             $ejemplar_id  = $request->input('ejemplar_id');
             $morfologicos = Morfologico::where('ejemplar_id', $ejemplar_id)->orderBy('id', 'desc')->get();
+            $ejemplar     = Ejemplar::find($ejemplar_id);
 
             $valores = [
-                'listado' => view('ejemplar2.ajaxListadoMorfilogicos')->with(compact('morfologicos'))->render()
+                'listado' => view('ejemplar2.ajaxListadoMorfilogicos')->with(compact('morfologicos', 'ejemplar'))->render()
             ];
             $data = Respuesta::success($valores, "Datos obtenidos correctamente");
 
@@ -410,8 +415,6 @@ class EjemplarController extends Controller
         return $data;
     }
 
-
-
     public function ajaxListadoEsquila(Request $request){
         if($request->ajax()){
 
@@ -474,6 +477,170 @@ class EjemplarController extends Controller
             $esquila->longitud           = $longitud;
             $esquila->observacion        = $observacion;
             $esquila->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function  ajaxListadoMedicaciones(Request $request){
+        if($request->ajax()){
+
+            $tipo        = $request->input('tipo');
+            $ejemplar_id = $request->input('ejemplar_id');
+
+            $medicaciones = Medicacion::with(['ejemplar', 'responsable', 'productoVeterinario'])
+                                    ->whereHas('ejemplar', function ($q) use ($tipo, $ejemplar_id) {
+                                        $q->where('tipo', $tipo)
+                                        ->where('id', $ejemplar_id);
+                                    })
+                                    ->get();
+            $valores = [
+                'listado' => view('medicacion.ajaxListado')->with(compact('medicaciones'))->render()
+            ];
+            $data = Respuesta::success($valores, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+
+        return $data;
+    }
+
+    public function guardarMedicacion(Request $request){
+        if($request->ajax()){
+
+            $request->validate([
+                'ejemplar_id_medicacion'  => 'required',
+                'producto_veterinario_id' => 'required',
+                'responsable_id'          => 'required',
+                'fecha'                   => 'required',
+                'tipo'                    => 'required',
+                'dosis'                   => 'required',
+                'unidades'                => 'required',
+            ]);
+
+            $id = $request->input('id');
+
+            $ejemplar_id             = $request->input('ejemplar_id_medicacion');
+            $producto_veterinario_id = $request->input('producto_veterinario_id');
+            $responsable_id          = $request->input('responsable_id');
+            $fecha                   = $request->input('fecha');
+            $tipo                    = $request->input('tipo');
+            $dosis                   = $request->input('dosis');
+            $unidades                = $request->input('unidades');
+            $observacion             = $request->input('observacion');
+            $usuario                 = Auth::user();
+
+            if( $id == 0 ){
+                $medicacion = new Medicacion();
+                $medicacion->usuario_creador_id = $usuario->id;
+            }else{
+                $medicacion = Medicacion::find($id);
+                $medicacion->usuario_modificador_id = $usuario->id;
+            }
+
+            $medicacion->ejemplar_id             = $ejemplar_id;
+            $medicacion->producto_veterinario_id = $producto_veterinario_id;
+            $medicacion->responsable_id          = $responsable_id;
+            $medicacion->fecha                   = $fecha;
+            $medicacion->tipo                    = $tipo;
+            $medicacion->dosis                   = $dosis;
+            $medicacion->unidades                = $unidades;
+            $medicacion->observacion             = $observacion;
+            $medicacion->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function guardarMorfologicoAlpaca(Request $request){
+        if($request->ajax()){
+
+            $request->validate([
+                'motivo_morfologico_alpaca'       => 'required',
+                'fecha_morfologico_alpaca'        => 'required',
+                'evaluador_id_morfologico_alpaca' => 'required',
+                'densidad_morfologico_alpaca'     => 'required',
+                'rizo_morfologico_alpaca'         => 'required',
+                'cabeza_morfologico_alpaca'       => 'required',
+                'calce_morfologico_alpaca'        => 'required',
+                'balance_morfologico_alpaca'      => 'required',
+                'ejemplar_id'      => 'required',
+            ]);
+
+            $motivo_morfologico_alpaca       = $request->input('motivo_morfologico_alpaca');
+            $fecha_morfologico_alpaca        = $request->input('fecha_morfologico_alpaca');
+            $evaluador_id_morfologico_alpaca = $request->input('evaluador_id_morfologico_alpaca');
+            $densidad_morfologico_alpaca     = $request->input('densidad_morfologico_alpaca');
+            $rizo_morfologico_alpaca         = $request->input('rizo_morfologico_alpaca');
+            $cabeza_morfologico_alpaca       = $request->input('cabeza_morfologico_alpaca');
+            $calce_morfologico_alpaca        = $request->input('calce_morfologico_alpaca');
+            $balance_morfologico_alpaca      = $request->input('balance_morfologico_alpaca');
+            $ejemplar_id      = $request->input('ejemplar_id');
+            $usuario = Auth::user();
+
+
+            $morfologico                     = new Morfologico();
+            $morfologico->usuario_creador_id = $usuario->id;
+            $morfologico->ejemplar_id        = $ejemplar_id;
+            $morfologico->motivo             = $motivo_morfologico_alpaca;
+            $morfologico->fecha_evaluacion   = $fecha_morfologico_alpaca;
+            $morfologico->evaluador_id       = $evaluador_id_morfologico_alpaca;
+            $morfologico->densidad           = $densidad_morfologico_alpaca;
+            $morfologico->rizo               = $rizo_morfologico_alpaca;
+            $morfologico->cabeza             = $cabeza_morfologico_alpaca;
+            $morfologico->calce              = $calce_morfologico_alpaca;
+            $morfologico->balance            = $balance_morfologico_alpaca;
+            $morfologico->save();
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function guardarBiometriaAlpaca(Request $request){
+        if($request->ajax()){
+
+            $request->validate([
+                'motivo_alpaca'       => 'required',
+                'fecha_alpaca'        => 'required',
+                'evaluador_id_alpaca' => 'required',
+                'peso_alpaca'         => 'required',
+                'altura_cruz_alpaca'  => 'required',
+                'talla_cabeza_alpaca' => 'required',
+                'ejemplar_id'         => 'required',
+            ]);
+
+            $motivo_alpaca       = $request->input('motivo_alpaca');
+            $fecha_alpaca        = $request->input('fecha_alpaca');
+            $evaluador_id_alpaca = $request->input('evaluador_id_alpaca');
+            $peso_alpaca         = $request->input('peso_alpaca');
+            $altura_cruz_alpaca  = $request->input('altura_cruz_alpaca');
+            $talla_cabeza_alpaca = $request->input('talla_cabeza_alpaca');
+            $ejemplar_id         = $request->input('ejemplar_id');
+            $usuarioLoguado      = Auth::user();
+
+            $biometria                       = new Biometria();
+            $biometria->usuario_creador_id   = $usuarioLoguado->id;
+            $biometria->ejemplar_id          = $ejemplar_id;
+            $biometria->motivo               = $motivo_alpaca;
+            $biometria->fecha                = $fecha_alpaca;
+            $biometria->evaluador_id         = $evaluador_id_alpaca;
+            $biometria->peso                 = $peso_alpaca;
+            $biometria->altura_cruz          = $altura_cruz_alpaca;
+            $biometria->altura_cabeza        = $talla_cabeza_alpaca;
+            $biometria->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

@@ -30,11 +30,18 @@ class Morfologico extends Model
         'copete',
         'linea_superior',
         'grupa',
+        'densidad',
+        'rizo',
+        'calce',
         'estado',
         'deleted_at'
     ];
 
     public function evaluador(){
         return $this->belongsTo('App\Models\User', 'evaluador_id');
+    }
+
+    public function ejemplar(){
+        return $this->belongsTo('App\Models\Ejemplar', 'ejemplar_id');
     }
 }

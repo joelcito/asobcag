@@ -48,7 +48,7 @@
                                 </span>
                                 <span class="menu-title text-white">Ejemplares</span>
                             </a>
-                        </div>                        
+                        </div>
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteName() == 'empadre.listado' && $llama ? 'active' : '' }}" href="{{ route('empadre.listado', ['LLAMA']) }}">
                                 <span class="menu-bullet">
@@ -65,14 +65,14 @@
                                 <span class="menu-title text-white">Diagnosticos</span>
                             </a>
                         </div>
-                        <div class="menu-item">
+                        {{-- <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteName() == 'medicacion.listado' && $llama ? 'active' : '' }}" href="{{ route('medicacion.listado', ['LLAMA']) }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title text-white">Medicaciones</span>
                             </a>
-                        </div>
+                        </div> --}}
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteName() == 'feriaEjemplar.listado' && $llama ? 'active' : '' }}" href="{{route('feriaEjemplar.listado', ['LLAMA'])}}">
                                 <span class="menu-bullet">
@@ -122,14 +122,14 @@
                                 <span class="menu-title text-white">Diagnosticos</span>
                             </a>
                         </div>
-                        <div class="menu-item">
+                        {{-- <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteName() == 'medicacion.listado' && $alpaca ? 'active' : '' }}" href="{{ route('medicacion.listado', ['ALPACA']) }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title text-white">Medicaciones</span>
                             </a>
-                        </div>
+                        </div> --}}
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteName() == 'feriaEjemplar.listado' && $alpaca ? 'active' : '' }}" href="{{route('feriaEjemplar.listado', ['ALPACA'])}}">
                                 <span class="menu-bullet">
