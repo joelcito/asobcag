@@ -39,7 +39,10 @@ return new class extends Migration
             $table->string('copete')->nullable();
             $table->string('linea_superior')->nullable();
             $table->string('grupa')->nullable();
-            
+            $table->string('densidad')->nullable();
+            $table->string('rizo')->nullable();
+            $table->string('calce')->nullable();
+
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();
             $table->timestamps();

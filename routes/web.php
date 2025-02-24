@@ -76,6 +76,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/guardarFibra', [EjemplarController::class, 'guardarFibra'])->name('ejemplar.guardarFibra');
         Route::post('/ajaxListadoEsquila', [EjemplarController::class, 'ajaxListadoEsquila'])->name('ejemplar.ajaxListadoEsquila');
         Route::post('/guardarEsquila', [EjemplarController::class, 'guardarEsquila'])->name('ejemplar.guardarEsquila');
+        Route::post('/ajaxListadoMedicaciones', [EjemplarController::class, 'ajaxListadoMedicaciones'])->name('ejemplar.ajaxListadoMedicaciones');
+        Route::post('/guardarMedicacion', [EjemplarController::class, 'guardarMedicacion'])->name('ejemplar.guardarMedicacion');
+        Route::post('/guardarMorfologicoAlpaca', [EjemplarController::class, 'guardarMorfologicoAlpaca'])->name('ejemplar.guardarMorfologicoAlpaca');
+        Route::post('/guardarBiometriaAlpaca', [EjemplarController::class, 'guardarBiometriaAlpaca'])->name('ejemplar.guardarBiometriaAlpaca');
     });
 
     Route::prefix('/empadre')->group(function(){
@@ -94,12 +98,12 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    Route::prefix('/medicacion')->group(function(){
-        Route::get('/listado/{tipo}', [MedicacionController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('medicacion.listado');
-        Route::post('/ajaxListado', [MedicacionController::class, 'ajaxListado'])->name('medicacion.ajaxListado');
-        Route::post('/guardarMedicacion', [MedicacionController::class, 'guardarMedicacion'])->name('medicacion.guardarMedicacion');
-        Route::post('/eliminarMedicacion', [MedicacionController::class, 'eliminarMedicacion'])->name('medicacion.eliminarMedicacion');
-    });
+    // Route::prefix('/medicacion')->group(function(){
+    //     Route::get('/listado/{tipo}', [MedicacionController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('medicacion.listado');
+    //     Route::post('/ajaxListado', [MedicacionController::class, 'ajaxListado'])->name('medicacion.ajaxListado');
+    //     Route::post('/guardarMedicacion', [MedicacionController::class, 'guardarMedicacion'])->name('medicacion.guardarMedicacion');
+    //     Route::post('/eliminarMedicacion', [MedicacionController::class, 'eliminarMedicacion'])->name('medicacion.eliminarMedicacion');
+    // });
 
     Route::prefix('/feriaEjemplar')->group(function(){
         Route::get('/listado/{tipo}', [FeriaEjemplarController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('feriaEjemplar.listado');

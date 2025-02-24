@@ -12,129 +12,81 @@
 @endsection
 @section('content')
 
-
 <!--begin::Modal - Add task-->
-<div class="modal fade" id="modalRegistroMorfologico" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+<div class="modal fade" id="modalMedicacion" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="kt_modal_add_user_header">
-                <h3 class="fw-bold">FORMULARIO DE REGISTRO MORFOLOGICO</h3>
+                <h3 class="fw-bold">FORMULARIO DE MEDICACION <span class="text-info" id="nombre_busqueda"></span></h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body scroll-y">
-                <form id="formularioRegistroMorfologico">
+                <form id="formularioMedicacion">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Motivo</label>
-                                <input type="text" class="form-control form-control-sm" id="motivo_morfologico" name="motivo_morfologico" required>
-                                <div class="text-danger error-message" id="error-motivo_morfologico"></div>
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Producto Veterinario</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalMedicacion"
+                                    class="form-select form-select-solid fw-bold" name="producto_veterinario_id" id="producto_veterinario_id">
+                                    <option></option>
+                                    @foreach ($productos as $producto)
+                                        <option value="{{ $producto->id }}">{{ $producto->nombre }}</option>
+                                    @endforeach
+                                </select>
+                                <input type="hidden" name="ejemplar_id_medicacion" id="ejemplar_id_medicacion" value="{{ $ejemplar? $ejemplar->id : 0 }}">
+                                <div class="text-danger error-message" id="error-producto_veterinario_id"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Responsable</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalMedicacion"
+                                    class="form-select form-select-solid fw-bold" name="responsable_id" id="responsable_id">
+                                    <option></option>
+                                    @foreach ($usuarios as $responsable)
+                                        <option value="{{ $responsable->id }}">{{ $responsable->nombres.' '.$responsable->ap_paterno }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-responsable_id"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Fecha</label>
-                                <input type="date" class="form-control form-control-sm" id="fecha_morfologico" name="fecha_morfologico" required>
-                                <div class="text-danger error-message" id="error-fecha_morfologico"></div>
+                                <input type="date" class="form-control form-control-sm" id="fecha" name="fecha">
+                                <div class="text-danger error-message" id="error-fecha"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Tipo</label>
+                                <input type="text" class="form-control form-control-sm" id="tipo" name="tipo">
+                                <div class="text-danger error-message" id="error-tipo"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Evaluador</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalRegistroMorfologico" class="form-select form-select-solid fw-bold"  name="evaluador_id_morfologico" id="evaluador_id_morfologico"  required required>
-                                    <option></option>
-                                    @foreach ($usuarios as $usuario)
-                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-|                                    @endforeach
-                                </select>
-                                <div class="text-danger error-message" id="error-evaluador_id_morfologico"></div>
+                                <label class="required fw-semibold fs-6 mb-2">Dosis</label>
+                                <input type="number" class="form-control form-control-sm" id="dosis" name="dosis">
+                                <div class="text-danger error-message" id="error-dosis"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Unidades</label>
+                                <input type="text" class="form-control form-control-sm" id="unidades" name="unidades">
+                                <div class="text-danger error-message" id="error-unidades"></div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-12">
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Oreja</label>
-                                <input type="text" class="form-control form-control-sm" id="oreja_morfologico" name="oreja_morfologico" required>
-                                <div class="text-danger error-message" id="error-oreja_morfologico"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Cuello</label>
-                                <input type="text" class="form-control form-control-sm" id="cuello_morfologico" name="cuello_morfologico" required>
-                                <div class="text-danger error-message" id="error-cuello_morfologico"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Cabeza</label>
-                                <input type="text" class="form-control form-control-sm" id="cabeza_morfologico" name="cabeza_morfologico" required>
-                                <div class="text-danger error-message" id="error-cabeza_morfologico"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Alzada</label>
-                                <input type="text" class="form-control form-control-sm" id="alzada_morfologico" name="alzada_morfologico" required>
-                                <div class="text-danger error-message" id="error-alzada_morfologico"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Largo Cuerpo</label>
-                                <input type="text" class="form-control form-control-sm" id="largo_cuerpo_morfologico" name="largo_cuerpo_morfologico" required>
-                                <div class="text-danger error-message" id="error-largo_cuerpo_morfologico"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Amplitud Pecho</label>
-                                <input type="text" class="form-control form-control-sm" id="amplitud_pecho_morfologico" name="amplitud_pecho_morfologico" required>
-                                <div class="text-danger error-message" id="error-amplitud_pecho_morfologico"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Fortaleza</label>
-                                <input type="text" class="form-control form-control-sm" id="fortaleza_morfologico" name="fortaleza_morfologico" required>
-                                <div class="text-danger error-message" id="error-fortaleza_morfologico"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Balance</label>
-                                <input type="text" class="form-control form-control-sm" id="balance_morfologico" name="balance_morfologico" required>
-                                <div class="text-danger error-message" id="error-balance_morfologico"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Canias</label>
-                                <input type="text" class="form-control form-control-sm" id="canias_morfologico" name="canias_morfologico" required>
-                                <div class="text-danger error-message" id="error-canias_morfologico"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Copete</label>
-                                <input type="text" class="form-control form-control-sm" id="copete_morfologico" name="copete_morfologico" required>
-                                <div class="text-danger error-message" id="error-copete_morfologico"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Liena Superior</label>
-                                <input type="text" class="form-control form-control-sm" id="linea_superior_morfologico" name="linea_superior_morfologico" required>
-                                <div class="text-danger error-message" id="error-linea_superior_morfologico"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Grupa</label>
-                                <input type="text" class="form-control form-control-sm" id="grupa_morfologico" name="grupa_morfologico" required>
-                                <div class="text-danger error-message" id="error-grupa_morfologico"></div>
+                                <label class="fw-semibold fs-6 mb-2">Observacion</label>
+                                <input type="text" class="form-control form-control-sm" id="observacion" name="observacion">
                             </div>
                         </div>
                     </div>
@@ -143,7 +95,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-sm w-100 btn-success" onclick="guardarMorfologico()">Guardar</button>
+                        <button class="btn btn-sm w-100 btn-success" onclick="guardarMedicacion()">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -155,165 +107,493 @@
 <!--end::Modal - Add task-->
 
 
+
 <!--begin::Modal - Add task-->
-<div class="modal fade" id="modalRegistroBiometrico" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalRegistroMorfologico" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header" id="kt_modal_add_user_header">
-                <h3 class="fw-bold">FORMULARIO DE REGISTRO BIOMETRICO</h3>
-            </div>
-            <div class="modal-body scroll-y">
-                <form id="formularioRegistroBiometrico">
+        @if ($tipo === 'LLAMA')
+            <div class="modal-content">
+                <div class="modal-header" id="kt_modal_add_user_header">
+                    <h3 class="fw-bold">FORMULARIO DE REGISTRO MORFOLOGICO</h3>
+                </div>
+                <div class="modal-body scroll-y">
+                    <form id="formularioRegistroMorfologico">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Motivo</label>
+                                    {{-- <input type="text" class="form-control form-control-sm" id="motivo_morfologico" name="motivo_morfologico" required> --}}
+                                    <select name="motivo_morfologico" id="motivo_morfologico" class="form-control form-control-sm">
+                                        <option value="Destete">Destete</option>
+                                        <option value="1 Esquila">1 Esquila</option>
+                                        <option value="2 Esquila">2 Esquila</option>
+                                        <option value="3 Esquila">3 Esquila</option>
+                                        <option value="4 Esquila">4 Esquila</option>
+                                        <option value="5 Esquila">5 Esquila</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+                                    <div class="text-danger error-message" id="error-motivo_morfologico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Fecha</label>
+                                    <input type="date" class="form-control form-control-sm" id="fecha_morfologico" name="fecha_morfologico" required>
+                                    <div class="text-danger error-message" id="error-fecha_morfologico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Evaluador</label>
+                                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalRegistroMorfologico" class="form-select form-select-solid fw-bold"  name="evaluador_id_morfologico" id="evaluador_id_morfologico"  required required>
+                                        <option></option>
+                                        @foreach ($usuarios as $usuario)
+                                            <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+    |                                   @endforeach
+                                    </select>
+                                    <div class="text-danger error-message" id="error-evaluador_id_morfologico"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Oreja</label>
+                                    <input type="text" class="form-control form-control-sm" id="oreja_morfologico" name="oreja_morfologico" required>
+                                    <div class="text-danger error-message" id="error-oreja_morfologico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Cuello</label>
+                                    <input type="text" class="form-control form-control-sm" id="cuello_morfologico" name="cuello_morfologico" required>
+                                    <div class="text-danger error-message" id="error-cuello_morfologico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Cabeza</label>
+                                    <input type="text" class="form-control form-control-sm" id="cabeza_morfologico" name="cabeza_morfologico" required>
+                                    <div class="text-danger error-message" id="error-cabeza_morfologico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Alzada</label>
+                                    <input type="text" class="form-control form-control-sm" id="alzada_morfologico" name="alzada_morfologico" required>
+                                    <div class="text-danger error-message" id="error-alzada_morfologico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Largo Cuerpo</label>
+                                    <input type="text" class="form-control form-control-sm" id="largo_cuerpo_morfologico" name="largo_cuerpo_morfologico" required>
+                                    <div class="text-danger error-message" id="error-largo_cuerpo_morfologico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Amplitud Pecho</label>
+                                    <input type="text" class="form-control form-control-sm" id="amplitud_pecho_morfologico" name="amplitud_pecho_morfologico" required>
+                                    <div class="text-danger error-message" id="error-amplitud_pecho_morfologico"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Fortaleza</label>
+                                    <input type="text" class="form-control form-control-sm" id="fortaleza_morfologico" name="fortaleza_morfologico" required>
+                                    <div class="text-danger error-message" id="error-fortaleza_morfologico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Balance</label>
+                                    <input type="text" class="form-control form-control-sm" id="balance_morfologico" name="balance_morfologico" required>
+                                    <div class="text-danger error-message" id="error-balance_morfologico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Canias</label>
+                                    <input type="text" class="form-control form-control-sm" id="canias_morfologico" name="canias_morfologico" required>
+                                    <div class="text-danger error-message" id="error-canias_morfologico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Copete</label>
+                                    <input type="text" class="form-control form-control-sm" id="copete_morfologico" name="copete_morfologico" required>
+                                    <div class="text-danger error-message" id="error-copete_morfologico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Liena Superior</label>
+                                    <input type="text" class="form-control form-control-sm" id="linea_superior_morfologico" name="linea_superior_morfologico" required>
+                                    <div class="text-danger error-message" id="error-linea_superior_morfologico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Grupa</label>
+                                    <input type="text" class="form-control form-control-sm" id="grupa_morfologico" name="grupa_morfologico" required>
+                                    <div class="text-danger error-message" id="error-grupa_morfologico"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Motivo</label>
-                                <input type="text" class="form-control form-control-sm" id="motivo" name="motivo" required>
-                                <div class="text-danger error-message" id="error-motivo"></div>
-                            </div>
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-sm w-100 btn-success" onclick="guardarMorfologico()">Guardar</button>
                         </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Fecha</label>
-                                <input type="date" class="form-control form-control-sm" id="fecha" name="fecha" required>
-                                <div class="text-danger error-message" id="error-fecha"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Evaluador</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalRegistroBiometrico" class="form-select form-select-solid fw-bold"  name="evaluador_id" id="evaluador_id"  required required>
-                                    <option></option>
-                                    @foreach ($usuarios as $usuario)
-                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-|                                    @endforeach
-                                </select>
-                                <div class="text-danger error-message" id="error-evaluador_id"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Peso</label>
-                                <input type="text" class="form-control form-control-sm" id="peso" name="peso" required>
-                                <div class="text-danger error-message" id="error-peso"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Altura Cruz</label>
-                                <input type="text" class="form-control form-control-sm" id="altura_cruz" name="altura_cruz" required>
-                                <div class="text-danger error-message" id="error-altura_cruz"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Altura Grupa</label>
-                                <input type="text" class="form-control form-control-sm" id="altura_grupa" name="altura_grupa" required>
-                                <div class="text-danger error-message" id="error-altura_grupa"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Altura Cabeza</label>
-                                <input type="text" class="form-control form-control-sm" id="altura_cabeza" name="altura_cabeza" required>
-                                <div class="text-danger error-message" id="error-altura_cabeza"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Ancho Pecho</label>
-                                <input type="text" class="form-control form-control-sm" id="ancho_pecho" name="ancho_pecho" required>
-                                <div class="text-danger error-message" id="error-ancho_pecho"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Ancho Isquiones</label>
-                                <input type="text" class="form-control form-control-sm" id="ancho_esquiones" name="ancho_esquiones" required>
-                                <div class="text-danger error-message" id="error-ancho_esquiones"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Perimetro Toraxico</label>
-                                <input type="text" class="form-control form-control-sm" id="perimetro_toraxico" name="perimetro_toraxico" required>
-                                <div class="text-danger error-message" id="error-perimetro_toraxico"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Perimetro Abdominal</label>
-                                <input type="text" class="form-control form-control-sm" id="perimetro_abdominal" name="perimetro_abdominal" required>
-                                <div class="text-danger error-message" id="error-perimetro_abdominal"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Largo Cuello</label>
-                                <input type="text" class="form-control form-control-sm" id="largo_cuello" name="largo_cuello" required>
-                                <div class="text-danger error-message" id="error-largo_cuello"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Cuello Perimetro Sup.</label>
-                                <input type="text" class="form-control form-control-sm" id="cuello_perimetro_sup" name="cuello_perimetro_sup" required>
-                                <div class="text-danger error-message" id="error-cuello_perimetro_sup"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Cuello Perimetro Inf.</label>
-                                <input type="text" class="form-control form-control-sm" id="cuello_perimetro_inf" name="cuello_perimetro_inf" required>
-                                <div class="text-danger error-message" id="error-cuello_perimetro_inf"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Largo Oreja</label>
-                                <input type="text" class="form-control form-control-sm" id="largo_oreja" name="largo_oreja" required>
-                                <div class="text-danger error-message" id="error-largo_oreja"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Largo Cola</label>
-                                <input type="text" class="form-control form-control-sm" id="largo_cola" name="largo_cola" required>
-                                <div class="text-danger error-message" id="error-largo_cola"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Diametro Cania Ant.</label>
-                                <input type="text" class="form-control form-control-sm" id="diametro_ant" name="diametro_ant" required>
-                                <div class="text-danger error-message" id="error-diametro_ant"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Diametro Cania Post.</label>
-                                <input type="text" class="form-control form-control-sm" id="diametro_post" name="diametro_post" required>
-                                <div class="text-danger error-message" id="error-diametro_post"></div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col-md-12">
-                        <button type="button" class="btn btn-sm w-100 btn-success" onclick="guardarBiometria()">Guardar</button>
                     </div>
                 </div>
             </div>
-            <!--end::Modal body-->
-        </div>
+        @elseif($tipo === 'ALPACA')
+
+            <div class="modal-content">
+                <div class="modal-header" id="kt_modal_add_user_header">
+                    <h3 class="fw-bold">FORMULARIO DE REGISTRO MORFOLOGICO</h3>
+                </div>
+                <div class="modal-body scroll-y">
+                    <form id="formularioRegistroMorfologicoAlpaca">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Motivo</label>
+                                    {{-- <input type="text" class="form-control form-control-sm" id="motivo_morfologico_alpaca" name="motivo_morfologico_alpaca" required> --}}
+                                    <select name="motivo_morfologico_alpaca" id="motivo_morfologico_alpaca" class="form-control form-control-sm" required>
+                                        <option value="Destete">Destete</option>
+                                        <option value="1 Esquila">1 Esquila</option>
+                                        <option value="2 Esquila">2 Esquila</option>
+                                        <option value="3 Esquila">3 Esquila</option>
+                                        <option value="4 Esquila">4 Esquila</option>
+                                        <option value="5 Esquila">5 Esquila</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+                                    <div class="text-danger error-message" id="error-motivo_morfologico_alpaca"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Fecha</label>
+                                    <input type="date" class="form-control form-control-sm" id="fecha_morfologico_alpaca" name="fecha_morfologico_alpaca" required>
+                                    <div class="text-danger error-message" id="error-fecha_morfologico_alpaca"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Evaluador</label>
+                                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalRegistroMorfologico" class="form-select form-select-solid fw-bold"  name="evaluador_id_morfologico_alpaca" id="evaluador_id_morfologico_alpaca"  required required>
+                                        <option></option>
+                                        @foreach ($usuarios as $usuario)
+                                            <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+    |                                   @endforeach
+                                    </select>
+                                    <div class="text-danger error-message" id="error-evaluador_id_morfologico_alpaca"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Densidad</label>
+                                    <input type="text" class="form-control form-control-sm" id="densidad_morfologico_alpaca" name="densidad_morfologico_alpaca" required>
+                                    <div class="text-danger error-message" id="error-densidad_morfologico_alpaca"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Rizo</label>
+                                    <input type="text" class="form-control form-control-sm" id="rizo_morfologico_alpaca" name="rizo_morfologico_alpaca" required>
+                                    <div class="text-danger error-message" id="error-rizo_morfologico_alpaca"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Cabeza</label>
+                                    <input type="text" class="form-control form-control-sm" id="cabeza_morfologico_alpaca" name="cabeza_morfologico_alpaca" required>
+                                    <div class="text-danger error-message" id="error-cabeza_morfologico_alpaca"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Calce</label>
+                                    <input type="text" class="form-control form-control-sm" id="calce_morfologico_alpaca" name="calce_morfologico_alpaca" required>
+                                    <div class="text-danger error-message" id="error-calce_morfologico_alpaca"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Balance</label>
+                                    <input type="text" class="form-control form-control-sm" id="balance_morfologico_alpaca" name="balance_morfologico_alpaca" required>
+                                    <div class="text-danger error-message" id="error-balance_morfologico_alpaca"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-sm w-100 btn-success" onclick="guardarMorfologicoAlpaca()">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        @endif
+    </div>
+    <!--end::Modal dialog-->
+</div>
+<!--end::Modal - Add task-->
+
+
+<!--begin::Modal - Add task-->
+<div class="modal fade" id="modalRegistroBiometrico" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        @if ($tipo === 'LLAMA')
+            <div class="modal-content">
+                <div class="modal-header" id="kt_modal_add_user_header">
+                    <h3 class="fw-bold">FORMULARIO DE REGISTRO BIOMETRICO</h3>
+                </div>
+                <div class="modal-body scroll-y">
+                    <form id="formularioRegistroBiometrico">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Motivo</label>
+                                    {{-- <input type="text" class="form-control form-control-sm" id="motivo" name="motivo" required> --}}
+                                    <select name="motivo" id="motivo" class="form-control form-control-sm" required>
+                                        <option value="Nacimiento">Nacimiento</option>
+                                        <option value="Destete">Destete</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+                                    <div class="text-danger error-message" id="error-motivo"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Fecha</label>
+                                    <input type="date" class="form-control form-control-sm" id="fecha" name="fecha" required>
+                                    <div class="text-danger error-message" id="error-fecha"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Evaluador</label>
+                                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalRegistroBiometrico" class="form-select form-select-solid fw-bold"  name="evaluador_id" id="evaluador_id"  required required>
+                                        <option></option>
+                                        @foreach ($usuarios as $usuario)
+                                            <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+    |                                    @endforeach
+                                    </select>
+                                    <div class="text-danger error-message" id="error-evaluador_id"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Peso</label>
+                                    <input type="text" class="form-control form-control-sm" id="peso" name="peso" required>
+                                    <div class="text-danger error-message" id="error-peso"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Altura Cruz</label>
+                                    <input type="text" class="form-control form-control-sm" id="altura_cruz" name="altura_cruz" required>
+                                    <div class="text-danger error-message" id="error-altura_cruz"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Altura Grupa</label>
+                                    <input type="text" class="form-control form-control-sm" id="altura_grupa" name="altura_grupa" required>
+                                    <div class="text-danger error-message" id="error-altura_grupa"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Altura Cabeza</label>
+                                    <input type="text" class="form-control form-control-sm" id="altura_cabeza" name="altura_cabeza" required>
+                                    <div class="text-danger error-message" id="error-altura_cabeza"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Ancho Pecho</label>
+                                    <input type="text" class="form-control form-control-sm" id="ancho_pecho" name="ancho_pecho" required>
+                                    <div class="text-danger error-message" id="error-ancho_pecho"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Ancho Isquiones</label>
+                                    <input type="text" class="form-control form-control-sm" id="ancho_esquiones" name="ancho_esquiones" required>
+                                    <div class="text-danger error-message" id="error-ancho_esquiones"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Perimetro Toraxico</label>
+                                    <input type="text" class="form-control form-control-sm" id="perimetro_toraxico" name="perimetro_toraxico" required>
+                                    <div class="text-danger error-message" id="error-perimetro_toraxico"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Perimetro Abdominal</label>
+                                    <input type="text" class="form-control form-control-sm" id="perimetro_abdominal" name="perimetro_abdominal" required>
+                                    <div class="text-danger error-message" id="error-perimetro_abdominal"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Largo Cuello</label>
+                                    <input type="text" class="form-control form-control-sm" id="largo_cuello" name="largo_cuello" required>
+                                    <div class="text-danger error-message" id="error-largo_cuello"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Cuello Perimetro Sup.</label>
+                                    <input type="text" class="form-control form-control-sm" id="cuello_perimetro_sup" name="cuello_perimetro_sup" required>
+                                    <div class="text-danger error-message" id="error-cuello_perimetro_sup"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Cuello Perimetro Inf.</label>
+                                    <input type="text" class="form-control form-control-sm" id="cuello_perimetro_inf" name="cuello_perimetro_inf" required>
+                                    <div class="text-danger error-message" id="error-cuello_perimetro_inf"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Largo Oreja</label>
+                                    <input type="text" class="form-control form-control-sm" id="largo_oreja" name="largo_oreja" required>
+                                    <div class="text-danger error-message" id="error-largo_oreja"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Largo Cola</label>
+                                    <input type="text" class="form-control form-control-sm" id="largo_cola" name="largo_cola" required>
+                                    <div class="text-danger error-message" id="error-largo_cola"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Diametro Cania Ant.</label>
+                                    <input type="text" class="form-control form-control-sm" id="diametro_ant" name="diametro_ant" required>
+                                    <div class="text-danger error-message" id="error-diametro_ant"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Diametro Cania Post.</label>
+                                    <input type="text" class="form-control form-control-sm" id="diametro_post" name="diametro_post" required>
+                                    <div class="text-danger error-message" id="error-diametro_post"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-sm w-100 btn-success" onclick="guardarBiometria()">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Modal body-->
+            </div>
+        @elseif($tipo === 'ALPACA')
+            <div class="modal-content">
+                <div class="modal-header" id="kt_modal_add_user_header">
+                    <h3 class="fw-bold">FORMULARIO DE REGISTRO BIOMETRICO</h3>
+                </div>
+                <div class="modal-body scroll-y">
+                    <form id="formularioRegistroBiometricoAlpaca">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Motivo</label>
+                                    {{-- <input type="text" class="form-control form-control-sm" id="motivo_alpaca" name="motivo_alpaca" required> --}}
+                                    <select name="motivo_alpaca" id="motivo_alpaca" class="form-control form-control-sm" required>
+                                        <option value="Nacimiento">Nacimiento</option>
+                                        <option value="Destete">Destete</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+                                    <div class="text-danger error-message" id="error-motivo_alpaca"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Fecha</label>
+                                    <input type="date" class="form-control form-control-sm" id="fecha_alpaca" name="fecha_alpaca" required>
+                                    <div class="text-danger error-message" id="error-fecha_alpaca"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Evaluador</label>
+                                    <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalRegistroBiometrico" class="form-select form-select-solid fw-bold"  name="evaluador_id_alpaca" id="evaluador_id_alpaca"  required required>
+                                        <option></option>
+                                        @foreach ($usuarios as $usuario)
+                                            <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+    |                                    @endforeach
+                                    </select>
+                                    <div class="text-danger error-message" id="error-evaluador_id_alpaca"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Peso</label>
+                                    <input type="text" class="form-control form-control-sm" id="peso_alpaca" name="peso_alpaca" required>
+                                    <div class="text-danger error-message" id="error-peso_alpaca"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Talla a la Cruz</label>
+                                    <input type="text" class="form-control form-control-sm" id="altura_cruz_alpaca" name="altura_cruz_alpaca" required>
+                                    <div class="text-danger error-message" id="error-altura_cruz_alpaca"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Talla a la Cabeza</label>
+                                    <input type="text" class="form-control form-control-sm" id="talla_cabeza_alpaca" name="talla_cabeza_alpaca" required>
+                                    <div class="text-danger error-message" id="error-talla_cabeza_alpaca"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-sm w-100 btn-success" onclick="guardarBiometriaAlpaca()">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Modal body-->
+            </div>
+        @endif
+
     </div>
     <!--end::Modal dialog-->
 </div>
@@ -742,6 +1022,9 @@
                                                 <li class="nav-item w-100">
                                                     <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0" data-bs-toggle="tab" href="#kt_tab_pane_4">Registro de Esquila</a>
                                                 </li>
+                                                <li class="nav-item w-100">
+                                                    <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0" data-bs-toggle="tab" href="#kt_tab_pane_5">Registro de Medicaciones</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -758,6 +1041,9 @@
                                         </div>
                                         <div class="tab-pane fade" id="kt_tab_pane_4" role="tabpanel">
                                             <div id="tabla_registro_esquilas"></div>
+                                        </div>
+                                        <div class="tab-pane fade" id="kt_tab_pane_5" role="tabpanel">
+                                            <div id="tabla_registro_medicaciones"></div>
                                         </div>
                                     </div>
 
@@ -836,6 +1122,7 @@
             ajaxListadoMorfologico();
             ajaxListadoFibras();
             ajaxListadoEsquila();
+            ajaxListadoMedicaciones();
         });
 
         @if($ejemplar)
@@ -899,6 +1186,25 @@
                     success: function (resultado) {
                         if(resultado.estado){
                             $('#tabla_registro_esquilas').html(resultado.data.listado)
+                        }else{
+
+                        }
+                    }
+                })
+            }
+
+            function ajaxListadoMedicaciones(){
+                let datos = {
+                    ejemplar_id:{{ $ejemplar->id }},
+                    tipo : "{{ $tipo }}"
+                };
+                $.ajax({
+                    url: "{{ url('ejemplar/ajaxListadoMedicaciones') }}",
+                    method: "POST",
+                    data: datos,
+                    success: function (resultado) {
+                        if(resultado.estado){
+                            $('#tabla_registro_medicaciones').html(resultado.data.listado)
                         }else{
 
                         }
@@ -1168,6 +1474,160 @@
             }
         }
 
+        function guardarMedicacion(){
+            if($("#formularioMedicacion")[0].checkValidity()){
+                let datos = $('#formularioMedicacion').serializeArray();
+                datos.push({ name: "ejemplar_id", value: $('#ejemplar_id').val() });
+                $.ajax({
+                    url: "{{ url('ejemplar/guardarMedicacion') }}",
+                    method: "POST",
+                    data: datos,
+                    success: function (resultado) {
+                        if(resultado.estado){
+                            ajaxListadoMedicaciones();
+                            $('#modalRegistroEsquila').modal('hide');
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: resultado.data,
+                            });
+                        }
+                    },
+                    error:function(error){
+                        $('.error-message').html('');
+                        $('.is-invalid').removeClass('is-invalid');
+
+                        if (error.status === 422) {
+                            let errors = error.responseJSON.errors;
+                            $.each(errors, function(key, messages) {
+                                let input = $('[name="' + key + '"]');
+                                let errorDiv = $('#error-' + key);
+
+                                if (input.length > 0) {
+                                    input.addClass('is-invalid'); // Agregar clase de error
+                                    errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                            });
+                        }
+
+                    }
+                })
+            }else{
+                $("#formularioMedicacion")[0].reportValidity();
+            }
+        }
+
+        function agregarNuevoMedicacion(){
+            $('#modalMedicacion').modal('show')
+        }
+
+        function guardarMorfologicoAlpaca(){
+            if($("#formularioRegistroMorfologicoAlpaca")[0].checkValidity()){
+                let datos = $('#formularioRegistroMorfologicoAlpaca').serializeArray();
+                datos.push({ name: "ejemplar_id", value: $('#ejemplar_id').val() });
+                $.ajax({
+                    url: "{{ url('ejemplar/guardarMorfologicoAlpaca') }}",
+                    method: "POST",
+                    data: datos,
+                    success: function (resultado) {
+                        if(resultado.estado){
+                            ajaxListadoMorfologico();
+                            $('#modalRegistroMorfologico').modal('hide');
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: resultado.data,
+                            });
+                        }
+                    },
+                    error:function(error){
+                        $('.error-message').html('');
+                        $('.is-invalid').removeClass('is-invalid');
+
+                        if (error.status === 422) {
+                            let errors = error.responseJSON.errors;
+                            $.each(errors, function(key, messages) {
+                                let input = $('[name="' + key + '"]');
+                                let errorDiv = $('#error-' + key);
+
+                                if (input.length > 0) {
+                                    input.addClass('is-invalid'); // Agregar clase de error
+                                    errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                            });
+                        }
+
+                    }
+                })
+            }else{
+                $("#formularioRegistroMorfologicoAlpaca")[0].reportValidity();
+            }
+        }
+
+        function guardarBiometriaAlpaca(){
+            if($("#formularioRegistroBiometricoAlpaca")[0].checkValidity()){
+                let datos = $('#formularioRegistroBiometricoAlpaca').serializeArray();
+                datos.push({ name: "ejemplar_id", value: $('#ejemplar_id').val() });
+                $.ajax({
+                    url: "{{ url('ejemplar/guardarBiometriaAlpaca') }}",
+                    method: "POST",
+                    data: datos,
+                    success: function (resultado) {
+                        if(resultado.estado){
+                            ajaxListado();
+                            $('#modalRegistroBiometrico').modal('hide');
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: resultado.data,
+                            });
+                        }
+                    },
+                    error:function(error){
+                        $('.error-message').html('');
+                        $('.is-invalid').removeClass('is-invalid');
+
+                        if (error.status === 422) {
+                            let errors = error.responseJSON.errors;
+                            $.each(errors, function(key, messages) {
+                                let input = $('[name="' + key + '"]');
+                                let errorDiv = $('#error-' + key);
+
+                                if (input.length > 0) {
+                                    input.addClass('is-invalid'); // Agregar clase de error
+                                    errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error inesperado.',
+                            });
+                        }
+
+                    }
+                })
+            }else{
+                $("#formularioRegistroBiometricoAlpaca")[0].reportValidity();
+            }
+        }
+
         /* Adicion de imagenes  */
         document.addEventListener("DOMContentLoaded", function () {
             let inputImagenes = document.getElementById("imagenes");
@@ -1237,11 +1697,6 @@
                 });
             }
         });
-
-    
-
-
-
         /* Fin Adicion de imagenes  */
 
 
