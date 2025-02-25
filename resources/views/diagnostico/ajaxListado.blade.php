@@ -20,8 +20,8 @@
                     <td>{{ $diagnostico->fecha }}</td>
                     <td>{{ $diagnostico->diagnostico }}</td>
                     <td>
-                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza" onclick="editarDiagnostico({{ json_encode($diagnostico) }})"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza" onclick="eliminarDiagnostico({{ json_encode($diagnostico) }})"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar diagnostico" onclick="editarDiagnostico({{ json_encode($diagnostico) }})"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar diagnostico" onclick="eliminarDiagnostico({{ json_encode($diagnostico) }})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
             @empty

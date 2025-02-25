@@ -6,6 +6,7 @@ use App\Http\Controllers\RazaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\FeriaController;
+use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\MetodoController;
 use App\Http\Controllers\PremioController;
 use App\Http\Controllers\EmpadreController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\LocalidadController;
 use App\Http\Controllers\MedicacionController;
 use App\Http\Controllers\DiagnosticoController;
+use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\TipoEmpadreController;
 use App\Http\Controllers\FeriaEjemplarController;
 use App\Http\Controllers\CategoriaFeriaController;
@@ -194,6 +196,20 @@ Route::middleware('auth')->group(function () {
         Route::post('/ajaxListado', [TipoEmpadreController::class, 'ajaxListado'])->name('tipoEmpadre.ajaxListado');
         Route::post('/guardarTipoEmpadre', [TipoEmpadreController::class, 'guardarTipoEmpadre'])->name('tipoEmpadre.guardarTipoEmpadre');
         Route::post('/eliminarTipoEmpadre', [TipoEmpadreController::class, 'eliminarTipoEmpadre'])->name('tipoEmpadre.eliminarTipoEmpadre');
+    });
+
+    Route::prefix('/equipo')->group(function(){
+        Route::get('/listado', [EquipoController::class, 'listado'])->name('equipo.listado');
+        Route::post('/ajaxListado', [EquipoController::class, 'ajaxListado'])->name('equipo.ajaxListado');
+        Route::post('/guardarEquipo', [EquipoController::class, 'guardarEquipo'])->name('equipo.guardarEquipo');
+        Route::post('/eliminarEquipo', [EquipoController::class, 'eliminarEquipo'])->name('equipo.eliminarEquipo');
+    });
+
+    Route::prefix('/laboratorio')->group(function(){
+        Route::get('/listado', [LaboratorioController::class, 'listado'])->name('laboratorio.listado');
+        Route::post('/ajaxListado', [LaboratorioController::class, 'ajaxListado'])->name('laboratorio.ajaxListado');
+        Route::post('/guardarLaboratorio', [LaboratorioController::class, 'guardarLaboratorio'])->name('laboratorio.guardarLaboratorio');
+        Route::post('/eliminarLaboratorio', [LaboratorioController::class, 'eliminarLaboratorio'])->name('laboratorio.eliminarLaboratorio');
     });
 
    /*  Route::prefix('/ejemplar')->group(function(){
