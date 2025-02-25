@@ -3,27 +3,17 @@
     <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
         <thead>
             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                <th>Ejemplar</th>
-                <th>Feria</th>
-                <th>Categoria</th>
-                <th>Premio</th>
-                <th>Juez Principal</th>
-                <th>Juez Adjunto</th>
+                <th>Nombre</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody class="text-gray-600 fw-semibold">
-            @forelse ( $ferias as $feria)
+            @forelse ( $equipos as $equipo)
                 <tr>
-                    <td>{{ optional($feria->ejemplar)->nombre }}</td>
-                    <td>{{ optional($feria->feria)->nombre }}</td>
-                    <td>{{ optional($feria->categoriaFeria)->nombre }}</td>
-                    <td>{{ optional($feria->premio)->nombre }}</td>
-                    <td>{{ optional($feria->juezPrincipal)->name }}</td>
-                    <td>{{ optional($feria->juezAdjunto)->name }}</td>
+                    <td>{{ $equipo->nombre }}</td>
                     <td>
-                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar ferias ejemplar" onclick="editarFeriaEjemplar({{ json_encode($feria) }})"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar ferias ejemplar" onclick="eliminarFeriaEjemplar({{ json_encode($feria) }})"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar equipo" onclick="editarEquipo({{ json_encode($equipo) }})"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar equipo" onclick="eliminarEquipo({{ json_encode($equipo) }})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
             @empty

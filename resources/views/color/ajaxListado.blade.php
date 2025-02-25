@@ -12,8 +12,8 @@
                 <tr>
                     <td>{{ $color->nombre }}</td>
                     <td>
-                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza" onclick="editarColor({{ json_encode($color) }})"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza" onclick="eliminarColor({{ json_encode($color) }})"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar color" onclick="editarColor({{ json_encode($color) }})"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar color" onclick="eliminarColor({{ json_encode($color) }})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
             @empty

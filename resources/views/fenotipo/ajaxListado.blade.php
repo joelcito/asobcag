@@ -12,8 +12,8 @@
                 <tr>
                     <td>{{ $fenotipo->nombre }}</td>
                     <td>
-                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar raza" onclick="editarFenotipo({{ json_encode($fenotipo) }})"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar raza" onclick="eliminarFenotipo({{ json_encode($fenotipo) }})"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar fenotipo" onclick="editarFenotipo({{ json_encode($fenotipo) }})"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar fenotipo" onclick="eliminarFenotipo({{ json_encode($fenotipo) }})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
             @empty
