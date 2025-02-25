@@ -977,9 +977,9 @@
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label class="fs-6 fw-semibold form-label mb-2">Imagenes</label>
-                                <input type="file" class="form-control form-control-sm" id="imagenes" name="imagenes[]" multiple>
+                                <input type="file" class="form-control form-control-sm" id="imagenes" name="imagenes[]" multiple accept="image/*">
                             </div>
                         </div>
                         <!-- Tabla de vista previa -->
@@ -991,7 +991,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <br>
                         <div class="separator separator-solid"></div>
                         @if($ejemplar)
@@ -1646,7 +1646,7 @@
                                 <button type="button" class="btn btn-danger btn-sm eliminarImagen mt-1">Eliminar</button>
                             `;
                             contenedorVistaPrevia.appendChild(cuadro);
-                            
+
                             // Agregar archivo al array y asignar índice
                             archivosSeleccionados.push(archivo);
                             cuadro.setAttribute("data-index", archivosSeleccionados.length - 1);
@@ -1655,7 +1655,7 @@
                             cuadro.querySelector(".eliminarImagen").addEventListener("click", function () {
                                 eliminarImagen(cuadro);
                             });
-                            
+
                             actualizarIndices();
                             actualizarInputArchivos(); // Actualizar input tras cada lectura
                         };

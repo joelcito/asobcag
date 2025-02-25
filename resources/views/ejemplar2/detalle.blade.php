@@ -12,100 +12,6 @@
 @endsection
 @section('content')
 
-<!--begin::Modal - Add task-->
-{{-- <div class="modal fade" id="modalClienteProvedor" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header" id="kt_modal_add_user_header">
-                <h3 class="fw-bold">FORMULARIO DE CRIADEROS</h3>
-            </div>
-            <div class="modal-body scroll-y">
-                <form id="formularioClienteProvedor">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Nombre/Razon</label>
-                                <input type="text" class="form-control form-control-sm" id="nombre" name="nombre">
-                                <div class="text-danger error-message" id="error-nombre"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="fw-semibold fs-6 mb-2">NIT</label>
-                                <input type="text" class="form-control form-control-sm" id="nit" name="nit">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="fw-semibold fs-6 mb-2">Direccion Fisica</label>
-                                <input type="text" class="form-control form-control-sm" id="direccion" name="direccion">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Estancia</label>
-                                <input type="text" class="form-control form-control-sm" id="estancia" name="estancia">
-                                <div class="text-danger error-message" id="error-estancia"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2 required">Propietario</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalClienteProvedor"
-                                    class="form-select form-select-solid fw-bold" name="propietario_id" id="propietario_id">
-                                    <option></option>
-                                    @foreach ($usuarios as $usuario)
-                                        <option value="{{ $usuario->id }}">{{ $usuario->nombres.' '.$usuario->ap_paterno }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="text-danger error-message" id="error-propietario_id"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <div class="form-check form-check-custom form-check-solid me-10">
-                                <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_fibra" name="negocio_fibra"/>
-                                <label class="form-check-label" for="negocio_fibra">
-                                    Negocio de Fibra
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check form-check-custom form-check-solid me-10">
-                                <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_carne" name="negocio_carne"/>
-                                <label class="form-check-label" for="negocio_carne">
-                                    Negocio de Carne
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check form-check-custom form-check-solid me-10">
-                                <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_animal" name="negocio_animal"/>
-                                <label class="form-check-label" for="negocio_animal">
-                                    Negocio de Animal
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col-md-12">
-                        <button class="btn btn-sm w-100 btn-success" onclick="guardarClienteProvedor()">Guardar</button>
-                    </div>
-                </div>
-            </div>
-            <!--end::Modal body-->
-        </div>
-    </div>
-    <!--end::Modal dialog-->
-</div> --}}
-<!--end::Modal - Add task-->
-
 <!--begin::Content wrapper-->
 <div class="d-flex flex-column flex-column-fluid">
     <div id="kt_app_content" class="app-content flex-column-fluid">
@@ -121,9 +27,9 @@
 
                             <img src="{{ asset('assets/img/llama_1.png') }}" height="110" alt="image">
                             <hr/>
-                            <center>
+                            {{-- <center>
                                 <div id="qrcode"></div>
-                            </center>
+                            </center> --}}
 
                         </div>
                         <!--end::Pic-->
@@ -199,6 +105,7 @@
                                 <i class="fa-solid fa-horse-head fa-stack-7x"></i>
                             </span>
                             <div class="d-flex flex-column text-dark-75">
+                                <i class="fa fa-industry"></i>
                                 <span class="font-weight-bolder font-size-sm text-primary">NUM. REG.</span>
                                 <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold"></span>{{ $ejemplar->numero_registro }}</span>
                             </div>
