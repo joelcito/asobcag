@@ -22,6 +22,7 @@
                     <td>{{ $criadero->estancia  }}</td>
                     <td>{{ $criadero->localidad_id }}</td>
                     <td>
+                        <a class="btn btn-icon btn-sm btn-info btn-circle" title="Detalle criadero" href="{{ route('criadero.detalle', [$criadero->id]) }}" ><i class="fa fa-list-alt"></i></a>
                         <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar criadero" onclick="editarCriadero({{ json_encode($criadero) }})"><i class="fa fa-edit"></i></button>
                         <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar criadero" onclick="eliminarCriadero({{ json_encode($criadero) }})"><i class="fa fa-trash"></i></button>
                     </td>

@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/ajaxListado', [CriaderoController::class, 'ajaxListado'])->name('criadero.ajaxListado');
         Route::post('/guardarCriadero', [CriaderoController::class, 'guardarCriadero'])->name('criadero.guardarCriadero');
         Route::post('/eliminarCriadero', [CriaderoController::class, 'eliminarCriadero'])->name('criadero.eliminarCriadero');
+        Route::get('/detalle/{criadero_id}', [CriaderoController::class, 'detalle'])->name('criadero.detalle');
     });
 
     Route::prefix('/ejemplar')->group(function(){

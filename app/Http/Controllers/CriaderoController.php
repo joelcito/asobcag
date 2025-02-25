@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Criadero;
+use App\Models\Ejemplar;
 use App\Utils\Respuesta;
 use App\Models\Localidad;
 use Illuminate\Http\Request;
@@ -17,7 +19,6 @@ class CriaderoController extends Controller
         $paises      = Localidad::whereNull('superior_id')->get();
         return view('criadero.listado')->with(compact(['localidades', 'usuarios', 'paises']));
     }
-
 
     public function ajaxListado(Request $request){
         if($request->ajax()){
@@ -105,5 +106,40 @@ class CriaderoController extends Controller
             $data = Respuesta::error(null, "No existe");
         }
         return $data;
+    }
+
+    public function detalle($id){
+        $criadero = Criadero::find($id);
+
+        // Contar machos y hembras
+        $genero = Ejemplar::selectRaw("sexo, COUNT(*) as cantidad")
+                            ->where('criadero_id', $id)
+                            ->groupBy('sexo')
+                            ->get();
+
+        // Contar ejemplares por color
+        $colores = Ejemplar::join('colores', 'ejemplares.color_id', '=', 'colores.id')
+                            ->selectRaw("colores.nombre as color, COUNT(*) as cantidad")
+                            ->where('ejemplares.criadero_id', $id)
+                            ->groupBy('colores.nombre')
+                            ->get();
+
+        // Contar ejemplares por rango de edad
+        $hoy = Carbon::now();
+        $edades = Ejemplar::selectRaw("
+                                    CASE 
+                                    WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, '$hoy') < 1 THEN 'Menos de 1 año'
+                                    WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, '$hoy') BETWEEN 1 AND 3 THEN '1-3 años'
+                                    WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, '$hoy') BETWEEN 4 AND 6 THEN '4-6 años'
+                                    ELSE 'Más de 6 años' 
+                                    END AS rango_edad,
+                                    COUNT(*) as cantidad
+                                    ")
+                                ->where('criadero_id', $id)
+                                ->groupBy('rango_edad')
+                                ->get();
+
+
+        return view('criadero.detalle')->with(compact(['criadero', 'genero', 'colores', 'edades']));
     }
 }
