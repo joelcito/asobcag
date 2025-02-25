@@ -80,6 +80,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/guardarMedicacion', [EjemplarController::class, 'guardarMedicacion'])->name('ejemplar.guardarMedicacion');
         Route::post('/guardarMorfologicoAlpaca', [EjemplarController::class, 'guardarMorfologicoAlpaca'])->name('ejemplar.guardarMorfologicoAlpaca');
         Route::post('/guardarBiometriaAlpaca', [EjemplarController::class, 'guardarBiometriaAlpaca'])->name('ejemplar.guardarBiometriaAlpaca');
+        Route::post('/cargarArbolGenealogicoVista', [EjemplarController::class, 'cargarArbolGenealogicoVista'])->name('ejemplar.cargarArbolGenealogicoVista');
     });
 
     Route::prefix('/empadre')->group(function(){

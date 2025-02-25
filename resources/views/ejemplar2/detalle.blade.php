@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('css')
     <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/jquery.orgchart.css') }}" rel="stylesheet" type="text/css" />
     <style>
         .tamanio_boton{
             font-size: 6px;
@@ -102,60 +103,55 @@
                         <!--begin::Item-->
                         <div class="d-flex align-items-center flex-lg-fill mr-5 mb-2">
                             <span class="mr-4">
-                                <i class="fa-solid fa-horse-head fa-stack-7x"></i>
+                                <i class="fa-solid fa-horse-head" style="font-size: 30px; margin-right: 5px;"></i>
                             </span>
                             <div class="d-flex flex-column text-dark-75">
-                                <i class="fa fa-industry"></i>
                                 <span class="font-weight-bolder font-size-sm text-primary">NUM. REG.</span>
-                                <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold"></span>{{ $ejemplar->numero_registro }}</span>
+                                <h5>{{ $ejemplar->numero_registro }}</h5>
                             </div>
                         </div>
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex align-items-center flex-lg-fill mr-5 mb-2">
-                            <span class="mr-4">
-                                <i class="icon-xl-3x fas fa-barcode"></i>
+                            <span>
+                                <i class="fas fa-barcode"  style="font-size: 30px; margin-right: 5px;"></i>
                             </span>
                             <div class="d-flex flex-column text-dark-75">
                                 <span class="font-weight-bolder font-size-sm text-primary">MICRO CHIP</span>
-                                <span class="font-weight-bolder font-size-h5">
-                                    <span class="text-dark-50 font-weight-bold"></span>{{ $ejemplar->microchip }}</span>
+                                <h5>{{ $ejemplar->microchip }}</h5>
                             </div>
                         </div>
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex align-items-center flex-lg-fill mr-5 mb-2">
                             <span class="mr-4">
-                                <i class="icon-xl-3x fas fa-democrat"></i>
+                                <i class="fas fa-democrat"  style="font-size: 30px; margin-right: 5px;"></i>
                             </span>
                             <div class="d-flex flex-column text-dark-75">
                                 <span class="font-weight-bolder font-size-sm text-primary">NUM. ARETE</span>
-                                <span class="font-weight-bolder font-size-h5">
-                                    <span class="text-dark-50 font-weight-bold"></span>{{ $ejemplar->arete }}</span>
+                                <h5>{{ $ejemplar->arete }}</h5>
                             </div>
                         </div>
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex align-items-center flex-lg-fill mr-5 mb-2">
                             <span class="mr-4">
-                                <i class="icon-xl-3x fas fa-list-alt"></i>
+                                <i class="fas fa-list-alt" style="font-size: 30px; margin-right: 5px;"></i>
                             </span>
                             <div class="d-flex flex-column text-dark-75">
                                 <span class="font-weight-bolder font-size-sm text-primary">TIPO</span>
-                                <span class="font-weight-bolder font-size-h5">
-                                    <span class="text-dark-50 font-weight-bold"></span>{{ $ejemplar->tipo }}</span>
+                                <h5>{{ $ejemplar->tipo }}</h5>
                             </div>
                         </div>
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex align-items-center flex-lg-fill mr-5 mb-2">
                             <span class="mr-4">
-                                <i class="icon-xl-3x fas fa-calendar-day"></i>
+                                <i class="fas fa-calendar-day" style="font-size: 30px; margin-right: 5px;"></i>
                             </span>
                             <div class="d-flex flex-column text-dark-75">
                                 <span class="font-weight-bolder font-size-sm text-primary">F. NACIMIENTO</span>
-                                <span class="font-weight-bolder font-size-h5">
-                                    <span class="text-dark-50 font-weight-bold"></span>{{ $ejemplar->fecha_nacimiento }}</span>
+                                <h5>{{ $ejemplar->fecha_nacimiento }}</h5>
                             </div>
                         </div>
                         <!--end::Item-->
@@ -170,11 +166,42 @@
     <!--end::Content-->
 </div>
 <!--end::Content wrapper-->
+<hr>
+<!--begin::Content wrapper-->
+<div class="d-flex flex-column flex-column-fluid">
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <!--begin::Content container-->
+        <div id="kt_app_content_container" class="app-container container-xxlg">
+            <!--begin::Card-->
+            <div class="card">
+                <div class="card-header flex-wrap bg-light py-4">
+                    <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
+                        <!--begin::Page title-->
+                        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                            <!--begin::Title-->
+                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">GENERACIONES DEL EJEMPLAR</h1>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Page title-->
+                    </div>
+                </div>
+                <div class="card-body py-4">
+                    <div id="chart-container"></div>
+                </div>
+            </div>
+            <!--end::Card-->
+        </div>
+        <!--end::Content container-->
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Content wrapper-->
 
 @stop()
 
 @section('js')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.orgchart.js') }}"></script>
     <script>
         $.ajaxSetup({
             // definimos cabecera donde estarra el token y poder hacer nuestras operaciones de put,post...
@@ -184,83 +211,79 @@
         })
 
         $(document).ready(function() {
-            // ajaxListado();
+
+            var datascource = {
+                                'id': '1',
+                                'name': 'Lao Lao',
+                                'title': 'General Manager',
+                                'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}',
+                                'children': [
+                                    {
+                                    'id': '2',
+                                    'name': 'Bo Miao',
+                                    'title': 'Department Manager',
+                                    'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}',
+                                    'children': [
+                                        {
+                                        'id': '20',
+                                        'name': 'Tie Hua  NUEVO DE JOEL',
+                                        'title': 'Senior Engineer',
+                                        'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}'
+                                        }
+                                    ]
+                                    },
+                                    {
+                                    'id': '3',
+                                    'name': 'Su Miao',
+                                    'title': 'Department Manager',
+                                    'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}',
+                                    'children': [
+                                        {
+                                        'id': '4',
+                                        'name': 'Tie Hua',
+                                        'title': 'Senior Engineer',
+                                        'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}'
+                                        },
+                                        {
+                                        'id': '5',
+                                        'name': 'Hei Hei',
+                                        'title': 'Senior Engineer',
+                                        'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}',
+                                        'children': [
+                                            {
+                                            'id': '6',
+                                            'name': 'Pang Pang',
+                                            'title': 'Engineer',
+                                            'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}'
+                                            },
+                                            {
+                                            'id': '7',
+                                            'name': 'Xiang Xiang',
+                                            'title': 'UE Engineer',
+                                            'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}'
+                                            }
+                                        ]
+                                        }
+                                    ]
+                                    }
+                                ]
+                            };
+
+            $('#chart-container').orgchart({
+                'exportButton': true,
+                'exportFilename': 'MyOrgChart',
+                'data' : datascource,
+                'nodeContent': 'title',
+                'nodeID': 'id',
+                'createNode': function($node, data) {
+                    let imageUrl = data.img ? data.img : 'https://via.placeholder.com/100'; // Si no tiene imagen, usa un placeholder
+                    $node.prepend(`<img class="avatar" src="${imageUrl}" style="width: 50px; height: 50px; border-radius: 50%;" crossorigin="anonymous" />`);
+                }
+            });
+
+
+
         });
-
-        // function ajaxListado(){
-
-        //     let datos = {};
-        //     $.ajax({
-        //         url: "{{ route('criadero.ajaxListado') }}",
-        //         method: "POST",
-        //         data: datos,
-        //         success: function (resultado) {
-
-        //             if(resultado.estado){
-        //                 $('#table_listado').html(resultado.data.listado)
-        //             }else{
-
-        //             }
-        //             // Ocultar SweetAlert2 cuando la solicitud sea exitosa
-        //             // Swal.close();
-        //         }
-        //     })
-        // }
-
-        // function modalNuevoClienteProvedor(){
-        //     $('.error-message').html('');
-        //     $('.is-invalid').removeClass('is-invalid');
-
-        //     $('#nombre').val('')
-        //     $('#nit').val('')
-        //     $('#direccion').val('')
-        //     $('#negocio_fibra').prop('checked', false)
-        //     $('#negocio_carne').prop('checked', false)
-        //     $('#negocio_animal').prop('checked', false)
-        //     $('#estancia').val('')
-        //     $('#propietario_id').val(null).trigger('change')
-        //     $('#modalClienteProvedor').modal('show')
-        // }
-
-        // function guardarClienteProvedor(){
-        //     let datos = $('#formularioClienteProvedor').serializeArray();
-        //     $.ajax({
-        //         url: "{{ route('criadero.guardarCriadero') }}",
-        //         method: "POST",
-        //         data: datos,
-        //         success: function (resultado) {
-        //             if(resultado.estado){
-        //                 ajaxListado();
-        //                 $('#modalClienteProvedor').modal('hide')
-        //             }else{
-
-        //             }
-        //         },
-        //         error: function (xhr) {
-        //             $('.error-message').html('');
-        //             $('.is-invalid').removeClass('is-invalid');
-
-        //             if (xhr.status === 422) {
-        //                 let errors = xhr.responseJSON.errors;
-        //                 $.each(errors, function(key, messages) {
-        //                     let input = $('[name="' + key + '"]');
-        //                     let errorDiv = $('#error-' + key);
-
-        //                     if (input.length > 0) {
-        //                         input.addClass('is-invalid'); // Agregar clase de error
-        //                         errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
-        //                     }
-        //                 });
-        //             } else {
-        //                 Swal.fire({
-        //                     icon: 'error',
-        //                     title: 'Error',
-        //                     text: 'Ocurrió un error inesperado.',
-        //                 });
-        //             }
-        //         }
-        //     })
-        // }
 
    </script>
 @endsection

@@ -650,6 +650,19 @@ class EjemplarController extends Controller
         return $data;
     }
 
+    public function cargarArbolGenealogicoVista(Request $request){
+        if($request->ajax()){
+
+
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+
+        return $data;
+    }
+
+
 
     // FUNCIONES PRIVADAS
     private function sacarSiguienteNumeroRegistroEjemplar(){
@@ -657,6 +670,22 @@ class EjemplarController extends Controller
         $registro = Ejemplar::latest()->first();
         $numero = $registro ? $registro->numero_registro + 1 : $numero + 1;
         return $numero;
+
+    }
+
+    private function sacarHasta($ejemplar_id){
+
+        $ejemplar = Ejemplar::find($ejemplar_id);
+        $arbol    = [];
+
+        if($ejemplar){
+            $data['id']    = $ejemplar->id;
+            $data['name']  = $ejemplar->nombre;
+            $data['title'] = $ejemplar->arete;
+            $data['img']   = "asset(storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg)";
+        }
+
+        return $arbol;
 
     }
     // FUNCIONES PRIVADAS
