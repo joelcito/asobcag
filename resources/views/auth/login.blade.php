@@ -34,7 +34,7 @@
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root" id="kt_app_root">
 			<!--begin::Page bg image-->
-			<style>body { background-image: url('{{ asset('assets/media/auth/bg6_1.png') }}'); } [data-bs-theme="dark"] body { background-image: url('{{ asset('assets/media/auth/bg4-dark.jpg') }}'); }</style>
+			<style>body { background-image: url('{{ asset('assets/media/auth/bg5.jpg') }}'); } [data-bs-theme="dark"] body { background-image: url('{{ asset('assets/media/auth/bg4-dark.jpg') }}'); }</style>
 			<!--end::Page bg image-->
 			<!--begin::Authentication - Sign-in -->
 			<div class="d-flex flex-column flex-column-fluid flex-lg-row">
@@ -43,7 +43,7 @@
 					<!--begin::Aside-->
 					<div class="d-flex flex-center flex-lg-start flex-column">
 						<!--begin::Logo-->
-                        <img alt="Logo" src="{{ asset('assets/img/logo_2.jpeg') }}" width="100%" />
+                        <img alt="Logo" src="{{ asset('assets/img/logo_2.png') }}" width="100%" />
 						<!--end::Logo-->
 						<!--begin::Title-->
                         <br>

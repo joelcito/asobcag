@@ -23,6 +23,7 @@ use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\TipoEmpadreController;
 use App\Http\Controllers\FeriaEjemplarController;
 use App\Http\Controllers\CategoriaFeriaController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductoVeterinarioController;
 
 /*
@@ -37,17 +38,18 @@ use App\Http\Controllers\ProductoVeterinarioController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('home');
+    // return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/home', [HomeController::class, 'index']);
+
     Route::prefix('/usuario')->group(function(){
         Route::get('/listado', [UserController::class, 'listado'])->name('usuario.listado');
         Route::post('/ajaxListado', [UserController::class, 'ajaxListado'])->name('usuario.ajaxListado');
@@ -69,7 +71,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/listado/{tipo}', [EjemplarController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('ejemplar.listado');
         Route::post('/ajaxListado', [EjemplarController::class, 'ajaxListado'])->name('ejemplar.ajaxListado');
         Route::post('/guardarEjemplar', [EjemplarController::class, 'guardarEjemplar'])->name('ejemplar.guardarEjemplar');
-        // Route::get('/formulario/{ejemplar_id}', [EjemplarController::class, 'formulario'])->name('ejemplar.formulario');
         Route::get('/formulario/{tipo}/{ejemplar_id}', [EjemplarController::class, 'formulario'])->where('tipo', 'LLAMA|ALPACA')->name('ejemplar.formulario');
         Route::get('/detalle/{ejemplar_id}', [EjemplarController::class, 'detalle'])->name('ejemplar.detalle');
         Route::post('/ajaxListadoBiometria', [EjemplarController::class, 'ajaxListadoBiometria'])->name('ejemplar.ajaxListadoBiometria');
@@ -102,13 +103,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/buscarEmpadre', [DiagnosticoController::class, 'buscarEmpadre'])->name('diagnostico.buscarEmpadre');
 
     });
-
-    // Route::prefix('/medicacion')->group(function(){
-    //     Route::get('/listado/{tipo}', [MedicacionController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('medicacion.listado');
-    //     Route::post('/ajaxListado', [MedicacionController::class, 'ajaxListado'])->name('medicacion.ajaxListado');
-    //     Route::post('/guardarMedicacion', [MedicacionController::class, 'guardarMedicacion'])->name('medicacion.guardarMedicacion');
-    //     Route::post('/eliminarMedicacion', [MedicacionController::class, 'eliminarMedicacion'])->name('medicacion.eliminarMedicacion');
-    // });
 
     Route::prefix('/feriaEjemplar')->group(function(){
         Route::get('/listado/{tipo}', [FeriaEjemplarController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('feriaEjemplar.listado');
@@ -214,18 +208,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/guardarLaboratorio', [LaboratorioController::class, 'guardarLaboratorio'])->name('laboratorio.guardarLaboratorio');
         Route::post('/eliminarLaboratorio', [LaboratorioController::class, 'eliminarLaboratorio'])->name('laboratorio.eliminarLaboratorio');
     });
-
-   /*  Route::prefix('/ejemplar')->group(function(){
-        Route::get('/formulario/{ejemplar_id}', [EjemplarController::class, 'formulario']);
-        Route::post('/guardar', [EjemplarController::class, 'guardar']);
-        Route::get('/listado', [EjemplarController::class, 'listado']);
-        Route::post('/ajaxListado', [EjemplarController::class, 'ajaxListado']);
-        Route::post('/buscarEjemplar', [EjemplarController::class, 'buscarEjemplar']);
-        Route::prefix('/camada')->group(function(){
-            Route::get('/formularioCamada', [EjemplarController::class, 'formularioCamada']);
-            Route::post('/guardarCamada', [EjemplarController::class, 'guardarCamada']);
-        });
-    }); */
 
     Route::prefix('/propietario')->group(function(){
         Route::get('/listadoPropietario', [UserController::class, 'listadoPropietario']);

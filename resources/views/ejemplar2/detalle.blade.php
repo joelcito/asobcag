@@ -4,39 +4,6 @@
     <link href="{{ asset('assets/css/jquery.orgchart.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
     <style>
-        /* .tamanio_boton{
-            font-size: 6px;
-        }
-
-        #chart-container {
-        height: 550px;
-        background-color: blueviolet;
-        }
-        .orgchart .node .title {
-        height: unset;
-        text-align: left;
-        line-height: 40px;
-        width: 150px;
-        }
-        .orgchart .node .content {
-        text-align: left;
-        padding: 0 5px;
-        width: 150px;
-        }
-        .orgchart .node .content .symbol {
-        color: #aaa;
-        margin-right: 20px;
-        }
-        .oci-leader::before, .oci-leader::after {
-        background-color: rgba(217, 83, 79, 0.8);
-        }
-        .orgchart .node .avatar {
-        width: 60px;
-        height: 60px;
-        border-radius: 30px;
-        float: left;
-        margin: 5px;
-        } */
     </style>
 @endsection
 @section('metadatos')
@@ -57,7 +24,6 @@
                         <!--begin: Pic-->
                         <div class="flex-shrink-0 mr-7 mt-lg-0 mt-3">
                             @if (count($imagenes) > 0)
-                                {{-- <div style="width: 300px; height: 300px; background-color:blue"> --}}
                                 <div style="width: 200px; height: 200px;">
                                     <div class="row">
                                         <div class="col-md-12">
