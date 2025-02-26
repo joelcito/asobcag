@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/guardarCriadero', [CriaderoController::class, 'guardarCriadero'])->name('criadero.guardarCriadero');
         Route::post('/eliminarCriadero', [CriaderoController::class, 'eliminarCriadero'])->name('criadero.eliminarCriadero');
         Route::get('/detalle/{criadero_id}', [CriaderoController::class, 'detalle'])->name('criadero.detalle');
+        Route::get('/exportEjemplares/{criadero_id}', [CriaderoController::class, 'exportEjemplares'])->name('criadero.exportEjemplares');
     });
 
     Route::prefix('/ejemplar')->group(function(){

@@ -36,6 +36,13 @@
 
                 <div class="card-body py-4">
                     <div class="row">
+                        <div class="col-md-2">
+                            <a href="{{ route('criadero.exportEjemplares', [$criadero->id]) }}" class="btn btn-success">
+                                Exportar a Excel
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
                         {{-- AQUI VAN LOS CHARTS --}}
                         <div class="col-md-4">
                             <div id="chartGenero" style="width:100%; height:400px;"></div>

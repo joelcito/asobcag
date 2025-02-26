@@ -9,7 +9,9 @@ use App\Models\Ejemplar;
 use App\Utils\Respuesta;
 use App\Models\Localidad;
 use Illuminate\Http\Request;
+use App\Exports\EjemplaresExport;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CriaderoController extends Controller
 {
@@ -141,5 +143,10 @@ class CriaderoController extends Controller
 
 
         return view('criadero.detalle')->with(compact(['criadero', 'genero', 'colores', 'edades']));
+    }
+
+    public function exportEjemplares($criadero_id)
+    {
+        return Excel::download(new EjemplaresExport($criadero_id), 'ejemplares.xlsx');
     }
 }
