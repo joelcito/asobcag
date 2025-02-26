@@ -2,10 +2,41 @@
 @section('css')
     <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/jquery.orgchart.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
     <style>
-        .tamanio_boton{
+        /* .tamanio_boton{
             font-size: 6px;
         }
+
+        #chart-container {
+        height: 550px;
+        background-color: blueviolet;
+        }
+        .orgchart .node .title {
+        height: unset;
+        text-align: left;
+        line-height: 40px;
+        width: 150px;
+        }
+        .orgchart .node .content {
+        text-align: left;
+        padding: 0 5px;
+        width: 150px;
+        }
+        .orgchart .node .content .symbol {
+        color: #aaa;
+        margin-right: 20px;
+        }
+        .oci-leader::before, .oci-leader::after {
+        background-color: rgba(217, 83, 79, 0.8);
+        }
+        .orgchart .node .avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 30px;
+        float: left;
+        margin: 5px;
+        } */
     </style>
 @endsection
 @section('metadatos')
@@ -25,17 +56,38 @@
                     <div class="d-flex mb-9">
                         <!--begin: Pic-->
                         <div class="flex-shrink-0 mr-7 mt-lg-0 mt-3">
-
-                            <img src="{{ asset('assets/img/llama_1.png') }}" height="110" alt="image">
-                            <hr/>
-                            {{-- <center>
-                                <div id="qrcode"></div>
-                            </center> --}}
-
+                            @if (count($imagenes) > 0)
+                                {{-- <div style="width: 300px; height: 300px; background-color:blue"> --}}
+                                <div style="width: 200px; height: 200px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    @foreach ( $imagenes as $key => $imagen)
+                                                        <div class="carousel-item  {{ $key==0? 'active': '' }}">
+                                                            <img src="{{ asset($imagen->ruta) }}" width="100%" height="100%">
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="visually-hidden">Previous</span>
+                                                </button>
+                                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="visually-hidden">Next</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <img src="{{ asset("/storage/imagenes/LLAMA/3180859.png") }}" height="110" alt="image">
+                            @endif
                         </div>
                         <!--end::Pic-->
                         <!--begin::Info-->
-                        <div class="flex-grow-1">
+                        <div class="flex-grow-1" style="margin-left: 10px;">
                             <!--begin::Title-->
                             <div class="d-flex justify-content-between flex-wrap mt-1">
                                 <div class="d-flex mr-3">
@@ -47,11 +99,6 @@
                             <!--end::Title-->
                             <!--begin::Content-->
                             <div class="row">
-                                <div class="col-md-4">
-                                    <h6><span class="text-primary">RAZA: </span>
-                                    </h6>
-                                </div>
-
                                 <div class="col-md-8">
                                     <h6><span class="text-primary">FENOTIPO: </span> {{ $ejemplar->fenotipo->nombre }}</h6>
                                 </div>
@@ -62,11 +109,13 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <h6><span class="text-primary">PADRE: </span>
+                                        {{ ($ejemplar->padre)? $ejemplar->padre->nombre : '' }}
                                     </h6>
                                 </div>
 
                                 <div class="col-md-3">
                                     <h6><span class="text-primary">MADRE: </span>
+                                        {{ ($ejemplar->madre)? $ejemplar->madre->nombre : '' }}
                                     </h6>
                                 </div>
 
@@ -202,6 +251,7 @@
 @section('js')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.orgchart.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         $.ajaxSetup({
             // definimos cabecera donde estarra el token y poder hacer nuestras operaciones de put,post...
@@ -211,79 +261,39 @@
         })
 
         $(document).ready(function() {
-
-            var datascource = {
-                                'id': '1',
-                                'name': 'Lao Lao',
-                                'title': 'General Manager',
-                                'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}',
-                                'children': [
-                                    {
-                                    'id': '2',
-                                    'name': 'Bo Miao',
-                                    'title': 'Department Manager',
-                                    'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}',
-                                    'children': [
-                                        {
-                                        'id': '20',
-                                        'name': 'Tie Hua  NUEVO DE JOEL',
-                                        'title': 'Senior Engineer',
-                                        'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}'
-                                        }
-                                    ]
-                                    },
-                                    {
-                                    'id': '3',
-                                    'name': 'Su Miao',
-                                    'title': 'Department Manager',
-                                    'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}',
-                                    'children': [
-                                        {
-                                        'id': '4',
-                                        'name': 'Tie Hua',
-                                        'title': 'Senior Engineer',
-                                        'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}'
-                                        },
-                                        {
-                                        'id': '5',
-                                        'name': 'Hei Hei',
-                                        'title': 'Senior Engineer',
-                                        'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}',
-                                        'children': [
-                                            {
-                                            'id': '6',
-                                            'name': 'Pang Pang',
-                                            'title': 'Engineer',
-                                            'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}'
-                                            },
-                                            {
-                                            'id': '7',
-                                            'name': 'Xiang Xiang',
-                                            'title': 'UE Engineer',
-                                            'img': '{{ asset("storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg") }}'
-                                            }
-                                        ]
-                                        }
-                                    ]
-                                    }
-                                ]
-                            };
-
-            $('#chart-container').orgchart({
-                'exportButton': true,
-                'exportFilename': 'MyOrgChart',
-                'data' : datascource,
-                'nodeContent': 'title',
-                'nodeID': 'id',
-                'createNode': function($node, data) {
-                    let imageUrl = data.img ? data.img : 'https://via.placeholder.com/100'; // Si no tiene imagen, usa un placeholder
-                    $node.prepend(`<img class="avatar" src="${imageUrl}" style="width: 50px; height: 50px; border-radius: 50%;" crossorigin="anonymous" />`);
-                }
-            });
-
-
-
+            cargarArbolGenealogicoVista();
         });
+
+        function cargarArbolGenealogicoVista(){
+            let datos = { ejemplar_id:{{ $ejemplar->id }} };
+            $.ajax({
+                url: "{{ route('ejemplar.cargarArbolGenealogicoVista') }}",
+                method: "POST",
+                data: datos,
+                success: function (resultado) {
+
+                    if(resultado.estado){
+
+                        var datascource = resultado.data.arbol;
+
+                        $('#chart-container').orgchart({
+                            'exportButton'  : true,
+                            'exportFilename': 'MyOrgChart',
+                            'data'          : datascource,
+                            'nodeContent'   : 'title',
+                            'nodeID'        : 'id',
+                            'createNode'    : function($node, data) {
+                                let imageUrl = data.img ? data.img : 'https://via.placeholder.com/100';  // Si no tiene imagen, usa un placeholder
+                                $node.prepend(`<img class="avatar" src="${imageUrl}" style="width: 50px; height: 50px; border-radius: 50%;" crossorigin="anonymous" />`);
+                            }
+                        });
+
+                    }else{
+
+                    }
+                }
+            })
+        }
 
    </script>
 @endsection

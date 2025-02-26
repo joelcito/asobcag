@@ -152,11 +152,10 @@ class EjemplarController extends Controller
 
     public function detalle(Request $request, $ejemplar_id){
 
-        // dd($ejemplar_id);
-
         $ejemplar = Ejemplar::find($ejemplar_id);
+        $imagenes = $ejemplar->imagenes;
 
-        return view('ejemplar2.detalle')->with(compact('ejemplar'));
+        return view('ejemplar2.detalle')->with(compact('ejemplar', 'imagenes'));
 
     }
 
@@ -653,7 +652,13 @@ class EjemplarController extends Controller
     public function cargarArbolGenealogicoVista(Request $request){
         if($request->ajax()){
 
+            $ejemplar_id = $request->input('ejemplar_id');
+            $profundidad = 4;
 
+            $valores = [
+                'arbol' => $this->sacarHasta($ejemplar_id, $profundidad)
+            ];
+            $data = Respuesta::success($valores, "Datos obtenidos correctamente");
 
         }else{
             $data = Respuesta::error(null, "No existe");
@@ -673,21 +678,60 @@ class EjemplarController extends Controller
 
     }
 
-    private function sacarHasta($ejemplar_id){
+    private function sacarHasta($ejemplar_id, $profundidad = 4, $nivel = 1){
 
+        // Buscar ejemplar
         $ejemplar = Ejemplar::find($ejemplar_id);
-        $arbol    = [];
 
-        if($ejemplar){
-            $data['id']    = $ejemplar->id;
-            $data['name']  = $ejemplar->nombre;
-            $data['title'] = $ejemplar->arete;
-            $data['img']   = "asset(storage/imagenes/ALPACA/1740423400_5uZUrINwv3_9b7187b3-92c6-4de7-8d0b-9ab94d8f811e-original.jpeg)";
+        // Si no se encuentra el ejemplar o la profundidad máxima es alcanzada, termina la recursión
+        if (!$ejemplar || $nivel > $profundidad) {
+            return null;
+        }
+
+        $imagenesEjemplares = $ejemplar->imagenes;
+        if(count($imagenesEjemplares) > 0){
+            $imagen = $imagenesEjemplares[0]->ruta;
+            $imagen = asset($imagen);
+        }else{
+            $imagen = asset("/storage/imagenes/LLAMA/3180859.png");
+        }
+
+        // Crear el nodo actual
+        $arbol = [
+            'id'       => $ejemplar->id,
+            'name'     => $ejemplar->nombre,
+            'title'    => $ejemplar->arete,
+            'img'      => $imagen,
+            'children' => []
+        ];
+
+        // Si tiene padre, agregarlo recursivamente
+        if ($ejemplar->padre_id != null) {
+            $padre = Ejemplar::find($ejemplar->padre_id);
+            if ($padre) {
+                // $padreData = $this->sacarHasta($padre->id, $profundidad, $nivel + 1);
+                $padreData = $this->sacarHasta($padre->id, $profundidad, $nivel + 1);
+                if ($padreData) {
+                    $arbol['children'][] = $padreData;  // Agregar padre como hijo
+                }
+            }
+        }
+
+        // Si tiene madre, agregarla recursivamente
+        if ($ejemplar->madre_id != null) {
+            $madre = Ejemplar::find($ejemplar->madre_id);
+            if ($madre) {
+                $madreData = $this->sacarHasta($madre->id, $profundidad, $nivel + 1);
+                if ($madreData) {
+                    $arbol['children'][] = $madreData;  // Agregar madre como hijo
+                }
+            }
         }
 
         return $arbol;
 
     }
+
     // FUNCIONES PRIVADAS
 
 
