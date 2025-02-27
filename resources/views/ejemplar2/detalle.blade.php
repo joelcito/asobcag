@@ -182,35 +182,142 @@
 </div>
 <!--end::Content wrapper-->
 <hr>
-<!--begin::Content wrapper-->
-<div class="d-flex flex-column flex-column-fluid">
-    <div id="kt_app_content" class="app-content flex-column-fluid">
-        <!--begin::Content container-->
-        <div id="kt_app_content_container" class="app-container container-xxlg">
-            <!--begin::Card-->
-            <div class="card">
-                <div class="card-header flex-wrap bg-light py-4">
-                    <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
-                        <!--begin::Page title-->
-                        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                            <!--begin::Title-->
-                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">GENERACIONES DEL EJEMPLAR</h1>
-                            <!--end::Title-->
+
+<div class="row">
+    <div class="col-md-12">
+        <!--begin::Content wrapper-->
+        <div class="d-flex flex-column flex-column-fluid">
+            <div id="kt_app_content" class="app-content flex-column-fluid">
+                <!--begin::Content container-->
+                <div id="kt_app_content_container" class="app-container container-xxlg">
+                    <!--begin::Card-->
+                    <div class="card">
+                        <div class="card-header flex-wrap bg-light py-4">
+                            <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
+                                <!--begin::Page title-->
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <!--begin::Title-->
+                                    <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Registros Biometricos</h1>
+                                    <!--end::Title-->
+                                </div>
+                                <!--end::Page title-->
+                            </div>
                         </div>
-                        <!--end::Page title-->
+                        <div class="card-body py-4">
+                            <div id="tabla_biometrias"></div>
+                        </div>
                     </div>
+                    <!--end::Card-->
                 </div>
-                <div class="card-body py-4">
-                    <div id="chart-container"></div>
-                </div>
+                <!--end::Content container-->
             </div>
-            <!--end::Card-->
+            <!--end::Content-->
         </div>
-        <!--end::Content container-->
+        <!--end::Content wrapper-->
     </div>
-    <!--end::Content-->
 </div>
-<!--end::Content wrapper-->
+
+<div class="row">
+    <div class="col-md-12">
+        <!--begin::Content wrapper-->
+        <div class="d-flex flex-column flex-column-fluid">
+            <div id="kt_app_content" class="app-content flex-column-fluid">
+                <!--begin::Content container-->
+                <div id="kt_app_content_container" class="app-container container-xxlg">
+                    <!--begin::Card-->
+                    <div class="card">
+                        <div class="card-header flex-wrap bg-light py-4">
+                            <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
+                                <!--begin::Page title-->
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <!--begin::Title-->
+                                    <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Registros Morfologicos</h1>
+                                    <!--end::Title-->
+                                </div>
+                                <!--end::Page title-->
+                            </div>
+                        </div>
+                        <div class="card-body py-4">
+                            <div id="tabla_morfilogicos"></div>
+                        </div>
+                    </div>
+                    <!--end::Card-->
+                </div>
+                <!--end::Content container-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Content wrapper-->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <!--begin::Content wrapper-->
+        <div class="d-flex flex-column flex-column-fluid">
+            <div id="kt_app_content" class="app-content flex-column-fluid">
+                <!--begin::Content container-->
+                <div id="kt_app_content_container" class="app-container container-xxlg">
+                    <!--begin::Card-->
+                    <div class="card">
+                        <div class="card-header flex-wrap bg-light py-4">
+                            <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
+                                <!--begin::Page title-->
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <!--begin::Title-->
+                                    <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Registros Fibras</h1>
+                                    <!--end::Title-->
+                                </div>
+                                <!--end::Page title-->
+                            </div>
+                        </div>
+                        <div class="card-body py-4">
+                            <div id="tabla_analisis_fibras"></div>
+                        </div>
+                    </div>
+                    <!--end::Card-->
+                </div>
+                <!--end::Content container-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Content wrapper-->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <!--begin::Content wrapper-->
+        <div class="d-flex flex-column flex-column-fluid">
+            <div id="kt_app_content" class="app-content flex-column-fluid">
+                <!--begin::Content container-->
+                <div id="kt_app_content_container" class="app-container container-xxlg">
+                    <!--begin::Card-->
+                    <div class="card">
+                        <div class="card-header flex-wrap bg-light py-4">
+                            <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
+                                <!--begin::Page title-->
+                                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                    <!--begin::Title-->
+                                    <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">GENERACIONES DEL EJEMPLAR</h1>
+                                    <!--end::Title-->
+                                </div>
+                                <!--end::Page title-->
+                            </div>
+                        </div>
+                        <div class="card-body py-4">
+                            <div id="chart-container"></div>
+                        </div>
+                    </div>
+                    <!--end::Card-->
+                </div>
+                <!--end::Content container-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Content wrapper-->
+    </div>
+</div>
 
 @stop()
 
@@ -228,6 +335,9 @@
 
         $(document).ready(function() {
             cargarArbolGenealogicoVista();
+            ajaxListadoBiometriaDetalle();
+            ajaxListadoMorfologicoDetalle();
+            ajaxListadoFibrasDetalle();
         });
 
         function cargarArbolGenealogicoVista(){
@@ -261,5 +371,52 @@
             })
         }
 
+        function ajaxListadoBiometriaDetalle(){
+            let datos = {ejemplar_id:{{ $ejemplar->id }}};
+            $.ajax({
+                url: "{{ url('ejemplar/ajaxListadoBiometriaDetalle') }}",
+                method: "POST",
+                data: datos,
+                success: function (resultado) {
+                    if(resultado.estado){
+                        $('#tabla_biometrias').html(resultado.data.listado)
+                    }else{
+
+                    }
+                }
+            })
+        }
+
+        function ajaxListadoMorfologicoDetalle(){
+            let datos = {ejemplar_id:{{ $ejemplar->id }}};
+            $.ajax({
+                url: "{{ url('ejemplar/ajaxListadoMorfologicoDetalle') }}",
+                method: "POST",
+                data: datos,
+                success: function (resultado) {
+                    if(resultado.estado){
+                        $('#tabla_morfilogicos').html(resultado.data.listado)
+                    }else{
+
+                    }
+                }
+            })
+        }
+
+        function ajaxListadoFibrasDetalle(){
+            let datos = {ejemplar_id:{{ $ejemplar->id }}};
+            $.ajax({
+                url: "{{ url('ejemplar/ajaxListadoFibrasDetalle') }}",
+                method: "POST",
+                data: datos,
+                success: function (resultado) {
+                    if(resultado.estado){
+                        $('#tabla_analisis_fibras').html(resultado.data.listado)
+                    }else{
+
+                    }
+                }
+            })
+        }
    </script>
 @endsection

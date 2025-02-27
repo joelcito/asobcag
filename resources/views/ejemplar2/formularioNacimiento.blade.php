@@ -1125,9 +1125,6 @@
                     data: datos,
                     success: function (resultado) {
                         if(resultado.estado){
-
-                            console.log(resultado);
-
                             $('#tabla_biometrias').html(resultado.data.listado)
                         }else{
 

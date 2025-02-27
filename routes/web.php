@@ -86,6 +86,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/guardarMorfologicoAlpaca', [EjemplarController::class, 'guardarMorfologicoAlpaca'])->name('ejemplar.guardarMorfologicoAlpaca');
         Route::post('/guardarBiometriaAlpaca', [EjemplarController::class, 'guardarBiometriaAlpaca'])->name('ejemplar.guardarBiometriaAlpaca');
         Route::post('/cargarArbolGenealogicoVista', [EjemplarController::class, 'cargarArbolGenealogicoVista'])->name('ejemplar.cargarArbolGenealogicoVista');
+        Route::post('/ajaxListadoBiometriaDetalle', [EjemplarController::class, 'ajaxListadoBiometriaDetalle'])->name('ejemplar.ajaxListadoBiometriaDetalle');
+        Route::post('/ajaxListadoMorfologicoDetalle', [EjemplarController::class, 'ajaxListadoMorfologicoDetalle'])->name('ejemplar.ajaxListadoMorfologicoDetalle');
+        Route::post('/ajaxListadoFibrasDetalle', [EjemplarController::class, 'ajaxListadoFibrasDetalle'])->name('ejemplar.ajaxListadoFibrasDetalle');
     });
 
     Route::prefix('/empadre')->group(function(){

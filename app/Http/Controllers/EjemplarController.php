@@ -30,17 +30,6 @@ class EjemplarController extends Controller
         return view('ejemplar2.listado')->with(compact(['tipo']));
     }
 
-    // public function formulario(Request $request, $ejemplar_id){
-    //     $colores = Color::all();
-    //     $fenotipos = Fenotipo::all();
-    //     $criaderos = Criadero::all();
-    //     $numeroSiguiente = $this->sacarSiguienteNumeroRegistroEjemplar();
-
-    //     $ejemplar = Ejemplar::find($ejemplar_id);
-
-    //     return view('ejemplar2.formulario')->with(compact(['colores', 'fenotipos', 'criaderos', 'numeroSiguiente', 'ejemplar']));
-    // }
-
     public function formulario($tipo, $ejemplar_id){
 
         $colores         = Color::all();
@@ -344,7 +333,6 @@ class EjemplarController extends Controller
         if($request->ajax()){
 
             $ejemplar_id  = $request->input('ejemplar_id');
-            // $analisisFibras = AnalisisFibra::where('ejemplar_id', $ejemplar_id)->orderBy('id', 'desc')->get();
             $analisisFibras = AnalisisFibra::where('ejemplar_id', $ejemplar_id)->orderBy('id', 'desc')->get();
 
             $valores = [
@@ -667,6 +655,61 @@ class EjemplarController extends Controller
         return $data;
     }
 
+    public function ajaxListadoBiometriaDetalle(Request $request){
+        if($request->ajax()){
+
+            $ejemplar_id = $request->input('ejemplar_id');
+            $biometrias  = Biometria::where('ejemplar_id', $ejemplar_id)->orderBy('id', 'desc')->get();
+            $ejemplar    = Ejemplar::find($ejemplar_id);
+
+            $valores = [
+                'listado' => view('ejemplar2.ajaxListadoBiometriaDetalle')->with(compact('biometrias', 'ejemplar'))->render()
+            ];
+            $data = Respuesta::success($valores, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function ajaxListadoMorfologicoDetalle(Request $request){
+        if($request->ajax()){
+
+            $ejemplar_id  = $request->input('ejemplar_id');
+            $morfologicos = Morfologico::where('ejemplar_id', $ejemplar_id)->orderBy('id', 'desc')->get();
+            $ejemplar     = Ejemplar::find($ejemplar_id);
+
+            $valores = [
+                'listado' => view('ejemplar2.ajaxListadoMorfologicoDetalle')->with(compact('morfologicos', 'ejemplar'))->render()
+            ];
+            $data = Respuesta::success($valores, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function ajaxListadoFibrasDetalle(Request $request){
+
+        if($request->ajax()){
+
+            $ejemplar_id  = $request->input('ejemplar_id');
+            $analisisFibras = AnalisisFibra::where('ejemplar_id', $ejemplar_id)->orderBy('id', 'desc')->get();
+
+            $valores = [
+                'listado' => view('ejemplar2.ajaxListadoFibrasDetalle')->with(compact('analisisFibras'))->render()
+            ];
+            $data = Respuesta::success($valores, "Datos obtenidos correctamente");
+
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+
+    }
 
 
     // FUNCIONES PRIVADAS
