@@ -60,4 +60,12 @@ class Ejemplar extends Model
     public function imagenes(){
         return $this->hasMany(EjemplarImagen::class);
     }
+
+    public function biometrias(){
+        return $this->hasMany(Biometria::class);
+    }
+
+    public function morfologicos(){
+        return $this->hasMany(Morfologico::class);
+    }
 }
