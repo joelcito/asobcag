@@ -74,7 +74,7 @@ class Ejemplar extends Model
         if($ejmplar_id){
             $ejemplar = Ejemplar::find($ejmplar_id);
             echo $ejemplar->nombre."<br>";
-            echo $ejemplar->arete."<br>";
+            echo $ejemplar->arete;
         }
 
         return $ejemplar;
