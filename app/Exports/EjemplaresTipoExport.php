@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use App\Models\Criadero;
 use App\Models\Ejemplar;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -11,37 +10,24 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithMergedCells;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class EjemplaresExport implements FromArray, WithHeadings, WithStyles, ShouldAutoSize
+class EjemplaresTipoExport implements FromArray, WithHeadings, WithStyles, ShouldAutoSize
 {
-    protected $criadero_id;
+    protected $tipo;
     protected $mergeCells = [];
 
-    public function __construct($criadero_id)
+    public function __construct($tipo)
     {
-        $this->criadero_id = $criadero_id;
+        $this->tipo = $tipo;
     }
 
     public function array(): array
     {
-        $criadero = Criadero::with(['propietario', 'tecnico', 'pastor'])
-                            ->find($this->criadero_id);
 
-        if (!$criadero) {
-            return [['Error' => 'Criadero no encontrado']];
-        }
-
-        $ejemplares = Ejemplar::where('criadero_id', $this->criadero_id)
+        $ejemplares = Ejemplar::where('tipo', $this->tipo)
             ->with(['color', 'fenotipo', 'raza', 'biometrias', 'morfologicos'])
             ->get();
 
         $data = [];
-
-        // Agregar información del criadero
-        $data[] = ['CRIADERO:', $criadero->nombre ?? 'N/A'];
-        $data[] = ['Propietario:', $criadero->propietario->name ?? 'N/A'];
-        $data[] = ['Técnico:', $criadero->tecnico->name ?? 'N/A'];
-        $data[] = ['Pastor:', $criadero->pastor->name ?? 'N/A'];
-        $data[] = [];
 
         // Encabezados de la tabla
         $headers = ['ID', 'Nombre', 'Sexo', 'Nro. Registro', 'Microchip', 'Arete', 'Fecha Nac.', 'Fecha Reg.', 'Color', 'Fenotipo', 'Raza', 'Biometrías', 'Morfología'];
@@ -108,11 +94,7 @@ class EjemplaresExport implements FromArray, WithHeadings, WithStyles, ShouldAut
     public function styles(Worksheet $sheet)
     {
         return [
-            1 => ['font' => ['bold' => true]], // Negrita en encabezado de criadero
-            2 => ['font' => ['bold' => true]],
-            3 => ['font' => ['bold' => true]],
-            4 => ['font' => ['bold' => true]],
-            5 => ['font' => ['bold' => true]], // Negrita en encabezados de tabla
+            1 => ['font' => ['bold' => true]], // Negrita en encabezado
         ];
     }
 

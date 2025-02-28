@@ -36,6 +36,7 @@
                         </div>
                         <div class="d-flex gap-2 gap-lg-3 mx-3">
                             <a class="btn btn-sm fw-bold btn-primary" href="{{ route('ejemplar.formulario', [$tipo, 0]) }}"><i class="fa fa-plus"></i>Nuevo Ejemplar</a>
+                            <a class="btn btn-sm fw-bold btn-success" href="{{ route('ejemplar.exportEjemplares', [$tipo]) }}"><i class="fa fa-file-excel"></i>Exportar Excel</a>
                         </div>
 
                         <!--end::Actions-->
