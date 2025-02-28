@@ -1040,6 +1040,111 @@
 
                                 </div>
                             </div>
+
+                            <div class="row mt-5">
+                                <div class="col-md-12">
+                                    <h3 class="text-primary text-center">GENEALOGIA</h3>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-12">
+                                    <table class="table bg-light-dark text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>PADRES</th>
+                                                <th>ABUELOS</th>
+                                                <th>TERCERA GENERACION</th>
+                                                <th>CUARTA GENERACION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="8">1</td>
+                                                <td>2</td>
+                                                <td>3</td>
+                                                <td>4</td>
+                                            </tr>
+                                            <tr>
+                                                <td>6</td>
+                                                <td>7</td>
+                                                <td>8</td>
+                                            </tr>
+                                            <tr>
+                                                <td>10</td>
+                                                <td>11</td>
+                                                <td>12</td>
+                                            </tr>
+                                            <tr>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                            </tr>
+                                            <tr>
+                                                <td>18</td>
+                                                <td>19</td>
+                                                <td>20</td>
+                                            </tr>
+                                            <tr>
+                                                <td>22</td>
+                                                <td>23</td>
+                                                <td>24</td>
+                                            </tr>
+                                            <tr>
+                                                <td>26</td>
+                                                <td>27</td>
+                                                <td>28</td>
+                                            </tr>
+                                            <tr>
+                                                <td>30</td>
+                                                <td>31</td>
+                                                <td>32</td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="8">2</td>
+                                                <td>34</td>
+                                                <td>35</td>
+                                                <td>36</td>
+                                            </tr>
+                                            <tr>
+                                                <td>38</td>
+                                                <td>39</td>
+                                                <td>40</td>
+                                            </tr>
+                                            <tr>
+                                                <td>42</td>
+                                                <td>43</td>
+                                                <td>44</td>
+                                            </tr>
+                                            <tr>
+                                                <td>46</td>
+                                                <td>47</td>
+                                                <td>48</td>
+                                            </tr>
+                                            <tr>
+                                                <td>50</td>
+                                                <td>51</td>
+                                                <td>52</td>
+                                            </tr>
+                                            <tr>
+                                                <td>54</td>
+                                                <td>55</td>
+                                                <td>56</td>
+                                            </tr>
+                                            <tr>
+                                                <td>58</td>
+                                                <td>59</td>
+                                                <td>60</td>
+                                            </tr>
+                                            <tr>
+                                                <td>62</td>
+                                                <td>63</td>
+                                                <td>64</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
                         @endif
                         <div class="row mt-3">
                             <div class="col-md-12">
