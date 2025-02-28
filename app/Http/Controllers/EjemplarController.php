@@ -13,14 +13,16 @@ use App\Models\Fenotipo;
 use App\Utils\Respuesta;
 use App\Models\Biometria;
 use App\Models\Comunidad;
+use App\Models\Medicacion;
 use App\Models\Laboratorio;
 use App\Models\Morfologico;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AnalisisFibra;
-use App\Models\Medicacion;
 use App\Models\ProductoVeterinario;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\EjemplaresTipoExport;
 use Illuminate\Support\Facades\Storage;
 
 class EjemplarController extends Controller
@@ -777,6 +779,11 @@ class EjemplarController extends Controller
 
     // FUNCIONES PRIVADAS
 
+    /* exportacion de excel */
+    public function exportEjemplares($tipo)
+    {
+        return Excel::download(new EjemplaresTipoExport($tipo), 'ejemplaresTipo.xlsx');
+    }
 
 
 }
