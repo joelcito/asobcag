@@ -713,6 +713,14 @@ class EjemplarController extends Controller
 
     }
 
+    // public function visualizarEjemplar($ejmplar_id){
+    //     if($ejmplar_id){
+    //         $ejemplar = Ejemplar::find($ejmplar_id);
+    //         echo $ejemplar->nombre."<br>";
+    //         echo $ejemplar->arete."<br>";
+    //     }
+    // }
+
 
     // FUNCIONES PRIVADAS
     private function sacarSiguienteNumeroRegistroEjemplar(){

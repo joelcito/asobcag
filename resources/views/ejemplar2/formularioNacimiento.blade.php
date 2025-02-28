@@ -1046,10 +1046,14 @@
                                     <h3 class="text-primary text-center">GENEALOGIA</h3>
                                 </div>
                             </div>
+                            @php
+
+                                $mama = $ejemplar->madre_id;
+                            @endphp
                             <div class="row mt-2">
                                 <div class="col-md-12">
-                                    <table class="table bg-light-dark text-center">
-                                        <thead>
+                                    <table class="table table-bordered ">
+                                        <thead class="text-center table-primary">
                                             <tr>
                                                 <th>PADRES</th>
                                                 <th>ABUELOS</th>
@@ -1057,89 +1061,261 @@
                                                 <th>CUARTA GENERACION</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="table-primary">
                                             <tr>
-                                                <td rowspan="8">1</td>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>4</td>
+                                                <td rowspan="8">
+                                                    <h1>1</h1>
+                                                    @php
+                                                        $primeraGeneracionMacho = $ejemplar->padre_id;
+                                                        if($primeraGeneracionMacho){
+                                                            $ejemplarPrimeraGeneracionMacho = App\Models\Ejemplar::find($primeraGeneracionMacho);
+                                                            echo $ejemplarPrimeraGeneracionMacho->nombre."<br>";
+                                                            echo $ejemplarPrimeraGeneracionMacho->arete."<br>";
+                                                        }
+                                                    @endphp
+                                                </td>
+                                                <td rowspan="4">
+                                                    <h1>2</h1>
+                                                    @php
+                                                        if($ejemplarPrimeraGeneracionMacho){
+                                                            $segundaGeneracionMacho = $ejemplarPrimeraGeneracionMacho->padre_id;
+                                                            if($segundaGeneracionMacho){
+                                                                $ejemplarSegundaGeneracionMacho = App\Models\Ejemplar::find($segundaGeneracionMacho);
+                                                                echo $ejemplarSegundaGeneracionMacho->nombre."<br>";
+                                                                echo $ejemplarSegundaGeneracionMacho->arete."<br>";
+                                                            }
+                                                        }
+                                                    @endphp
+                                                </td>
+                                                <td rowspan="2">
+                                                    <h1>3</h1>
+                                                    @php
+                                                        if($ejemplarSegundaGeneracionMacho){
+                                                            $terceraGeneracionMacho = $ejemplarSegundaGeneracionMacho->padre_id;
+                                                            if($terceraGeneracionMacho){
+                                                                $ejemplarSegundaTerceraMacho = App\Models\Ejemplar::find($terceraGeneracionMacho);
+                                                                echo $ejemplarSegundaTerceraMacho->nombre."<br>";
+                                                                echo $ejemplarSegundaTerceraMacho->arete."<br>";
+                                                            }
+                                                        }
+                                                    @endphp
+                                                </td>
+                                                <td>
+                                                    <h1>4</h1>
+                                                    @php
+                                                        if($ejemplarSegundaTerceraMacho){
+                                                            $cuartaGeneracionMacho = $ejemplarSegundaTerceraMacho->padre_id;
+                                                            if($cuartaGeneracionMacho){
+                                                                $ejemplarCuartaMacho = App\Models\Ejemplar::find($cuartaGeneracionMacho);
+                                                                echo $ejemplarCuartaMacho->nombre."<br>";
+                                                                echo $ejemplarCuartaMacho->arete."<br>";
+                                                            }
+                                                        }
+                                                    @endphp
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>6</td>
-                                                <td>7</td>
-                                                <td>8</td>
+                                                <td>
+                                                    <h1>5</h1>
+                                                    @php
+                                                        if($ejemplarSegundaTerceraMacho){
+                                                            $cuartaGeneracionHembra = $ejemplarSegundaTerceraMacho->madre_id;
+                                                            if($cuartaGeneracionHembra){
+                                                                $ejemplarCuartaHembra = App\Models\Ejemplar::find($cuartaGeneracionHembra);
+                                                                echo $ejemplarCuartaHembra->nombre."<br>";
+                                                                echo $ejemplarCuartaHembra->arete."<br>";
+                                                            }
+                                                        }
+                                                    @endphp
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>10</td>
-                                                <td>11</td>
-                                                <td>12</td>
+                                                <td rowspan="2">
+                                                    <h1>6</h1>
+                                                    @php
+                                                        if($ejemplarSegundaGeneracionMacho){
+                                                            $terceraGeneracionHembra = $ejemplarSegundaGeneracionMacho->madre_id;
+                                                            if($terceraGeneracionHembra){
+                                                                $ejemplarSegundaTerceraHembra = App\Models\Ejemplar::find($terceraGeneracionHembra);
+                                                                echo $ejemplarSegundaTerceraHembra->nombre."<br>";
+                                                                echo $ejemplarSegundaTerceraHembra->arete."<br>";
+                                                            }
+                                                        }
+                                                    @endphp
+                                                </td>
+                                                <td>
+                                                    <h1>7</h1>
+                                                    @php
+                                                        if($ejemplarSegundaTerceraHembra){
+                                                            $terceraGeneracionMacho = $ejemplarSegundaTerceraHembra->padre_id;
+                                                            if($terceraGeneracionMacho){
+                                                                $ejemplarTerceraMacho = App\Models\Ejemplar::find($terceraGeneracionMacho);
+                                                                echo $ejemplarTerceraMacho->nombre."<br>";
+                                                                echo $ejemplarTerceraMacho->arete."<br>";
+                                                            }
+                                                        }
+                                                    @endphp
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>14</td>
-                                                <td>15</td>
-                                                <td>16</td>
+                                                <td>
+                                                    <h1>8</h1>
+                                                    @php
+                                                        if($ejemplarSegundaTerceraHembra){
+                                                            $cuartaGeneracionHembra = $ejemplarSegundaTerceraHembra->madre_id;
+                                                            if($cuartaGeneracionHembra){
+                                                                $ejemplarCuartaHembra = App\Models\Ejemplar::find($cuartaGeneracionHembra);
+                                                                echo $ejemplarCuartaHembra->nombre."<br>";
+                                                                echo $ejemplarCuartaHembra->arete."<br>";
+                                                            }
+                                                        }
+                                                    @endphp
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>18</td>
-                                                <td>19</td>
-                                                <td>20</td>
+                                                <td rowspan="4">
+                                                    <h1>9</h1>
+                                                    @php
+                                                        if($ejemplarPrimeraGeneracionMacho){
+                                                            $segundaGeneracionHembra = $ejemplarPrimeraGeneracionMacho->madre_id;
+                                                            if($segundaGeneracionHembra){
+                                                                $ejemplarSegundaGeneracionHembra = App\Models\Ejemplar::find($segundaGeneracionHembra);
+                                                                echo $ejemplarSegundaGeneracionHembra->nombre."<br>";
+                                                                echo $ejemplarSegundaGeneracionHembra->arete."<br>";
+                                                            }
+                                                        }
+                                                    @endphp
+                                                </td>
+                                                <td rowspan="2">
+                                                    <h1>10</h1>
+                                                    @php
+                                                        // if(){
+                                                        //     App\Http\Controllers\EjemplarController::visualizarEjemplar($ejemplar_id)
+                                                        // }
+                                                    @endphp
+                                                </td>
+                                                <td>
+                                                    <h1>11</h1>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>22</td>
-                                                <td>23</td>
-                                                <td>24</td>
+                                                <td>
+                                                    <h1>12</h1>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>26</td>
-                                                <td>27</td>
-                                                <td>28</td>
+                                                <td rowspan="2">
+                                                    <h1>13</h1>
+                                                </td>
+                                                <td>
+                                                    <h1>14</h1>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>30</td>
-                                                <td>31</td>
-                                                <td>32</td>
+                                                <td>
+                                                    <h1>15</h1>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td rowspan="8">2</td>
-                                                <td>34</td>
-                                                <td>35</td>
-                                                <td>36</td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>38</td>
-                                                <td>39</td>
-                                                <td>40</td>
-                                            </tr>
-                                            <tr>
-                                                <td>42</td>
-                                                <td>43</td>
-                                                <td>44</td>
-                                            </tr>
-                                            <tr>
-                                                <td>46</td>
-                                                <td>47</td>
-                                                <td>48</td>
-                                            </tr>
-                                            <tr>
-                                                <td>50</td>
-                                                <td>51</td>
-                                                <td>52</td>
-                                            </tr>
-                                            <tr>
-                                                <td>54</td>
-                                                <td>55</td>
-                                                <td>56</td>
+                                                <td rowspan="8">
+                                                    <h1>16</h1>
+                                                    @php
+                                                        $primeraGeneracionHembraId         = $ejemplar->madre_id;
+                                                        $ejemplarPrimeraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar($primeraGeneracionHembraId);
+                                                    @endphp
+                                                </td>
+                                                <td rowspan="4">
+                                                    <h1>17</h1>
+                                                    @php
+                                                        if($ejemplarPrimeraGeneracionHembra){
+                                                            $primeraGeneracionHembraId       = $ejemplarPrimeraGeneracionHembra->padre_id;
+                                                            $ejemplarSegundaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar($primeraGeneracionHembraId);
+                                                        }
+                                                    @endphp
+                                                </td>
+                                                <td rowspan="2">
+                                                    <h1>18</h1>
+                                                    @php
+                                                        if($ejemplarSegundaGeneracionMacho){
+                                                            $primeraGeneracionHembraId       = $ejemplarSegundaGeneracionMacho->padre_id;
+                                                            $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar($primeraGeneracionHembraId);
+                                                        }
+                                                    @endphp
+                                                </td>
+                                                <td>
+                                                    <h1>19</h1>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>58</td>
-                                                <td>59</td>
-                                                <td>60</td>
+                                                <td>
+                                                    <h1>20</h1>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>62</td>
-                                                <td>63</td>
-                                                <td>64</td>
+                                                <td rowspan="2">
+                                                    <h1>21</h1>
+                                                    @php
+                                                        if($ejemplarSegundaGeneracionMacho){
+                                                            $primeraGeneracionHembraId       = $ejemplarSegundaGeneracionMacho->madre_id;
+                                                            $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar($primeraGeneracionHembraId);
+                                                        }
+                                                    @endphp
+                                                </td>
+                                                <td>
+                                                    <h1>22</h1>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h1>23</h1>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="4">
+                                                    <h1>24</h1>
+                                                    @php
+                                                        if($ejemplarPrimeraGeneracionHembra){
+                                                            $primeraGeneracionHembraId       = $ejemplarPrimeraGeneracionHembra->madre_id;
+                                                            $ejemplarSegundaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar($primeraGeneracionHembraId);
+                                                        }
+                                                    @endphp
+                                                </td>
+                                                <td rowspan="2">
+                                                    <h1>25</h1>
+                                                    @php
+                                                        if($ejemplarSegundaGeneracionHembra){
+                                                            $primeraGeneracionHembraId       = $ejemplarSegundaGeneracionHembra->padre_id;
+                                                            $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar($primeraGeneracionHembraId);
+                                                        }
+                                                    @endphp
+                                                </td>
+                                                <td>
+                                                    <h1>26</h1>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h1>27</h1>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="2">
+                                                    <h1>28</h1>
+                                                    @php
+                                                        if($ejemplarSegundaGeneracionHembra){
+                                                            $primeraGeneracionHembraId       = $ejemplarSegundaGeneracionHembra->madre_id;
+                                                            $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar($primeraGeneracionHembraId);
+                                                        }
+                                                    @endphp
+                                                </td>
+                                                <td>
+                                                    <h1>29</h1>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h1>30</h1>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>

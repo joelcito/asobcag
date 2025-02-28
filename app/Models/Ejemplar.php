@@ -68,4 +68,15 @@ class Ejemplar extends Model
     public function morfologicos(){
         return $this->hasMany(Morfologico::class);
     }
+
+    public static function visualizarEjemplar($ejmplar_id){
+        $ejemplar = null;
+        if($ejmplar_id){
+            $ejemplar = Ejemplar::find($ejmplar_id);
+            echo $ejemplar->nombre."<br>";
+            echo $ejemplar->arete."<br>";
+        }
+
+        return $ejemplar;
+    }
 }
