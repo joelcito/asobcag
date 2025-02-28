@@ -57,6 +57,12 @@
                             {{-- <button class="btn btn-primary mt-2" onclick="descargarGrafico('edad')">Descargar</button> --}}
                         </div>
                     </div>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <div id="chartPeso" style="width:100%; height:400px;"></div>
+                            {{-- <button class="btn btn-primary mt-2" onclick="descargarGrafico('genero')">Descargar</button> --}}
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--end::Card-->
@@ -128,6 +134,25 @@
             var opcionesEdad = { title: 'Distribución por Edad' };
             chartEdad = new google.visualization.PieChart(document.getElementById('chartEdad'));
             chartEdad.draw(datosEdad, opcionesEdad);
+
+            // 📊 Datos de Promedio de Peso Mayor y Menor por Año
+            var datosPeso = google.visualization.arrayToDataTable([
+                ['Año', 'Promedio Peso Mayor', 'Promedio Peso Menor'],
+                @foreach($pesos as $p)
+                    ['{{ $p->anio }}', {{ $p->peso_max_promedio ?? 0 }}, {{ $p->peso_min_promedio ?? 0 }}],
+                @endforeach
+            ]);
+
+            var opcionesPeso = {
+                title: 'Promedio de Peso Mayor y Menor por Año',
+                hAxis: { title: 'Año' },
+                vAxis: { title: 'Peso (kg)' },
+                legend: { position: 'bottom' },
+                colors: ['#1b9e77', '#d95f02']
+            };
+
+            var chartPeso = new google.visualization.ColumnChart(document.getElementById('chartPeso'));
+            chartPeso.draw(datosPeso, opcionesPeso);
         }
 
         // Función para descargar gráficos

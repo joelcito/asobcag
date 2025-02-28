@@ -141,8 +141,19 @@ class CriaderoController extends Controller
                                 ->groupBy('rango_edad')
                                 ->get();
 
+        //promedio de ejemplares segun su peso
+        $pesos = Ejemplar::selectRaw("
+                                YEAR(ejemplares.fecha_nacimiento) as anio,
+                                AVG((SELECT MAX(b.peso) FROM biometrias b WHERE b.ejemplar_id = ejemplares.id AND ejemplares.fecha_nacimiento is not null)) as peso_max_promedio,
+                                AVG((SELECT MIN(b.peso) FROM biometrias b WHERE b.ejemplar_id = ejemplares.id AND ejemplares.fecha_nacimiento is not null)) as peso_min_promedio
+                            ")
+                            ->where('criadero_id', $id)
+                            ->groupBy('anio')
+                            ->orderBy('anio', 'ASC')
+                            ->get();
 
-        return view('criadero.detalle')->with(compact(['criadero', 'genero', 'colores', 'edades']));
+
+        return view('criadero.detalle')->with(compact(['criadero', 'genero', 'colores', 'edades', 'pesos']));
     }
 
     public function exportEjemplares($criadero_id)
