@@ -35,6 +35,9 @@ return new class extends Migration
             $table->tinyInteger('negocio_fibra')->nullable();
             $table->tinyInteger('negocio_carne')->nullable();
             $table->tinyInteger('negocio_animal')->nullable();
+            $table->string('latitud')->nullable();
+            $table->string('longitud')->nullable();
+            $table->string('altitud')->nullable();
             
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();

@@ -59,6 +59,9 @@ class CriaderoController extends Controller
             $tecnico_id     = $request->input('tecnico_id');
             $pastor_id      = $request->input('pastor_id');
             $comunidad_id   = $request->input('comunidad_id');
+            $latitud   = $request->input('latitud');
+            $longitud   = $request->input('longitud');
+            $altitud   = $request->input('altitud');
             $usuarioLoguado = Auth::user();
 
             if( $id == 0 ){
@@ -80,6 +83,9 @@ class CriaderoController extends Controller
             $criadero->tecnico_id     = $tecnico_id;
             $criadero->pastor_id      = $pastor_id;
             $criadero->localidad_id   = $comunidad_id;
+            $criadero->latitud      = $latitud;
+            $criadero->longitud      = $longitud;
+            $criadero->altitud      = $altitud;
             $criadero->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");

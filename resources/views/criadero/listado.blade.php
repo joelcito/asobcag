@@ -1,11 +1,8 @@
 @extends('layouts.app')
 @section('css')
     <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <style>
-        .tamanio_boton{
-            font-size: 6px;
-        }
-    </style>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 @endsection
 @section('metadatos')
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -23,6 +20,10 @@
             <div class="modal-body scroll-y">
                 <form id="formularioCriadero">
                     <input type="hidden" name="id" id="id">
+                    <!-- Campos ocultos para guardar latitud, longitud y altitud -->
+                    <input type="hidden" id="latitud" name="latitud">
+                    <input type="hidden" id="longitud" name="longitud">
+                    <input type="hidden" id="altitud" name="altitud">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="fv-row mb-7">
@@ -123,6 +124,13 @@
                             @include("localidad.components.registroLocalidad", ['nameModalPadre' => 'modalCriadero'])
                         </div>
                     </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="fw-semibold fs-6 mb-2">Ubicación del Criadero</label>
+                            <div id="map" style="height: 300px; border-radius: 8px;"></div>
+                        </div>
+                    </div>
+                    
                 </form>
             </div>
             <div class="modal-footer">
@@ -209,6 +217,8 @@
 
 @section('js')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         $.ajaxSetup({
             // definimos cabecera donde estarra el token y poder hacer nuestras operaciones de put,post...
@@ -250,6 +260,9 @@
             limpiarErorres();
 
             $('#id').val(0)
+            $('#latitud').val('')
+            $('#longitud').val('')
+            $('#altitud').val('')
             $('#nombre').val('')
             $('#nit').val('')
             $('#direccion').val('')
@@ -369,5 +382,65 @@
 
         }
 
+        document.addEventListener("DOMContentLoaded", function () {
+            var map = L.map('map').setView([-16.5004, -68.15], 6); // Coordenadas iniciales (Bolivia)
+            // Detectar cuando el modal se abre
+            $('#modalCriadero').on('shown.bs.modal', function () {
+                setTimeout(() => {
+                    map.invalidateSize(); // Refresca el tamaño del mapa cuando el modal se muestra
+                }, 300);
+            });
+
+            // Agregar capa de mapa base (OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            var marker; // Variable para almacenar el marcador
+
+            // Evento al hacer clic en el mapa
+            map.on('click', async function (e) {
+                var lat = e.latlng.lat;
+                var lng = e.latlng.lng;
+
+                // Obtener altitud usando la API de Open-Elevation
+                var altitud = await obtenerAltitud(lat, lng);
+
+                // Si ya hay un marcador, eliminarlo
+                if (marker) map.removeLayer(marker);
+
+                // Agregar nuevo marcador en la posición seleccionada
+                marker = L.marker([lat, lng]).addTo(map)
+                    .bindPopup(`Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}, Alt: ${altitud}m`)
+                    .openPopup();
+
+                // Guardar valores en los inputs
+                $('#latitud').val(lat);
+                $('#longitud').val(lng);
+                $('#altitud').val(altitud);
+            });
+
+            // Función para obtener altitud
+            function obtenerAltitud(lat, lng) {
+                const url = `https://api.open-elevation.com/api/v1/lookup?locations=${lat},${lng}`;
+
+                fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results && data.results.length > 0) {
+                        const altitud = data.results[0].elevation;
+
+                        // Asignar la altitud al input correspondiente
+                        $('#altitud').val(altitud);
+
+                        console.log("Altitud guardada:", altitud);
+                    } else {
+                        console.error("No se pudo obtener la altitud.");
+                    }
+                })
+                .catch(error => console.error("Error obteniendo altitud:", error));
+            }
+
+        });
    </script>
 @endsection
