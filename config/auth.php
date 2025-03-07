@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'api' => [  // Nuevo guard para las APIs con JWT
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
     ],
 
     /*

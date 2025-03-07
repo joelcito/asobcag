@@ -6,10 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
     use SoftDeletes;
@@ -60,5 +61,21 @@ class User extends Authenticatable
 
     public function listaUsuarios($tipo){
         return $this->where('rol_id',$tipo)->get();
+    }
+
+    /**
+     * Devuelve el identificador que se almacenará en el JWT.
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Devuelve una lista de claims personalizados agregados al JWT.
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
