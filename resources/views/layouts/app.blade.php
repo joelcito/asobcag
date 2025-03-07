@@ -74,12 +74,12 @@
 						<div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
 							<!--begin::Logo image-->
 							<a href="{{ url('home') }}">
-								<div class="row mt-5">
-									<div class="col-md-6">
-                                        <img alt="Logo" src="{{asset('assets/img/logo.png')}}" class="h-40px app-sidebar-logo-minimize" width="100%" />
+								<div class="row mt-4">
+									<div class="col-md-4">
+                                        <img alt="Logo" src="{{asset('assets/img/logo_2.png')}}" width="100%" />
 									</div>
-									<div class="col-md-6">
-                                        <h2 class="text-white text-center mr-10">ASOBCAG</h2>
+									<div class="col-md-8">
+                                        <h2 class="text-white mt-6">ASOBCAG</h2>
 									</div>
 								</div>
 							</a>
