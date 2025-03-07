@@ -157,7 +157,6 @@
                                         </div>
                                         <!--end::Title-->
                                     </div>
-                                    <!--end::Header-->
                                     <!--begin::Card body-->
                                     <div class="card-body d-flex align-items-end pt-0">
                                         <!--begin::Progress-->
