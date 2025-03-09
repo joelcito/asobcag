@@ -23,15 +23,16 @@ class AuthController extends Controller
         return response()->json([
             'token' => $token,
             'usuario' => [
-                'id' => $user->id,
-                'nombres' => $user->nombres,
+                'id'         => $user->id,
+                'nombres'    => $user->nombres,
                 'ap_paterno' => $user->ap_paterno,
                 'ap_materno' => $user->ap_materno,
-                'email' => $user->email,
+                'email'      => $user->email,
                 // 'role' => $user->role, // Asegúrate de que la columna `role` exista en tu BD
                 // 'created_at' => $user->created_at,
             ],
-            'expires_in' => auth()->factory()->getTTL() * 60 // Tiempo de expiración en segundos
+            // 'expires_in' => auth()->factory()->getTTL() * 60 // Tiempo de expiración en segundos
+            'expires_in' => config('jwt.ttl') * 60
         ]);
 
         // return response()->json(['token' => $token]);
