@@ -1074,6 +1074,8 @@
                                                         if($ejemplarPrimeraGeneracionMacho){
                                                             $primeraGeneracionMachoId       = $ejemplarPrimeraGeneracionMacho->padre_id;
                                                             $ejemplarSegundaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar($primeraGeneracionMachoId);
+                                                        }else{
+                                                            $ejemplarSegundaGeneracionMacho = null;
                                                         }
                                                     @endphp
                                                 </td>
@@ -1082,6 +1084,8 @@
                                                         if($ejemplarSegundaGeneracionMacho){
                                                             $primeraGeneracionMachoId       = $ejemplarSegundaGeneracionMacho->padre_id;
                                                             $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar($primeraGeneracionMachoId);
+                                                        }else{
+                                                            $ejemplarTerceraGeneracionMacho = null;
                                                         }
                                                     @endphp
                                                 </td>
@@ -1110,6 +1114,8 @@
                                                         if($ejemplarSegundaGeneracionMacho){
                                                             $primeraGeneracionMachoId       = $ejemplarSegundaGeneracionMacho->madre_id;
                                                             $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar($primeraGeneracionMachoId);
+                                                        }else{
+                                                            $ejemplarTerceraGeneracionHembra = null;
                                                         }
                                                     @endphp
                                                 </td>
@@ -1272,6 +1278,8 @@
                                                         if($ejemplarPrimeraGeneracionHembra){
                                                             $primeraGeneracionHembraId       = $ejemplarPrimeraGeneracionHembra->madre_id;
                                                             $ejemplarSegundaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar($primeraGeneracionHembraId);
+                                                        }else{
+                                                            $ejemplarSegundaGeneracionHembra = null;
                                                         }
                                                     @endphp
                                                 </td>
