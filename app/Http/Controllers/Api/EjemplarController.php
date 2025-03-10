@@ -17,85 +17,60 @@ class EjemplarController extends Controller
             if (!$usuario)
                 return response()->json(['error' => 'Usuario no encontrado'], 404);
 
-            // $ejemplares = Ejemplar::select(
-            //                                 'ejemplares.id',
-            //                                 'ejemplares.padre_id',
-            //                                 'ejemplares.madre_id',
-            //                                 'ejemplares.madre_id',
-            //                                 'ejemplares.fenotipo_id',
-            //                                 'ejemplares.color_id',
-            //                                 'ejemplares.nombre',
-            //                                 'ejemplares.sexo',
-            //                                 'ejemplares.fecha_nacimiento',
-            //                                 'ejemplares.numero_registro',
-            //                                 'ejemplares.microchip',
-            //                                 'ejemplares.arete',
-            //                                 'ejemplares.tipo'
-            //                                 )
-            //                         ->join('criaderos', 'ejemplares.criadero_id', '=', 'criaderos.id')
-            //                         ->where('criaderos.propietario_id', $usuario->id)->get();
-
-            // $ejemplares = Ejemplar::select(
-            //     'ejemplares.id',
-            //     'ejemplares.padre_id',
-            //     'ejemplares.madre_id',
-            //     'ejemplares.fenotipo_id',
-            //     'ejemplares.color_id',
-            //     'ejemplares.nombre',
-            //     'ejemplares.sexo',
-            //     'ejemplares.fecha_nacimiento',
-            //     'ejemplares.numero_registro',
-            //     'ejemplares.microchip',
-            //     'ejemplares.arete',
-            //     'ejemplares.tipo'
-            // )
-            // ->join('criaderos', 'ejemplares.criadero_id', '=', 'criaderos.id')
-            // ->leftJoin('ejemplar_imagenes', 'ejemplares.id', '=', 'ejemplar_imagenes.ejemplar_id') // Unir las imágenes
-            // ->where('criaderos.propietario_id', $usuario->id)
-            // ->get()
-            // ->map(function ($ejemplar) {
-            //     $ejemplar->imagenes = EjemplarImagen::where('ejemplar_id', $ejemplar->id)
-            //         ->pluck('ruta');
-            //     return asset().$ejemplar;
-            // });
-
             $ejemplares = Ejemplar::select(
-                'ejemplares.id',
-                'ejemplares.padre_id',
-                'ejemplares.madre_id',
-                'ejemplares.fenotipo_id',
-                'ejemplares.color_id',
-                'ejemplares.nombre',
-                'ejemplares.sexo',
-                'ejemplares.fecha_nacimiento',
-                'ejemplares.numero_registro',
-                'ejemplares.microchip',
-                'ejemplares.arete',
-                'ejemplares.tipo'
-            )
-            ->join('criaderos', 'ejemplares.criadero_id', '=', 'criaderos.id')
-            ->leftJoin('ejemplar_imagenes', 'ejemplares.id', '=', 'ejemplar_imagenes.ejemplar_id') // Unir las imágenes
-            ->where('criaderos.propietario_id', $usuario->id)
-            ->get()
-            ->map(function ($ejemplar) {
-                // Obtener las imágenes y devolver la URL completa con asset()
-                $imagenes = EjemplarImagen::where('ejemplar_id', $ejemplar->id)
-                    ->pluck('ruta'); // Obtener solo el campo 'ruta'
+                                            'ejemplares.id',
+                                            'ejemplares.padre_id',
+                                            'ejemplares.madre_id',
+                                            'ejemplares.madre_id',
+                                            'ejemplares.fenotipo_id',
+                                            'ejemplares.color_id',
+                                            'ejemplares.nombre',
+                                            'ejemplares.sexo',
+                                            'ejemplares.fecha_nacimiento',
+                                            'ejemplares.numero_registro',
+                                            'ejemplares.microchip',
+                                            'ejemplares.arete',
+                                            'ejemplares.tipo'
+                                            )
+                                    ->join('criaderos', 'ejemplares.criadero_id', '=', 'criaderos.id')
+                                    ->where('criaderos.propietario_id', $usuario->id)->get();
 
-                // Añadir las imágenes al ejemplar de forma correcta
-                $ejemplar->imagenes = $imagenes->map(function ($ruta) {
-                    return asset($ruta); // Concatenar el dominio y la ruta de la imagen
-                });
+            $ejemplaresArray = array();
 
-                return $ejemplar;
-            });
+            foreach ($ejemplares as $key => $eje) {
 
+                $imagenes = EjemplarImagen::where('ejemplar_id', $eje->id)
+                                            ->get()
+                                            ->pluck('ruta')
+                                            ->map(function ($ruta) {
+                                                return asset($ruta);
+                                            });
 
+                $ejemplar = [
+                    "id"               => $eje->id,
+                    "padre_id"         => $eje->padre_id,
+                    "madre_id"         => $eje->madre_id,
+                    "madre_id"         => $eje->madre_id,
+                    "fenotipo_id"      => $eje->fenotipo_id,
+                    "color_id"         => $eje->color_id,
+                    "nombre"           => $eje->nombre,
+                    "sexo"             => $eje->sexo,
+                    "fecha_nacimiento" => $eje->fecha_nacimiento,
+                    "numero_registro"  => $eje->numero_registro,
+                    "microchip"        => $eje->microchip,
+                    "arete"            => $eje->arete,
+                    "tipo"             => $eje->tipo,
+                    "imagenes"         => $imagenes,
 
+                ];
 
+                array_push($ejemplaresArray, $ejemplar);
+
+            }
             return response()->json([
                 'usuario_id' => $usuario->id,
-                'ejemplares' => $ejemplares
+                // 'ejemplares' => $ejemplares
+                'ejemplares' => $ejemplaresArray
             ], 200);
 
         } catch (\Exception  $e) {
