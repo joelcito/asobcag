@@ -79,13 +79,17 @@ class EjemplarController extends Controller
             ->get()
             ->map(function ($ejemplar) {
                 // Obtener las imágenes y devolver la URL completa con asset()
-                $ejemplar->imagenes = EjemplarImagen::where('ejemplar_id', $ejemplar->id)
-                    ->pluck('ruta') // Obtener solo el campo 'ruta'
-                    ->map(function ($ruta) {
-                        return asset($ruta); // Concatenar el dominio y la ruta de la imagen
-                    });
+                $imagenes = EjemplarImagen::where('ejemplar_id', $ejemplar->id)
+                    ->pluck('ruta'); // Obtener solo el campo 'ruta'
+
+                // Añadir las imágenes al ejemplar de forma correcta
+                $ejemplar->imagenes = $imagenes->map(function ($ruta) {
+                    return asset($ruta); // Concatenar el dominio y la ruta de la imagen
+                });
+
                 return $ejemplar;
             });
+
 
 
 
