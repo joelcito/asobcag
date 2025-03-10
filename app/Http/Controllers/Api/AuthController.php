@@ -28,7 +28,7 @@ class AuthController extends Controller
                 'ap_paterno' => $user->ap_paterno,
                 'ap_materno' => $user->ap_materno,
                 'email'      => $user->email,
-                // 'role' => $user->role, // Asegúrate de que la columna `role` exista en tu BD
+                'role' => $user->rol, // Asegúrate de que la columna `role` exista en tu BD
                 // 'created_at' => $user->created_at,
             ],
             // 'expires_in' => auth()->factory()->getTTL() * 60 // Tiempo de expiración en segundos
