@@ -69,6 +69,14 @@ class Ejemplar extends Model
         return $this->hasMany(Morfologico::class);
     }
 
+    public function esquilas(){
+        return $this->hasMany(Esquila::class);
+    }
+
+    public function medicaciones(){
+        return $this->hasMany(Medicacion::class);
+    }
+
     public static function visualizarEjemplar($ejmplar_id){
         $ejemplar = null;
         if($ejmplar_id){
