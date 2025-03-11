@@ -339,6 +339,22 @@
                 }
             });
 
+            // Verificar si hay coordenadas válidas
+            if (criadero['latitud'] && criadero['longitud']) {
+                let nuevaUbicacion = [parseFloat(criadero['latitud']), parseFloat(criadero['longitud'])];
+
+                // Si ya hay un marcador, eliminarlo
+                if (marker) map.removeLayer(marker);
+
+                // Agregar nuevo marcador en la ubicación existente
+                marker = L.marker(nuevaUbicacion).addTo(map)
+                    .bindPopup(`Lat: ${criadero['latitud']}, Lng: ${criadero['longitud']}, Alt: ${criadero['altitud']}m`)
+                    .openPopup();
+
+                // Centrar el mapa en la ubicación del criadero
+                map.setView(nuevaUbicacion, 15);
+            }
+
             $('#modalCriadero').modal('show');
         }
 
@@ -383,7 +399,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            var map = L.map('map').setView([-16.5004, -68.15], 6); // Coordenadas iniciales (Bolivia)
+            window.map = L.map('map').setView([-16.5004, -68.15], 6); // Coordenadas iniciales (Bolivia)
             // Detectar cuando el modal se abre
             $('#modalCriadero').on('shown.bs.modal', function () {
                 setTimeout(() => {
@@ -396,7 +412,7 @@
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(map);
 
-            var marker; // Variable para almacenar el marcador
+            window.marker = null; // Hacer la variable global
 
             // Evento al hacer clic en el mapa
             map.on('click', async function (e) {
