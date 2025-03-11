@@ -20,11 +20,11 @@
     RewriteRule ^ index.php [L]
 
      # Habilitar CORS para imágenes
-     <FilesMatch "\.(jpg|jpeg|png|gif|bmp|tiff|webp|svg)$">
-     Header set Access-Control-Allow-Origin "*"
-     Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
-    #  Header set Access-Control-Allow-Origin "http://localhost:23416/"
-    #  Header set Access-Control-Allow-Methods "GET"
-     Header set Access-Control-Allow-Headers "Content-Type"
-    </FilesMatch>
+    #  <FilesMatch "\.(jpg|jpeg|png|gif|bmp|tiff|webp|svg)$">
+    #  Header set Access-Control-Allow-Origin "*"
+    #  Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    # #  Header set Access-Control-Allow-Origin "http://localhost:23416/"
+    # #  Header set Access-Control-Allow-Methods "GET"
+    #  Header set Access-Control-Allow-Headers "Content-Type"
+    # </FilesMatch>
 </IfModule>
