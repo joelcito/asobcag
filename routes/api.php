@@ -33,5 +33,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::post('/ejemplaresUsuario', [EjemplarController::class, 'ejemplaresUsuario']);
+    Route::post('/registroEjemplar', [EjemplarController::class, 'registroEjemplar']);
 });
 

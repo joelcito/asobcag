@@ -82,4 +82,16 @@ class EjemplarController extends Controller
                 , 401);
         }
     }
+
+    public function registroEjemplar(Request $request){
+
+        $ejemplar         = new Ejemplar();
+        $ejemplar->nombre = $request->input('nombre');
+        $ejemplar->save();
+
+        return response()->json([
+            'ejemplare' => $ejemplar
+        ], 200);
+
+    }
 }

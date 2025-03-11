@@ -120,7 +120,8 @@ class EjemplarController extends Controller
             // Guardar imágenes asociadas al ejemplar
             if ($request->hasFile('imagenes')) {
                 foreach ($request->file('imagenes') as $imagen) {
-                    $nombreArchivo = time() . '_' . Str::random(10) . '_' . $imagen->getClientOriginalName();
+                    // $nombreArchivo = time() . '_' . Str::random(10) . '_' . $imagen->getClientOriginalName();
+                    $nombreArchivo = time() . '_' . Str::uuid() . '.' . $imagen->getClientOriginalExtension();
                     $ruta = $imagen->storeAs("public/imagenes/{$tipo}", $nombreArchivo);
 
                     $ejemplar->imagenes()->create([
