@@ -1,24 +1,6 @@
 <table>
     <thead>
     <tr>
-        <th style="border: 1px solid black; background-color:darksalmon; " width="15" align="center">CRIADERO</th>
-        <th style="border: 1px solid black; background-color:darksalmon; " width="15" align="center">Propietario</th>
-        <th style="border: 1px solid black; background-color:darksalmon; " width="15" align="center">Técnico</th>
-        <th style="border: 1px solid black; background-color:darksalmon; " width="15" align="center">Pastor</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td style="border: 1px solid black;" width="15" align="center">{{ $criadero->nombre }}</td>
-            <td style="border: 1px solid black;" width="15" align="center">{{ optional($criadero->propietario)->name }}</td>
-            <td style="border: 1px solid black;" width="15" align="center">{{ optional($criadero->tecnico)->name }}</td>
-            <td style="border: 1px solid black;" width="15" align="center">{{ optional($criadero->pastor)->name }}</td>
-        </tr>
-    </tbody>
-</table>
-<table>
-    <thead>
-    <tr>
         <th style="border: 1px solid black; background-color:cornflowerblue; color:white" width="15" align="center" rowspan="2">Nombre</th>
         <th style="border: 1px solid black; background-color:cornflowerblue; color:white" width="15" align="center" rowspan="2">Sexo</th>
         <th style="border: 1px solid black; background-color:cornflowerblue; color:white" width="15" align="center" rowspan="2">Nro. Registro</th>

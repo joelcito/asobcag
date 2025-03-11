@@ -1,11 +1,6 @@
 @extends('layouts.app')
 @section('css')
     <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <style>
-        .tamanio_boton{
-            font-size: 6px;
-        }
-    </style>
 @endsection
 @section('metadatos')
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -63,6 +58,11 @@
                             {{-- <button class="btn btn-primary mt-2" onclick="descargarGrafico('genero')">Descargar</button> --}}
                         </div>
                     </div>
+                    {{-- <div class="row mt-3">
+                        <div class="col-md-12" style="width: 100%; height: auto; overflow: visible;">
+                            <div id="map" style="max-height: 300px; max-width: 100%; border-radius: 8px;"></div>
+                        </div>
+                    </div>    --}}                
                 </div>
             </div>
             <!--end::Card-->
@@ -78,6 +78,8 @@
 @section('js')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script>
         $.ajaxSetup({
@@ -94,6 +96,42 @@
             $(window).resize(function() {
                 dibujarGraficos();
             });
+
+            //MAPA
+            /* let criadero = {!! json_encode($criadero) !!};
+
+            let map = L.map('map', {scrollWheelZoom: false}).setView([-16.5004, -68.1500], 6);
+            // ⚡ Forzar el tamaño después de cargar la página y ajustar al tamaño del contenedor
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 300); // 1 segundo después de la carga
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);            
+
+            // Si el criadero tiene coordenadas, agregar el marcador
+            if (criadero && criadero.latitud && criadero.longitud) {
+                let lat = parseFloat(criadero.latitud);
+                let lng = parseFloat(criadero.longitud);
+
+                map.setView([lat, lng], 15);
+
+                // Definir el icono de Leaflet manualmente
+                let customIcon = L.icon({
+                    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+                    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+                    iconSize: [25, 41], // Tamaño del icono
+                    iconAnchor: [12, 41], // Punto de anclaje
+                    popupAnchor: [1, -34], // Punto del popup
+                    shadowSize: [41, 41] // Tamaño de la sombra
+                });
+
+                // Usar el icono en el marcador
+                L.marker([lat, lng], { icon: customIcon }).addTo(map)
+                    .bindPopup(`Criadero: ${criadero.nombre}<br>Lat: ${lat}, Lng: ${lng}`)
+                    .openPopup();
+            } */
         });
 
         let chartGenero, chartColor, chartEdad;
