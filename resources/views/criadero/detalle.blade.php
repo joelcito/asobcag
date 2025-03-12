@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('css')
     <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 @endsection
 @section('metadatos')
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -45,24 +47,32 @@
                         </div>
                         <div class="col-md-4">
                             <div id="chartColor" style="width:100%; height:400px;"></div>
-                            {{-- <button class="btn btn-primary mt-2" onclick="descargarGrafico('color')">Descargar</button> --}}
                         </div>
                         <div class="col-md-4">
                             <div id="chartEdad" style="width:100%; height:400px;"></div>
-                            {{-- <button class="btn btn-primary mt-2" onclick="descargarGrafico('edad')">Descargar</button> --}}
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
                             <div id="chartPeso" style="width:100%; height:400px;"></div>
-                            {{-- <button class="btn btn-primary mt-2" onclick="descargarGrafico('genero')">Descargar</button> --}}
+                        </div>
+                        <div class="col-md-4">
+                            <div id="chartPesoNacimiento" style="width:100%; height:400px;"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <div id="chartPesoDestete" style="width:100%; height:400px;"></div>
                         </div>
                     </div>
-                    {{-- <div class="row mt-3">
-                        <div class="col-md-12" style="width: 100%; height: auto; overflow: visible;">
-                            <div id="map" style="max-height: 300px; max-width: 100%; border-radius: 8px;"></div>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <div id="chartPesoMayor" style="width:100%; height:400px;"></div>
                         </div>
-                    </div>    --}}                
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div id="map" style="height: 300px; border-radius: 8px;"></div>
+                        </div>
+                    </div>   
                 </div>
             </div>
             <!--end::Card-->
@@ -98,7 +108,7 @@
             });
 
             //MAPA
-            /* let criadero = {!! json_encode($criadero) !!};
+            let criadero = {!! json_encode($criadero) !!};
 
             let map = L.map('map', {scrollWheelZoom: false}).setView([-16.5004, -68.1500], 6);
             // ⚡ Forzar el tamaño después de cargar la página y ajustar al tamaño del contenedor
@@ -131,7 +141,7 @@
                 L.marker([lat, lng], { icon: customIcon }).addTo(map)
                     .bindPopup(`Criadero: ${criadero.nombre}<br>Lat: ${lat}, Lng: ${lng}`)
                     .openPopup();
-            } */
+            }
         });
 
         let chartGenero, chartColor, chartEdad;
@@ -191,6 +201,60 @@
 
             var chartPeso = new google.visualization.ColumnChart(document.getElementById('chartPeso'));
             chartPeso.draw(datosPeso, opcionesPeso);
+            // 📊 Datos de Promedio de Peso Mayor y Menor por Año <= 1
+            var datosPesoNacimiento = google.visualization.arrayToDataTable([
+                ['Año', 'Promedio Peso Mayor', 'Promedio Peso Menor'],
+                @foreach($pesosNacimiento as $p)
+                    ['{{ $p->anio }}', {{ $p->peso_max_promedio ?? 0 }}, {{ $p->peso_min_promedio ?? 0 }}],
+                @endforeach
+            ]);
+
+            var opcionesPesoNacimiento = {
+                title: 'Promedio de Peso Mayor y Menor, menores a 1 año',
+                hAxis: { title: 'Año' },
+                vAxis: { title: 'Peso (kg)' },
+                legend: { position: 'bottom' },
+                colors: ['#1b9e77', '#d95f02']
+            };
+
+            var chartPesoNacimiento = new google.visualization.ColumnChart(document.getElementById('chartPesoNacimiento'));
+            chartPesoNacimiento.draw(datosPesoNacimiento, opcionesPesoNacimiento);
+            // 📊 Datos de Promedio de Peso Mayor y Menor por motivo destete
+            var datosPesoDestete = google.visualization.arrayToDataTable([
+                ['Año', 'Promedio Peso Mayor', 'Promedio Peso Menor'],
+                @foreach($pesosDestete as $p)
+                    ['{{ $p->anio }}', {{ $p->peso_max_promedio ?? 0 }}, {{ $p->peso_min_promedio ?? 0 }}],
+                @endforeach
+            ]);
+
+            var opcionesPesoDestete = {
+                title: 'Promedio de Peso Mayor y Menor, por motivo destete',
+                hAxis: { title: 'Año' },
+                vAxis: { title: 'Peso (kg)' },
+                legend: { position: 'bottom' },
+                colors: ['#1b9e77', '#d95f02']
+            };
+
+            var chartPesoDestete = new google.visualization.ColumnChart(document.getElementById('chartPesoDestete'));
+            chartPesoDestete.draw(datosPesoDestete, opcionesPesoDestete);
+            // 📊 Datos de Promedio de Peso Mayor y Menor, mayores a 2 años
+            var datosPesoMayor = google.visualization.arrayToDataTable([
+                ['Año', 'Promedio Peso Mayor', 'Promedio Peso Menor'],
+                @foreach($pesosMayor as $p)
+                    ['{{ $p->anio }}', {{ $p->peso_max_promedio ?? 0 }}, {{ $p->peso_min_promedio ?? 0 }}],
+                @endforeach
+            ]);
+
+            var opcionesPesoMayor = {
+                title: 'Promedio de Peso Mayor y Menor, mayores a 2 años',
+                hAxis: { title: 'Año' },
+                vAxis: { title: 'Peso (kg)' },
+                legend: { position: 'bottom' },
+                colors: ['#1b9e77', '#d95f02']
+            };
+
+            var chartPesoMayor = new google.visualization.ColumnChart(document.getElementById('chartPesoMayor'));
+            chartPesoMayor.draw(datosPesoMayor, opcionesPesoMayor);
         }
 
         // Función para descargar gráficos
