@@ -26,9 +26,15 @@ class AuthController extends Controller
 
         $token = JWTAuth::customClaims($customClaims)->fromUser($user);
 
+        // Refresh Token (Dura 10 años, se guarda en la BD)
+        $refreshToken = bin2hex(random_bytes(50)); // Genera un token seguro
+        $user->refresh_token = $refreshToken;
+        $user->save();
+
         // Devolver datos adicionales junto con el token
         return response()->json([
             'token' => $token,
+            'refresh_token' => $refreshToken,
             'usuario' => [
                 'id'         => $user->id,
                 'nombres'    => $user->nombres,
@@ -48,5 +54,29 @@ class AuthController extends Controller
         JWTAuth::invalidate(JWTAuth::getToken());
 
         return response()->json(['message' => 'Cierre de sesión exitoso']);
+    }
+
+    public function refreshToken(Request $request){
+
+        $request->validate(['refresh_token' => 'required']);
+
+        $user = User::where('refresh_token', $request->refresh_token)->first();
+
+        if (!$user) {
+            return response()->json(['error' => 'Refresh Token inválido'], 401);
+        }
+
+        // Claims personalizados
+        $customClaims = [
+            'user_id' => $user->id
+        ];
+
+        // Generar un nuevo Access Token con Claims
+        $newAccessToken = JWTAuth::claims($customClaims)->fromUser($user);
+
+        return response()->json([
+            'access_token' => $newAccessToken,
+            'expires_in' => config('jwt.ttl') * 60
+        ]);
     }
 }
