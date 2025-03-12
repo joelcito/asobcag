@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\EjemplarController;
 // });
 
 Route::post('/login', [AuthController::class, 'login']); // Login con JWT
+Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
 
 // Rutas protegidas con JWT
 Route::middleware('auth:api')->group(function () {
