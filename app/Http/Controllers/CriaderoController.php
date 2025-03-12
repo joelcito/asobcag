@@ -158,8 +158,43 @@ class CriaderoController extends Controller
                             ->orderBy('anio', 'ASC')
                             ->get();
 
+        $pesosNacimiento = Ejemplar::selectRaw("
+                            YEAR(ejemplares.fecha_nacimiento) as anio,
+                            AVG((SELECT MAX(b.peso) FROM biometrias b WHERE b.ejemplar_id = ejemplares.id AND b.motivo LIKE 'Nacimiento')) as peso_max_promedio,
+                            AVG((SELECT MIN(b.peso) FROM biometrias b WHERE b.ejemplar_id = ejemplares.id AND b.motivo LIKE 'Nacimiento')) as peso_min_promedio
+                        ")
+                        ->where('criadero_id', $id)
+                        ->whereNotNull('fecha_nacimiento')
+                        ->whereRaw("TIMESTAMPDIFF(YEAR, ejemplares.fecha_nacimiento, NOW()) <= 1") // 📌 Filtra los menores de 1 año
+                        ->groupBy('anio')
+                        ->orderBy('anio', 'ASC')
+                        ->get();
 
-        return view('criadero.detalle')->with(compact(['criadero', 'genero', 'colores', 'edades', 'pesos']));
+        $pesosDestete = Ejemplar::selectRaw("
+                                YEAR(ejemplares.fecha_nacimiento) as anio,
+                                AVG((SELECT MAX(b.peso) FROM biometrias b WHERE b.ejemplar_id = ejemplares.id AND b.motivo LIKE 'Destete')) as peso_max_promedio,
+                                AVG((SELECT MIN(b.peso) FROM biometrias b WHERE b.ejemplar_id = ejemplares.id AND b.motivo LIKE 'Destete')) as peso_min_promedio
+                            ")
+                            ->where('criadero_id', $id)
+                            ->whereNotNull('fecha_nacimiento')
+                            ->groupBy('anio')
+                            ->orderBy('anio', 'ASC')
+                            ->get();
+
+        $pesosMayor = Ejemplar::selectRaw("
+                            YEAR(ejemplares.fecha_nacimiento) as anio,
+                            AVG((SELECT MAX(b.peso) FROM biometrias b WHERE b.ejemplar_id = ejemplares.id)) as peso_max_promedio,
+                            AVG((SELECT MIN(b.peso) FROM biometrias b WHERE b.ejemplar_id = ejemplares.id)) as peso_min_promedio
+                        ")
+                        ->where('criadero_id', $id)
+                        ->whereNotNull('fecha_nacimiento')
+                        ->whereRaw("TIMESTAMPDIFF(YEAR, ejemplares.fecha_nacimiento, NOW()) >= 2")
+                        ->groupBy('anio')
+                        ->orderBy('anio', 'ASC')
+                        ->get();
+
+
+        return view('criadero.detalle')->with(compact(['criadero', 'genero', 'colores', 'edades', 'pesos', 'pesosNacimiento', 'pesosDestete', 'pesosMayor']));
     }
 
     public function exportEjemplares($criadero_id)
