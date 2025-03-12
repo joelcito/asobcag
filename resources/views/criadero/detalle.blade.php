@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('css')
     <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 @endsection
 @section('metadatos')
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -66,11 +68,11 @@
                             <div id="chartPesoMayor" style="width:100%; height:400px;"></div>
                         </div>
                     </div>
-                    {{-- <div class="row mt-3">
-                        <div class="col-md-12" style="width: 100%; height: auto; overflow: visible;">
-                            <div id="map" style="max-height: 300px; max-width: 100%; border-radius: 8px;"></div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div id="map" style="height: 300px; border-radius: 8px;"></div>
                         </div>
-                    </div>    --}}                
+                    </div>   
                 </div>
             </div>
             <!--end::Card-->
@@ -106,7 +108,7 @@
             });
 
             //MAPA
-            /* let criadero = {!! json_encode($criadero) !!};
+            let criadero = {!! json_encode($criadero) !!};
 
             let map = L.map('map', {scrollWheelZoom: false}).setView([-16.5004, -68.1500], 6);
             // ⚡ Forzar el tamaño después de cargar la página y ajustar al tamaño del contenedor
@@ -139,7 +141,7 @@
                 L.marker([lat, lng], { icon: customIcon }).addTo(map)
                     .bindPopup(`Criadero: ${criadero.nombre}<br>Lat: ${lat}, Lng: ${lng}`)
                     .openPopup();
-            } */
+            }
         });
 
         let chartGenero, chartColor, chartEdad;
