@@ -3,8 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ColorController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EjemplarController;
+use App\Http\Controllers\Api\FenotipoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +35,14 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/me', [UserController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    // EJEMPLARES
     Route::post('/ejemplaresUsuario', [EjemplarController::class, 'ejemplaresUsuario']);
     Route::post('/registroEjemplar', [EjemplarController::class, 'registroEjemplar']);
+
+    // FENOTIPOS
+    Route::get('/getFenotipos', [FenotipoController::class, 'getFenotipos']);
+
+    // COLORES
+    Route::get('/getColores', [ColorController::class, 'getColores']);
 });
 
