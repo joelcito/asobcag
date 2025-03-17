@@ -209,6 +209,17 @@
                                 <!--end::Charts Widget 2-->
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div id="chartEjemplarLlama1" style="width:100%; height:400px;"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <div id="chartEjemplarLlama2" style="width:100%; height:400px;"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <div id="chartEjemplarLlama3" style="width:100%; height:400px;"></div>
+                            </div>
+                        </div>
                     </div>
                     <!--end::Content container-->
                 </div>
@@ -219,10 +230,18 @@
 </div>
 @stop
 @section('js')
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
 
     $(document).ready(function() {
         initChartsWidget4();
+
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(dibujarGraficos);
+
+        $(window).resize(function() {
+            dibujarGraficos();
+        });
     });
 
     // var initChartsWidget4 = function() {
@@ -373,6 +392,48 @@
             initChart();
         });
 
+    }
+
+    let chartLlamas1, chartLlamas2, chartllamas3;
+
+    function dibujarGraficos() {
+        // Llamas Machos y Hembras menoses a 1 año
+        var datosLlamas1 = google.visualization.arrayToDataTable([
+            ['Sexo', 'Cantidad'],
+            @foreach($ejemplarLlamas1 as $e)
+                ['{{ $e->sexo }}', {{ $e->cantidad }}],
+            @endforeach
+        ]);
+
+        var opcionesLlamas1 = { title: 'Llamas menores a un año.' };
+        chartLlamas1 = new google.visualization.PieChart(document.getElementById('chartEjemplarLlama1'));
+        chartLlamas1.draw(datosLlamas1, opcionesLlamas1);
+
+        // Llamas Machos y Hembras rango 1 y 2 años
+        var datosLlamas2 = google.visualization.arrayToDataTable([
+            ['Sexo', 'Cantidad'],
+            @foreach($ejemplarLlamas2 as $e)
+                ['{{ $e->sexo }}', {{ $e->cantidad }}],
+            @endforeach
+        ]);
+
+        var opcionesLlamas2 = { title: 'Llamas de 1 a 2 años.' };
+        chartLlamas2 = new google.visualization.PieChart(document.getElementById('chartEjemplarLlama2'));
+        chartLlamas2.draw(datosLlamas2, opcionesLlamas2);
+
+        // Llamas Machos y Hembras rango 2 y 3 años
+        var datosLlamas3 = google.visualization.arrayToDataTable([
+            ['Sexo', 'Cantidad'],
+            @foreach($ejemplarLlamas3 as $e)
+                ['{{ $e->sexo }}', {{ $e->cantidad }}],
+            @endforeach
+        ]);
+
+        var opcionesLlamas3 = { title: 'Llamas de 2 a 3 años.' };
+        chartLlamas3 = new google.visualization.PieChart(document.getElementById('chartEjemplarLlama3'));
+        chartLlamas3.draw(datosLlamas3, opcionesLlamas3);
+
+        
     }
 </script>
 @endsection

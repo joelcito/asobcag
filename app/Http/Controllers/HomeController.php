@@ -45,6 +45,24 @@ class HomeController extends Controller
 
         }
 
-        return view('home.inicio')->with(compact('propietarios', 'usuariosDelSistema', 'llama', 'alpacas', 'registrosEjemplaresLlama', 'registrosEjemplaresAlpaca'));
+        // Contar machos y hembras menores a un año
+        $ejemplarLlamas1 = Ejemplar::selectRaw("sexo, COUNT(*) as cantidad")
+                            ->whereRaw("TIMESTAMPDIFF(YEAR, ejemplares.fecha_nacimiento, NOW()) <= 1") 
+                            ->groupBy('sexo')
+                            ->get();
+        // Contar machos y hembras en rango 1 y 2 años
+        $ejemplarLlamas2 = Ejemplar::selectRaw("sexo, COUNT(*) as cantidad")
+                            ->whereRaw("TIMESTAMPDIFF(YEAR, ejemplares.fecha_nacimiento, NOW()) > 1")
+                            ->whereRaw("TIMESTAMPDIFF(YEAR, ejemplares.fecha_nacimiento, NOW()) <= 2")
+                            ->groupBy('sexo')
+                            ->get();
+        // Contar machos y hembras en rango 2 y 3 años
+        $ejemplarLlamas3 = Ejemplar::selectRaw("sexo, COUNT(*) as cantidad")
+                            ->whereRaw("TIMESTAMPDIFF(YEAR, ejemplares.fecha_nacimiento, NOW()) > 2")
+                            ->whereRaw("TIMESTAMPDIFF(YEAR, ejemplares.fecha_nacimiento, NOW()) <= 3")
+                            ->groupBy('sexo')
+                            ->get();
+
+        return view('home.inicio')->with(compact('propietarios', 'usuariosDelSistema', 'llama', 'alpacas', 'registrosEjemplaresLlama', 'registrosEjemplaresAlpaca', 'ejemplarLlamas1', 'ejemplarLlamas2', 'ejemplarLlamas3'));
     }
 }
