@@ -5,7 +5,10 @@
             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                 <th>Nombre</th>
                 <th>Fecha</th>
-                <th>Ferias Col.</th>
+                <th>Categoria</th>
+                <th>Premio</th>
+                <th>Juez Principal</th>
+                <th>Juez Adjunto</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -14,8 +17,12 @@
                 <tr>
                     <td>{{ $feria->nombre }}</td>
                     <td>{{ $feria->fecha }}</td>
-                    <td>{{ $feria->feriascol }}</td>
+                    <td>{{ optional($feria->categoriaFeria)->nombre }}</td>
+                    <td>{{ optional($feria->premio)->nombre }}</td>
+                    <td>{{ optional($feria->juezPrincipal)->name }}</td>
+                    <td>{{ optional($feria->juezAdjunto)->name }}</td>
                     <td>
+                        <a href="{{ route('feriaEjemplar.listado', [$tipo, $feria->id]) }}" class="btn btn-icon btn-sm btn-info btn-circle" title="Inscribir y Calificar"><i class="fa fa-clipboard"></i></a>
                         <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar feria" onclick="editarFeria({{ json_encode($feria) }})"><i class="fa fa-edit"></i></button>
                         <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar feria" onclick="eliminarFeria({{ json_encode($feria) }})"><i class="fa fa-trash"></i></button>
                     </td>

@@ -21,7 +21,7 @@
                 @endphp
 
                 {{-- INGRESOS --}}
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('ejemplar/*', 'empadre/*', 'diagnostico/*', 'medicacion/*', 'feriaEjemplar/*') && $llama ? 'show' : '' }}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('ejemplar/*', 'empadre/*', 'diagnostico/*', 'medicacion/*', 'feriaEjemplar/*', 'feria/*') && $llama ? 'show' : '' }}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -64,13 +64,13 @@
                                 </span>
                                 <span class="menu-title text-white">Medicaciones</span>
                             </a>
-                        </div> --}}
+                        </div> --}}                       
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'feriaEjemplar.listado' && $llama ? 'active' : '' }}" href="{{route('feriaEjemplar.listado', ['LLAMA'])}}">
+                            <a class="menu-link {{ Route::currentRouteName() == 'feria.listado' && $llama ? 'active' : '' }}" href="{{route('feria.listado', ['LLAMA'])}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title text-white">Feria Ejemplares</span>
+                                <span class="menu-title text-white">Ferias</span>
                             </a>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                 </div>
                 {{-- FIN INGRESOS --}}
 
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('ejemplar/*', 'empadre/*', 'diagnostico/*', 'medicacion/*', 'feriaEjemplar/*') && $alpaca ? 'show' : '' }}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('ejemplar/*', 'empadre/*', 'diagnostico/*', 'medicacion/*', 'feriaEjemplar/*', 'feria/*') && $alpaca ? 'show' : '' }}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -123,18 +123,18 @@
                             </a>
                         </div> --}}
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'feriaEjemplar.listado' && $alpaca ? 'active' : '' }}" href="{{route('feriaEjemplar.listado', ['ALPACA'])}}">
+                            <a class="menu-link {{ Route::currentRouteName() == 'feria.listado' && $alpaca ? 'active' : '' }}" href="{{route('feria.listado', ['ALPACA'])}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title text-white">Feria Ejemplares</span>
+                                <span class="menu-title text-white">Ferias</span>
                             </a>
                         </div>
                     </div>
                     <!--end:Menu sub-->
                 </div>
 
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('usuario/*', 'criadero/*', 'localidad/*', 'rol/*', 'raza/*', 'color/*', 'fenotipo/*', 'categoria/*', 'categoriaFeria/*', 'feria/*', 'premio/*', 'productoVeterinario/*', 'metodo/*', 'campania/*', 'tipoEmpadre/*', 'equipo/*', 'laboratorio/*') ? 'show' : '' }}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('usuario/*', 'criadero/*', 'localidad/*', 'rol/*', 'raza/*', 'color/*', 'fenotipo/*', 'categoria/*', 'categoriaFeria/*', 'premio/*', 'productoVeterinario/*', 'metodo/*', 'campania/*', 'tipoEmpadre/*', 'equipo/*', 'laboratorio/*') ? 'show' : '' }}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -215,14 +215,6 @@
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title text-white">Categorias Ferias</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'feria.listado' ? 'active' : '' }}" href="{{route('feria.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Ferias</span>
                             </a>
                         </div>
                         <div class="menu-item">

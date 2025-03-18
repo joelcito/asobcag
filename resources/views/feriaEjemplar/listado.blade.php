@@ -12,98 +12,32 @@
 @endsection
 @section('content')
 
-<!--begin::Modal - Add task-->
+<!--begin::Modal-->
 <div class="modal fade" id="modalFeriaEjemplar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="kt_modal_add_user_header">
-                <h3 class="fw-bold">FORMULARIO DE FERIA EJEMPLAR <span class="text-info" id="nombre_busqueda"></span></h3>
+                <h3 class="fw-bold">FORMULARIO DE INSCRIPCION DE EJEMPLAR <span class="text-info" id="nombre_busqueda"></span></h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body scroll-y">
                 <form id="formularioFeriaEjemplar">
                     <input type="hidden" name="id" id="id">
+                    <input type="hidden" name="feria_id" id="feria_id" value="{{ $feria->id }}">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="fv-row mb-7">
                                 <label class="fs-6 fw-semibold form-label mb-2 required">Ejemplar</label>
                                 <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeriaEjemplar"
                                     class="form-select form-select-solid fw-bold" name="ejemplar_id" id="ejemplar_id">
                                     <option></option>
                                     @foreach ($ejemplares as $ejemplar)
-                                        <option value="{{ $ejemplar->id }}">{{ $ejemplar->nombre }}</option>
+                                        <option value="{{ $ejemplar->id }}">{{ $ejemplar->nombre }} - {{ $ejemplar->arete }} - {{ $ejemplar->microchip }}</option>
                                     @endforeach
                                 </select>
                                 <div class="text-danger error-message" id="error-ejemplar_id"></div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2 required">Feria</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeriaEjemplar"
-                                    class="form-select form-select-solid fw-bold" name="feria_id" id="feria_id">
-                                    <option></option>
-                                    @foreach ($ferias as $feria)
-                                        <option value="{{ $feria->id }}">{{ $feria->nombre }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="text-danger error-message" id="error-feria_id"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2 required">Categoria</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeriaEjemplar"
-                                    class="form-select form-select-solid fw-bold" name="categoria_feria_id" id="categoria_feria_id">
-                                    <option></option>
-                                    @foreach ($categorias as $categoria)
-                                        <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="text-danger error-message" id="error-categoria_feria_id"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2 required">Premios</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeriaEjemplar"
-                                    class="form-select form-select-solid fw-bold" name="premio_id" id="premio_id">
-                                    <option></option>
-                                    @foreach ($premios as $premio)
-                                        <option value="{{ $premio->id }}">{{ $premio->nombre }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="text-danger error-message" id="error-premio_id"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2 required">Juez Principal</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeriaEjemplar"
-                                    class="form-select form-select-solid fw-bold" name="juez_principal_id" id="juez_principal_id">
-                                    <option></option>
-                                    @foreach ($usuarios as $usuario)
-                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="text-danger error-message" id="error-juez_principal_id"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2">Juez Adjunto</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeriaEjemplar"
-                                    class="form-select form-select-solid fw-bold" name="juez_adjunto_id" id="juez_adjunto_id">
-                                    <option></option>
-                                    @foreach ($usuarios as $usuario)
-                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="text-danger error-message" id="error-juez_adjunto_id"></div>
-                            </div>
-                        </div>
+                        </div>                        
                     </div>
                 </form>
             </div>
@@ -114,12 +48,58 @@
                     </div>
                 </div>
             </div>
-            <!--end::Modal body-->
         </div>
     </div>
-    <!--end::Modal dialog-->
 </div>
-<!--end::Modal - Add task-->
+<!--end::Modal-->
+<!--begin::Modal de Calificacion-->
+<div class="modal fade" id="modalCalificacion" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" id="kt_modal_add_user_header">
+                <h3 class="fw-bold">FORMULARIO DE INSCRIPCION DE EJEMPLAR <span class="text-info" id="nombre_busqueda"></span></h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body scroll-y">
+                <form id="formularioCalificacion">
+                    <input type="hidden" name="feria_ejemplar_id" id="feria_ejemplar_id">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="fv-row mb-7">
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Clasificacion</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCalificacion"
+                                    class="form-select form-select-solid fw-bold" name="clasificacion" id="clasificacion">
+                                    <option></option>
+                                    <option value="Aceptado">Aceptado</option>
+                                    <option value="Rechazado">Rechazado</option>
+                                    <option value="Ganador">Ganador</option>
+                                </select>
+                                <div class="text-danger error-message" id="error-clasificacion"></div>
+                            </div>
+                        </div>                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="fv-row mb-7">
+                                <label class="fs-6 fw-semibold form-label mb-2">Detalle</label>
+                                <textarea class="form-control" id="detalle" name="detalle" rows="3"></textarea>
+                                <div class="text-danger error-message" id="error-detalle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-sm w-100 btn-success" onclick="guardarCalificacion()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Modal de calificacion-->
 
 <!--begin::Content wrapper-->
 <div class="d-flex flex-column flex-column-fluid">
@@ -134,14 +114,14 @@
                         <!--begin::Page title-->
                         <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                             <!--begin::Title-->
-                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">LISTADO DE FERIAS DE EJEMPLARES</h1>
+                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">FERIA "{{ $feria->nombre }}"</h1>
                             <!--end::Title-->
                         </div>
                         <!--end::Page title-->
 
                         <!--begin::Actions-->
                         <div class="d-flex gap-2 gap-lg-3">
-                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoFeriaEjemplar()"><i class="fa fa-plus"></i>Nueva Feria Ejemplar</a>
+                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoFeriaEjemplar()"><i class="fa fa-plus"></i>Nueva Inscripcion</a>
                         </div>
 
                         <!--end::Actions-->
@@ -149,6 +129,20 @@
                 </div>
 
                 <div class="card-body py-4">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p><strong>Categoria: </strong>{{ optional($feria->categoriaFeria)->nombre }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><strong>Premio: </strong>{{ optional($feria->premio)->nombre }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><strong>Juez Principal: </strong>{{ optional($feria->juezPrincipal)->name }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><strong>Juez Adjunto: </strong>{{ optional($feria->juezAdjunto)->name }}</p>
+                        </div>
+                    </div>
                     <div id="table_listado">
 
                     </div>
@@ -208,12 +202,16 @@
 
             $('#id').val(0)
             $('#ejemplar_id').val(null).trigger('change')
-            $('#feria_id').val(null).trigger('change')
-            $('#categoria_feria_id').val(null).trigger('change')
-            $('#premio_id').val(null).trigger('change')
-            $('#juez_principal_id').val(null).trigger('change')
-            $('#juez_adjunto_id').val(null).trigger('change')
             $('#modalFeriaEjemplar').modal('show')
+        }
+
+        function calificarFeriaEjemplar(feriaEjemplar){
+            limpiarErorres();
+
+            $('#feria_ejemplar_id').val(feriaEjemplar.id)
+            $('#detalle').val(feriaEjemplar.detalle)
+            $('#clasificacion').val(feriaEjemplar.clasificacion).trigger('change')
+            $('#modalCalificacion').modal('show')
         }
 
         function guardarFeriaEjemplar(){
@@ -320,6 +318,51 @@
                 }
             });
             
+        }
+
+        function guardarCalificacion(){
+            let datos = $('#formularioCalificacion').serializeArray();
+            $.ajax({
+                url: "{{ route('feriaEjemplar.guardarCalificacion') }}",
+                method: "POST",
+                data: datos,
+                success: function (resultado) {
+                    if(resultado.estado){
+                        Swal.fire({
+                            title: "EL REGISTRO FUE EXITOSO.",
+                            icon: "success",
+                            timer: 3000, // Se cierra en 3 segundos
+                            showConfirmButton: false
+                        });
+                        ajaxListado();
+                        $('#modalCalificacion').modal('hide')
+                    }else{
+
+                    }
+                },
+                error: function (xhr) {
+                    limpiarErorres();
+
+                    if (xhr.status === 422) { 
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, messages) {
+                            let input = $('[name="' + key + '"]');
+                            let errorDiv = $('#error-' + key);
+
+                            if (input.length > 0) {
+                                input.addClass('is-invalid'); // Agregar clase de error
+                                errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error inesperado.',
+                        });
+                    }
+                }
+            });
         }
 
    </script>

@@ -23,17 +23,77 @@
             <div class="modal-body scroll-y">
                 <form id="formularioFeria">
                     <input type="hidden" name="id" id="id">
+                    <input type="hidden" name="tipo" id="tipo" value="{{ $tipo }}">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Nombre</label>
                                 <input type="text" class="form-control form-control-sm" id="nombre" name="nombre">
+                                <div class="text-danger error-message" id="error-nombre"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="fv-row mb-7">
                                 <label class="required fw-semibold fs-6 mb-2">Fecha</label>
                                 <input type="date" class="form-control form-control-sm" id="fecha" name="fecha">
+                                <div class="text-danger error-message" id="error-fecha"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="fv-row mb-7">
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Categoria</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeria"
+                                    class="form-select form-select-solid fw-bold" name="categoria_feria_id" id="categoria_feria_id">
+                                    <option></option>
+                                    @foreach ($categorias as $categoria)
+                                        <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-categoria_feria_id"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="fv-row mb-7">
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Premios</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeria"
+                                    class="form-select form-select-solid fw-bold" name="premio_id" id="premio_id">
+                                    <option></option>
+                                    @foreach ($premios as $premio)
+                                        <option value="{{ $premio->id }}">{{ $premio->nombre }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-premio_id"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="fv-row mb-7">
+                                <label class="fs-6 fw-semibold form-label mb-2 required">Juez Principal</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeria"
+                                    class="form-select form-select-solid fw-bold" name="juez_principal_id" id="juez_principal_id">
+                                    <option></option>
+                                    @foreach ($usuarios as $usuario)
+                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-juez_principal_id"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="fv-row mb-7">
+                                <label class="fs-6 fw-semibold form-label mb-2">Juez Adjunto</label>
+                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalFeria"
+                                    class="form-select form-select-solid fw-bold" name="juez_adjunto_id" id="juez_adjunto_id">
+                                    <option></option>
+                                    @foreach ($usuarios as $usuario)
+                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="text-danger error-message" id="error-juez_adjunto_id"></div>
                             </div>
                         </div>
                     </div>
@@ -145,7 +205,7 @@
 
         function ajaxListado(){
 
-            let datos = {};
+            let datos = {tipo: "{{ $tipo }}"};
             $.ajax({
                 url: "{{ route('feria.ajaxListado') }}",
                 method: "POST",
@@ -164,8 +224,8 @@
         }
 
         function limpiarErorres(){
-            $(".invalid-feedback").remove();
-            $(".is-invalid").removeClass("is-invalid");
+            $('.error-message').html('');
+            $('.is-invalid').removeClass('is-invalid');
         }
 
         function modalNuevoFeria(){
@@ -174,6 +234,10 @@
             $('#id').val(0)
             $('#nombre').val('')
             $('#fecha').val('')
+            $('#categoria_feria_id').val(null).trigger('change')
+            $('#premio_id').val(null).trigger('change')
+            $('#juez_principal_id').val(null).trigger('change')
+            $('#juez_adjunto_id').val(null).trigger('change')
             $('#modalFeria').modal('show')
         }
 
@@ -200,16 +264,17 @@
                 error: function (xhr) {
                     limpiarErorres();
 
-                    if (xhr.status === 422) {
-                        let errores = xhr.responseJSON.errors;
+                    if (xhr.status === 422) { 
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, messages) {
+                            let input = $('[name="' + key + '"]');
+                            let errorDiv = $('#error-' + key);
 
-                        for (let campo in errores) {
-                            let mensaje = errores[campo][0];
-
-                            let input = $(`[name="${campo}"]`);
-                            input.addClass("is-invalid");
-                            input.after(`<div class="invalid-feedback">${mensaje}</div>`);
-                        }
+                            if (input.length > 0) {
+                                input.addClass('is-invalid'); // Agregar clase de error
+                                errorDiv.html('<span>' + messages[0] + '</span>'); // Mostrar mensaje
+                            }
+                        });
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -226,7 +291,15 @@
 
             Object.keys(feria).forEach(key => {
                 let input = $(`#${key}`);
-                if (input.length) {
+
+                if (input.is(':checkbox')) {
+                    // Marcar si el valor es 1, true o "on"
+                    input.prop('checked', feria[key] == 1 || feria[key] === true || feria[key] === "on");
+                } else if (input.is('select')) {
+                    // Para selects con librerías como Select2
+                    input.val(feria[key]).trigger('change');
+                } else if (input.length) {
+                    // Para inputs normales (text, number, email, etc.)
                     input.val(feria[key]);
                 }
             });

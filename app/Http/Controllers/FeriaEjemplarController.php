@@ -14,14 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class FeriaEjemplarController extends Controller
 {
-    public function listado($tipo){
+    public function listado($tipo, $feria_id){
         $ejemplares = Ejemplar::where('tipo', $tipo)->get();
-        $ferias     = Feria::all();
-        $categorias = CategoriaFeria::all();
-        $premios    = Premio::all();
-        $usuarios   = User::all();
+        $feria = Feria::with(['categoriaFeria', 'premio', 'juezPrincipal', 'juezAdjunto'])
+                        ->find($feria_id);
 
-        return view('feriaEjemplar.listado')->with(compact(['ejemplares', 'ferias', 'categorias', 'premios', 'usuarios', 'tipo']));
+        return view('feriaEjemplar.listado')->with(compact(['ejemplares', 'feria', 'tipo']));
     }
 
     public function ajaxListado(Request $request){
@@ -29,7 +27,7 @@ class FeriaEjemplarController extends Controller
 
             $tipo = $request->input('tipo');
 
-            $ferias = FeriaEjemplar::with(['ejemplar', 'feria', 'categoriaFeria', 'premio', 'juezPrincipal', 'juezAdjunto'])
+            $ferias = FeriaEjemplar::with(['ejemplar'])
                                     ->whereHas('ejemplar', function ($q) use ($tipo) {
                                         $q->where('tipo', $tipo);
                                     })
@@ -50,20 +48,12 @@ class FeriaEjemplarController extends Controller
             $request->validate([
                 'ejemplar_id' => 'required',
                 'feria_id' => 'required',
-                'categoria_feria_id' => 'required',
-                'premio_id' => 'required',
-                'juez_principal_id' => 'required',
-                //'juez_adjunto_id' => 'required',
             ]);
 
             $id = $request->input('id');
 
             $ejemplar_id        = $request->input('ejemplar_id');
             $feria_id           = $request->input('feria_id');
-            $categoria_feria_id = $request->input('categoria_feria_id');
-            $premio_id          = $request->input('premio_id');
-            $juez_principal_id  = $request->input('juez_principal_id');
-            $juez_adjunto_id    = $request->input('juez_adjunto_id');
             $usuario            = Auth::user();
 
             if( $id == 0 ){
@@ -76,10 +66,7 @@ class FeriaEjemplarController extends Controller
 
             $feriaEjemplar->ejemplar_id        = $ejemplar_id;
             $feriaEjemplar->feria_id           = $feria_id;
-            $feriaEjemplar->categoria_feria_id = $categoria_feria_id;
-            $feriaEjemplar->premio_id          = $premio_id;
-            $feriaEjemplar->juez_principal_id  = $juez_principal_id;
-            $feriaEjemplar->juez_adjunto_id    = $juez_adjunto_id;
+
             $feriaEjemplar->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
@@ -101,6 +88,34 @@ class FeriaEjemplarController extends Controller
             $feriaEjemplar->save();
 
             FeriaEjemplar::destroy($id);
+
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+
+        }else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
+    public function guardarCalificacion(Request $request){
+        if($request->ajax()){
+
+            $request->validate([
+                'clasificacion' => 'required',
+            ]);
+
+            $id = $request->input('feria_ejemplar_id');
+            $clasificacion = $request->input('clasificacion');
+            $detalle = $request->input('detalle');
+            $usuario            = Auth::user();
+
+            $feriaEjemplar = FeriaEjemplar::find($id);
+            $feriaEjemplar->usuario_modificador_id = $usuario->id;                
+
+            $feriaEjemplar->clasificacion = $clasificacion;
+            $feriaEjemplar->detalle       = $detalle;
+
+            $feriaEjemplar->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
 

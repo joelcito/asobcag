@@ -22,13 +22,21 @@ return new class extends Migration
 
             $table->unsignedBigInteger('localidad_id')->nullable();
             $table->foreign('localidad_id')->references('id')->on('localidades');
+            $table->unsignedBigInteger('categoria_feria_id')->nullable();
+            $table->foreign('categoria_feria_id')->references('id')->on('categoria_ferias');
+            $table->unsignedBigInteger('premio_id')->nullable();
+            $table->foreign('premio_id')->references('id')->on('premios');
+            $table->unsignedBigInteger('juez_principal_id')->nullable();
+            $table->foreign('juez_principal_id')->references('id')->on('users');
+            $table->unsignedBigInteger('juez_adjunto_id')->nullable();
+            $table->foreign('juez_adjunto_id')->references('id')->on('users');
 
             $table->string('nombre')->nullable();
             $table->date('fecha')->nullable();
             $table->tinyInteger('nacional')->nullable();
             $table->tinyInteger('departamental')->nullable();
             $table->tinyInteger('municipal')->nullable();
-
+            $table->string('tipo')->nullable();
 
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();

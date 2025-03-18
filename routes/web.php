@@ -98,21 +98,28 @@ Route::middleware('auth')->group(function () {
         Route::post('/guardarEmpadre', [EmpadreController::class, 'guardarEmpadre'])->name('empadre.guardarEmpadre');
         Route::post('/eliminarEmpadre', [EmpadreController::class, 'eliminarEmpadre'])->name('empadre.eliminarEmpadre');
     });
-
+    
     Route::prefix('/diagnostico')->group(function(){
         Route::get('/listado/{tipo}', [DiagnosticoController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('diagnostico.listado');
         Route::post('/ajaxListado', [DiagnosticoController::class, 'ajaxListado'])->name('diagnostico.ajaxListado');
         Route::post('/guardarDiagnostico', [DiagnosticoController::class, 'guardarDiagnostico'])->name('diagnostico.guardarDiagnostico');
         Route::post('/eliminarDiagnostico', [DiagnosticoController::class, 'eliminarDiagnostico'])->name('diagnostico.eliminarDiagnostico');
         Route::post('/buscarEmpadre', [DiagnosticoController::class, 'buscarEmpadre'])->name('diagnostico.buscarEmpadre');
+    });
 
+    Route::prefix('/feria')->group(function(){
+        Route::get('/listado/{tipo}', [FeriaController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('feria.listado');
+        Route::post('/ajaxListado', [FeriaController::class, 'ajaxListado'])->name('feria.ajaxListado');
+        Route::post('/guardarFeria', [FeriaController::class, 'guardarFeria'])->name('feria.guardarFeria');
+        Route::post('/eliminarFeria', [FeriaController::class, 'eliminarFeria'])->name('feria.eliminarFeria');
     });
 
     Route::prefix('/feriaEjemplar')->group(function(){
-        Route::get('/listado/{tipo}', [FeriaEjemplarController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('feriaEjemplar.listado');
+        Route::get('/listado/{tipo}/{feria_id}', [FeriaEjemplarController::class, 'listado'])->where('tipo', 'LLAMA|ALPACA')->name('feriaEjemplar.listado');
         Route::post('/ajaxListado', [FeriaEjemplarController::class, 'ajaxListado'])->name('feriaEjemplar.ajaxListado');
         Route::post('/guardarFeriaEjemplar', [FeriaEjemplarController::class, 'guardarFeriaEjemplar'])->name('feriaEjemplar.guardarFeriaEjemplar');
         Route::post('/eliminarFeriaEjemplar', [FeriaEjemplarController::class, 'eliminarFeriaEjemplar'])->name('feriaEjemplar.eliminarFeriaEjemplar');
+        Route::post('/guardarCalificacion', [FeriaEjemplarController::class, 'guardarCalificacion'])->name('feriaEjemplar.guardarCalificacion');
     });
 
     Route::prefix('/raza')->group(function(){
@@ -155,13 +162,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/ajaxListado', [CategoriaFeriaController::class, 'ajaxListado'])->name('categoriaFeria.ajaxListado');
         Route::post('/guardarCategoriaFeria', [CategoriaFeriaController::class, 'guardarCategoriaFeria'])->name('categoriaFeria.guardarCategoriaFeria');
         Route::post('/eliminarCategoriaFeria', [CategoriaFeriaController::class, 'eliminarCategoriaFeria'])->name('categoriaFeria.eliminarCategoriaFeria');
-    });
-
-    Route::prefix('/feria')->group(function(){
-        Route::get('/listado', [FeriaController::class, 'listado'])->name('feria.listado');
-        Route::post('/ajaxListado', [FeriaController::class, 'ajaxListado'])->name('feria.ajaxListado');
-        Route::post('/guardarFeria', [FeriaController::class, 'guardarFeria'])->name('feria.guardarFeria');
-        Route::post('/eliminarFeria', [FeriaController::class, 'eliminarFeria'])->name('feria.eliminarFeria');
     });
 
     Route::prefix('/premio')->group(function(){

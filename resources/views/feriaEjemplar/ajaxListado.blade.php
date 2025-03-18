@@ -2,26 +2,28 @@
     <!--begin::Table-->
     <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
         <thead>
-            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                <th>Ejemplar</th>
-                <th>Feria</th>
-                <th>Categoria</th>
-                <th>Premio</th>
-                <th>Juez Principal</th>
-                <th>Juez Adjunto</th>
-                <th>Actions</th>
+            <tr class="text-center text-muted fw-bold fs-7 text-uppercase gs-0">
+                <th colspan="3">Ejemplar</th>
+                <th rowspan="2">Clasificacion</th>
+                <th rowspan="2">Detalle</th>
+                <th rowspan="2">Actions</th>
+            </tr>
+            <tr class="text-center text-muted fw-bold fs-7 text-uppercase gs-0">
+                <th>Nombre</th>
+                <th>Arete</th>
+                <th>Microchip</th>
             </tr>
         </thead>
         <tbody class="text-gray-600 fw-semibold">
             @forelse ( $ferias as $feria)
                 <tr>
                     <td>{{ optional($feria->ejemplar)->nombre }}</td>
-                    <td>{{ optional($feria->feria)->nombre }}</td>
-                    <td>{{ optional($feria->categoriaFeria)->nombre }}</td>
-                    <td>{{ optional($feria->premio)->nombre }}</td>
-                    <td>{{ optional($feria->juezPrincipal)->name }}</td>
-                    <td>{{ optional($feria->juezAdjunto)->name }}</td>
+                    <td>{{ optional($feria->ejemplar)->arete }}</td>
+                    <td>{{ optional($feria->ejemplar)->microchip }}</td>
+                    <td>{{ $feria->clasificacion }}</td>
+                    <td>{{ $feria->detalle }}</td>
                     <td>
+                        <button class="btn btn-icon btn-sm btn-dark btn-circle" title="Calificar" onclick="calificarFeriaEjemplar({{ json_encode($feria) }})"><i class="fas fa-clipboard-check"></i></button>
                         <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar ferias ejemplar" onclick="editarFeriaEjemplar({{ json_encode($feria) }})"><i class="fa fa-edit"></i></button>
                         <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar ferias ejemplar" onclick="eliminarFeriaEjemplar({{ json_encode($feria) }})"><i class="fa fa-trash"></i></button>
                     </td>
