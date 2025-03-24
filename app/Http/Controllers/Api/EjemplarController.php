@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\Ejemplar;
 use App\Models\EjemplarImagen;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class EjemplarController extends Controller
 {
@@ -86,12 +88,51 @@ class EjemplarController extends Controller
     public function registroEjemplar(Request $request){
 
         $ejemplar         = new Ejemplar();
-        $ejemplar->nombre = $request->input('nombre');
-        $ejemplar->save();
+        try {
+            // Decodificar el JSON enviado en el campo 'ejemplar'
+            $ejemplarData = json_decode($request->input('ejemplar'), true);
 
-        return response()->json([
-            'ejemplare' => $ejemplar
-        ], 200);
+            if (!$ejemplarData) {
+                return response()->json(['error' => 'Datos inválidos'], 400);
+            }
+
+            // Crear un nuevo ejemplar con los datos recibidos
+            $ejemplar = new Ejemplar();
+            $ejemplar->nombre       = $ejemplarData['nombre'];
+            $ejemplar->especie      = $ejemplarData['especie'];
+            $ejemplar->descripcion  = $ejemplarData['descripcion'];
+            $ejemplar->color_id     = $ejemplarData['color_id'];
+            $ejemplar->fenotipo_id  = $ejemplarData['fenotipo_id'];
+            $ejemplar->tipo  = $ejemplarData['tipo'];
+            $ejemplar->save();
+
+            // Si hay imágenes, guardarlas
+            if ($request->hasFile('imagenes')) {
+                foreach ($request->file('imagenes') as $imagen) {
+                    // Guardar la imagen en storage/app/public/ejemplares
+                    // $path = $imagen->store('ejemplares', 'public');
+                    $nombreArchivo = time() . '_' . Str::uuid() . '.' . $imagen->getClientOriginalExtension();
+                    $ruta = $imagen->storeAs("public/imagenes/{$ejemplar->tipo}", $nombreArchivo);
+
+                    // Crear el registro de la imagen en la base de datos
+                    $ejemplar->imagenes()->create([
+                        'usuario_creador_id' => 1,
+                        'ruta' => Storage::url("imagenes/{$ejemplar->tipo}/" . $nombreArchivo),
+                        'estado' => 1,
+                    ]);
+                }
+            }
+
+            return response()->json([
+                'mensaje' => 'Ejemplar registrado con éxito',
+                'ejemplar' => $ejemplar
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error al registrar el ejemplar',
+                'detalle' => $e->getMessage()
+            ], 500);
+        }
 
     }
 }
