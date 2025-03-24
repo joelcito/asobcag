@@ -115,7 +115,14 @@ class EjemplarController extends Controller
             $ejemplar->color_id           = $ejemplarData['color_id'];
             $ejemplar->fenotipo_id        = $ejemplarData['fenotipo_id'];
             $ejemplar->tipo               = $ejemplarData['tipo'];
+            $ejemplar->tipo_parto         = $ejemplarData['tipo_parto'];
+            $ejemplar->sexo               = $ejemplarData['sexo'];
+            $ejemplar->fecha_nacimiento   = $ejemplarData['fecha_nacimiento'];
+            $ejemplar->microchip          = $ejemplarData['microchip'];
+            $ejemplar->arete              = $ejemplarData['arete'];
             $ejemplar->criadero_id        = $criadero ? $criadero->id : null;
+            $ejemplar->fecha_registro     = date('Y-m-d H:i:s');
+            $ejemplar->numero_registro    = $this->sacarSiguienteNumeroRegistroEjemplar();
             $ejemplar->save();
 
             // Si hay imágenes, guardarlas
@@ -144,5 +151,14 @@ class EjemplarController extends Controller
             ], 500);
         }
 
+    }
+
+
+
+    private function sacarSiguienteNumeroRegistroEjemplar(){
+        $numero = 0;
+        $registro = Ejemplar::latest()->first();
+        $numero = $registro ? $registro->numero_registro + 1 : $numero + 1;
+        return $numero;
     }
 }
