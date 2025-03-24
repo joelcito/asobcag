@@ -99,7 +99,7 @@ class EjemplarController extends Controller
             // Crear un nuevo ejemplar con los datos recibidos
             $ejemplar = new Ejemplar();
             $ejemplar->nombre       = $ejemplarData['nombre'];
-            $ejemplar->especie      = $ejemplarData['especie'];
+            // $ejemplar->especie      = $ejemplarData['especie'];
             $ejemplar->descripcion  = $ejemplarData['descripcion'];
             $ejemplar->color_id     = $ejemplarData['color_id'];
             $ejemplar->fenotipo_id  = $ejemplarData['fenotipo_id'];
