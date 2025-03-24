@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Criadero;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\Ejemplar;
@@ -89,6 +90,14 @@ class EjemplarController extends Controller
 
         $ejemplar         = new Ejemplar();
         try {
+
+            // Obtener el usuario autenticado desde el token
+            $usuario = auth()->user();
+
+            if (!$usuario) {
+                return response()->json(['error' => 'Usuario no autenticado'], 401);
+            }
+
             // Decodificar el JSON enviado en el campo 'ejemplar'
             $ejemplarData = json_decode($request->input('ejemplar'), true);
 
@@ -96,21 +105,22 @@ class EjemplarController extends Controller
                 return response()->json(['error' => 'Datos inválidos'], 400);
             }
 
+            // SACAMOS EL CRIADERO
+            $criadero = Criadero::where('propietario_id', $usuario->id)->first();
+
             // Crear un nuevo ejemplar con los datos recibidos
-            $ejemplar = new Ejemplar();
-            $ejemplar->nombre       = $ejemplarData['nombre'];
-            // $ejemplar->especie      = $ejemplarData['especie'];
-            // $ejemplar->descripcion  = $ejemplarData['descripcion'];
-            $ejemplar->color_id     = $ejemplarData['color_id'];
-            $ejemplar->fenotipo_id  = $ejemplarData['fenotipo_id'];
-            $ejemplar->tipo  = $ejemplarData['tipo'];
+            $ejemplar                     = new Ejemplar();
+            $ejemplar->nombre             = $ejemplarData['nombre'];
+            $ejemplar->usuario_creador_id = $usuario->id;
+            $ejemplar->color_id           = $ejemplarData['color_id'];
+            $ejemplar->fenotipo_id        = $ejemplarData['fenotipo_id'];
+            $ejemplar->tipo               = $ejemplarData['tipo'];
+            $ejemplar->criadero_id        = $criadero ? $criadero->id : null;
             $ejemplar->save();
 
             // Si hay imágenes, guardarlas
             if ($request->hasFile('imagenes')) {
                 foreach ($request->file('imagenes') as $imagen) {
-                    // Guardar la imagen en storage/app/public/ejemplares
-                    // $path = $imagen->store('ejemplares', 'public');
                     $nombreArchivo = time() . '_' . Str::uuid() . '.' . $imagen->getClientOriginalExtension();
                     $ruta = $imagen->storeAs("public/imagenes/{$ejemplar->tipo}", $nombreArchivo);
 
