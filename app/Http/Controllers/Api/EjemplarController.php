@@ -100,7 +100,7 @@ class EjemplarController extends Controller
             $ejemplar = new Ejemplar();
             $ejemplar->nombre       = $ejemplarData['nombre'];
             // $ejemplar->especie      = $ejemplarData['especie'];
-            $ejemplar->descripcion  = $ejemplarData['descripcion'];
+            // $ejemplar->descripcion  = $ejemplarData['descripcion'];
             $ejemplar->color_id     = $ejemplarData['color_id'];
             $ejemplar->fenotipo_id  = $ejemplarData['fenotipo_id'];
             $ejemplar->tipo  = $ejemplarData['tipo'];
