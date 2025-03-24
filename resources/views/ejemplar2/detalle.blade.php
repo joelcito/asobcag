@@ -86,7 +86,7 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <h6><span class="text-primary">PROPIETARIO: </span>{{ $ejemplar->criadero->propietario->name }} </h6>
+                                    <h6><span class="text-primary">PROPIETARIO: </span>{{ ($ejemplar->criadero)? (($ejemplar->criadero->propietario)? ($ejemplar->criadero->propietario->name) : '') : ''  }} </h6>
                                 </div>
                             </div>
 
@@ -98,11 +98,11 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <h6><span class="text-primary">AFIJO: </span> {{ $ejemplar->criadero->nombre }}</h6>
+                                    <h6><span class="text-primary">AFIJO: </span> {{ ($ejemplar->criadero)? $ejemplar->criadero->nombre : '' }}</h6>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <h6><span class="text-primary">COLOR: </span> {{ $ejemplar->color->nombre }}</h6>
+                                    <h6><span class="text-primary">COLOR: </span> {{ ($ejemplar->color)? $ejemplar->color->nombre : '' }}</h6>
                                 </div>
                             </div>
 
