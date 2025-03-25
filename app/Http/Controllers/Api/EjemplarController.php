@@ -33,10 +33,19 @@ class EjemplarController extends Controller
                                             'ejemplares.numero_registro',
                                             'ejemplares.microchip',
                                             'ejemplares.arete',
-                                            'ejemplares.tipo'
+                                            'ejemplares.tipo',
+                                            'fenotipos.nombre as nombreFenotipo',
+                                            'colores.nombre as nombreColor',
+                                            'padre.nombre as nombrePadre',
+                                            'madre.nombre as nombreMadre'
                                             )
                                     ->join('criaderos', 'ejemplares.criadero_id', '=', 'criaderos.id')
-                                    ->where('criaderos.propietario_id', $usuario->id)->get();
+                                    ->join('fenotipos', 'fenotipos.id', '=', 'ejemplares.fenotipo_id')
+                                    ->join('colores', 'colores.id', '=', 'ejemplares.color_id')
+                                    ->leftJoin('ejemplares as padre', 'padre.id', '=', 'ejemplares.padre_id')
+                                    ->leftJoin('ejemplares as madre', 'madre.id', '=', 'ejemplares.madre_id')
+                                    ->where('criaderos.propietario_id', $usuario->id)
+                                    ->get();
 
             $ejemplaresArray = array();
 
@@ -63,6 +72,10 @@ class EjemplarController extends Controller
                     "microchip"        => $eje->microchip,
                     "arete"            => $eje->arete,
                     "tipo"             => $eje->tipo,
+                    "nombreFenotipo"   => $eje->nombreFenotipo,
+                    "nombreColor"      => $eje->nombreColor,
+                    "nombrePadre"      => $eje->nombrePadre,
+                    "nombreMadre"      => $eje->nombreMadre,
                     "imagenes"         => $imagenes,
 
                 ];
