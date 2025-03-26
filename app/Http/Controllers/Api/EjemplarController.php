@@ -171,7 +171,7 @@ class EjemplarController extends Controller
 
                     // Guardar la imagen redimensionada
                     $ruta = storage_path("app/public/imagenes/{$ejemplar->tipo}/" . $nombreArchivo);
-                    imagejpeg($imagenRedimensionada, $ruta, 75); // 75 es la calidad de la imagen
+                    imagejpeg($imagenRedimensionada, $ruta, 50); // 75 es la calidad de la imagen
 
                     // Liberar memoria
                     imagedestroy($image);
