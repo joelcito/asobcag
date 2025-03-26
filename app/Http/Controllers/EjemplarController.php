@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use App\Models\AnalisisFibra;
 use App\Models\ProductoVeterinario;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\EjemplaresTipoExport;
 use Illuminate\Support\Facades\Storage;
@@ -55,7 +56,20 @@ class EjemplarController extends Controller
 
             $tipo = $request->input('tipo');
 
-            $ejemplares = Ejemplar::with(['fenotipo', 'color', 'padre', 'madre'])->where('tipo', $tipo)->get();
+            if (Gate::allows('admin')) {
+                $ejemplares = Ejemplar::with(['fenotipo', 'color', 'padre', 'madre'])->where('tipo', $tipo)->get();
+            }else{
+                $criadero = Criadero::where('propietario_id',Auth::user()->id)->first();
+                if($criadero){
+                    $ejemplares = Ejemplar::with(['fenotipo', 'color', 'padre', 'madre'])
+                                            ->where('criadero_id', $criadero->id)
+                                            ->where('tipo', $tipo)->get();
+                }else{
+                    $ejemplares = [];
+                }
+
+            }
+
             $valores = [
                 'listado' => view('ejemplar2.ajaxListado')->with(compact(['ejemplares', 'tipo']))->render()
             ];

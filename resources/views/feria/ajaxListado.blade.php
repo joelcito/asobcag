@@ -23,8 +23,10 @@
                     <td>{{ optional($feria->juezAdjunto)->name }}</td>
                     <td>
                         <a href="{{ route('feriaEjemplar.listado', [$tipo, $feria->id]) }}" class="btn btn-icon btn-sm btn-info btn-circle" title="Inscribir y Calificar"><i class="fa fa-clipboard"></i></a>
+                        @can('admin')
                         <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar feria" onclick="editarFeria({{ json_encode($feria) }})"><i class="fa fa-edit"></i></button>
                         <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar feria" onclick="eliminarFeria({{ json_encode($feria) }})"><i class="fa fa-trash"></i></button>
+                        @endcan
                     </td>
                 </tr>
             @empty

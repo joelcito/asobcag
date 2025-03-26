@@ -133,7 +133,7 @@
                     </div>
                     <!--end:Menu sub-->
                 </div>
-
+                @can('admin')
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('usuario/*', 'criadero/*', 'localidad/*', 'rol/*', 'raza/*', 'color/*', 'fenotipo/*', 'categoria/*', 'categoriaFeria/*', 'premio/*', 'productoVeterinario/*', 'metodo/*', 'campania/*', 'tipoEmpadre/*', 'equipo/*', 'laboratorio/*') ? 'show' : '' }}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
@@ -283,6 +283,7 @@
                         </div>
                     </div>
                 </div>
+                @endcan
 
                 <!--end:Menu item-->
             </div>

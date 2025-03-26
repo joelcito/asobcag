@@ -24,8 +24,10 @@
                     <td>{{ $empadre->tiempo_copula }}</td>
                     <td>{{ $empadre->observacion }}</td>
                     <td>
+                        @can('admin')
                         <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar empadre" onclick="editarEmpadre({{ json_encode($empadre) }})"><i class="fa fa-edit"></i></button>
                         <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar empadre" onclick="eliminarEmpadre({{ json_encode($empadre) }})"><i class="fa fa-trash"></i></button>
+                        @endcan
                     </td>
                 </tr>
             @empty

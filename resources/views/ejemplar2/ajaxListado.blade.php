@@ -30,7 +30,9 @@
                     <td>
                         <a href="{{ url('ejemplar/detalle', [$ejemplar->id]) }}" class="btn btn-icon btn-sm btn-info btn-circle" title="Detalle de ejemplar"><i class="fa-solid fa-horse-head"></i></a>
                         <a href="{{ url('ejemplar/formulario', [$tipo, $ejemplar->id]) }}" class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar ejemplar"><i class="fa fa-edit"></i></a>
+                        @can('admin')
                         <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar ejemplar"><i class="fa fa-trash"></i></button>
+                        @endcan
                     </td>
                 </tr>
             @empty
