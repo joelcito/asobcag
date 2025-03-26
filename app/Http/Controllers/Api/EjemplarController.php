@@ -10,6 +10,8 @@ use App\Models\Ejemplar;
 use App\Models\EjemplarImagen;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+
 
 class EjemplarController extends Controller
 {
@@ -102,7 +104,6 @@ class EjemplarController extends Controller
 
     public function registroEjemplar(Request $request){
 
-        $ejemplar         = new Ejemplar();
         try {
 
             // Obtener el usuario autenticado desde el token
@@ -114,7 +115,6 @@ class EjemplarController extends Controller
 
             // Decodificar el JSON enviado en el campo 'ejemplar'
             $ejemplarData = json_decode($request->input('ejemplar'), true);
-
             if (!$ejemplarData) {
                 return response()->json(['error' => 'Datos inválidos'], 400);
             }
@@ -143,14 +143,34 @@ class EjemplarController extends Controller
             if ($request->hasFile('imagenes')) {
                 foreach ($request->file('imagenes') as $imagen) {
                     $nombreArchivo = time() . '_' . Str::uuid() . '.' . $imagen->getClientOriginalExtension();
-                    $ruta = $imagen->storeAs("public/imagenes/{$ejemplar->tipo}", $nombreArchivo);
 
-                    // Crear el registro de la imagen en la base de datos
+                    // $ruta = $imagen->storeAs("public/imagenes/{$ejemplar->tipo}", $nombreArchivo);
+                    // // Crear el registro de la imagen en la base de datos
+                    // $ejemplar->imagenes()->create([
+                    //     'usuario_creador_id' => 1,
+                    //     'ruta' => Storage::url("imagenes/{$ejemplar->tipo}/" . $nombreArchivo),
+                    //     'estado' => 1,
+                    // ]);
+
+                    // Procesar imagen con Intervention
+                    $imagenProcesada = Image::make($imagen)
+                                            ->resize(1024, 1024, function ($constraint) {
+                                                $constraint->aspectRatio();
+                                                $constraint->upsize();
+                                            })
+                                            ->encode('webp', 80); // WebP con calidad 80%
+
+                    // Guardar imagen en storage
+                    $ruta = "public/imagenes/{$ejemplar->tipo}/$nombreArchivo";
+                    Storage::put($ruta, (string) $imagenProcesada);
+
+                    // Guardar referencia en la base de datos
                     $ejemplar->imagenes()->create([
-                        'usuario_creador_id' => 1,
-                        'ruta' => Storage::url("imagenes/{$ejemplar->tipo}/" . $nombreArchivo),
+                        'usuario_creador_id' => $usuario->id,
+                        'ruta' => Storage::url("imagenes/{$ejemplar->tipo}/$nombreArchivo"),
                         'estado' => 1,
                     ]);
+
                 }
             }
 
