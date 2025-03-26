@@ -37,6 +37,7 @@ Route::middleware('auth:api')->group(function () {
 
     // EJEMPLARES
     Route::post('/ejemplaresUsuario', [EjemplarController::class, 'ejemplaresUsuario']);
+    Route::post('/ejemplaresAlpacasUsuario', [EjemplarController::class, 'ejemplaresAlpacasUsuario']);
     Route::post('/registroEjemplar', [EjemplarController::class, 'registroEjemplar']);
 
     // FENOTIPOS
