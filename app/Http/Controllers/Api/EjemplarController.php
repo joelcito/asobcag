@@ -142,7 +142,7 @@ class EjemplarController extends Controller
             // Si hay imágenes, guardarlas
             if ($request->hasFile('imagenes')) {
                 foreach ($request->file('imagenes') as $imagen) {
-                    $nombreArchivo = time() . '_' . Str::uuid() . '.' . $imagen->getClientOriginalExtension();
+                    // $nombreArchivo = time() . '_' . Str::uuid() . '.' . $imagen->getClientOriginalExtension();
 
                     // $ruta = $imagen->storeAs("public/imagenes/{$ejemplar->tipo}", $nombreArchivo);
                     // // Crear el registro de la imagen en la base de datos
@@ -152,22 +152,35 @@ class EjemplarController extends Controller
                     //     'estado' => 1,
                     // ]);
 
-                    // Procesar imagen con Intervention
-                    $imagenProcesada = Image::make($imagen)
-                                            ->resize(1024, 1024, function ($constraint) {
-                                                $constraint->aspectRatio();
-                                                $constraint->upsize();
-                                            })
-                                            ->encode('webp', 80); // WebP con calidad 80%
 
-                    // Guardar imagen en storage
-                    $ruta = "public/imagenes/{$ejemplar->tipo}/$nombreArchivo";
-                    Storage::put($ruta, (string) $imagenProcesada);
+                    // Obtener las dimensiones originales de la imagen
+                    list($anchoOriginal, $altoOriginal) = getimagesize($imagen);
 
-                    // Guardar referencia en la base de datos
+                    // Establecer un ancho máximo para la imagen (por ejemplo, 800px)
+                    $anchoMaximo = 800;
+                    $altoMaximo = ($altoOriginal / $anchoOriginal) * $anchoMaximo;
+
+                    // Crear una nueva imagen redimensionada
+                    $image = imagecreatefromstring(file_get_contents($imagen));
+
+                    // Redimensionar la imagen manteniendo la relación de aspecto
+                    $imagenRedimensionada = imagescale($image, $anchoMaximo, $altoMaximo);
+
+                    // Crear un nombre único para la imagen
+                    $nombreArchivo = time() . '_' . Str::uuid() . '.' . $imagen->getClientOriginalExtension();
+
+                    // Guardar la imagen redimensionada
+                    $ruta = storage_path("app/public/imagenes/{$ejemplar->tipo}/" . $nombreArchivo);
+                    imagejpeg($imagenRedimensionada, $ruta, 75); // 75 es la calidad de la imagen
+
+                    // Liberar memoria
+                    imagedestroy($image);
+                    imagedestroy($imagenRedimensionada);
+
+                    // Crear el registro de la imagen en la base de datos
                     $ejemplar->imagenes()->create([
-                        'usuario_creador_id' => $usuario->id,
-                        'ruta' => Storage::url("imagenes/{$ejemplar->tipo}/$nombreArchivo"),
+                        'usuario_creador_id' => 1,
+                        'ruta' => Storage::url("imagenes/{$ejemplar->tipo}/" . $nombreArchivo),
                         'estado' => 1,
                     ]);
 
