@@ -46,4 +46,8 @@ class Feria extends Model
     public function juezAdjunto(){
         return $this->belongsTo('App\Models\User', 'juez_adjunto_id');
     }
+
+    public function feriaEjemplar(){
+        return $this->hasMany(FeriaEjemplar::class);
+    }
 }

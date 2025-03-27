@@ -23,9 +23,11 @@
                     <td>{{ $feria->clasificacion }}</td>
                     <td>{{ $feria->detalle }}</td>
                     <td>
+                        @can('admin')
                         <button class="btn btn-icon btn-sm btn-dark btn-circle" title="Calificar" onclick="calificarFeriaEjemplar({{ json_encode($feria) }})"><i class="fas fa-clipboard-check"></i></button>
                         <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar ferias ejemplar" onclick="editarFeriaEjemplar({{ json_encode($feria) }})"><i class="fa fa-edit"></i></button>
                         <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar ferias ejemplar" onclick="eliminarFeriaEjemplar({{ json_encode($feria) }})"><i class="fa fa-trash"></i></button>
+                        @endcan
                     </td>
                 </tr>
             @empty

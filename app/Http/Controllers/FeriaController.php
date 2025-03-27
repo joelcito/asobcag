@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Feria;
 use App\Models\Premio;
+use App\Models\Criadero;
 use App\Utils\Respuesta;
 use App\Models\Localidad;
 use Illuminate\Http\Request;
 use App\Models\CategoriaFeria;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class FeriaController extends Controller
 {
@@ -25,8 +27,25 @@ class FeriaController extends Controller
     public function ajaxListado(Request $request){
         if($request->ajax()){
             $tipo = $request->input('tipo');
-            $ferias = Feria::with(['categoriaFeria', 'premio', 'juezPrincipal', 'juezAdjunto'])
+
+            if (Gate::allows('admin')) {
+                $ferias = Feria::with(['categoriaFeria', 'premio', 'juezPrincipal', 'juezAdjunto', 'feriaEjemplar.ejemplar'])
                             ->where('tipo', $tipo)->get();
+            }else{
+                $criaderos = Criadero::where('propietario_id',Auth::user()->id)->get();
+                $idsCriadero = $criaderos->pluck('id')->toArray();
+                if( count($idsCriadero) > 0 ){
+                    $ferias = Feria::with(['categoriaFeria', 'premio', 'juezPrincipal', 'juezAdjunto', 'feriaEjemplar.ejemplar'])
+                            ->whereHas('feriaEjemplar.ejemplar', function ($q) use ($tipo, $idsCriadero) {
+                                $q->whereIn('criadero_id', $idsCriadero)
+                                ->where('tipo', $tipo);
+                            })
+                            ->where('tipo', $tipo)->get();
+                }else{
+                    $ferias = [];
+                }
+            }
+
             $valores = [
                 'listado' => view('feria.ajaxListado')->with(compact(['ferias', 'tipo']))->render()
             ];

@@ -35,11 +35,27 @@ class EjemplarController extends Controller
 
     public function formulario($tipo, $ejemplar_id){
 
+        if (Gate::allows('admin')) {
+            $criaderos = Criadero::all();
+            $machos    = Ejemplar::with(['color', 'fenotipo'])->where('sexo', 'Macho')->where('tipo', $tipo)->get();
+            $hembras   = Ejemplar::with(['color', 'fenotipo'])->where('sexo', 'Hembra')->where('tipo', $tipo)->get();
+        }else{
+            $criaderos = Criadero::where('propietario_id',Auth::user()->id)->get();
+            $idsCriadero = $criaderos->pluck('id')->toArray();
+            //dd($criaderos, $idsCriadero, count($idsCriadero));
+            if( count($idsCriadero) > 0 ){
+                $machos  = Ejemplar::with(['color', 'fenotipo'])->whereIn('criadero_id', $idsCriadero)->where('sexo', 'Macho')->where('tipo', $tipo)->get();
+                $hembras = Ejemplar::with(['color', 'fenotipo'])->whereIn('criadero_id', $idsCriadero)->where('sexo', 'Hembra')->where('tipo', $tipo)->get();
+            }else{
+                $criaderos = [];
+                $machos = [];
+                $hembras = [];
+            }
+
+        }
+
         $colores         = Color::all();
         $fenotipos       = Fenotipo::all();
-        $criaderos       = Criadero::all();
-        $machos          = Ejemplar::with(['color', 'fenotipo'])->where('sexo', 'Macho')->where('tipo', $tipo)->get();
-        $hembras         = Ejemplar::with(['color', 'fenotipo'])->where('sexo', 'Hembra')->where('tipo', $tipo)->get();
         $numeroSiguiente = $this->sacarSiguienteNumeroRegistroEjemplar();
         $ejemplar        = $ejemplar_id > 0 ? Ejemplar::find($ejemplar_id) : null;
         $usuarios        = User::all();

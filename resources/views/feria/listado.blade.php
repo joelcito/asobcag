@@ -11,7 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 @endsection
 @section('content')
-
+@can('admin')
 <!--begin::Modal - Add task-->
 <div class="modal fade" id="modalFeria" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -144,7 +144,8 @@
     </div>
     <!--end::Modal dialog-->
 </div>
-<!--end::Modal - Add task-->
+<!--end::Modal - Add task-->    
+@endcan
 
 <!--begin::Content wrapper-->
 <div class="d-flex flex-column flex-column-fluid">
@@ -166,7 +167,9 @@
 
                         <!--begin::Actions-->
                         <div class="d-flex gap-2 gap-lg-3">
+                            @can('admin')
                             <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoFeria()"><i class="fa fa-plus"></i>Nueva Feria</a>
+                            @endcan
                         </div>
 
                         <!--end::Actions-->

@@ -5,21 +5,42 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Metodo;
 use App\Models\Empadre;
+use App\Models\Criadero;
 use App\Utils\Respuesta;
 use App\Models\Diagnostico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class DiagnosticoController extends Controller
 {
     public function listado($tipo){
-        $supervisores = User::all();
-        $metodos = Metodo::all();
-        $empadres = Empadre::with(['madre'])
+
+        if (Gate::allows('admin')) {
+            $empadres = Empadre::with(['madre'])
                             ->whereHas('madre', function ($q) use ($tipo) {
                                 $q->where('tipo', $tipo);
                             })
                             ->get();
+        }else{
+            $criaderos = Criadero::where('propietario_id',Auth::user()->id)->get();
+            $idsCriadero = $criaderos->pluck('id')->toArray();
+            //dd($criaderos, $idsCriadero, count($idsCriadero));
+            if( count($idsCriadero) > 0 ){
+                $empadres = Empadre::with(['madre'])
+                            ->whereHas('madre', function ($q) use ($tipo, $idsCriadero) {
+                                $q->whereIn('criadero_id', $idsCriadero)
+                                ->where('tipo', $tipo);
+                            })
+                            ->get();
+            }else{
+                $empadres = [];
+            }
+
+        }
+        
+        $supervisores = User::all();
+        $metodos = Metodo::all();
 
         return view('diagnostico.listado')->with(compact(['supervisores', 'metodos', 'empadres', 'tipo']));
     }
@@ -29,11 +50,29 @@ class DiagnosticoController extends Controller
 
             $tipo = $request->input('tipo');
 
-            $diagnosticos = Diagnostico::with(['empadre.madre', 'metodo', 'supervisor'])
+            if (Gate::allows('admin')) {
+                $diagnosticos = Diagnostico::with(['empadre.madre', 'metodo', 'supervisor'])
                                         ->whereHas('empadre.madre', function ($q) use ($tipo) {
                                             $q->where('tipo', $tipo);
                                         })
                                         ->get();
+            }else{
+                $criaderos = Criadero::where('propietario_id',Auth::user()->id)->get();
+                $idsCriadero = $criaderos->pluck('id')->toArray();
+                //dd($criaderos, $idsCriadero, count($idsCriadero));
+                if( count($idsCriadero) > 0 ){
+                    $diagnosticos = Diagnostico::with(['empadre.madre', 'metodo', 'supervisor'])
+                                        ->whereHas('empadre.madre', function ($q) use ($tipo, $idsCriadero) {
+                                            $q->whereIn('criadero_id', $idsCriadero)
+                                            ->where('tipo', $tipo);
+                                        })
+                                        ->get();
+                }else{
+                    $diagnosticos = [];
+                }
+    
+            }
+
             $valores = [
                 'listado' => view('diagnostico.ajaxListado')->with(compact('diagnosticos'))->render()
             ];

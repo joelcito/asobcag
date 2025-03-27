@@ -2,20 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Campania;
 use App\Models\Empadre;
+use App\Models\Campania;
+use App\Models\Criadero;
 use App\Models\Ejemplar;
-use App\Models\TipoEmpadre;
 use App\Utils\Respuesta;
+use App\Models\TipoEmpadre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class EmpadreController extends Controller
 {
     public function listado($tipo){
+
+        if (Gate::allows('admin')) {
+            $machos    = Ejemplar::with(['color', 'fenotipo'])->where('sexo', 'Macho')->where('tipo', $tipo)->get();
+            $hembras   = Ejemplar::with(['color', 'fenotipo'])->where('sexo', 'Hembra')->where('tipo', $tipo)->get();
+        }else{
+            $criaderos = Criadero::where('propietario_id',Auth::user()->id)->get();
+            $idsCriadero = $criaderos->pluck('id')->toArray();
+            if( count($idsCriadero) > 0 ){
+                $machos  = Ejemplar::with(['color', 'fenotipo'])->whereIn('criadero_id', $idsCriadero)->where('sexo', 'Macho')->where('tipo', $tipo)->get();
+                $hembras = Ejemplar::with(['color', 'fenotipo'])->whereIn('criadero_id', $idsCriadero)->where('sexo', 'Hembra')->where('tipo', $tipo)->get();
+            }else{
+                $machos = [];
+                $hembras = [];
+            }
+        }
+        
         $campanias = Campania::all();
-        $machos  = Ejemplar::where('sexo', 'Macho')->where('tipo', $tipo)->get();
-        $hembras = Ejemplar::where('sexo', 'Hembra')->where('tipo', $tipo)->get();
         $tipoEmpadres   = TipoEmpadre::all();
 
         return view('empadre.listado')->with(compact(['campanias', 'machos', 'hembras', 'tipoEmpadres', 'tipo']));
@@ -26,7 +42,8 @@ class EmpadreController extends Controller
 
             $tipo = $request->input('tipo');
 
-            $empadres = Empadre::with(['madre', 'padre', 'campania', 'tipoEmpadre'])
+            if (Gate::allows('admin')) {
+                $empadres = Empadre::with(['madre', 'padre', 'campania', 'tipoEmpadre'])
                                 ->whereHas('padre', function ($q) use ($tipo) {
                                     $q->where('tipo', $tipo);
                                 })
@@ -34,6 +51,27 @@ class EmpadreController extends Controller
                                     $q->where('tipo', $tipo);
                                 })
                                 ->get();
+            }else{
+                $criaderos = Criadero::where('propietario_id',Auth::user()->id)->get();
+                $idsCriadero = $criaderos->pluck('id')->toArray();
+                //dd($criaderos, $idsCriadero, count($idsCriadero));
+                if( count($idsCriadero) > 0 ){
+                    $empadres = Empadre::with(['madre', 'padre', 'campania', 'tipoEmpadre'])
+                                ->whereHas('padre', function ($q) use ($tipo, $idsCriadero) {
+                                    $q->whereIn('criadero_id', $idsCriadero)
+                                    ->where('tipo', $tipo);
+                                })
+                                ->whereHas('madre', function ($q) use ($tipo, $idsCriadero) {
+                                    $q->whereIn('criadero_id', $idsCriadero)
+                                    ->where('tipo', $tipo);
+                                })
+                                ->get();
+                }else{
+                    $empadres = [];
+                }
+    
+            }
+
             $valores = [
                 'listado' => view('empadre.ajaxListado')->with(compact('empadres'))->render()
             ];

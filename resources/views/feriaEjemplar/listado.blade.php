@@ -12,6 +12,7 @@
 @endsection
 @section('content')
 
+@can('admin')
 <!--begin::Modal-->
 <div class="modal fade" id="modalFeriaEjemplar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -100,6 +101,7 @@
     </div>
 </div>
 <!--end::Modal de calificacion-->
+@endcan
 
 <!--begin::Content wrapper-->
 <div class="d-flex flex-column flex-column-fluid">
@@ -121,7 +123,9 @@
 
                         <!--begin::Actions-->
                         <div class="d-flex gap-2 gap-lg-3">
+                            @can('admin')
                             <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoFeriaEjemplar()"><i class="fa fa-plus"></i>Nueva Inscripcion</a>
+                            @endcan
                         </div>
 
                         <!--end::Actions-->
