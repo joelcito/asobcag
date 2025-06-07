@@ -111,7 +111,7 @@ class EjemplarController extends Controller
                 'fenotipo_id'      => 'required',
                 'color_id'         => 'required',
                 'sexo'             => 'required',
-                //'fecha_nacimiento' => 'required',
+                'rumsa' => 'required',
                 'fecha_registro'   => 'required',
                 'criadero_id'      => 'required',
                 //'padre_id'         => 'required',
@@ -132,6 +132,7 @@ class EjemplarController extends Controller
             $padre_id         = $request->input('padre_id');
             $madre_id         = $request->input('madre_id');
             $tipo             = $request->input('tipo');
+            $rumsa            = $request->input('rumsa');
             $usuarioLoguado   = Auth::user();
 
             $ejemplar                     = new Ejemplar();
@@ -149,6 +150,7 @@ class EjemplarController extends Controller
             $ejemplar->padre_id           = $padre_id;
             $ejemplar->madre_id           = $madre_id;
             $ejemplar->tipo               = $tipo;
+            $ejemplar->rumsa              = $rumsa;
             $ejemplar->numero_registro    = $car_id;
             $ejemplar->save();
 

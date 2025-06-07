@@ -4,7 +4,7 @@
 <html lang="en">
 	<!--begin::Head-->
 	<head>
-		<title>ASOBCAG | BOLIVIA</title>
+		<title>FENCAMEL | BOLIVIA</title>
 		<meta charset="utf-8" />
         @yield('metadatos')
         <meta name="description" content="El sistema de facturación en línea más avanzado, diseñado para adaptarse a las necesidades de empresas en Bolivia y confiado por miles de usuarios. Incluye gestión completa de facturas, múltiples métodos de pago, soporte para impuestos locales y compatibilidad con facturación electrónica según las normativas bolivianas. Ideal para pymes, emprendedores y grandes empresas que buscan optimizar su gestión administrativa. Obtén acceso ahora y disfruta de la facilidad de factura." />
@@ -79,7 +79,7 @@
                                         <img alt="Logo" src="{{asset('assets/img/logo_2.png')}}" width="100%" />
 									</div>
 									<div class="col-md-8">
-                                        <h2 class="text-white mt-6">ASOBCAG</h2>
+                                        <h2 class="text-white mt-6">FENCAMEL</h2>
 									</div>
 								</div>
 							</a>

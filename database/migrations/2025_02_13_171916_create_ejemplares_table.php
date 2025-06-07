@@ -40,7 +40,8 @@ return new class extends Migration
             $table->string('arete')->nullable();
             $table->dateTime('fecha_registro')->nullable();
             $table->string('tipo')->nullable();
-            
+            $table->string('rumsa')->nullable();
+
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();
             $table->timestamps();

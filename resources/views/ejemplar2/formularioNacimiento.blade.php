@@ -874,14 +874,14 @@
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">Arete</label>
                                     <input type="text" class="form-control form-control-sm" id="arete" name="arete" value="{{ ($ejemplar)? $ejemplar->arete : '' }}">
                                     <div class="text-danger error-message" id="error-arete"></div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="fv-row mb-7">
                                     <label class="fs-6 fw-semibold form-label mb-2 required">Fenotipo</label>
                                     <select data-control="select2" data-placeholder="Seleccione"
@@ -894,7 +894,7 @@
                                     <div class="text-danger error-message" id="error-fenotipo_id"></div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="fv-row mb-7">
                                     <label class="fs-6 fw-semibold form-label mb-2 required">Color</label>
                                     <select data-control="select2" data-placeholder="Seleccione" class="form-select form-select-solid fw-bold" name="color_id" id="color_id">
@@ -904,6 +904,13 @@
                                         @endforeach
                                     </select>
                                     <div class="text-danger error-message" id="error-color_id"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Nro. Rumsa</label>
+                                    <input type="text" class="form-control form-control-sm" id="rumsa" name="rumsa" value="{{ ($ejemplar)? $ejemplar->rumsa : '' }}">
+                                    <div class="text-danger error-message" id="error-rumsa"></div>
                                 </div>
                             </div>
                         </div>
