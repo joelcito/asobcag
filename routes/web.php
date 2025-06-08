@@ -24,6 +24,7 @@ use App\Http\Controllers\TipoEmpadreController;
 use App\Http\Controllers\FeriaEjemplarController;
 use App\Http\Controllers\CategoriaFeriaController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MigracionController;
 use App\Http\Controllers\ProductoVeterinarioController;
 
 /*
@@ -123,6 +124,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/guardarComunidad', [LocalidadController::class, 'guardarComunidad']);
 
         Route::post('/buscarHijos', [LocalidadController::class, 'buscarHijos']);
+    });
+
+    Route::prefix('/migracion')->group(function(){
+        Route::get('/migracion', [MigracionController::class, 'migracion']);
     });
 
     Route::middleware(['rol'])->group(function () {
