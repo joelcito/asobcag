@@ -22,6 +22,7 @@ class MigracionController extends Controller
         $contador = 0;
 
         foreach ($rows as $index => $row) {
+
             echo $row[0]." ".$row[4]."<br>";
 
             $id_ubicacion_geografica          = $row[0];
@@ -30,46 +31,55 @@ class MigracionController extends Controller
             $id_ubicacion_geografica_superior = $row[3];
             $nombre                           = $row[4];
 
-            // dd($id_ubicacion_geografica_superior);
+            if(
+                $id_ubicacion_geografica          == null &&
+                $id_pais                          == null &&
+                $id_nivel_geografico              == null &&
+                $id_ubicacion_geografica_superior == null &&
+                $nombre                           == null
+            ){
 
-            if($id_ubicacion_geografica_superior == null){
-
-                $localidad                     = new Localidad();
-                $localidad->usuario_creador_id = Auth::user()->id;
-                $localidad->superior_id        = 1;
-                $localidad->nombre             = $nombre;
-                $localidad->nivel              = $id_nivel_geografico+1;
-                $localidad->estado             = $id_ubicacion_geografica;
-                $localidad->save();
+                break;
 
             }else{
-                $localidadSuperior = Localidad::where('estado',$id_ubicacion_geografica_superior)->first();
-
-                // dd(
-                //     $localidadSuperior,
-                //     $id_ubicacion_geografica_superior
-                // );
-
-                if($localidadSuperior){
+                if($id_ubicacion_geografica_superior == null){
 
                     $localidad                     = new Localidad();
                     $localidad->usuario_creador_id = Auth::user()->id;
-                    $localidad->superior_id        = $localidadSuperior->id;
+                    $localidad->superior_id        = 1;
                     $localidad->nombre             = $nombre;
                     $localidad->nivel              = $id_nivel_geografico+1;
                     $localidad->estado             = $id_ubicacion_geografica;
                     $localidad->save();
 
                 }else{
-                    break;
+                    $localidadSuperior = Localidad::where('estado',$id_ubicacion_geografica_superior)->first();
+
+                    // dd(
+                    //     $localidadSuperior,
+                    //     $id_ubicacion_geografica_superior
+                    // );
+
+                    if($localidadSuperior){
+
+                        $localidad                     = new Localidad();
+                        $localidad->usuario_creador_id = Auth::user()->id;
+                        $localidad->superior_id        = $localidadSuperior->id;
+                        $localidad->nombre             = $nombre;
+                        $localidad->nivel              = $id_nivel_geografico+1;
+                        $localidad->estado             = $id_ubicacion_geografica;
+                        $localidad->save();
+
+                    }else{
+                        break;
+                    }
                 }
+
+                if($contador > 10)
+                    break;
+
+                $contador++;
             }
-
-            if($contador > 10)
-                break;
-
-            $contador++;
         }
-
     }
 }
