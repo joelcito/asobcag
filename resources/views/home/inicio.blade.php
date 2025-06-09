@@ -16,7 +16,7 @@
                     <br />
                     <span class="position-relative d-inline-block text-danger">
                         <span class="position-absolute opacity-15 bottom-0 start-0 border-4 border-danger border-bottom w-100"></span>
-                    </span></span>Asociasion Boliviana de camelidos de alta Genetica</div>
+                    </span></span>FEDERACION NACIONAL DE CAMÉLIDOS DE ALTA GENÉTICA "FENCAMEL"</div>
                 </div>
 
                 <!--begin::Content-->
@@ -433,7 +433,7 @@
         chartLlamas3 = new google.visualization.PieChart(document.getElementById('chartEjemplarLlama3'));
         chartLlamas3.draw(datosLlamas3, opcionesLlamas3);
 
-        
+
     }
 </script>
 @endsection
