@@ -2,9 +2,12 @@
     <!--begin::Menu wrapper-->
     <div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper">
         <!--begin::Scroll wrapper-->
-        <div id="kt_app_sidebar_menu_scroll" class="scroll-y my-5 mx-3" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
+        <div id="kt_app_sidebar_menu_scroll" class="scroll-y my-5 mx-3" data-kt-scroll="true" data-kt-scroll-activate="true"
+            data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
+            data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
             <!--begin::Menu-->
-            <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold fs-6" id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
+            <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold fs-6" id="#kt_app_sidebar_menu"
+                data-kt-menu="true" data-kt-menu-expand="false">
                 <!--begin:Menu item-->
                 <div class="menu-item pt-5">
                     <!--begin:Menu content-->
@@ -21,7 +24,8 @@
                 @endphp
 
                 {{-- INGRESOS --}}
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('ejemplar/*', 'empadre/*', 'diagnostico/*', 'medicacion/*', 'feriaEjemplar/*', 'feria/*') && $llama ? 'show' : '' }}">
+                <div data-kt-menu-trigger="click"
+                    class="menu-item menu-accordion {{ Request::is('ejemplar/*', 'empadre/*', 'diagnostico/*', 'medicacion/*', 'feriaEjemplar/*', 'feria/*') && $llama ? 'show' : '' }}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -32,9 +36,10 @@
                     </span>
                     <!--end:Menu link-->
                     <!--begin:Menu sub-->
-                    <div class="menu-sub menu-sub-accordion">                        
+                    <div class="menu-sub menu-sub-accordion">
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'ejemplar.listado' && $llama ? 'active' : '' }}" href="{{ route('ejemplar.listado', ['LLAMA']) }}">
+                            <a class="menu-link {{ Route::currentRouteName() == 'ejemplar.listado' && $llama ? 'active' : '' }}"
+                                href="{{ route('ejemplar.listado', ['LLAMA']) }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -42,7 +47,8 @@
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'empadre.listado' && $llama ? 'active' : '' }}" href="{{ route('empadre.listado', ['LLAMA']) }}">
+                            <a class="menu-link {{ Route::currentRouteName() == 'empadre.listado' && $llama ? 'active' : '' }}"
+                                href="{{ route('empadre.listado', ['LLAMA']) }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -50,7 +56,8 @@
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'diagnostico.listado' && $llama ? 'active' : '' }}" href="{{ route('diagnostico.listado', ['LLAMA']) }}">
+                            <a class="menu-link {{ Route::currentRouteName() == 'diagnostico.listado' && $llama ? 'active' : '' }}"
+                                href="{{ route('diagnostico.listado', ['LLAMA']) }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -64,9 +71,10 @@
                                 </span>
                                 <span class="menu-title text-white">Medicaciones</span>
                             </a>
-                        </div> --}}                       
+                        </div> --}}
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'feria.listado' && $llama ? 'active' : '' }}" href="{{route('feria.listado', ['LLAMA'])}}">
+                            <a class="menu-link {{ Route::currentRouteName() == 'feria.listado' && $llama ? 'active' : '' }}"
+                                href="{{ route('feria.listado', ['LLAMA']) }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -78,7 +86,8 @@
                 </div>
                 {{-- FIN INGRESOS --}}
 
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('ejemplar/*', 'empadre/*', 'diagnostico/*', 'medicacion/*', 'feriaEjemplar/*', 'feria/*') && $alpaca ? 'show' : '' }}">
+                <div data-kt-menu-trigger="click"
+                    class="menu-item menu-accordion {{ Request::is('ejemplar/*', 'empadre/*', 'diagnostico/*', 'medicacion/*', 'feriaEjemplar/*', 'feria/*') && $alpaca ? 'show' : '' }}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -91,7 +100,8 @@
                     <!--begin:Menu sub-->
                     <div class="menu-sub menu-sub-accordion">
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'ejemplar.listado' && $alpaca ? 'active' : '' }}" href="{{ route('ejemplar.listado', ['ALPACA']) }}">
+                            <a class="menu-link {{ Route::currentRouteName() == 'ejemplar.listado' && $alpaca ? 'active' : '' }}"
+                                href="{{ route('ejemplar.listado', ['ALPACA']) }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -99,7 +109,8 @@
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'empadre.listado' && $alpaca ? 'active' : '' }}" href="{{ route('empadre.listado', ['ALPACA']) }}">
+                            <a class="menu-link {{ Route::currentRouteName() == 'empadre.listado' && $alpaca ? 'active' : '' }}"
+                                href="{{ route('empadre.listado', ['ALPACA']) }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -107,7 +118,8 @@
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'diagnostico.listado' && $alpaca ? 'active' : '' }}" href="{{ route('diagnostico.listado', ['ALPACA']) }}">
+                            <a class="menu-link {{ Route::currentRouteName() == 'diagnostico.listado' && $alpaca ? 'active' : '' }}"
+                                href="{{ route('diagnostico.listado', ['ALPACA']) }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -123,7 +135,8 @@
                             </a>
                         </div> --}}
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'feria.listado' && $alpaca ? 'active' : '' }}" href="{{route('feria.listado', ['ALPACA'])}}">
+                            <a class="menu-link {{ Route::currentRouteName() == 'feria.listado' && $alpaca ? 'active' : '' }}"
+                                href="{{ route('feria.listado', ['ALPACA']) }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -134,155 +147,172 @@
                     <!--end:Menu sub-->
                 </div>
                 @can('admin')
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('usuario/*', 'criadero/*', 'localidad/*', 'rol/*', 'raza/*', 'color/*', 'fenotipo/*', 'categoria/*', 'categoriaFeria/*', 'premio/*', 'productoVeterinario/*', 'metodo/*', 'campania/*', 'tipoEmpadre/*', 'equipo/*', 'laboratorio/*') ? 'show' : '' }}">
-                    <!--begin:Menu link-->
-                    <span class="menu-link">
-                        <span class="menu-icon">
-                            <i class="fa fa-university"></i>
+                    <div data-kt-menu-trigger="click"
+                        class="menu-item menu-accordion {{ Request::is('usuario/*', 'criadero/*', 'localidad/*', 'rol/*', 'raza/*', 'color/*', 'fenotipo/*', 'categoria/*', 'categoriaFeria/*', 'premio/*', 'productoVeterinario/*', 'metodo/*', 'campania/*', 'tipoEmpadre/*', 'equipo/*', 'laboratorio/*') ? 'show' : '' }}">
+                        <!--begin:Menu link-->
+                        <span class="menu-link">
+                            <span class="menu-icon">
+                                <i class="fa fa-university"></i>
+                            </span>
+                            <span class="menu-title text-white">Administracion</span>
+                            <span class="menu-arrow"></span>
                         </span>
-                        <span class="menu-title text-white">Administracion</span>
-                        <span class="menu-arrow"></span>
-                    </span>
-                    <!--end:Menu link-->
-                    <div class="menu-sub menu-sub-accordion">
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'usuario.listado' ? 'active' : '' }}" href="{{route('usuario.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Usuarios</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'criadero.listado' ? 'active' : '' }}" href="{{route('criadero.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Criaderos</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link" href="{{url('localidad/listadoPais')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Localidad</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'rol.listado' ? 'active' : '' }}" href="{{route('rol.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Roles</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'raza.listado' ? 'active' : '' }}" href="{{route('raza.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Razas</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'color.listado' ? 'active' : '' }}" href="{{route('color.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Colores</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'fenotipo.listado' ? 'active' : '' }}" href="{{route('fenotipo.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Fenotipos</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'categoria.listado' ? 'active' : '' }}" href="{{route('categoria.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Categorias</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'categoriaFeria.listado' ? 'active' : '' }}" href="{{route('categoriaFeria.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Categorias Ferias</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'premio.listado' ? 'active' : '' }}" href="{{route('premio.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Premios</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'productoVeterinario.listado' ? 'active' : '' }}" href="{{route('productoVeterinario.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Productos Veterinarios</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'metodo.listado' ? 'active' : '' }}" href="{{route('metodo.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Metodos</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'campania.listado' ? 'active' : '' }}" href="{{route('campania.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Campañas</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'tipoEmpadre.listado' ? 'active' : '' }}" href="{{route('tipoEmpadre.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Tipos Empadre</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'equipo.listado' ? 'active' : '' }}" href="{{route('equipo.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Equipos</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'laboratorio.listado' ? 'active' : '' }}" href="{{route('laboratorio.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Laboratorios</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteName() == 'criadero.listado' ? 'active' : '' }}" href="{{route('criadero.listado')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title text-white">Criaderos</span>
-                            </a>
+                        <!--end:Menu link-->
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'usuario.listado' ? 'active' : '' }}"
+                                    href="{{ route('usuario.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Usuarios</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'criadero.listado' ? 'active' : '' }}"
+                                    href="{{ route('criadero.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Unidad Productiva</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link" href="{{ url('localidad/listadoPais') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Localidad</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'rol.listado' ? 'active' : '' }}"
+                                    href="{{ route('rol.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Roles</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'raza.listado' ? 'active' : '' }}"
+                                    href="{{ route('raza.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Razas</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'color.listado' ? 'active' : '' }}"
+                                    href="{{ route('color.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Colores</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'fenotipo.listado' ? 'active' : '' }}"
+                                    href="{{ route('fenotipo.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Fenotipos</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'categoria.listado' ? 'active' : '' }}"
+                                    href="{{ route('categoria.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Categorias</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'categoriaFeria.listado' ? 'active' : '' }}"
+                                    href="{{ route('categoriaFeria.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Categorias Ferias</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'premio.listado' ? 'active' : '' }}"
+                                    href="{{ route('premio.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Premios</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'productoVeterinario.listado' ? 'active' : '' }}"
+                                    href="{{ route('productoVeterinario.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Productos Veterinarios</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'metodo.listado' ? 'active' : '' }}"
+                                    href="{{ route('metodo.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Metodos</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'campania.listado' ? 'active' : '' }}"
+                                    href="{{ route('campania.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Campañas</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'tipoEmpadre.listado' ? 'active' : '' }}"
+                                    href="{{ route('tipoEmpadre.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Tipos Empadre</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'equipo.listado' ? 'active' : '' }}"
+                                    href="{{ route('equipo.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Equipos</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'laboratorio.listado' ? 'active' : '' }}"
+                                    href="{{ route('laboratorio.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Laboratorios</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() == 'criadero.listado' ? 'active' : '' }}"
+                                    href="{{ route('criadero.listado') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Criaderos</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endcan
 
                 <!--end:Menu item-->

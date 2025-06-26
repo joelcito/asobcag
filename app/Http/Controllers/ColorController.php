@@ -31,6 +31,7 @@ class ColorController extends Controller
 
             $request->validate([
                 'nombre' => 'required',
+                'imagen_color' => 'nullable|image|max:5000',
             ]);
 
             $id = $request->input('id');
@@ -46,6 +47,11 @@ class ColorController extends Controller
                 $color->usuario_modificador_id = $usuario->id;
             }
 
+             if ($request->hasFile('imagen_color')) {
+                $imagen = $request->file('imagen_color')->store('colores', 'public');
+            }
+
+            $color->imagen_color = $imagen;
             $color->nombre = $nombre;
             $color->save();
 

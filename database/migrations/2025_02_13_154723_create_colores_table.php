@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('usuario_eliminador_id')->references('id')->on('users');
 
             $table->string('nombre')->nullable();
+            $table->string('imagen_color')->nullable();
 
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();

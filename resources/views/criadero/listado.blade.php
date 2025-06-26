@@ -9,148 +9,170 @@
 @endsection
 @section('content')
 
-<!--begin::Modal - Add task-->
-<div class="modal fade" id="modalCriadero" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header" id="kt_modal_add_user_header">
-                <h3 class="fw-bold">FORMULARIO DE CRIADEROS</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body scroll-y">
-                <form id="formularioCriadero">
-                    <input type="hidden" name="id" id="id">
-                    <!-- Campos ocultos para guardar latitud, longitud y altitud -->
-                    <input type="hidden" id="latitud" name="latitud">
-                    <input type="hidden" id="longitud" name="longitud">
-                    <input type="hidden" id="altitud" name="altitud">
+    <!--begin::Modal - Add task-->
+    <div class="modal fade" id="modalCriadero" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" id="kt_modal_add_user_header">
+                    <h3 class="fw-bold">FORMULARIO DE UNIDADES PRODUCTIVAS</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body scroll-y">
+                    <form id="formularioCriadero">
+                        <input type="hidden" name="id" id="id">
+                        <!-- Campos ocultos para guardar latitud, longitud y altitud -->
+                        <input type="hidden" id="latitud" name="latitud">
+                        <input type="hidden" id="longitud" name="longitud">
+                        <input type="hidden" id="altitud" name="altitud">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Nombre/Razon</label>
+                                    <input type="text" class="form-control form-control-sm" id="nombre"
+                                        name="nombre">
+                                    <div class="text-danger error-message" id="error-nombre"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="fw-semibold fs-6 mb-2">NIT</label>
+                                    <input type="text" class="form-control form-control-sm" id="nit"
+                                        name="nit">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="fw-semibold fs-6 mb-2">Direccion Fisica</label>
+                                    <input type="text" class="form-control form-control-sm" id="direccion"
+                                        name="direccion">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="fw-semibold fs-6 mb-2">Nro Rumsa</label>
+                                    <input type="text" class="form-control form-control-sm" id="rumsa"
+                                        name="rumsa">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Estancia</label>
+                                    <input type="text" class="form-control form-control-sm" id="estancia"
+                                        name="estancia">
+                                    <div class="text-danger error-message" id="error-estancia"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mb-2 required">Propietario</label>
+                                    <select data-control="select2" data-placeholder="Seleccione"
+                                        data-dropdown-parent="#modalCriadero" class="form-select form-select-solid fw-bold"
+                                        name="propietario_id" id="propietario_id">
+                                        <option></option>
+                                        @foreach ($usuarios as $usuario)
+                                            <option value="{{ $usuario->id }}">
+                                                {{ $usuario->nombres . ' ' . $usuario->ap_paterno }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="text-danger error-message" id="error-propietario_id"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mb-2">Tecnico</label>
+                                    <select data-control="select2" data-placeholder="Seleccione"
+                                        data-dropdown-parent="#modalCriadero" class="form-select form-select-solid fw-bold"
+                                        name="tecnico_id" id="tecnico_id">
+                                        <option></option>
+                                        @foreach ($usuarios as $usuario)
+                                            <option value="{{ $usuario->id }}">
+                                                {{ $usuario->nombres . ' ' . $usuario->ap_paterno }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="text-danger error-message" id="error-tecnico_id"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fv-row mb-7">
+                                    <label class="fs-6 fw-semibold form-label mb-2">Pastor</label>
+                                    <select data-control="select2" data-placeholder="Seleccione"
+                                        data-dropdown-parent="#modalCriadero"
+                                        class="form-select form-select-solid fw-bold" name="pastor_id" id="pastor_id">
+                                        <option></option>
+                                        @foreach ($usuarios as $usuario)
+                                            <option value="{{ $usuario->id }}">
+                                                {{ $usuario->nombres . ' ' . $usuario->ap_paterno }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="text-danger error-message" id="error-pastor_id"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <div class="form-check form-check-custom form-check-solid me-10">
+                                    <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_fibra"
+                                        name="negocio_fibra" />
+                                    <label class="form-check-label" for="negocio_fibra">
+                                        Negocio de Fibra
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check form-check-custom form-check-solid me-10">
+                                    <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_carne"
+                                        name="negocio_carne" />
+                                    <label class="form-check-label" for="negocio_carne">
+                                        Negocio de Carne
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check form-check-custom form-check-solid me-10">
+                                    <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_animal"
+                                        name="negocio_animal" />
+                                    <label class="form-check-label" for="negocio_animal">
+                                        Negocio de Animal
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                @include('localidad.components.registroLocalidad', [
+                                    'nameModalPadre' => 'modalCriadero',
+                                ])
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="fw-semibold fs-6 mb-2">Ubicación del Criadero</label>
+                                <div id="map" style="height: 300px; border-radius: 8px;"></div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Nombre/Razon</label>
-                                <input type="text" class="form-control form-control-sm" id="nombre" name="nombre">
-                                <div class="text-danger error-message" id="error-nombre"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="fw-semibold fs-6 mb-2">NIT</label>
-                                <input type="text" class="form-control form-control-sm" id="nit" name="nit">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="fv-row mb-7">
-                                <label class="fw-semibold fs-6 mb-2">Direccion Fisica</label>
-                                <input type="text" class="form-control form-control-sm" id="direccion" name="direccion">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-3">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Estancia</label>
-                                <input type="text" class="form-control form-control-sm" id="estancia" name="estancia">
-                                <div class="text-danger error-message" id="error-estancia"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2 required">Propietario</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCriadero"
-                                    class="form-select form-select-solid fw-bold" name="propietario_id" id="propietario_id">
-                                    <option></option>
-                                    @foreach ($usuarios as $usuario)
-                                        <option value="{{ $usuario->id }}">{{ $usuario->nombres.' '.$usuario->ap_paterno }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="text-danger error-message" id="error-propietario_id"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2">Tecnico</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCriadero"
-                                    class="form-select form-select-solid fw-bold" name="tecnico_id" id="tecnico_id">
-                                    <option></option>
-                                    @foreach ($usuarios as $usuario)
-                                        <option value="{{ $usuario->id }}">{{ $usuario->nombres.' '.$usuario->ap_paterno }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="text-danger error-message" id="error-tecnico_id"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="fv-row mb-7">
-                                <label class="fs-6 fw-semibold form-label mb-2">Pastor</label>
-                                <select data-control="select2" data-placeholder="Seleccione" data-dropdown-parent="#modalCriadero"
-                                    class="form-select form-select-solid fw-bold" name="pastor_id" id="pastor_id">
-                                    <option></option>
-                                    @foreach ($usuarios as $usuario)
-                                        <option value="{{ $usuario->id }}">{{ $usuario->nombres.' '.$usuario->ap_paterno }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="text-danger error-message" id="error-pastor_id"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <div class="form-check form-check-custom form-check-solid me-10">
-                                <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_fibra" name="negocio_fibra"/>
-                                <label class="form-check-label" for="negocio_fibra">
-                                    Negocio de Fibra
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check form-check-custom form-check-solid me-10">
-                                <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_carne" name="negocio_carne"/>
-                                <label class="form-check-label" for="negocio_carne">
-                                    Negocio de Carne
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check form-check-custom form-check-solid me-10">
-                                <input class="form-check-input h-15px w-15px" type="checkbox" id="negocio_animal" name="negocio_animal"/>
-                                <label class="form-check-label" for="negocio_animal">
-                                    Negocio de Animal
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
                         <div class="col-md-12">
-                            @include("localidad.components.registroLocalidad", ['nameModalPadre' => 'modalCriadero'])
+                            <button class="btn btn-sm w-100 btn-success" onclick="guardarCriadero()">Guardar</button>
                         </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-12">
-                            <label class="fw-semibold fs-6 mb-2">Ubicación del Criadero</label>
-                            <div id="map" style="height: 300px; border-radius: 8px;"></div>
-                        </div>
-                    </div>
-                    
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col-md-12">
-                        <button class="btn btn-sm w-100 btn-success" onclick="guardarCriadero()">Guardar</button>
                     </div>
                 </div>
+                <!--end::Modal body-->
             </div>
-            <!--end::Modal body-->
         </div>
+        <!--end::Modal dialog-->
     </div>
-    <!--end::Modal dialog-->
-</div>
-<!--end::Modal - Add task-->
+    <!--end::Modal - Add task-->
 
-<!--begin::Content wrapper-->
-<div class="d-flex flex-column flex-column-fluid">
-    <!--begin::Toolbar-->
-    {{-- <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+    <!--begin::Content wrapper-->
+    <div class="d-flex flex-column flex-column-fluid">
+        <!--begin::Toolbar-->
+        {{-- <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <!--begin::Toolbar container-->
         <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
             <!--begin::Page title-->
@@ -173,45 +195,48 @@
         </div>
         <!--end::Toolbar container-->
     </div> --}}
-    <!--end::Toolbar-->
-    <!--begin::Content-->
-    <div id="kt_app_content" class="app-content flex-column-fluid">
-        <!--begin::Content container-->
-        <div id="kt_app_content_container" class="app-container container-xxlg">
-            <!--begin::Card-->
-            <div class="card">
-                <div class="card-header flex-wrap bg-light-info py-4">
-                    <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
-                        <!--begin::Page title-->
-                        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                            <!--begin::Title-->
-                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">LISTADO DE CRIADEROS</h1>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Page title-->
+        <!--end::Toolbar-->
+        <!--begin::Content-->
+        <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div id="kt_app_content_container" class="app-container container-xxlg">
+                <!--begin::Card-->
+                <div class="card">
+                    <div class="card-header flex-wrap bg-light-info py-4">
+                        <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
+                            <!--begin::Page title-->
+                            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                <!--begin::Title-->
+                                <h1
+                                    class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">
+                                    LISTADO DE UNIDADES PRODUCTIVAS</h1>
+                                <!--end::Title-->
+                            </div>
+                            <!--end::Page title-->
 
-                        <!--begin::Actions-->
-                        <div class="d-flex gap-2 gap-lg-3">
-                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoCriadero()"><i class="fa fa-plus"></i>Nuevo Registro</a>
-                        </div>
+                            <!--begin::Actions-->
+                            <div class="d-flex gap-2 gap-lg-3">
+                                <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoCriadero()"><i
+                                        class="fa fa-plus"></i>Nuevo Registro</a>
+                            </div>
 
-                        <!--end::Actions-->
+                            <!--end::Actions-->
+                        </div>
+                    </div>
+
+                    <div class="card-body py-4">
+                        <div id="table_listado">
+
+                        </div>
                     </div>
                 </div>
-
-                <div class="card-body py-4">
-                    <div id="table_listado">
-
-                    </div>
-                </div>
+                <!--end::Card-->
             </div>
-            <!--end::Card-->
+            <!--end::Content container-->
         </div>
-        <!--end::Content container-->
+        <!--end::Content-->
     </div>
-    <!--end::Content-->
-</div>
-<!--end::Content wrapper-->
+    <!--end::Content wrapper-->
 
 @stop()
 
@@ -231,18 +256,18 @@
             ajaxListado();
         });
 
-        function ajaxListado(){
+        function ajaxListado() {
 
             let datos = {};
             $.ajax({
                 url: "{{ route('criadero.ajaxListado') }}",
                 method: "POST",
                 data: datos,
-                success: function (resultado) {
+                success: function(resultado) {
 
-                    if(resultado.estado){
+                    if (resultado.estado) {
                         $('#table_listado').html(resultado.data.listado)
-                    }else{
+                    } else {
 
                     }
                     // Ocultar SweetAlert2 cuando la solicitud sea exitosa
@@ -251,12 +276,12 @@
             })
         }
 
-        function limpiarErorres(){
+        function limpiarErorres() {
             $('.error-message').html('');
             $('.is-invalid').removeClass('is-invalid');
         }
 
-        function modalNuevoCriadero(){
+        function modalNuevoCriadero() {
             limpiarErorres();
 
             $('#id').val(0)
@@ -276,14 +301,14 @@
             $('#modalCriadero').modal('show')
         }
 
-        function guardarCriadero(){
+        function guardarCriadero() {
             let datos = $('#formularioCriadero').serializeArray();
             $.ajax({
                 url: "{{ route('criadero.guardarCriadero') }}",
                 method: "POST",
                 data: datos,
-                success: function (resultado) {
-                    if(resultado.estado){
+                success: function(resultado) {
+                    if (resultado.estado) {
                         Swal.fire({
                             title: "EL REGISTRO FUE EXITOSO.",
                             icon: "success",
@@ -292,11 +317,11 @@
                         });
                         ajaxListado();
                         $('#modalCriadero').modal('hide')
-                    }else{
+                    } else {
 
                     }
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     limpiarErorres();
 
                     if (xhr.status === 422) {
@@ -321,7 +346,7 @@
             })
         }
 
-        function editarCriadero(criadero){
+        function editarCriadero(criadero) {
             limpiarErorres();
 
             Object.keys(criadero).forEach(key => {
@@ -358,9 +383,9 @@
             $('#modalCriadero').modal('show');
         }
 
-        function eliminarCriadero(criadero){
+        function eliminarCriadero(criadero) {
             Swal.fire({
-                title: "Quieres eliminar "+criadero.nombre,
+                title: "Quieres eliminar " + criadero.nombre,
                 text: "Ya no podras recuperarlo!",
                 icon: "warning",
                 showCancelButton: true,
@@ -373,12 +398,12 @@
                         url: "{{ route('criadero.eliminarCriadero') }}",
                         method: "POST",
                         data: criadero,
-                        success: function (resultado) {
-                            if(resultado.estado){
+                        success: function(resultado) {
+                            if (resultado.estado) {
                                 ajaxListado();
                             }
                         },
-                        error: function (xhr) {
+                        error: function(xhr) {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
@@ -398,10 +423,10 @@
 
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             window.map = L.map('map').setView([-16.5004, -68.15], 6); // Coordenadas iniciales (Bolivia)
             // Detectar cuando el modal se abre
-            $('#modalCriadero').on('shown.bs.modal', function () {
+            $('#modalCriadero').on('shown.bs.modal', function() {
                 setTimeout(() => {
                     map.invalidateSize(); // Refresca el tamaño del mapa cuando el modal se muestra
                 }, 300);
@@ -415,7 +440,7 @@
             window.marker = null; // Hacer la variable global
 
             // Evento al hacer clic en el mapa
-            map.on('click', async function (e) {
+            map.on('click', async function(e) {
                 var lat = e.latlng.lat;
                 var lng = e.latlng.lng;
 
@@ -441,22 +466,22 @@
                 const url = `https://api.open-elevation.com/api/v1/lookup?locations=${lat},${lng}`;
 
                 fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.results && data.results.length > 0) {
-                        const altitud = data.results[0].elevation;
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.results && data.results.length > 0) {
+                            const altitud = data.results[0].elevation;
 
-                        // Asignar la altitud al input correspondiente
-                        $('#altitud').val(altitud);
+                            // Asignar la altitud al input correspondiente
+                            $('#altitud').val(altitud);
 
-                        console.log("Altitud guardada:", altitud);
-                    } else {
-                        console.error("No se pudo obtener la altitud.");
-                    }
-                })
-                .catch(error => console.error("Error obteniendo altitud:", error));
+                            console.log("Altitud guardada:", altitud);
+                        } else {
+                            console.error("No se pudo obtener la altitud.");
+                        }
+                    })
+                    .catch(error => console.error("Error obteniendo altitud:", error));
             }
 
         });
-   </script>
+    </script>
 @endsection

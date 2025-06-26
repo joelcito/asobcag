@@ -2,7 +2,7 @@
 @section('css')
     <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
     <style>
-        .tamanio_boton{
+        .tamanio_boton {
             font-size: 6px;
         }
     </style>
@@ -12,45 +12,53 @@
 @endsection
 @section('content')
 
-<!--begin::Modal - Add task-->
-<div class="modal fade" id="modalColor" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header" id="kt_modal_add_user_header">
-                <h3 class="fw-bold">FORMULARIO DE COLOR <span class="text-info" id="nombre_busqueda"></span></h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body scroll-y">
-                <form id="formularioColor">
-                    <input type="hidden" name="id" id="id">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Nombre</label>
-                                <input type="text" class="form-control form-control-sm" id="nombre" name="nombre">
+    <!--begin::Modal - Add task-->
+    <div class="modal fade" id="modalColor" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" id="kt_modal_add_user_header">
+                    <h3 class="fw-bold">FORMULARIO DE COLOR <span class="text-info" id="nombre_busqueda"></span></h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body scroll-y">
+                    <form id="formularioColor" enctype="multipart/form-data">
+                        <input type="hidden" name="id" id="id">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Nombre</label>
+                                    <input type="text" class="form-control form-control-sm" id="nombre"
+                                        name="nombre">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">Imagen</label>
+                                    <input type="file" class="form-control form-control-sm" id="imagen_color"
+                                        name="imagen_color" accept="image/*" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col-md-12">
-                        <button class="btn btn-sm w-100 btn-success" onclick="guardarColor()">Guardar</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-sm w-100 btn-success" onclick="guardarColor()">Guardar</button>
+                        </div>
                     </div>
                 </div>
+                <!--end::Modal body-->
             </div>
-            <!--end::Modal body-->
         </div>
+        <!--end::Modal dialog-->
     </div>
-    <!--end::Modal dialog-->
-</div>
-<!--end::Modal - Add task-->
+    <!--end::Modal - Add task-->
 
-<!--begin::Content wrapper-->
-<div class="d-flex flex-column flex-column-fluid">
-    <!--begin::Toolbar-->
-    {{-- <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+    <!--begin::Content wrapper-->
+    <div class="d-flex flex-column flex-column-fluid">
+        <!--begin::Toolbar-->
+        {{-- <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <!--begin::Toolbar container-->
         <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
             <!--begin::Page title-->
@@ -73,45 +81,48 @@
         </div>
         <!--end::Toolbar container-->
     </div> --}}
-    <!--end::Toolbar-->
-    <!--begin::Content-->
-    <div id="kt_app_content" class="app-content flex-column-fluid">
-        <!--begin::Content container-->
-        <div id="kt_app_content_container" class="app-container container-xxlg">
-            <!--begin::Card-->
-            <div class="card">
-                <div class="card-header flex-wrap bg-light-info py-4">
-                    <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
-                        <!--begin::Page title-->
-                        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                            <!--begin::Title-->
-                            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">LISTADO DE COLORES</h1>
-                            <!--end::Title-->
-                        </div>
-                        <!--end::Page title-->
+        <!--end::Toolbar-->
+        <!--begin::Content-->
+        <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div id="kt_app_content_container" class="app-container container-xxlg">
+                <!--begin::Card-->
+                <div class="card">
+                    <div class="card-header flex-wrap bg-light-info py-4">
+                        <div id="kt_app_toolbar_container" class="app-container container-xxlg d-flex flex-stack">
+                            <!--begin::Page title-->
+                            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                                <!--begin::Title-->
+                                <h1
+                                    class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">
+                                    LISTADO DE COLORES</h1>
+                                <!--end::Title-->
+                            </div>
+                            <!--end::Page title-->
 
-                        <!--begin::Actions-->
-                        <div class="d-flex gap-2 gap-lg-3">
-                            <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoColor()"><i class="fa fa-plus"></i>Nuevo Color</a>
-                        </div>
+                            <!--begin::Actions-->
+                            <div class="d-flex gap-2 gap-lg-3">
+                                <a class="btn btn-sm fw-bold btn-primary" onclick="modalNuevoColor()"><i
+                                        class="fa fa-plus"></i>Nuevo Color</a>
+                            </div>
 
-                        <!--end::Actions-->
+                            <!--end::Actions-->
+                        </div>
+                    </div>
+
+                    <div class="card-body py-4">
+                        <div id="table_listado">
+
+                        </div>
                     </div>
                 </div>
-
-                <div class="card-body py-4">
-                    <div id="table_listado">
-
-                    </div>
-                </div>
+                <!--end::Card-->
             </div>
-            <!--end::Card-->
+            <!--end::Content container-->
         </div>
-        <!--end::Content container-->
+        <!--end::Content-->
     </div>
-    <!--end::Content-->
-</div>
-<!--end::Content wrapper-->
+    <!--end::Content wrapper-->
 
 @stop()
 
@@ -129,7 +140,7 @@
             ajaxListado();
         });
 
-        function ajaxListado(){
+        function ajaxListado() {
             // Mostrar SweetAlert2 antes de enviar la solicitud
             // Swal.fire({
             //     title: 'Generando Listado...',
@@ -145,11 +156,11 @@
                 url: "{{ route('color.ajaxListado') }}",
                 method: "POST",
                 data: datos,
-                success: function (resultado) {
+                success: function(resultado) {
 
-                    if(resultado.estado){
+                    if (resultado.estado) {
                         $('#table_listado').html(resultado.data.listado)
-                    }else{
+                    } else {
 
                     }
                     // Ocultar SweetAlert2 cuando la solicitud sea exitosa
@@ -158,12 +169,12 @@
             })
         }
 
-        function limpiarErorres(){
+        function limpiarErorres() {
             $(".invalid-feedback").remove();
             $(".is-invalid").removeClass("is-invalid");
         }
 
-        function modalNuevoColor(){
+        function modalNuevoColor() {
             limpiarErorres();
 
             $('#id').val(0)
@@ -171,38 +182,85 @@
             $('#modalColor').modal('show')
         }
 
-        function guardarColor(){
-            let datos = $('#formularioColor').serializeArray();
+        // function guardarColor() {
+        //     let datos = $('#formularioColor').serializeArray();
+        //     $.ajax({
+        //         url: "{{ route('color.guardarColor') }}",
+        //         method: "POST",
+        //         data: datos,
+        //         success: function(resultado) {
+        //             if (resultado.estado) {
+        //                 Swal.fire({
+        //                     title: "EL REGISTRO FUE EXITOSO.",
+        //                     icon: "success",
+        //                     timer: 3000, // Se cierra en 3 segundos
+        //                     showConfirmButton: false
+        //                 });
+        //                 ajaxListado();
+        //                 $('#modalColor').modal('hide')
+        //             } else {
+
+        //             }
+        //         },
+        //         error: function(xhr) {
+        //             limpiarErorres();
+
+        //             if (xhr.status === 422) {
+        //                 let errores = xhr.responseJSON.errors;
+
+        //                 for (let campo in errores) {
+        //                     let mensaje = errores[campo][0];
+
+        //                     let input = $(`[name="${campo}"]`);
+        //                     input.addClass("is-invalid");
+        //                     input.after(`<div class="invalid-feedback">${mensaje}</div>`);
+        //                 }
+        //             } else {
+        //                 Swal.fire({
+        //                     icon: 'error',
+        //                     title: 'Error',
+        //                     text: 'Ocurrió un error inesperado.',
+        //                 });
+        //             }
+        //         }
+        //     });
+        // }
+
+        function guardarColor() {
+            let formulario = document.getElementById('formularioColor');
+            let datos = new FormData(formulario);
+
             $.ajax({
                 url: "{{ route('color.guardarColor') }}",
                 method: "POST",
                 data: datos,
-                success: function (resultado) {
-                    if(resultado.estado){
+                contentType: false,
+                processData: false,
+                success: function(resultado) {
+                    if (resultado.estado) {
                         Swal.fire({
                             title: "EL REGISTRO FUE EXITOSO.",
                             icon: "success",
-                            timer: 3000, // Se cierra en 3 segundos
+                            timer: 3000,
                             showConfirmButton: false
                         });
                         ajaxListado();
-                        $('#modalColor').modal('hide')
-                    }else{
-
+                        $('#modalColor').modal('hide');
+                    } else {
+                        // Manejo adicional si resultado.estado es falso
                     }
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     limpiarErorres();
 
-                    if (xhr.status === 422) { 
+                    if (xhr.status === 422) {
                         let errores = xhr.responseJSON.errors;
 
                         for (let campo in errores) {
-                            let mensaje = errores[campo][0]; 
-
+                            let mensaje = errores[campo][0];
                             let input = $(`[name="${campo}"]`);
-                            input.addClass("is-invalid"); 
-                            input.after(`<div class="invalid-feedback">${mensaje}</div>`); 
+                            input.addClass("is-invalid");
+                            input.after(`<div class="invalid-feedback">${mensaje}</div>`);
                         }
                     } else {
                         Swal.fire({
@@ -215,7 +273,8 @@
             });
         }
 
-        function editarColor(color){
+
+        function editarColor(color) {
             limpiarErorres();
 
             Object.keys(color).forEach(key => {
@@ -227,9 +286,9 @@
             $('#modalColor').modal('show')
         }
 
-        function eliminarColor(color){
+        function eliminarColor(color) {
             Swal.fire({
-                title: "Quieres eliminar "+color.nombre,
+                title: "Quieres eliminar " + color.nombre,
                 text: "Ya no podras recuperarlo!",
                 icon: "warning",
                 showCancelButton: true,
@@ -242,18 +301,18 @@
                         url: "{{ route('color.eliminarColor') }}",
                         method: "POST",
                         data: color,
-                        success: function (resultado) {
-                            if(resultado.estado){
+                        success: function(resultado) {
+                            if (resultado.estado) {
                                 ajaxListado();
                             }
                         },
-                        error: function (xhr) {
+                        error: function(xhr) {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
                                 text: 'Ocurrió un error inesperado.',
-                                
-                            });                    
+
+                            });
                         }
                     });
                 } else if (result.dismiss === "cancel") {
@@ -264,8 +323,7 @@
                     )
                 }
             });
-            
-        }
 
-   </script>
+        }
+    </script>
 @endsection

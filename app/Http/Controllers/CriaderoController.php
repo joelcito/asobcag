@@ -62,6 +62,7 @@ class CriaderoController extends Controller
             $latitud   = $request->input('latitud');
             $longitud   = $request->input('longitud');
             $altitud   = $request->input('altitud');
+            $rumsa   = $request->input('rumsa');
             $usuarioLoguado = Auth::user();
 
             if( $id == 0 ){
@@ -86,6 +87,7 @@ class CriaderoController extends Controller
             $criadero->latitud      = $latitud;
             $criadero->longitud      = $longitud;
             $criadero->altitud      = $altitud;
+            $criadero->rumsa      = $rumsa;
             $criadero->save();
 
             $data = Respuesta::success(null, "Datos obtenidos correctamente");
@@ -135,11 +137,11 @@ class CriaderoController extends Controller
         // Contar ejemplares por rango de edad
         $hoy = Carbon::now();
         $edades = Ejemplar::selectRaw("
-                                    CASE 
+                                    CASE
                                     WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, '$hoy') < 1 THEN 'Menos de 1 año'
                                     WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, '$hoy') BETWEEN 1 AND 3 THEN '1-3 años'
                                     WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, '$hoy') BETWEEN 4 AND 6 THEN '4-6 años'
-                                    ELSE 'Más de 6 años' 
+                                    ELSE 'Más de 6 años'
                                     END AS rango_edad,
                                     COUNT(*) as cantidad
                                     ")

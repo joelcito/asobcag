@@ -38,7 +38,8 @@ return new class extends Migration
             $table->string('latitud')->nullable();
             $table->string('longitud')->nullable();
             $table->string('altitud')->nullable();
-            
+            $table->string('rumsa')->nullable();
+
             $table->string('estado')->nullable();
             $table->datetime('deleted_at')->nullable();
             $table->timestamps();

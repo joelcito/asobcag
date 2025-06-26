@@ -3,17 +3,25 @@
     <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
         <thead>
             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+                <th>Imagen</th>
                 <th>Nombre</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody class="text-gray-600 fw-semibold">
-            @forelse ( $colores as $color)
+            @forelse ($colores as $color)
                 <tr>
+                    <td>
+                        @if ($color->imagen_color)
+                            <img width="30%" src="{{ asset('storage/' . $color->imagen_color) }}" alt="Color">
+                        @endif
+                    </td>
                     <td>{{ $color->nombre }}</td>
                     <td>
-                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar color" onclick="editarColor({{ json_encode($color) }})"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar color" onclick="eliminarColor({{ json_encode($color) }})"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-icon btn-sm btn-warning btn-circle" title="Editar color"
+                            onclick="editarColor({{ json_encode($color) }})"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-icon btn-sm btn-danger btn-circle" title="Eliminar color"
+                            onclick="eliminarColor({{ json_encode($color) }})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
             @empty
@@ -26,26 +34,26 @@
 
 <script>
     $(document).ready(function() {
-            $('#kt_table_users').DataTable({
-                lengthMenu: [10, 25, 50, 100], // Opciones de longitud de página
-                dom: '<"dt-head row"<"col-md-6"l><"col-md-6"f>><"clear">t<"dt-footer row"<"col-md-5"i><"col-md-7"p>>', // Use dom for basic layout
-                language: {
+        $('#kt_table_users').DataTable({
+            lengthMenu: [10, 25, 50, 100], // Opciones de longitud de página
+            dom: '<"dt-head row"<"col-md-6"l><"col-md-6"f>><"clear">t<"dt-footer row"<"col-md-5"i><"col-md-7"p>>', // Use dom for basic layout
+            language: {
                 paginate: {
-                    first : 'Primero',
-                    last : 'Último',
-                    next : 'Siguiente',
+                    first: 'Primero',
+                    last: 'Último',
+                    next: 'Siguiente',
                     previous: 'Anterior'
                 },
-                search : 'Buscar:',
+                search: 'Buscar:',
                 lengthMenu: 'Mostrar _MENU_ registros por página',
-                info : 'Mostrando _START_ a _END_ de _TOTAL_ registros',
+                info: 'Mostrando _START_ a _END_ de _TOTAL_ registros',
                 emptyTable: 'No hay datos disponibles'
-                },
-                order:[],
-                //  searching: true,
-                responsive: true
-            });
-
-
+            },
+            order: [],
+            //  searching: true,
+            responsive: true
         });
+
+
+    });
 </script>
