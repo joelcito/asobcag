@@ -977,7 +977,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Microchip</label>
+                                        <label class="fw-semibold fs-6 mb-2">Microchip</label>
                                         <input type="text" class="form-control form-control-sm" id="microchip"
                                             name="microchip" value="{{ $ejemplar ? $ejemplar->microchip : '' }}">
                                         <div class="text-danger error-message" id="error-microchip"></div>
@@ -1071,8 +1071,15 @@
                                 <div class="col-md-3">
                                     <div class="fv-row mb-7">
                                         <label class="required fw-semibold fs-6 mb-2">Tipo Parto</label>
-                                        <input type="text" class="form-control form-control-sm" id="tipo_parto"
-                                            name="tipo_parto" value="{{ $ejemplar ? $ejemplar->tipo_parto : '' }}">
+                                        {{-- <input type="text" class="form-control form-control-sm" id="tipo_parto"
+                                            name="tipo_parto" value="{{ $ejemplar ? $ejemplar->tipo_parto : '' }}"> --}}
+                                            <select data-control="select2" data-placeholder="Seleccione"
+                                                class="form-select form-select-solid fw-bold" name="tipo_parto"
+                                                id="tipo_parto">
+                                                <option></option>
+                                                <option value="NORMAL">NORMAL</option>
+                                                <option value="ASISTIDO">ASISTIDO</option>
+                                            </select>
                                         <div class="text-danger error-message" id="error-tipo_parto"></div>
                                     </div>
                                 </div>
