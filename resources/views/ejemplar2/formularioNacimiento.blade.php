@@ -985,7 +985,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Nombre</label>
+                                        <label class="fw-semibold fs-6 mb-2">Nombre</label>
                                         <input type="text" class="form-control form-control-sm" id="nombre"
                                             name="nombre" value="{{ $ejemplar ? $ejemplar->nombre : '' }}">
                                         <div class="text-danger error-message" id="error-nombre"></div>
@@ -1003,7 +1003,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="fv-row mb-7">
-                                        <label class="fs-6 fw-semibold form-label mb-2 required">Fenotipo</label>
+                                        <label class="fs-6 fw-semibold form-label mb-2 required">Tipo</label>
                                         <select data-control="select2" data-placeholder="Seleccione"
                                             class="form-select form-select-solid fw-bold" name="fenotipo_id"
                                             id="fenotipo_id">
@@ -1086,7 +1086,7 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md-4">
-                                    <label class="fs-6 fw-semibold form-label mb-2 required">Criadero</label>
+                                    <label class="fs-6 fw-semibold form-label mb-2 required">Unidad Productiva</label>
                                     <select data-control="select2" data-placeholder="Seleccione"
                                         class="form-select form-select-solid fw-bold" name="criadero_id"
                                         id="criadero_id">

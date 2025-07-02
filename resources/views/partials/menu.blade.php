@@ -218,7 +218,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title text-white">Fenotipos</span>
+                                    <span class="menu-title text-white">Tipo</span>
                                 </a>
                             </div>
                             <div class="menu-item">
@@ -300,15 +300,6 @@
                                         <span class="bullet bullet-dot"></span>
                                     </span>
                                     <span class="menu-title text-white">Laboratorios</span>
-                                </a>
-                            </div>
-                            <div class="menu-item">
-                                <a class="menu-link {{ Route::currentRouteName() == 'criadero.listado' ? 'active' : '' }}"
-                                    href="{{ route('criadero.listado') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title text-white">Criaderos</span>
                                 </a>
                             </div>
                         </div>

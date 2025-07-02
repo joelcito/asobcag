@@ -106,12 +106,12 @@ class EjemplarController extends Controller
         if($request->ajax()){
             $request->validate([
                 // 'microchip'        => 'required',
-                'nombre'           => 'required',
+                // 'nombre'           => 'required',
                 'arete'            => 'required',
                 'fenotipo_id'      => 'required',
                 'color_id'         => 'required',
                 'sexo'             => 'required',
-                'rumsa' => 'required',
+                // 'rumsa' => 'required',
                 'fecha_registro'   => 'required',
                 'criadero_id'      => 'required',
                 //'padre_id'         => 'required',
