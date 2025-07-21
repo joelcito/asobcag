@@ -34,6 +34,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/me', [UserController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/getUsuarios', [UserController::class, 'getUsuarios']);
 
     // EJEMPLARES
     Route::post('/ejemplaresUsuario', [EjemplarController::class, 'ejemplaresUsuario']);
@@ -46,4 +47,5 @@ Route::middleware('auth:api')->group(function () {
     // COLORES
     Route::get('/getColores', [ColorController::class, 'getColores']);
 });
+
 
