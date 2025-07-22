@@ -6,7 +6,10 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ColorController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EjemplarController;
+use App\Http\Controllers\Api\EquipoController;
 use App\Http\Controllers\Api\FenotipoController;
+use App\Http\Controllers\Api\LaboratorioController;
+use App\Http\Controllers\Api\ProductoVeterrinarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +49,15 @@ Route::middleware('auth:api')->group(function () {
 
     // COLORES
     Route::get('/getColores', [ColorController::class, 'getColores']);
+
+    // LABORATORIOS
+    Route::get('/getLaboratorios', [LaboratorioController::class, 'getLaboratorios']);
+
+    // EQUIPOS
+    Route::get('/getEquipos', [EquipoController::class, 'getEquipos']);
+
+    // PRODUCTO VETERRINARIO
+    Route::get('/getProductoVeterrinarios', [ProductoVeterrinarioController::class, 'getProductoVeterrinarios']);
 });
 
 
