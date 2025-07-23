@@ -4,19 +4,19 @@
 <html lang="en">
 	<!--begin::Head-->
 	<head>
-		<title>ABARROTE</title>
+		<title>FENCAMEL | BOLIVIA</title>
 		<meta charset="utf-8" />
         @yield('metadatos')
-        <meta name="description" content="Sistema de control de inventario moderno y eficiente, ideal para empresas en Bolivia. Gestiona productos, stock, proveedores y ventas en tiempo real. Compatible con normativas locales y con facturación electrónica integrada. Solución completa para pymes, emprendimientos y grandes negocios que buscan automatizar su gestión de inventario y mejorar la rentabilidad.">
-        <meta name="keywords" content="sistema de inventario, control de inventario, gestión de stock, software de inventario, administración de productos, control de almacenes, proveedores, sistema ERP, ventas, compras, reportes, facturación electrónica, software empresarial, inventario Bolivia, administración, Bootstrap 5, Angular, VueJs, React, Laravel, Django, Asp.Net Core, Rails, Spring, Blazor, Node.js, control empresarial, desarrollo web, plantillas de administración, dashboards, logística, gestión empresarial">
+        <meta name="description" content="FEDERACION NACIONAL DE CAMÉLIDOS DE ALTA GENÉTICA" />
+        <meta name="keywords" content="FEDERACION NACIONAL DE CAMÉLIDOS DE ALTA GENÉTICA" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta property="og:locale" content="en_BO" />
 		<meta property="og:type" content="website" />
-		<meta property="og:title" content="Sistema de Facturación e Inventario en Línea - Gestión Simplificada para Empresas" />
+		<meta property="og:title" content="FEDERACION NACIONAL DE CAMÉLIDOS DE ALTA GENÉTICA" />
 		<meta property="og:url" content="https://infinitassoluciones.net/" />
-		<meta property="og:site_name" content="Sistema de Facturación e Inventario en Línea" />
+		<meta property="og:site_name" content="FEDERACION NACIONAL DE CAMÉLIDOS DE ALTA GENÉTICA" />
 		<link rel="canonical" href="https://infinitassoluciones.net/" />
-        <link rel="shortcut icon" href="{{ asset('assets/img/lop.jpg') }}" />
+        <link rel="shortcut icon" href="{{ asset('assets/img/logo_2.jpeg') }}" />
 		<!--begin::Fonts(mandatory for all pages)-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<!--end::Fonts-->
@@ -76,10 +76,10 @@
 							<a href="{{ url('home') }}">
 								<div class="row mt-4">
 									<div class="col-md-4">
-                                        <img alt="Logo" src="{{asset('assets/img/lop.jpg')}}" width="100%" />
+                                        <img alt="Logo" src="{{asset('assets/img/logo_2.png')}}" width="100%" />
 									</div>
 									<div class="col-md-8">
-                                        <h2 class="text-white mt-6">INVENTARIO</h2>
+                                        <h2 class="text-white mt-6">FENCAMEL</h2>
 									</div>
 								</div>
 							</a>
