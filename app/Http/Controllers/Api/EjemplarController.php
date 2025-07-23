@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\AnalisisFibra;
 use App\Models\Biometria;
 use App\Models\Criadero;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\Ejemplar;
 use App\Models\EjemplarImagen;
+use App\Models\Esquila;
+use App\Models\Medicacion;
+use App\Models\Morfologico;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -183,6 +187,136 @@ class EjemplarController extends Controller
                 $biometria->diametro_cania_ant   = $ejemplarData['reg_biometrico_diametro_cania_ant'];
                 $biometria->diametro_cania_post  = $ejemplarData['reg_biometrico_diametro_cania_post'];
                 $biometria->save();
+            }
+
+            // PARA MORFOLOGICOS
+            if(
+                !empty($ejemplarData['reg_morfologico_evaluador_id']) ||
+                !empty($ejemplarData['reg_morfologico_motivo']) ||
+                !empty($ejemplarData['reg_morfologico_fecha']) ||
+                !empty($ejemplarData['reg_morfologico_oreja']) ||
+                !empty($ejemplarData['reg_morfologico_cuello']) ||
+                !empty($ejemplarData['reg_morfologico_cabeza']) ||
+                !empty($ejemplarData['reg_morfologico_alzada']) ||
+                !empty($ejemplarData['reg_morfologico_largo_cuerpo']) ||
+                !empty($ejemplarData['reg_morfologico_amplitud_pecho']) ||
+                !empty($ejemplarData['reg_morfologico_fortaleza']) ||
+                !empty($ejemplarData['reg_morfologico_balance']) ||
+                !empty($ejemplarData['reg_morfologico_canias']) ||
+                !empty($ejemplarData['reg_morfologico_copete']) ||
+                !empty($ejemplarData['reg_morfologico_linea_superior']) ||
+                !empty($ejemplarData['reg_morfologico_grupa'])
+            ){
+
+                $morfologico                     = new Morfologico();
+                $morfologico->usuario_creador_id = $usuario->id;
+                $morfologico->ejemplar_id        = $ejemplar->id;
+                $morfologico->evaluador_id       = $ejemplarData['reg_morfologico_evaluador_id'];
+                $morfologico->motivo             = $ejemplarData['reg_morfologico_motivo'];
+                $morfologico->fecha_evaluacion   = $ejemplarData['reg_morfologico_fecha'];
+                $morfologico->oreja              = $ejemplarData['reg_morfologico_oreja'];
+                $morfologico->cuello             = $ejemplarData['reg_morfologico_cuello'];
+                $morfologico->cabeza             = $ejemplarData['reg_morfologico_cabeza'];
+                $morfologico->alzada             = $ejemplarData['reg_morfologico_alzada'];
+                $morfologico->largo_cuerpo       = $ejemplarData['reg_morfologico_largo_cuerpo'];
+                $morfologico->amplitud_pecho     = $ejemplarData['reg_morfologico_amplitud_pecho'];
+                $morfologico->fortaleza          = $ejemplarData['reg_morfologico_fortaleza'];
+                $morfologico->balance            = $ejemplarData['reg_morfologico_balance'];
+                $morfologico->canias             = $ejemplarData['reg_morfologico_canias'];
+                $morfologico->copete             = $ejemplarData['reg_morfologico_copete'];
+                $morfologico->linea_superior     = $ejemplarData['reg_morfologico_linea_superior'];
+                $morfologico->grupa              = $ejemplarData['reg_morfologico_grupa'];
+                $morfologico->save();
+
+            }
+
+            // PARA FIBRAS
+            if(
+                !empty($ejemplarData['reg_fibra_laboratorio_id']) ||
+                !empty($ejemplarData['reg_fibra_equipo_id']) ||
+                !empty($ejemplarData['reg_fibra_fecha_muestreo']) ||
+                !empty($ejemplarData['reg_fibra_fecha_analisis']) ||
+                !empty($ejemplarData['reg_fibra_zona_corporal']) ||
+                !empty($ejemplarData['reg_fibra_fd']) ||
+                !empty($ejemplarData['reg_fibra_sd']) ||
+                !empty($ejemplarData['reg_fibra_cv']) ||
+                !empty($ejemplarData['reg_fibra_fc']) ||
+                !empty($ejemplarData['reg_fibra_pm']) ||
+                !empty($ejemplarData['reg_fibra_mfd'])
+            ){
+
+                $anilisis                     = new AnalisisFibra();
+                $anilisis->usuario_creador_id = $usuario->id;
+                $anilisis->ejemplar_id        = $ejemplar->id;
+                $anilisis->laboratorio_id     = $ejemplarData['reg_fibra_laboratorio_id'];
+                $anilisis->equipo_id          = $ejemplarData['reg_fibra_equipo_id'];
+                $anilisis->fecha_muestreo     = $ejemplarData['reg_fibra_fecha_muestreo'];
+                $anilisis->fecha_analisis     = $ejemplarData['reg_fibra_fecha_analisis'];
+                $anilisis->zona_corporal      = $ejemplarData['reg_fibra_zona_corporal'];
+                $anilisis->fd                 = $ejemplarData['reg_fibra_fd'];
+                $anilisis->sd                 = $ejemplarData['reg_fibra_sd'];
+                $anilisis->cv                 = $ejemplarData['reg_fibra_cv'];
+                $anilisis->fc                 = $ejemplarData['reg_fibra_fc'];
+                $anilisis->pm                 = $ejemplarData['reg_fibra_pm'];
+                $anilisis->mfd                = $ejemplarData['reg_fibra_mfd'];
+                $anilisis->save();
+
+            }
+
+            // PARA ESQUILAS
+            if(
+                !empty($ejemplarData['reg_esquila_esquilador_id']) ||
+                !empty($ejemplarData['reg_esquila_fecha']) ||
+                !empty($ejemplarData['reg_esquila_tipo_esquila']) ||
+                !empty($ejemplarData['reg_esquila_inca_esquila']) ||
+                !empty($ejemplarData['reg_esquila_peso_manto']) ||
+                !empty($ejemplarData['reg_esquila_peso_cuello']) ||
+                !empty($ejemplarData['reg_esquila_peso_braga']) ||
+                !empty($ejemplarData['reg_esquila_peso_total']) ||
+                !empty($ejemplarData['reg_esquila_longitud']) ||
+                !empty($ejemplarData['reg_esquila_observacion'])
+            ){
+
+                $esquila                     = new Esquila();
+                $esquila->usuario_creador_id = $usuario->id;
+                $esquila->ejemplar_id        = $ejemplar->id;
+                $esquila->esquilador_id      = $ejemplarData['reg_esquila_esquilador_id'];
+                $esquila->fecha              = $ejemplarData['reg_esquila_fecha'];
+                $esquila->tipo_esquila       = $ejemplarData['reg_esquila_tipo_esquila'];
+                $esquila->inca_esquila       = $ejemplarData['reg_esquila_inca_esquila'];
+                $esquila->peso_manto         = $ejemplarData['reg_esquila_peso_manto'];
+                $esquila->peso_cuello        = $ejemplarData['reg_esquila_peso_cuello'];
+                $esquila->peso_braga         = $ejemplarData['reg_esquila_peso_braga'];
+                $esquila->peso_total         = $ejemplarData['reg_esquila_peso_total'];
+                $esquila->longitud           = $ejemplarData['reg_esquila_longitud'];
+                $esquila->observacion        = $ejemplarData['reg_esquila_observacion'];
+                $esquila->save();
+
+            }
+
+            // MEIDCAIONES
+            if(
+                !empty($ejemplarData['reg_medicacion_producto_veterrinario_id']) ||
+                !empty($ejemplarData['reg_medicacion_responsable_id']) ||
+                !empty($ejemplarData['reg_medicacion_fecha']) ||
+                !empty($ejemplarData['reg_medicacion_tipo']) ||
+                !empty($ejemplarData['reg_medicacion_docis']) ||
+                !empty($ejemplarData['reg_medicacion_unidades']) ||
+                !empty($ejemplarData['reg_medicacion_observacion'])
+            ){
+
+                $medicacion                          = new Medicacion();
+                $medicacion->usuario_creador_id      = $usuario->id;
+                $medicacion->ejemplar_id             = $ejemplar->id;
+                $medicacion->producto_veterinario_id = $ejemplarData['reg_medicacion_producto_veterrinario_id'];
+                $medicacion->responsable_id          = $ejemplarData['reg_medicacion_responsable_id'];
+                $medicacion->fecha                   = $ejemplarData['reg_medicacion_fecha'];
+                $medicacion->tipo                    = $ejemplarData['reg_medicacion_tipo'];
+                $medicacion->dosis                   = $ejemplarData['reg_medicacion_docis'];
+                $medicacion->unidades                = $ejemplarData['reg_medicacion_unidades'];
+                $medicacion->observacion             = $ejemplarData['reg_medicacion_observacion'];
+                $medicacion->save();
+
             }
 
             // Si hay imágenes, guardarlas
