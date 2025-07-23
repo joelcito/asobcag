@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/ajaxListadoMorfologicoDetalle', [EjemplarController::class, 'ajaxListadoMorfologicoDetalle'])->name('ejemplar.ajaxListadoMorfologicoDetalle');
         Route::post('/ajaxListadoFibrasDetalle', [EjemplarController::class, 'ajaxListadoFibrasDetalle'])->name('ejemplar.ajaxListadoFibrasDetalle');
         Route::get('/exportEjemplares/{tipo}', [EjemplarController::class, 'exportEjemplares'])->name('ejemplar.exportEjemplares');
+        Route::post('/eliminar', [EjemplarController::class, 'eliminar'])->name('ejemplar.eliminar');
     });
 
     Route::prefix('/empadre')->group(function(){

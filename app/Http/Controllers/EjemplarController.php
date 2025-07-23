@@ -831,5 +831,17 @@ class EjemplarController extends Controller
         return Excel::download(new EjemplaresTipoExport($tipo), 'ejemplaresTipo.xlsx');
     }
 
+    public function eliminar(Request $request){
+        if($request->ajax()){
+            $ejemplar_id = $request->input('ejemplar');
+            Ejemplar::destroy($ejemplar_id);
+            $data = Respuesta::success(null, "Datos obtenidos correctamente");
+        }
+        else{
+            $data = Respuesta::error(null, "No existe");
+        }
+        return $data;
+    }
+
 
 }

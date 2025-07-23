@@ -125,5 +125,49 @@
             })
         }
 
+        function elimiarEjemplar(ejemplar){
+            Swal.fire({
+                title: "Esta seguro de eliminar al ejemplar?",
+                text: "No podra revertir eso!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    let datos = {ejemplar: ejemplar};
+                    $.ajax({
+                        url: "{{ route('ejemplar.eliminar') }}",
+                        method: "POST",
+                        data: datos,
+                        success: function (resultado) {
+
+                            if(resultado.estado){
+
+                                ajaxListado();
+
+                                Swal.fire({
+                                    title: "Eliminado!",
+                                    text: "Se eliminio con exito!.",
+                                    icon: "success"
+                                });
+
+                            }else{
+                                Swal.fire({
+                                    title: "Error!",
+                                    text: resultado.mensaje,
+                                    icon: "error"
+                                });
+                            }
+                        }
+                    })
+
+
+                }
+            });
+        }
+
    </script>
 @endsection

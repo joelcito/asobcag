@@ -19,7 +19,7 @@
                     <th>Cuello Perimetro Inf.</th>
                     <th>Largo Oreja</th>
                     <th>Largo Cola</th>
-                    <th>Largo Cuerpo</th>
+                    {{-- <th>Largo Cuerpo</th> --}}
                     <th>Diametro Cania Ant.</th>
                     <th>Diametro Cania Post.</th>
                 </tr>
@@ -43,7 +43,7 @@
                         <td>{{ $bio->cuello_perimetro_inf }}</td>
                         <td>{{ $bio->largo_oreja }}</td>
                         <td>{{ $bio->largo_cola }}</td>
-                        <td>{{ $bio->largo_cuerpo }}</td>
+                        {{-- <td>{{ $bio->largo_cuerpo }}</td> --}}
                         <td>{{ $bio->diametro_cania_ant }}</td>
                         <td>{{ $bio->diametro_cania_post }}</td>
                     </tr>
