@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Biometria;
 use App\Models\Criadero;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -139,19 +140,54 @@ class EjemplarController extends Controller
             $ejemplar->numero_registro    = $this->sacarSiguienteNumeroRegistroEjemplar();
             $ejemplar->save();
 
+            // VERIFICAMOS LAS BIOMETRICAS
+            if(
+                !empty($ejemplarData['reg_biometrico_motivo']) ||
+                !empty($ejemplarData['reg_biometrico_fecha']) ||
+                !empty($ejemplarData['reg_biometrico_evaluador_id']) ||
+                !empty($ejemplarData['reg_biometrico_peso']) ||
+                !empty($ejemplarData['reg_biometrico_altura_cruz']) ||
+                !empty($ejemplarData['reg_biometrico_altura_grupa']) ||
+                !empty($ejemplarData['reg_biometrico_altura_cabeza']) ||
+                !empty($ejemplarData['reg_biometrico_ancho_pecho']) ||
+                !empty($ejemplarData['reg_biometrico_ancho_isquiones']) ||
+                !empty($ejemplarData['reg_biometrico_perimetro_toracico']) ||
+                !empty($ejemplarData['reg_biometrico_perimetro_abdominal']) ||
+                !empty($ejemplarData['reg_biometrico_largo_cuello']) ||
+                !empty($ejemplarData['reg_biometrico_cuello_perimetro_sup']) ||
+                !empty($ejemplarData['reg_biometrico_cuello_perimetro_inf']) ||
+                !empty($ejemplarData['reg_biometrico_largo_oreja']) ||
+                !empty($ejemplarData['reg_biometrico_largo_cola']) ||
+                !empty($ejemplarData['reg_biometrico_diametro_cania_ant']) ||
+                !empty($ejemplarData['reg_biometrico_diametro_cania_post'])
+            ){
+                $biometria                       = new Biometria();
+                $biometria->usuario_creador_id   = $usuario->id;
+                $biometria->ejemplar_id          = $ejemplar->id;
+                $biometria->motivo               = $ejemplarData['reg_biometrico_motivo'];
+                $biometria->fecha                = $ejemplarData['reg_biometrico_fecha'];
+                $biometria->evaluador_id         = $ejemplarData['reg_biometrico_evaluador_id'];
+                $biometria->peso                 = $ejemplarData['reg_biometrico_peso'];
+                $biometria->altura_cruz          = $ejemplarData['reg_biometrico_altura_cruz'];
+                $biometria->altura_grupa         = $ejemplarData['reg_biometrico_altura_grupa'];
+                $biometria->altura_cabeza        = $ejemplarData['reg_biometrico_altura_cabeza'];
+                $biometria->ancho_pecho          = $ejemplarData['reg_biometrico_ancho_pecho'];
+                $biometria->ancho_isquiones      = $ejemplarData['reg_biometrico_ancho_isquiones'];
+                $biometria->perimetro_toraxico   = $ejemplarData['reg_biometrico_perimetro_toracico'];
+                $biometria->perimetro_abdominal  = $ejemplarData['reg_biometrico_perimetro_abdominal'];
+                $biometria->largo_cuello         = $ejemplarData['reg_biometrico_largo_cuello'];
+                $biometria->cuello_perimetro_sup = $ejemplarData['reg_biometrico_cuello_perimetro_sup'];
+                $biometria->cuello_perimetro_inf = $ejemplarData['reg_biometrico_cuello_perimetro_inf'];
+                $biometria->largo_oreja          = $ejemplarData['reg_biometrico_largo_oreja'];
+                $biometria->largo_cola           = $ejemplarData['reg_biometrico_largo_cola'];
+                $biometria->diametro_cania_ant   = $ejemplarData['reg_biometrico_diametro_cania_ant'];
+                $biometria->diametro_cania_post  = $ejemplarData['reg_biometrico_diametro_cania_post'];
+                $biometria->save();
+            }
+
             // Si hay imágenes, guardarlas
             if ($request->hasFile('imagenes')) {
                 foreach ($request->file('imagenes') as $imagen) {
-                    // $nombreArchivo = time() . '_' . Str::uuid() . '.' . $imagen->getClientOriginalExtension();
-
-                    // $ruta = $imagen->storeAs("public/imagenes/{$ejemplar->tipo}", $nombreArchivo);
-                    // // Crear el registro de la imagen en la base de datos
-                    // $ejemplar->imagenes()->create([
-                    //     'usuario_creador_id' => 1,
-                    //     'ruta' => Storage::url("imagenes/{$ejemplar->tipo}/" . $nombreArchivo),
-                    //     'estado' => 1,
-                    // ]);
-
 
                     // Obtener las dimensiones originales de la imagen
                     list($anchoOriginal, $altoOriginal) = getimagesize($imagen);
