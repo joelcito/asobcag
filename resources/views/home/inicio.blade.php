@@ -16,7 +16,7 @@
                     <br />
                     <span class="position-relative d-inline-block text-danger">
                         <span class="position-absolute opacity-15 bottom-0 start-0 border-4 border-danger border-bottom w-100"></span>
-                    </span></span>FEDERACION NACIONAL DE CAMÉLIDOS DE ALTA GENÉTICA "FENCAMEL"</div>
+                    </span></span>REGISTRO NACIONAL DE CAMELIDOS BOLIVIA</div>
                 </div>
 
                 <!--begin::Content-->

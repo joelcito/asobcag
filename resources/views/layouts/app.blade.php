@@ -4,7 +4,7 @@
 <html lang="en">
 	<!--begin::Head-->
 	<head>
-		<title>FENCAMEL | BOLIVIA</title>
+		<title>RENCAMEL | BOLIVIA</title>
 		<meta charset="utf-8" />
         @yield('metadatos')
         <meta name="description" content="FEDERACION NACIONAL DE CAMÉLIDOS DE ALTA GENÉTICA" />
@@ -79,7 +79,7 @@
                                         <img alt="Logo" src="{{asset('assets/img/logo_2.png')}}" width="100%" />
 									</div>
 									<div class="col-md-8">
-                                        <h2 class="text-white mt-6">FENCAMEL</h2>
+                                        <h2 class="text-white mt-6">RENCAMEL</h2>
 									</div>
 								</div>
 							</a>
