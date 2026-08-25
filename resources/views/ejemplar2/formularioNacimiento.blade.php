@@ -960,650 +960,800 @@
                     </div>
 
                     <div class="card-body py-4">
-                        <form id="formularioNacimiento" action="{{ route('ejemplar.guardarEjemplar') }}" method="POST"
-                            autocomplete="off" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" id="tipo" name="tipo" value="{{ $tipo }}">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Numero Registro</label>
-                                        <input type="text" class="form-control form-control-sm" id="car_id"
-                                            name="car_id"
-                                            value="{{ $ejemplar ? $ejemplar->numero_registro : $numeroSiguiente }}">
-                                        <input type="hidden" id="ejemplar_id" name="ejemplar_id"
-                                            value="{{ $ejemplar ? $ejemplar->id : 0 }}">
+                        <ul class="nav nav-tabs nav-line-tabs mb-5 fs-6">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#registro_manual">
+
+                                    <i class="bi bi-pencil-square"></i>
+                                    Registro Manual
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#registro_voz">
+
+                                    <i class="bi bi-mic-fill"></i>
+                                    Registro por Voz
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+
+                            <div class="tab-pane fade show active" id="registro_manual">
+                                <form id="formularioNacimiento" action="{{ route('ejemplar.guardarEjemplar') }}" method="POST" autocomplete="off"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" id="tipo" name="tipo" value="{{ $tipo }}">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="fv-row mb-7">
+                                                <label class="required fw-semibold fs-6 mb-2">Numero Registro</label>
+                                                <input type="text" class="form-control form-control-sm" id="car_id" name="car_id"
+                                                    value="{{ $ejemplar ? $ejemplar->numero_registro : $numeroSiguiente }}">
+                                                <input type="hidden" id="ejemplar_id" name="ejemplar_id" value="{{ $ejemplar ? $ejemplar->id : 0 }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fv-row mb-7">
+                                                <label class="fw-semibold fs-6 mb-2">Microchip</label>
+                                                <input type="text" class="form-control form-control-sm" id="microchip" name="microchip"
+                                                    value="{{ $ejemplar ? $ejemplar->microchip : '' }}">
+                                                <div class="text-danger error-message" id="error-microchip"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fv-row mb-7">
+                                                <label class="fw-semibold fs-6 mb-2">Nombre</label>
+                                                <input type="text" class="form-control form-control-sm" id="nombre" name="nombre"
+                                                    value="{{ $ejemplar ? $ejemplar->nombre : '' }}">
+                                                <div class="text-danger error-message" id="error-nombre"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="fv-row mb-7">
-                                        <label class="fw-semibold fs-6 mb-2">Microchip</label>
-                                        <input type="text" class="form-control form-control-sm" id="microchip"
-                                            name="microchip" value="{{ $ejemplar ? $ejemplar->microchip : '' }}">
-                                        <div class="text-danger error-message" id="error-microchip"></div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <div class="fv-row mb-7">
+                                                <label class="required fw-semibold fs-6 mb-2">Arete</label>
+                                                <input type="text" class="form-control form-control-sm" id="arete" name="arete"
+                                                    value="{{ $ejemplar ? $ejemplar->arete : '' }}">
+                                                <div class="text-danger error-message" id="error-arete"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fv-row mb-7">
+                                                <label class="fs-6 fw-semibold form-label mb-2 required">Tipo</label>
+                                                <select data-control="select2" data-placeholder="Seleccione"
+                                                    class="form-select form-select-solid fw-bold" name="fenotipo_id" id="fenotipo_id">
+                                                    <option></option>
+                                                    @foreach ($fenotipos as $fenotipo)
+                                                    <option {{ $ejemplar ? ($ejemplar->fenotipo_id == $fenotipo->id ? 'selected' : '') : '' }}
+                                                        value={{ $fenotipo->id }}>{{ $fenotipo->nombre }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="text-danger error-message" id="error-fenotipo_id"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fv-row mb-7">
+                                                <label class="fs-6 fw-semibold form-label mb-2 required">Color</label>
+                                                <select data-control="select2" data-placeholder="Seleccione"
+                                                    class="form-select form-select-solid fw-bold" name="color_id" id="color_id">
+                                                    <option></option>
+                                                    @foreach ($colores as $color)
+                                                    <option {{ $ejemplar ? ($ejemplar->color_id == $color->id ? 'selected' : '') : '' }}
+                                                        value={{ $color->id }}>{{ $color->nombre }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="text-danger error-message" id="error-color_id"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="fv-row mb-7">
-                                        <label class="fw-semibold fs-6 mb-2">Nombre</label>
-                                        <input type="text" class="form-control form-control-sm" id="nombre"
-                                            name="nombre" value="{{ $ejemplar ? $ejemplar->nombre : '' }}">
-                                        <div class="text-danger error-message" id="error-nombre"></div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-3">
+                                            <div class="fv-row mb-7">
+                                                <label class="required fw-semibold fs-6 mb-2">Sexo</label>
+                                                <select name="sexo" id="sexo" class="form-control form-control-sm" required>
+                                                    <option></option>
+                                                    <option {{ $ejemplar ? ($ejemplar->sexo == 'Macho' ? 'selected' : '') : '' }}
+                                                        value="Macho">Macho</option>
+                                                    <option {{ $ejemplar ? ($ejemplar->sexo == 'Hembra' ? 'selected' : '') : '' }}
+                                                        value="Hembra">Hembra</option>
+                                                </select>
+                                                <div class="text-danger error-message" id="error-sexo"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="fv-row mb-7">
+                                                <label class="fw-semibold fs-6 mb-2">Fecha de Nacimiento</label>
+                                                <input type="date" class="form-control form-control-sm" id="fecha_nacimiento" name="fecha_nacimiento"
+                                                    value="{{ $ejemplar ? $ejemplar->fecha_nacimiento : '' }}">
+                                                <div class="text-danger error-message" id="error-fecha_nacimiento"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="fv-row mb-7">
+                                                <label class="required fw-semibold fs-6 mb-2">Fecha de Registro</label>
+                                                <input type="date" class="form-control form-control-sm" id="fecha_registro" name="fecha_registro"
+                                                    value="{{ $ejemplar ? $ejemplar->fecha_nacimiento : date('Y-m-d') }}" readonly>
+                                                <div class="text-danger error-message" id="error-fecha_registro"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="fv-row mb-7">
+                                                <label class="required fw-semibold fs-6 mb-2">Tipo Parto</label>
+                                                {{-- <input type="text" class="form-control form-control-sm" id="tipo_parto" name="tipo_parto"
+                                                    value="{{ $ejemplar ? $ejemplar->tipo_parto : '' }}"> --}}
+                                                <select data-control="select2" data-placeholder="Seleccione"
+                                                    class="form-select form-select-solid fw-bold" name="tipo_parto" id="tipo_parto">
+                                                    <option></option>
+                                                    <option value="NORMAL">NORMAL</option>
+                                                    <option value="ASISTIDO">ASISTIDO</option>
+                                                </select>
+                                                <div class="text-danger error-message" id="error-tipo_parto"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Arete</label>
-                                        <input type="text" class="form-control form-control-sm" id="arete"
-                                            name="arete" value="{{ $ejemplar ? $ejemplar->arete : '' }}">
-                                        <div class="text-danger error-message" id="error-arete"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="fv-row mb-7">
-                                        <label class="fs-6 fw-semibold form-label mb-2 required">Tipo</label>
-                                        <select data-control="select2" data-placeholder="Seleccione"
-                                            class="form-select form-select-solid fw-bold" name="fenotipo_id"
-                                            id="fenotipo_id">
-                                            <option></option>
-                                            @foreach ($fenotipos as $fenotipo)
-                                                <option
-                                                    {{ $ejemplar ? ($ejemplar->fenotipo_id == $fenotipo->id ? 'selected' : '') : '' }}
-                                                    value={{ $fenotipo->id }}>{{ $fenotipo->nombre }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="text-danger error-message" id="error-fenotipo_id"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="fv-row mb-7">
-                                        <label class="fs-6 fw-semibold form-label mb-2 required">Color</label>
-                                        <select data-control="select2" data-placeholder="Seleccione"
-                                            class="form-select form-select-solid fw-bold" name="color_id" id="color_id">
-                                            <option></option>
-                                            @foreach ($colores as $color)
-                                                <option
-                                                    {{ $ejemplar ? ($ejemplar->color_id == $color->id ? 'selected' : '') : '' }}
-                                                    value={{ $color->id }}>{{ $color->nombre }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="text-danger error-message" id="error-color_id"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-3">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Sexo</label>
-                                        <select name="sexo" id="sexo" class="form-control form-control-sm"
-                                            required>
-                                            <option></option>
-                                            <option {{ $ejemplar ? ($ejemplar->sexo == 'Macho' ? 'selected' : '') : '' }}
-                                                value="Macho">Macho</option>
-                                            <option
-                                                {{ $ejemplar ? ($ejemplar->sexo == 'Hembra' ? 'selected' : '') : '' }}
-                                                value="Hembra">Hembra</option>
-                                        </select>
-                                        <div class="text-danger error-message" id="error-sexo"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="fv-row mb-7">
-                                        <label class="fw-semibold fs-6 mb-2">Fecha de Nacimiento</label>
-                                        <input type="date" class="form-control form-control-sm" id="fecha_nacimiento"
-                                            name="fecha_nacimiento"
-                                            value="{{ $ejemplar ? $ejemplar->fecha_nacimiento : '' }}">
-                                        <div class="text-danger error-message" id="error-fecha_nacimiento"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Fecha de Registro</label>
-                                        <input type="date" class="form-control form-control-sm" id="fecha_registro"
-                                            name="fecha_registro"
-                                            value="{{ $ejemplar ? $ejemplar->fecha_nacimiento : date('Y-m-d') }}"
-                                            readonly>
-                                        <div class="text-danger error-message" id="error-fecha_registro"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Tipo Parto</label>
-                                        {{-- <input type="text" class="form-control form-control-sm" id="tipo_parto"
-                                            name="tipo_parto" value="{{ $ejemplar ? $ejemplar->tipo_parto : '' }}"> --}}
-                                            <select data-control="select2" data-placeholder="Seleccione"
-                                                class="form-select form-select-solid fw-bold" name="tipo_parto"
-                                                id="tipo_parto">
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <label class="fs-6 fw-semibold form-label mb-2 required">Unidad Productiva</label>
+                                            <select data-control="select2" data-placeholder="Seleccione" class="form-select form-select-solid fw-bold"
+                                                name="criadero_id" id="criadero_id">
                                                 <option></option>
-                                                <option value="NORMAL">NORMAL</option>
-                                                <option value="ASISTIDO">ASISTIDO</option>
+                                                @foreach ($criaderos as $criadero)
+                                                <option {{ $ejemplar ? ($ejemplar->criadero_id == $criadero->id ? 'selected' : '') : '' }}
+                                                    value="{{ $criadero->id }}">{{ $criadero->nombre }}</option>
+                                                @endforeach
                                             </select>
-                                        <div class="text-danger error-message" id="error-tipo_parto"></div>
+                                            <div class="text-danger error-message" id="error-criadero_id"></div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="fs-6 fw-semibold form-label mb-2">Padre</label>
+                                            <select data-control="select2" data-placeholder="Seleccione" class="form-select form-select-solid fw-bold"
+                                                name="padre_id" id="padre_id">
+                                                <option></option>
+                                                @foreach ($machos as $macho)
+                                                <option {{ $ejemplar ? ($ejemplar->padre ? ($ejemplar->padre->id == $macho->id ? 'selected' : '') : '')
+                                                    : '' }}
+                                                    value="{{ $macho->id }}">{{ $macho->arete }} -
+                                                    {{ optional($macho->color)->nombre ?? 'Sin color' }} -
+                                                    {{ optional($macho->fenotipo)->nombre ?? 'Sin fenotipo' }} -
+                                                    {{ $macho->nombre }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="text-danger error-message" id="error-padre_id"></div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="fs-6 fw-semibold form-label mb-2">Madre</label>
+                                            <select data-control="select2" data-placeholder="Seleccione" class="form-select form-select-solid fw-bold"
+                                                name="madre_id" id="madre_id">
+                                                <option></option>
+                                                @foreach ($hembras as $hembra)
+                                                <option {{ $ejemplar ? ($ejemplar->madre ? ($ejemplar->madre->id == $hembra->id ? 'selected' : '') : '')
+                                                    : '' }}
+                                                    value="{{ $hembra->id }}">{{ $hembra->arete }} -
+                                                    {{ optional($hembra->color)->nombre ?? 'Sin color' }} -
+                                                    {{ optional($hembra->fenotipo)->nombre ?? 'Sin fenotipo' }} -
+                                                    {{ $hembra->nombre }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="text-danger error-message" id="error-madre_id"></div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <label class="fs-6 fw-semibold form-label mb-2 required">Unidad Productiva</label>
-                                    <select data-control="select2" data-placeholder="Seleccione"
-                                        class="form-select form-select-solid fw-bold" name="criadero_id"
-                                        id="criadero_id">
-                                        <option></option>
-                                        @foreach ($criaderos as $criadero)
-                                            <option
-                                                {{ $ejemplar ? ($ejemplar->criadero_id == $criadero->id ? 'selected' : '') : '' }}
-                                                value="{{ $criadero->id }}">{{ $criadero->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="text-danger error-message" id="error-criadero_id"></div>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="fs-6 fw-semibold form-label mb-2">Padre</label>
-                                    <select data-control="select2" data-placeholder="Seleccione"
-                                        class="form-select form-select-solid fw-bold" name="padre_id" id="padre_id">
-                                        <option></option>
-                                        @foreach ($machos as $macho)
-                                            <option
-                                                {{ $ejemplar ? ($ejemplar->padre ? ($ejemplar->padre->id == $macho->id ? 'selected' : '') : '') : '' }}
-                                                value="{{ $macho->id }}">{{ $macho->arete }} -
-                                                {{ optional($macho->color)->nombre ?? 'Sin color' }} -
-                                                {{ optional($macho->fenotipo)->nombre ?? 'Sin fenotipo' }} -
-                                                {{ $macho->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="text-danger error-message" id="error-padre_id"></div>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="fs-6 fw-semibold form-label mb-2">Madre</label>
-                                    <select data-control="select2" data-placeholder="Seleccione"
-                                        class="form-select form-select-solid fw-bold" name="madre_id" id="madre_id">
-                                        <option></option>
-                                        @foreach ($hembras as $hembra)
-                                            <option
-                                                {{ $ejemplar ? ($ejemplar->madre ? ($ejemplar->madre->id == $hembra->id ? 'selected' : '') : '') : '' }}
-                                                value="{{ $hembra->id }}">{{ $hembra->arete }} -
-                                                {{ optional($hembra->color)->nombre ?? 'Sin color' }} -
-                                                {{ optional($hembra->fenotipo)->nombre ?? 'Sin fenotipo' }} -
-                                                {{ $hembra->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="text-danger error-message" id="error-madre_id"></div>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <label class="fs-6 fw-semibold form-label mb-2">Imagenes</label>
-                                    <input type="file" class="form-control form-control-sm" id="imagenes"
-                                        name="imagenes[]" multiple accept="image/*">
-                                </div>
-                            </div>
-                            <!-- Tabla de vista previa -->
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <h6>Vista previa de nuevas imágenes</h6>
-                                    <div id="vistaPrevia" class="d-flex flex-wrap gap-2 border p-2">
-                                        <div id="mensajeVacio" class="text-muted">No hay imágenes seleccionadas</div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <label class="fs-6 fw-semibold form-label mb-2">Imagenes</label>
+                                            <input type="file" class="form-control form-control-sm" id="imagenes" name="imagenes[]" multiple
+                                                accept="image/*">
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <br>
-                            <div class="separator separator-solid"></div>
-                            @if ($ejemplar)
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <div class="mb-5 hover-scroll-x">
-                                            <div class="d-grid">
-                                                <ul class="nav nav-tabs flex-nowrap text-nowrap">
-                                                    <li class="nav-item w-100">
-                                                        <a class="nav-link active btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
-                                                            data-bs-toggle="tab" href="#kt_tab_pane_1">Registro
-                                                            Biometrico</a>
-                                                    </li>
-                                                    <li class="nav-item w-100">
-                                                        <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
-                                                            data-bs-toggle="tab" href="#kt_tab_pane_2">Registro
-                                                            Morfologico</a>
-                                                    </li>
-                                                    <li class="nav-item w-100">
-                                                        <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
-                                                            data-bs-toggle="tab" href="#kt_tab_pane_3">Ingreso de
-                                                            Fibra</a>
-                                                    </li>
-                                                    <li class="nav-item w-100">
-                                                        <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
-                                                            data-bs-toggle="tab" href="#kt_tab_pane_4">Registro de
-                                                            Esquila</a>
-                                                    </li>
-                                                    <li class="nav-item w-100">
-                                                        <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
-                                                            data-bs-toggle="tab" href="#kt_tab_pane_5">Registro de
-                                                            Medicaciones</a>
-                                                    </li>
-                                                </ul>
+                                    <!-- Tabla de vista previa -->
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <h6>Vista previa de nuevas imágenes</h6>
+                                            <div id="vistaPrevia" class="d-flex flex-wrap gap-2 border p-2">
+                                                <div id="mensajeVacio" class="text-muted">No hay imágenes seleccionadas</div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="tab-content" id="myTabContent">
-                                            <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
-                                                <div id="tabla_biometrias"></div>
+                                    <br>
+                                    <div class="separator separator-solid"></div>
+                                    @if ($ejemplar)
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <div class="mb-5 hover-scroll-x">
+                                                <div class="d-grid">
+                                                    <ul class="nav nav-tabs flex-nowrap text-nowrap">
+                                                        <li class="nav-item w-100">
+                                                            <a class="nav-link active btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
+                                                                data-bs-toggle="tab" href="#kt_tab_pane_1">Registro
+                                                                Biometrico</a>
+                                                        </li>
+                                                        <li class="nav-item w-100">
+                                                            <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
+                                                                data-bs-toggle="tab" href="#kt_tab_pane_2">Registro
+                                                                Morfologico</a>
+                                                        </li>
+                                                        <li class="nav-item w-100">
+                                                            <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
+                                                                data-bs-toggle="tab" href="#kt_tab_pane_3">Ingreso de
+                                                                Fibra</a>
+                                                        </li>
+                                                        <li class="nav-item w-100">
+                                                            <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
+                                                                data-bs-toggle="tab" href="#kt_tab_pane_4">Registro de
+                                                                Esquila</a>
+                                                        </li>
+                                                        <li class="nav-item w-100">
+                                                            <a class="nav-link btn btn-active-light-info btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
+                                                                data-bs-toggle="tab" href="#kt_tab_pane_5">Registro de
+                                                                Medicaciones</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
-                                            <div class="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
-                                                <div id="tabla_morfilogicos"></div>
+
+                                            <div class="tab-content" id="myTabContent">
+                                                <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
+                                                    <div id="tabla_biometrias"></div>
+                                                </div>
+                                                <div class="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
+                                                    <div id="tabla_morfilogicos"></div>
+                                                </div>
+                                                <div class="tab-pane fade" id="kt_tab_pane_3" role="tabpanel">
+                                                    <div id="tabla_analisis_fibras"></div>
+                                                </div>
+                                                <div class="tab-pane fade" id="kt_tab_pane_4" role="tabpanel">
+                                                    <div id="tabla_registro_esquilas"></div>
+                                                </div>
+                                                <div class="tab-pane fade" id="kt_tab_pane_5" role="tabpanel">
+                                                    <div id="tabla_registro_medicaciones"></div>
+                                                </div>
                                             </div>
-                                            <div class="tab-pane fade" id="kt_tab_pane_3" role="tabpanel">
-                                                <div id="tabla_analisis_fibras"></div>
-                                            </div>
-                                            <div class="tab-pane fade" id="kt_tab_pane_4" role="tabpanel">
-                                                <div id="tabla_registro_esquilas"></div>
-                                            </div>
-                                            <div class="tab-pane fade" id="kt_tab_pane_5" role="tabpanel">
-                                                <div id="tabla_registro_medicaciones"></div>
-                                            </div>
+
                                         </div>
-
                                     </div>
-                                </div>
 
-                                <div class="row mt-5">
-                                    <div class="col-md-12">
-                                        <h3 class="text-primary text-center">GENEALOGIA</h3>
+                                    <div class="row mt-5">
+                                        <div class="col-md-12">
+                                            <h3 class="text-primary text-center">GENEALOGIA</h3>
+                                        </div>
                                     </div>
-                                </div>
-                                @php
+                                    @php
 
                                     $mama = $ejemplar->madre_id;
-                                @endphp
-                                <div class="row mt-2">
-                                    <div class="col-md-12">
-                                        <table class="table table-bordered ">
-                                            <thead class="text-center table-primary">
-                                                <tr>
-                                                    <th>PADRES</th>
-                                                    <th>ABUELOS</th>
-                                                    <th>TERCERA GENERACION</th>
-                                                    <th>CUARTA GENERACION</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="table-primary">
-                                                <tr>
-                                                    <td rowspan="8">
-                                                        @php
+                                    @endphp
+                                    <div class="row mt-2">
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered ">
+                                                <thead class="text-center table-primary">
+                                                    <tr>
+                                                        <th>PADRES</th>
+                                                        <th>ABUELOS</th>
+                                                        <th>TERCERA GENERACION</th>
+                                                        <th>CUARTA GENERACION</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-primary">
+                                                    <tr>
+                                                        <td rowspan="8">
+                                                            @php
                                                             $primeraGeneracionMachoId = $ejemplar->padre_id;
                                                             $ejemplarPrimeraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                $primeraGeneracionMachoId,
+                                                            $primeraGeneracionMachoId,
                                                             );
-                                                        @endphp
-                                                    </td>
-                                                    <td rowspan="4">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td rowspan="4">
+                                                            @php
                                                             if ($ejemplarPrimeraGeneracionMacho) {
-                                                                $primeraGeneracionMachoId =
-                                                                    $ejemplarPrimeraGeneracionMacho->padre_id;
-                                                                $ejemplarSegundaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionMachoId,
-                                                                );
+                                                            $primeraGeneracionMachoId =
+                                                            $ejemplarPrimeraGeneracionMacho->padre_id;
+                                                            $ejemplarSegundaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionMachoId,
+                                                            );
                                                             } else {
-                                                                $ejemplarSegundaGeneracionMacho = null;
+                                                            $ejemplarSegundaGeneracionMacho = null;
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                    <td rowspan="2">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td rowspan="2">
+                                                            @php
                                                             if ($ejemplarSegundaGeneracionMacho) {
-                                                                $primeraGeneracionMachoId =
-                                                                    $ejemplarSegundaGeneracionMacho->padre_id;
-                                                                $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionMachoId,
-                                                                );
+                                                            $primeraGeneracionMachoId =
+                                                            $ejemplarSegundaGeneracionMacho->padre_id;
+                                                            $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionMachoId,
+                                                            );
                                                             } else {
-                                                                $ejemplarTerceraGeneracionMacho = null;
+                                                            $ejemplarTerceraGeneracionMacho = null;
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionMacho) {
-                                                                $primeraGeneracionMachoId =
-                                                                    $ejemplarTerceraGeneracionMacho->padre_id;
-                                                                $ejemplarCuartaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionMachoId,
-                                                                );
+                                                            $primeraGeneracionMachoId =
+                                                            $ejemplarTerceraGeneracionMacho->padre_id;
+                                                            $ejemplarCuartaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionMachoId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionMacho) {
-                                                                $primeraGeneracionMachoId =
-                                                                    $ejemplarTerceraGeneracionMacho->madre_id;
-                                                                $ejemplarCuartaGeneracionYHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionMachoId,
-                                                                );
+                                                            $primeraGeneracionMachoId =
+                                                            $ejemplarTerceraGeneracionMacho->madre_id;
+                                                            $ejemplarCuartaGeneracionYHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionMachoId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td rowspan="2">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="2">
+                                                            @php
                                                             if ($ejemplarSegundaGeneracionMacho) {
-                                                                $primeraGeneracionMachoId =
-                                                                    $ejemplarSegundaGeneracionMacho->madre_id;
-                                                                $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionMachoId,
-                                                                );
+                                                            $primeraGeneracionMachoId =
+                                                            $ejemplarSegundaGeneracionMacho->madre_id;
+                                                            $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionMachoId,
+                                                            );
                                                             } else {
-                                                                $ejemplarTerceraGeneracionHembra = null;
+                                                            $ejemplarTerceraGeneracionHembra = null;
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionHembra) {
-                                                                $primeraGeneracionMachoId =
-                                                                    $ejemplarTerceraGeneracionHembra->padre_id;
-                                                                $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionMachoId,
-                                                                );
+                                                            $primeraGeneracionMachoId =
+                                                            $ejemplarTerceraGeneracionHembra->padre_id;
+                                                            $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionMachoId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionHembra) {
-                                                                $primeraGeneracionMachoId =
-                                                                    $ejemplarTerceraGeneracionHembra->madre_id;
-                                                                $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionMachoId,
-                                                                );
+                                                            $primeraGeneracionMachoId =
+                                                            $ejemplarTerceraGeneracionHembra->madre_id;
+                                                            $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionMachoId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td rowspan="4">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="4">
+                                                            @php
                                                             if ($ejemplarPrimeraGeneracionMacho) {
-                                                                $primeraGeneracionMachoId =
-                                                                    $ejemplarPrimeraGeneracionMacho->madre_id;
-                                                                $ejemplarSegundaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionMachoId,
-                                                                );
+                                                            $primeraGeneracionMachoId =
+                                                            $ejemplarPrimeraGeneracionMacho->madre_id;
+                                                            $ejemplarSegundaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionMachoId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                    <td rowspan="2">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td rowspan="2">
+                                                            @php
                                                             if ($ejemplarSegundaGeneracionMacho) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarSegundaGeneracionMacho->padre_id;
-                                                                $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarSegundaGeneracionMacho->padre_id;
+                                                            $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionMacho) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarTerceraGeneracionMacho->padre_id;
-                                                                $ejemplarCuartaaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarTerceraGeneracionMacho->padre_id;
+                                                            $ejemplarCuartaaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionMacho) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarTerceraGeneracionMacho->madre_id;
-                                                                $ejemplarCuartaaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarTerceraGeneracionMacho->madre_id;
+                                                            $ejemplarCuartaaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td rowspan="2">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="2">
+                                                            @php
                                                             if ($ejemplarSegundaGeneracionMacho) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarSegundaGeneracionMacho->madre_id;
-                                                                $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarSegundaGeneracionMacho->madre_id;
+                                                            $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionHembra) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarTerceraGeneracionHembra->padre_id;
-                                                                $ejemplarCuartaaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarTerceraGeneracionHembra->padre_id;
+                                                            $ejemplarCuartaaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionHembra) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarTerceraGeneracionHembra->madre_id;
-                                                                $ejemplarCuartaaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarTerceraGeneracionHembra->madre_id;
+                                                            $ejemplarCuartaaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td rowspan="8">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="8">
+                                                            @php
                                                             $primeraGeneracionHembraId = $ejemplar->madre_id;
                                                             $ejemplarPrimeraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                $primeraGeneracionHembraId,
+                                                            $primeraGeneracionHembraId,
                                                             );
-                                                        @endphp
-                                                    </td>
-                                                    <td rowspan="4">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td rowspan="4">
+                                                            @php
                                                             if ($ejemplarPrimeraGeneracionHembra) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarPrimeraGeneracionHembra->padre_id;
-                                                                $ejemplarSegundaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarPrimeraGeneracionHembra->padre_id;
+                                                            $ejemplarSegundaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                    <td rowspan="2">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td rowspan="2">
+                                                            @php
                                                             if ($ejemplarSegundaGeneracionMacho) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarSegundaGeneracionMacho->padre_id;
-                                                                $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarSegundaGeneracionMacho->padre_id;
+                                                            $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionMacho) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarTerceraGeneracionMacho->padre_id;
-                                                                $ejemplarCuartaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarTerceraGeneracionMacho->padre_id;
+                                                            $ejemplarCuartaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionMacho) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarTerceraGeneracionMacho->madre_id;
-                                                                $ejemplarCuartaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarTerceraGeneracionMacho->madre_id;
+                                                            $ejemplarCuartaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td rowspan="2">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="2">
+                                                            @php
                                                             if ($ejemplarSegundaGeneracionMacho) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarSegundaGeneracionMacho->madre_id;
-                                                                $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarSegundaGeneracionMacho->madre_id;
+                                                            $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionHembra) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarTerceraGeneracionHembra->padre_id;
-                                                                $ejemplarCuartaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarTerceraGeneracionHembra->padre_id;
+                                                            $ejemplarCuartaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionHembra) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarTerceraGeneracionHembra->madre_id;
-                                                                $ejemplarCuartaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarTerceraGeneracionHembra->madre_id;
+                                                            $ejemplarCuartaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td rowspan="4">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="4">
+                                                            @php
                                                             if ($ejemplarPrimeraGeneracionHembra) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarPrimeraGeneracionHembra->madre_id;
-                                                                $ejemplarSegundaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarPrimeraGeneracionHembra->madre_id;
+                                                            $ejemplarSegundaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             } else {
-                                                                $ejemplarSegundaGeneracionHembra = null;
+                                                            $ejemplarSegundaGeneracionHembra = null;
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                    <td rowspan="2">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td rowspan="2">
+                                                            @php
                                                             if ($ejemplarSegundaGeneracionHembra) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarSegundaGeneracionHembra->padre_id;
-                                                                $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarSegundaGeneracionHembra->padre_id;
+                                                            $ejemplarTerceraGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionMacho) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarTerceraGeneracionMacho->padre_id;
-                                                                $ejemplarCuartaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarTerceraGeneracionMacho->padre_id;
+                                                            $ejemplarCuartaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionMacho) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarTerceraGeneracionMacho->madre_id;
-                                                                $ejemplarCuartaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarTerceraGeneracionMacho->madre_id;
+                                                            $ejemplarCuartaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td rowspan="2">
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="2">
+                                                            @php
                                                             if ($ejemplarSegundaGeneracionHembra) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarSegundaGeneracionHembra->madre_id;
-                                                                $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarSegundaGeneracionHembra->madre_id;
+                                                            $ejemplarTerceraGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionHembra) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarTerceraGeneracionHembra->padre_id;
-                                                                $ejemplarCuartaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarTerceraGeneracionHembra->padre_id;
+                                                            $ejemplarCuartaGeneracionMacho = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        @php
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @php
                                                             if ($ejemplarTerceraGeneracionHembra) {
-                                                                $primeraGeneracionHembraId =
-                                                                    $ejemplarTerceraGeneracionHembra->madre_id;
-                                                                $ejemplarCuartaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
-                                                                    $primeraGeneracionHembraId,
-                                                                );
+                                                            $primeraGeneracionHembraId =
+                                                            $ejemplarTerceraGeneracionHembra->madre_id;
+                                                            $ejemplarCuartaGeneracionHembra = App\Models\Ejemplar::visualizarEjemplar(
+                                                            $primeraGeneracionHembraId,
+                                                            );
                                                             }
-                                                        @endphp
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                                            @endphp
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>
-                            @endif
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <button type="submit" class="btn btn-sm w-100 btn-success">Guardar</button>
-                                </div>
+                                    @endif
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn btn-sm w-100 btn-success">Guardar</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+
+                            <div class="tab-pane fade" id="registro_voz">
+
+                                <div class="row justify-content-center">
+
+                                    <div class="col-md-10">
+
+                                        <div class="card border border-info">
+
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    <h3 class="fw-bold text-info">
+                                                        <i class="bi bi-mic-fill text-info fs-2 me-2"></i>
+                                                        Registro mediante voz
+                                                    </h3>
+                                                </div>
+                                            </div>
+
+                                            <div class="card-body">
+
+                                                <div class="text-center mb-7">
+
+                                                    <p class="text-muted fs-6">
+                                                        Presione el micrófono y describa los datos del ejemplar.
+                                                    </p>
+
+                                                    <button type="button" id="btnIniciarVoz" class="btn btn-lg btn-info">
+
+                                                        <i class="bi bi-mic-fill fs-2"></i>
+                                                        Comenzar a escuchar
+                                                    </button>
+
+                                                    <button type="button" id="btnDetenerVoz" class="btn btn-lg btn-danger d-none">
+
+                                                        <i class="bi bi-stop-circle-fill fs-2"></i>
+                                                        Detener
+                                                    </button>
+
+                                                </div>
+
+
+                                                <div class="alert alert-primary d-none" id="estadoVoz">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="spinner-border spinner-border-sm me-3"></span>
+
+                                                        <span id="textoEstadoVoz">
+                                                            Escuchando...
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="mb-5">
+
+                                                    <label class="fw-bold mb-2">
+                                                        Texto reconocido
+                                                    </label>
+
+                                                    <textarea id="textoReconocido" class="form-control" rows="5"
+                                                        placeholder="Aquí aparecerá lo que usted diga..." readonly></textarea>
+
+                                                </div>
+
+
+                                                <div id="resultadoVoz" class="d-none">
+
+                                                    <div class="separator separator-dashed my-6"></div>
+
+                                                    <h4 class="fw-bold mb-4">
+                                                        Datos detectados
+                                                    </h4>
+
+                                                    <div class="table-responsive">
+
+                                                        <table class="table table-row-bordered table-row-gray-200">
+
+                                                            <tbody id="tablaDatosVoz">
+
+                                                            </tbody>
+
+                                                        </table>
+
+                                                    </div>
+
+
+                                                    <div class="row mt-5">
+
+                                                        <div class="col-md-6">
+
+                                                            <button type="button" id="btnLimpiarVoz" class="btn btn-light-danger w-100">
+
+                                                                <i class="bi bi-trash"></i>
+                                                                Limpiar
+                                                            </button>
+
+                                                        </div>
+
+                                                        <div class="col-md-6">
+
+                                                            <button type="button" id="btnAplicarVoz" class="btn btn-success w-100">
+
+                                                                <i class="bi bi-check-circle"></i>
+                                                                Aplicar datos al formulario
+                                                            </button>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="alert alert-light-primary mt-7">
+
+                                                    <strong>Ejemplo:</strong>
+
+                                                    <br>
+
+                                                    Nombre Tornado,
+                                                    microchip 123456,
+                                                    arete 4587,
+                                                    sexo macho,
+                                                    tipo qara,
+                                                    color blanco,
+                                                    fecha de nacimiento 15 de agosto de 2026,
+                                                    tipo de parto normal,
+                                                    unidad productiva San José.
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
                     </div>
                 </div>
                 <!--end::Card-->
@@ -1668,12 +1818,1079 @@
                 });
             });
 
-            ajaxListado();
-            ajaxListadoMorfologico();
-            ajaxListadoFibras();
-            ajaxListadoEsquila();
-            ajaxListadoMedicaciones();
+            @if ($ejemplar)
+                ajaxListado();
+                ajaxListadoMorfologico();
+                ajaxListadoFibras();
+                ajaxListadoEsquila();
+                ajaxListadoMedicaciones();
+            @endif
+
+            /* =========================================================
+            REGISTRO DE EJEMPLAR MEDIANTE VOZ
+            ========================================================= */
+
+            let reconocimientoVoz = null;
+
+            let datosReconocidosVoz = {
+                microchip: null,
+                nombre: null,
+                arete: null,
+                fenotipo: null,
+                color: null,
+                sexo: null,
+                fecha_nacimiento: null,
+                tipo_parto: null,
+                criadero: null,
+                padre: null,
+                madre: null
+            };
+
+
+            /* =========================================================
+            INICIAR RECONOCIMIENTO
+            ========================================================= */
+
+            function inicializarReconocimientoVoz() {
+
+                const SpeechRecognition =
+                    window.SpeechRecognition ||
+                    window.webkitSpeechRecognition;
+
+
+                if (!SpeechRecognition) {
+
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Reconocimiento de voz no disponible',
+                        text: 'Su navegador no soporta reconocimiento de voz. Pruebe con Google Chrome o Microsoft Edge.'
+                    });
+
+                    return false;
+                }
+
+
+                reconocimientoVoz = new SpeechRecognition();
+
+                reconocimientoVoz.lang = 'es-BO';
+
+                reconocimientoVoz.continuous = true;
+
+                reconocimientoVoz.interimResults = true;
+
+                reconocimientoVoz.maxAlternatives = 1;
+
+
+                reconocimientoVoz.onstart = function() {
+
+                    $('#estadoVoz').removeClass('d-none');
+
+                    $('#textoEstadoVoz').text('Escuchando...');
+
+                    $('#btnIniciarVoz').addClass('d-none');
+
+                    $('#btnDetenerVoz').removeClass('d-none');
+
+                };
+
+
+                reconocimientoVoz.onresult = function(event) {
+
+                    let textoCompleto = '';
+
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+
+                        textoCompleto += event.results[i][0].transcript + ' ';
+
+                    }
+
+
+                    textoCompleto = textoCompleto.trim();
+
+
+                    let textoAnterior = $('#textoReconocido').val();
+
+
+                    if (textoAnterior !== '') {
+
+                        textoAnterior += ' ';
+
+                    }
+
+
+                    /*
+                    * Solo agregamos resultados finales para evitar
+                    * duplicar palabras continuamente.
+                    */
+
+                    let resultadoFinal = '';
+
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+
+                        if (event.results[i].isFinal) {
+
+                            resultadoFinal += event.results[i][0].transcript + ' ';
+
+                        }
+
+                    }
+
+
+                    if (resultadoFinal.trim() !== '') {
+
+                        let actual = $('#textoReconocido').val();
+
+                        $('#textoReconocido').val(
+                            (actual + ' ' + resultadoFinal).trim()
+                        );
+
+
+                        procesarTextoVoz(
+                            $('#textoReconocido').val()
+                        );
+
+                    }
+
+                };
+
+
+                reconocimientoVoz.onerror = function(event) {
+
+                    console.log('Error reconocimiento voz:', event.error);
+
+
+                    let mensaje = 'Ocurrió un problema con el reconocimiento de voz.';
+
+
+                    if (event.error === 'not-allowed') {
+
+                        mensaje = 'Debe permitir el uso del micrófono en el navegador.';
+
+                    }
+
+
+                    if (event.error === 'no-speech') {
+
+                        mensaje = 'No se detectó ninguna voz. Intente nuevamente.';
+
+                    }
+
+
+                    if (event.error === 'audio-capture') {
+
+                        mensaje = 'No se encontró un micrófono disponible.';
+
+                    }
+
+
+                    $('#textoEstadoVoz').text(mensaje);
+
+                };
+
+
+                reconocimientoVoz.onend = function() {
+
+                    $('#estadoVoz').addClass('d-none');
+
+                    $('#btnDetenerVoz').addClass('d-none');
+
+                    $('#btnIniciarVoz').removeClass('d-none');
+
+                };
+
+
+                return true;
+            }
+
+            $(document).on('click', '#btnIniciarVoz', function() {
+
+                if (!reconocimientoVoz) {
+
+                    let disponible = inicializarReconocimientoVoz();
+
+                    if (!disponible) {
+                        return;
+                    }
+
+                }
+
+
+                try {
+
+                    reconocimientoVoz.start();
+
+                } catch (error) {
+
+                    console.log(error);
+
+                }
+
+            });
+
+            $(document).on('click', '#btnDetenerVoz', function() {
+
+                if (reconocimientoVoz) {
+
+                    reconocimientoVoz.stop();
+
+                }
+
+            });
+
+            $(document).on('click', '#btnAplicarVoz', function() {
+
+                /* ============================
+                CAMPOS DE TEXTO
+                ============================ */
+
+                if (datosReconocidosVoz.microchip) {
+
+                    $('#microchip').val(
+                        datosReconocidosVoz.microchip
+                    );
+
+                }
+
+
+                if (datosReconocidosVoz.nombre) {
+
+                    $('#nombre').val(
+                        capitalizarTexto(datosReconocidosVoz.nombre)
+                    );
+
+                }
+
+
+                if (datosReconocidosVoz.arete) {
+
+                    $('#arete').val(
+                        datosReconocidosVoz.arete
+                    );
+
+                }
+
+
+                /* ============================
+                SELECT TIPO / FENOTIPO
+                ============================ */
+
+                if (datosReconocidosVoz.fenotipo) {
+
+                    $('#fenotipo_id')
+                        .val(datosReconocidosVoz.fenotipo.value)
+                        .trigger('change');
+
+                }
+
+
+                /* ============================
+                COLOR
+                ============================ */
+
+                if (datosReconocidosVoz.color) {
+
+                    $('#color_id')
+                        .val(datosReconocidosVoz.color.value)
+                        .trigger('change');
+
+                }
+
+
+                /* ============================
+                SEXO
+                ============================ */
+
+                if (datosReconocidosVoz.sexo) {
+
+                    $('#sexo')
+                        .val(datosReconocidosVoz.sexo.value)
+                        .trigger('change');
+
+                }
+
+
+                /* ============================
+                FECHA NACIMIENTO
+                ============================ */
+
+                if (datosReconocidosVoz.fecha_nacimiento) {
+
+                    $('#fecha_nacimiento').val(
+                        datosReconocidosVoz.fecha_nacimiento.value
+                    );
+
+                }
+
+
+                /* ============================
+                TIPO PARTO
+                ============================ */
+
+                if (datosReconocidosVoz.tipo_parto) {
+
+                    $('#tipo_parto')
+                        .val(datosReconocidosVoz.tipo_parto.value)
+                        .trigger('change');
+
+                }
+
+
+                /* ============================
+                UNIDAD PRODUCTIVA
+                ============================ */
+
+                if (datosReconocidosVoz.criadero) {
+
+                    $('#criadero_id')
+                        .val(datosReconocidosVoz.criadero.value)
+                        .trigger('change');
+
+                }
+
+
+                /* ============================
+                PADRE
+                ============================ */
+
+                if (datosReconocidosVoz.padre) {
+
+                    $('#padre_id')
+                        .val(datosReconocidosVoz.padre.value)
+                        .trigger('change');
+
+                }
+
+
+                /* ============================
+                MADRE
+                ============================ */
+
+                if (datosReconocidosVoz.madre) {
+
+                    $('#madre_id')
+                        .val(datosReconocidosVoz.madre.value)
+                        .trigger('change');
+
+                }
+
+
+                /* ============================
+                CAMBIAR AL TAB MANUAL
+                ============================ */
+
+                let tabManual =
+                    document.querySelector(
+                        'a[href="#registro_manual"]'
+                    );
+
+
+                let bootstrapTab =
+                    new bootstrap.Tab(tabManual);
+
+
+                bootstrapTab.show();
+
+
+                Swal.fire({
+
+                    icon: 'success',
+
+                    title: 'Datos aplicados',
+
+                    text: 'Revise los datos antes de guardar.',
+
+                    timer: 1800,
+
+                    showConfirmButton: false
+
+                });
+
+            });
+
+            $(document).on('click', '#btnLimpiarVoz', function() {
+
+                $('#textoReconocido').val('');
+
+                $('#tablaDatosVoz').html('');
+
+                $('#resultadoVoz').addClass('d-none');
+
+
+                datosReconocidosVoz = {
+
+                    microchip: null,
+                    nombre: null,
+                    arete: null,
+                    fenotipo: null,
+                    color: null,
+                    sexo: null,
+                    fecha_nacimiento: null,
+                    tipo_parto: null,
+                    criadero: null,
+                    padre: null,
+                    madre: null
+
+                };
+
+            });
+
         });
+
+
+        function procesarTextoVoz(texto) {
+
+            let textoOriginal = texto;
+
+            let textoNormalizado = normalizarTexto(texto);
+
+
+            datosReconocidosVoz = {
+
+            microchip: extraerCampo(
+            textoOriginal,
+            ['microchip', 'micro chip'],
+            [
+            'nombre',
+            'arete',
+            'sexo',
+            'tipo',
+            'color',
+            'fecha',
+            'parto',
+            'unidad',
+            'padre',
+            'madre'
+            ]
+            ),
+
+            nombre: extraerCampo(
+            textoOriginal,
+            ['nombre', 'se llama'],
+            [
+            'microchip',
+            'micro chip',
+            'arete',
+            'sexo',
+            'tipo',
+            'color',
+            'fecha',
+            'parto',
+            'unidad',
+            'padre',
+            'madre'
+            ]
+            ),
+
+            arete: extraerCampo(
+            textoOriginal,
+            ['arete'],
+            [
+            'microchip',
+            'nombre',
+            'sexo',
+            'tipo',
+            'color',
+            'fecha',
+            'parto',
+            'unidad',
+            'padre',
+            'madre'
+            ]
+            ),
+
+            fenotipo: buscarOpcionSelect(
+            'fenotipo_id',
+            extraerCampo(
+            textoOriginal,
+            ['tipo', 'fenotipo'],
+            [
+            'color',
+            'sexo',
+            'fecha',
+            'parto',
+            'unidad',
+            'padre',
+            'madre'
+            ]
+            )
+            ),
+
+            color: buscarOpcionSelect(
+            'color_id',
+            extraerCampo(
+            textoOriginal,
+            ['color'],
+            [
+            'sexo',
+            'tipo',
+            'fecha',
+            'parto',
+            'unidad',
+            'padre',
+            'madre'
+            ]
+            )
+            ),
+
+            sexo: detectarSexo(textoNormalizado),
+
+            fecha_nacimiento: detectarFechaNacimiento(textoOriginal),
+
+            tipo_parto: detectarTipoParto(textoNormalizado),
+
+            criadero: buscarOpcionSelect(
+            'criadero_id',
+            extraerCampo(
+            textoOriginal,
+            [
+            'unidad productiva',
+            'criadero'
+            ],
+            [
+            'padre',
+            'madre',
+            'microchip',
+            'nombre',
+            'arete'
+            ]
+            )
+            ),
+
+            padre: buscarPadreMadre(
+            'padre_id',
+            extraerCampo(
+            textoOriginal,
+            ['padre'],
+            [
+            'madre',
+            'microchip',
+            'nombre',
+            'arete',
+            'sexo',
+            'tipo',
+            'color'
+            ]
+            )
+            ),
+
+            madre: buscarPadreMadre(
+            'madre_id',
+            extraerCampo(
+            textoOriginal,
+            ['madre'],
+            [
+            'padre',
+            'microchip',
+            'nombre',
+            'arete',
+            'sexo',
+            'tipo',
+            'color'
+            ]
+            )
+            )
+
+            };
+
+
+            mostrarDatosReconocidos();
+
+        }
+
+        function normalizarTexto(texto) {
+
+            if (!texto) {
+            return '';
+            }
+
+            return texto
+            .toString()
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[.,;:]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        }
+
+        function extraerCampo(texto, palabrasInicio, palabrasFin) {
+
+            if (!texto) {
+                return null;
+            }
+
+
+            let textoNormal = normalizarTexto(texto);
+
+
+            let mejorResultado = null;
+
+
+            palabrasInicio.forEach(function(inicio) {
+
+                let inicioNormal = normalizarTexto(inicio);
+
+                let posicionInicio = textoNormal.indexOf(inicioNormal);
+
+
+                if (posicionInicio === -1) {
+                    return;
+                }
+
+
+                let desde = posicionInicio + inicioNormal.length;
+
+                let posicionFin = textoNormal.length;
+
+
+                palabrasFin.forEach(function(fin) {
+
+                    let finNormal = normalizarTexto(fin);
+
+                    let encontrado = textoNormal.indexOf(finNormal, desde);
+
+
+                    if (
+                        encontrado !== -1 &&
+                        encontrado < posicionFin
+                    ) {
+
+                        posicionFin = encontrado;
+
+                    }
+
+                });
+
+
+                let resultado = textoNormal
+                    .substring(desde, posicionFin)
+                    .trim();
+
+
+                resultado = resultado.replace(
+                    /^(es|es el|es la|numero|número|es numero|es número|del|de la|de el)\s+/,
+                    ''
+                );
+
+
+                resultado = resultado.trim();
+
+
+                if (resultado !== '') {
+
+                    mejorResultado = resultado;
+
+                }
+
+            });
+
+
+            return mejorResultado;
+
+        }
+
+        function detectarSexo(texto) {
+
+            texto = normalizarTexto(texto);
+
+
+            if (
+                texto.includes('sexo macho') ||
+                texto.includes('es macho')
+            ) {
+
+                return {
+                    value: 'Macho',
+                    text: 'Macho'
+                };
+
+            }
+
+
+            if (
+                texto.includes('sexo hembra') ||
+                texto.includes('es hembra')
+            ) {
+
+                return {
+                    value: 'Hembra',
+                    text: 'Hembra'
+                };
+
+            }
+
+
+            return null;
+
+        }
+
+        function detectarTipoParto(texto) {
+
+            texto = normalizarTexto(texto);
+
+
+            if (
+                texto.includes('parto normal') ||
+                texto.includes('tipo de parto normal')
+            ) {
+
+                return {
+                    value: 'NORMAL',
+                    text: 'NORMAL'
+                };
+
+            }
+
+
+            if (
+                texto.includes('parto asistido') ||
+                texto.includes('tipo de parto asistido')
+            ) {
+
+                return {
+                    value: 'ASISTIDO',
+                    text: 'ASISTIDO'
+                };
+
+            }
+
+
+            return null;
+
+        }
+
+        function buscarOpcionSelect(idSelect, textoBuscado) {
+
+            if (!textoBuscado) {
+                return null;
+            }
+
+
+            let buscado = normalizarTexto(textoBuscado);
+
+
+            let encontrado = null;
+
+
+            $('#' + idSelect + ' option').each(function() {
+
+                let value = $(this).val();
+
+                let texto = $(this).text().trim();
+
+
+                if (!value) {
+                    return;
+                }
+
+
+                let textoNormal = normalizarTexto(texto);
+
+
+                if (
+                    textoNormal === buscado ||
+                    textoNormal.includes(buscado) ||
+                    buscado.includes(textoNormal)
+                ) {
+
+                    encontrado = {
+                        value: value,
+                        text: texto
+                    };
+
+
+                    return false;
+
+                }
+
+            });
+
+
+            return encontrado;
+
+        }
+
+        function buscarPadreMadre(idSelect, textoBuscado) {
+
+            if (!textoBuscado) {
+
+                return null;
+
+            }
+
+
+            let buscado = normalizarTexto(textoBuscado);
+
+
+            let encontrado = null;
+
+
+            $('#' + idSelect + ' option').each(function() {
+
+                let value = $(this).val();
+
+                if (!value) {
+                    return;
+                }
+
+
+                let textoOpcion = $(this).text().trim();
+
+                let normal = normalizarTexto(textoOpcion);
+
+
+                if (
+                    normal.includes(buscado) ||
+                    buscado.includes(normal)
+                ) {
+
+                    encontrado = {
+                        value: value,
+                        text: textoOpcion
+                    };
+
+
+                    return false;
+
+                }
+
+            });
+
+
+            return encontrado;
+
+        }
+
+        function detectarFechaNacimiento(texto) {
+
+            if (!texto) {
+
+                return null;
+
+            }
+
+
+            let normal = normalizarTexto(texto);
+
+
+            let regex =
+                /(?:fecha de nacimiento|nacio el|nacio|nacimiento)\s+(\d{1,2})\s+de\s+(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|setiembre|octubre|noviembre|diciembre)\s+de\s+(\d{4})/;
+
+
+            let resultado = normal.match(regex);
+
+
+            if (!resultado) {
+
+                return null;
+
+            }
+
+
+            let meses = {
+
+                enero: '01',
+                febrero: '02',
+                marzo: '03',
+                abril: '04',
+                mayo: '05',
+                junio: '06',
+                julio: '07',
+                agosto: '08',
+                septiembre: '09',
+                setiembre: '09',
+                octubre: '10',
+                noviembre: '11',
+                diciembre: '12'
+
+            };
+
+
+            let dia = resultado[1].padStart(2, '0');
+
+            let mes = meses[resultado[2]];
+
+            let anio = resultado[3];
+
+
+            let fecha = `${anio}-${mes}-${dia}`;
+
+
+            return {
+                value: fecha,
+                text: `${dia}/${mes}/${anio}`
+            };
+
+        }
+
+        function mostrarDatosReconocidos() {
+
+            let html = '';
+
+
+            // agregarFilaDato(
+            //     'Microchip',
+            //     datosReconocidosVoz.microchip,
+            //     html
+            // );
+
+
+            let campos = [
+
+                {
+                    nombre: 'Microchip',
+                    dato: datosReconocidosVoz.microchip
+                },
+
+                {
+                    nombre: 'Nombre',
+                    dato: datosReconocidosVoz.nombre
+                },
+
+                {
+                    nombre: 'Arete',
+                    dato: datosReconocidosVoz.arete
+                },
+
+                {
+                    nombre: 'Tipo',
+                    dato: datosReconocidosVoz.fenotipo
+                },
+
+                {
+                    nombre: 'Color',
+                    dato: datosReconocidosVoz.color
+                },
+
+                {
+                    nombre: 'Sexo',
+                    dato: datosReconocidosVoz.sexo
+                },
+
+                {
+                    nombre: 'Fecha de Nacimiento',
+                    dato: datosReconocidosVoz.fecha_nacimiento
+                },
+
+                {
+                    nombre: 'Tipo de Parto',
+                    dato: datosReconocidosVoz.tipo_parto
+                },
+
+                {
+                    nombre: 'Unidad Productiva',
+                    dato: datosReconocidosVoz.criadero
+                },
+
+                {
+                    nombre: 'Padre',
+                    dato: datosReconocidosVoz.padre
+                },
+
+                {
+                    nombre: 'Madre',
+                    dato: datosReconocidosVoz.madre
+                }
+
+            ];
+
+
+            campos.forEach(function(campo) {
+
+                let valor = obtenerTextoDato(campo.dato);
+
+
+                if (valor) {
+
+                    html += `
+                        <tr>
+
+                            <td style="width:35%">
+                                <strong>${campo.nombre}</strong>
+                            </td>
+
+                            <td>
+                                <span class="badge badge-light-success">
+                                    <i class="bi bi-check-circle text-success"></i>
+                                    ${valor}
+                                </span>
+                            </td>
+
+                        </tr>
+                    `;
+
+                } else {
+
+                    html += `
+                        <tr>
+
+                            <td style="width:35%">
+                                <strong>${campo.nombre}</strong>
+                            </td>
+
+                            <td>
+                                <span class="badge badge-light-warning">
+                                    <i class="bi bi-exclamation-triangle text-warning"></i>
+                                    No detectado
+                                </span>
+                            </td>
+
+                        </tr>
+                    `;
+
+                }
+
+            });
+
+
+            $('#tablaDatosVoz').html(html);
+
+            $('#resultadoVoz').removeClass('d-none');
+
+        }
+
+        function obtenerTextoDato(dato) {
+
+            if (!dato) {
+
+            return null;
+
+            }
+
+
+            if (typeof dato === 'object') {
+
+            return dato.text ?? dato.value;
+
+            }
+
+
+            return dato;
+
+        }
+
+        function capitalizarTexto(texto) {
+
+            if (!texto) {
+
+            return '';
+
+            }
+
+
+            return texto
+            .toLowerCase()
+            .split(' ')
+            .map(function(palabra) {
+
+            return palabra.charAt(0).toUpperCase() +
+            palabra.slice(1);
+
+            })
+            .join(' ');
+
+        }
 
         @if ($ejemplar)
             function ajaxListado() {
