@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\EjemplaresTipoExport;
+use App\Models\EjemplarPreRegistro;
 use Illuminate\Support\Facades\Storage;
 
 class EjemplarController extends Controller
@@ -841,6 +842,83 @@ class EjemplarController extends Controller
             $data = Respuesta::error(null, "No existe");
         }
         return $data;
+    }
+
+    public function guardarPreRegistroVoz(Request $request)
+    {
+        try {
+
+            $usuario = Auth::user();
+
+            /*
+            |--------------------------------------------------------------------------
+            | SI VIENE ID = EDITAMOS
+            |--------------------------------------------------------------------------
+            */
+            if ($request->filled('pre_registro_id')) {
+
+                $preRegistro = EjemplarPreRegistro::where('id',$request->pre_registro_id)
+                                                ->where('usuario_creador_id',$usuario->id)
+                                                ->where('estado', 'BORRADOR')
+                                                ->firstOrFail();
+
+                $preRegistro->usuario_modificador_id = $usuario->id;
+
+            } else {
+
+                $preRegistro = new EjemplarPreRegistro();
+                $preRegistro->usuario_creador_id = $usuario->id;
+                $preRegistro->estado = 'BORRADOR';
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | DATOS
+            |--------------------------------------------------------------------------
+            */
+
+            $preRegistro->tipo             = $request->tipo;
+            $preRegistro->numero_registro  = $request->numero_registro;
+            $preRegistro->microchip        = $request->microchip;
+            $preRegistro->nombre           = $request->nombre;
+            $preRegistro->arete            = $request->arete;
+            $preRegistro->fenotipo_id      = $request->fenotipo_id ?: null;
+            $preRegistro->color_id         = $request->color_id ?: null;
+            $preRegistro->sexo             = $request->sexo;
+            $preRegistro->fecha_nacimiento = $request->fecha_nacimiento ?: null;
+            $preRegistro->fecha_registro   = $request->fecha_registro ?: null;
+            $preRegistro->tipo_parto       = $request->tipo_parto;
+            $preRegistro->criadero_id      = $request->criadero_id ?: null;
+            $preRegistro->padre_id         = $request->padre_id ?: null;
+            $preRegistro->madre_id         = $request->madre_id ?: null;
+            $preRegistro->texto_reconocido = $request->texto_reconocido;
+            $preRegistro->save();
+
+            return response()->json([
+                'estado' => true,
+
+                'mensaje' => $request->filled('pre_registro_id')
+                    ? 'Preregistro actualizado correctamente.'
+                    : 'Preregistro creado correctamente.',
+
+                'data' => [
+                    'id' => $preRegistro->id,
+                    'estado' => $preRegistro->estado,
+                    'updated_at' => $preRegistro
+                        ->updated_at
+                        ->format('d/m/Y H:i:s'),
+                ]
+            ]);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'estado' => false,
+                'mensaje' => 'No se pudo guardar el preregistro.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
 

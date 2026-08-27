@@ -75,6 +75,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/ajaxListadoFibrasDetalle', [EjemplarController::class, 'ajaxListadoFibrasDetalle'])->name('ejemplar.ajaxListadoFibrasDetalle');
         Route::get('/exportEjemplares/{tipo}', [EjemplarController::class, 'exportEjemplares'])->name('ejemplar.exportEjemplares');
         Route::post('/eliminar', [EjemplarController::class, 'eliminar'])->name('ejemplar.eliminar');
+
+        Route::post('/pre-registro-voz/guardar',[EjemplarController::class, 'guardarPreRegistroVoz'])->name('ejemplar.preRegistroVoz.guardar');
+        Route::get('/pre-registro-voz/{id}',[EjemplarController::class, 'obtenerPreRegistroVoz'])->name('ejemplar.preRegistroVoz.obtener');
     });
 
     Route::prefix('/empadre')->group(function(){

@@ -117,8 +117,6 @@
     </div>
     <!--end::Modal - Add task-->
 
-
-
     <!--begin::Modal - Add task-->
     <div class="modal fade" id="modalRegistroMorfologico" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -399,7 +397,6 @@
     </div>
     <!--end::Modal - Add task-->
 
-
     <!--begin::Modal - Add task-->
     <div class="modal fade" id="modalRegistroBiometrico" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -409,173 +406,217 @@
                         <h3 class="fw-bold">FORMULARIO DE REGISTRO BIOMETRICO</h3>
                     </div>
                     <div class="modal-body scroll-y">
-                        <form id="formularioRegistroBiometrico">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Motivo</label>
-                                        {{-- <input type="text" class="form-control form-control-sm" id="motivo" name="motivo" required> --}}
-                                        <select name="motivo" id="motivo" class="form-control form-control-sm"
-                                            required>
-                                            <option value="Nacimiento">Nacimiento</option>
-                                            <option value="Destete">Destete</option>
-                                            <option value="Otro">Otro</option>
-                                        </select>
-                                        <div class="text-danger error-message" id="error-motivo"></div>
-                                    </div>
+                        <div class="modal-body scroll-y">
+                            <ul class="nav nav-tabs nav-line-tabs mb-7 fs-6">
+
+                                <li class="nav-item">
+
+                                    <a
+                                        class="nav-link active"
+                                        data-bs-toggle="tab"
+                                        href="#biometrico_manual">
+
+                                        <i class="bi bi-pencil-square me-2"></i>
+
+                                        Registro Manual
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a
+                                        class="nav-link"
+                                        data-bs-toggle="tab"
+                                        href="#biometrico_foto">
+
+                                        <i class="bi bi-camera-fill me-2"></i>
+
+                                        Registro con Foto
+
+                                    </a>
+
+                                </li>
+
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="biometrico_manual">
+                                    <form id="formularioRegistroBiometrico">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Motivo</label>
+                                                    {{-- <input type="text" class="form-control form-control-sm" id="motivo" name="motivo" required> --}}
+                                                    <select name="motivo" id="motivo" class="form-control form-control-sm"
+                                                        required>
+                                                        <option value="Nacimiento">Nacimiento</option>
+                                                        <option value="Destete">Destete</option>
+                                                        <option value="Otro">Otro</option>
+                                                    </select>
+                                                    <div class="text-danger error-message" id="error-motivo"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Fecha</label>
+                                                    <input type="date" class="form-control form-control-sm" id="fecha"
+                                                        name="fecha" required>
+                                                    <div class="text-danger error-message" id="error-fecha"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Evaluador</label>
+                                                    <select data-control="select2" data-placeholder="Seleccione"
+                                                        data-dropdown-parent="#modalRegistroBiometrico"
+                                                        class="form-select form-select-solid fw-bold" name="evaluador_id"
+                                                        id="evaluador_id" required required>
+                                                        <option></option>
+                                                        @foreach ($usuarios as $usuario)
+                                                            <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                                                            |
+                                                        @endforeach
+                                                    </select>
+                                                    <div class="text-danger error-message" id="error-evaluador_id"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Peso</label>
+                                                    <input type="text" class="form-control form-control-sm" id="peso"
+                                                        name="peso" required>
+                                                    <div class="text-danger error-message" id="error-peso"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Altura Cruz</label>
+                                                    <input type="text" class="form-control form-control-sm" id="altura_cruz"
+                                                        name="altura_cruz" required>
+                                                    <div class="text-danger error-message" id="error-altura_cruz"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Altura Grupa</label>
+                                                    <input type="text" class="form-control form-control-sm" id="altura_grupa"
+                                                        name="altura_grupa" required>
+                                                    <div class="text-danger error-message" id="error-altura_grupa"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Altura Cabeza</label>
+                                                    <input type="text" class="form-control form-control-sm" id="altura_cabeza"
+                                                        name="altura_cabeza" required>
+                                                    <div class="text-danger error-message" id="error-altura_cabeza"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Ancho Pecho</label>
+                                                    <input type="text" class="form-control form-control-sm" id="ancho_pecho"
+                                                        name="ancho_pecho" required>
+                                                    <div class="text-danger error-message" id="error-ancho_pecho"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Ancho Isquiones</label>
+                                                    <input type="text" class="form-control form-control-sm" id="ancho_esquiones"
+                                                        name="ancho_esquiones" required>
+                                                    <div class="text-danger error-message" id="error-ancho_esquiones"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Perimetro Toraxico</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="perimetro_toraxico" name="perimetro_toraxico" required>
+                                                    <div class="text-danger error-message" id="error-perimetro_toraxico"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Perimetro Abdominal</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="perimetro_abdominal" name="perimetro_abdominal" required>
+                                                    <div class="text-danger error-message" id="error-perimetro_abdominal"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Largo Cuello</label>
+                                                    <input type="text" class="form-control form-control-sm" id="largo_cuello"
+                                                        name="largo_cuello" required>
+                                                    <div class="text-danger error-message" id="error-largo_cuello"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Cuello Perimetro Sup.</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="cuello_perimetro_sup" name="cuello_perimetro_sup" required>
+                                                    <div class="text-danger error-message" id="error-cuello_perimetro_sup"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Cuello Perimetro Inf.</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="cuello_perimetro_inf" name="cuello_perimetro_inf" required>
+                                                    <div class="text-danger error-message" id="error-cuello_perimetro_inf"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Largo Oreja</label>
+                                                    <input type="text" class="form-control form-control-sm" id="largo_oreja"
+                                                        name="largo_oreja" required>
+                                                    <div class="text-danger error-message" id="error-largo_oreja"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Largo Cola</label>
+                                                    <input type="text" class="form-control form-control-sm" id="largo_cola"
+                                                        name="largo_cola" required>
+                                                    <div class="text-danger error-message" id="error-largo_cola"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Diametro Cania Ant.</label>
+                                                    <input type="text" class="form-control form-control-sm" id="diametro_ant"
+                                                        name="diametro_ant" required>
+                                                    <div class="text-danger error-message" id="error-diametro_ant"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="fv-row mb-7">
+                                                    <label class="required fw-semibold fs-6 mb-2">Diametro Cania Post.</label>
+                                                    <input type="text" class="form-control form-control-sm" id="diametro_post"
+                                                        name="diametro_post" required>
+                                                    <div class="text-danger error-message" id="error-diametro_post"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Fecha</label>
-                                        <input type="date" class="form-control form-control-sm" id="fecha"
-                                            name="fecha" required>
-                                        <div class="text-danger error-message" id="error-fecha"></div>
-                                    </div>
+                                <div class="tab-pane fade" id="biometrico_foto">
+                                    @include('ejemplar2.partials.biometrico-fotografia')
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Evaluador</label>
-                                        <select data-control="select2" data-placeholder="Seleccione"
-                                            data-dropdown-parent="#modalRegistroBiometrico"
-                                            class="form-select form-select-solid fw-bold" name="evaluador_id"
-                                            id="evaluador_id" required required>
-                                            <option></option>
-                                            @foreach ($usuarios as $usuario)
-                                                <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                                                |
-                                            @endforeach
-                                        </select>
-                                        <div class="text-danger error-message" id="error-evaluador_id"></div>
-                                    </div>
-                                </div>
+
                             </div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Peso</label>
-                                        <input type="text" class="form-control form-control-sm" id="peso"
-                                            name="peso" required>
-                                        <div class="text-danger error-message" id="error-peso"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Altura Cruz</label>
-                                        <input type="text" class="form-control form-control-sm" id="altura_cruz"
-                                            name="altura_cruz" required>
-                                        <div class="text-danger error-message" id="error-altura_cruz"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Altura Grupa</label>
-                                        <input type="text" class="form-control form-control-sm" id="altura_grupa"
-                                            name="altura_grupa" required>
-                                        <div class="text-danger error-message" id="error-altura_grupa"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Altura Cabeza</label>
-                                        <input type="text" class="form-control form-control-sm" id="altura_cabeza"
-                                            name="altura_cabeza" required>
-                                        <div class="text-danger error-message" id="error-altura_cabeza"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Ancho Pecho</label>
-                                        <input type="text" class="form-control form-control-sm" id="ancho_pecho"
-                                            name="ancho_pecho" required>
-                                        <div class="text-danger error-message" id="error-ancho_pecho"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Ancho Isquiones</label>
-                                        <input type="text" class="form-control form-control-sm" id="ancho_esquiones"
-                                            name="ancho_esquiones" required>
-                                        <div class="text-danger error-message" id="error-ancho_esquiones"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Perimetro Toraxico</label>
-                                        <input type="text" class="form-control form-control-sm"
-                                            id="perimetro_toraxico" name="perimetro_toraxico" required>
-                                        <div class="text-danger error-message" id="error-perimetro_toraxico"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Perimetro Abdominal</label>
-                                        <input type="text" class="form-control form-control-sm"
-                                            id="perimetro_abdominal" name="perimetro_abdominal" required>
-                                        <div class="text-danger error-message" id="error-perimetro_abdominal"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Largo Cuello</label>
-                                        <input type="text" class="form-control form-control-sm" id="largo_cuello"
-                                            name="largo_cuello" required>
-                                        <div class="text-danger error-message" id="error-largo_cuello"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Cuello Perimetro Sup.</label>
-                                        <input type="text" class="form-control form-control-sm"
-                                            id="cuello_perimetro_sup" name="cuello_perimetro_sup" required>
-                                        <div class="text-danger error-message" id="error-cuello_perimetro_sup"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Cuello Perimetro Inf.</label>
-                                        <input type="text" class="form-control form-control-sm"
-                                            id="cuello_perimetro_inf" name="cuello_perimetro_inf" required>
-                                        <div class="text-danger error-message" id="error-cuello_perimetro_inf"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Largo Oreja</label>
-                                        <input type="text" class="form-control form-control-sm" id="largo_oreja"
-                                            name="largo_oreja" required>
-                                        <div class="text-danger error-message" id="error-largo_oreja"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Largo Cola</label>
-                                        <input type="text" class="form-control form-control-sm" id="largo_cola"
-                                            name="largo_cola" required>
-                                        <div class="text-danger error-message" id="error-largo_cola"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Diametro Cania Ant.</label>
-                                        <input type="text" class="form-control form-control-sm" id="diametro_ant"
-                                            name="diametro_ant" required>
-                                        <div class="text-danger error-message" id="error-diametro_ant"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="fv-row mb-7">
-                                        <label class="required fw-semibold fs-6 mb-2">Diametro Cania Post.</label>
-                                        <input type="text" class="form-control form-control-sm" id="diametro_post"
-                                            name="diametro_post" required>
-                                        <div class="text-danger error-message" id="error-diametro_post"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <div class="row">
@@ -812,8 +853,6 @@
     </div>
     <!--end::Modal - Add task-->
 
-
-
     <!--begin::Modal - Add task-->
     <div class="modal fade" id="modalRegistroEsquila" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -934,8 +973,6 @@
         <!--end::Modal dialog-->
     </div>
     <!--end::Modal - Add task-->
-
-
 
     <!--begin::Content wrapper-->
     <div class="d-flex flex-column flex-column-fluid">
@@ -1776,6 +1813,38 @@
             }
         })
 
+        let preregistroVozId       = null;
+        let huboResultadoEnEscucha = false;
+        let datosReconocidosVoz    = {
+                microchip       : null,
+                nombre          : null,
+                arete           : null,
+                fenotipo        : null,
+                color           : null,
+                sexo            : null,
+                fecha_nacimiento: null,
+                tipo_parto      : null,
+                criadero        : null,
+                padre           : null,
+                madre           : null
+            };
+
+
+            /* ============================================================
+            * MEDICIÓN BIOMÉTRICA MEDIANTE FOTOGRAFÍA
+            * ============================================================ */
+            let imagenBiometricaDerecha = null;
+            let puntoBiometricoActual   = null;
+            let puntosBiometricos       = {
+                referencia_inicio: null,
+                referencia_fin   : null,
+                cabeza           : null,
+                cruz             : null,
+                grupa            : null,
+                suelo_delantero  : null,
+                suelo_trasero    : null
+            };
+
         $(document).ready(function() {
             $('#formularioNacimiento').on('submit', function(event) {
                 event.preventDefault(); // Evita la recarga del formulario
@@ -1832,123 +1901,67 @@
 
             let reconocimientoVoz = null;
 
-            let datosReconocidosVoz = {
-                microchip: null,
-                nombre: null,
-                arete: null,
-                fenotipo: null,
-                color: null,
-                sexo: null,
-                fecha_nacimiento: null,
-                tipo_parto: null,
-                criadero: null,
-                padre: null,
-                madre: null
-            };
-
-
             /* =========================================================
             INICIAR RECONOCIMIENTO
             ========================================================= */
 
             function inicializarReconocimientoVoz() {
 
-                const SpeechRecognition =
-                    window.SpeechRecognition ||
-                    window.webkitSpeechRecognition;
-
-
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 if (!SpeechRecognition) {
-
                     Swal.fire({
                         icon: 'warning',
                         title: 'Reconocimiento de voz no disponible',
                         text: 'Su navegador no soporta reconocimiento de voz. Pruebe con Google Chrome o Microsoft Edge.'
                     });
-
                     return false;
                 }
 
-
-                reconocimientoVoz = new SpeechRecognition();
-
-                reconocimientoVoz.lang = 'es-BO';
-
-                reconocimientoVoz.continuous = true;
-
-                reconocimientoVoz.interimResults = true;
-
+                reconocimientoVoz                 = new SpeechRecognition();
+                reconocimientoVoz.lang            = 'es-BO';
+                reconocimientoVoz.continuous      = true;
+                reconocimientoVoz.interimResults  = true;
                 reconocimientoVoz.maxAlternatives = 1;
 
-
                 reconocimientoVoz.onstart = function() {
-
+                    huboResultadoEnEscucha = false;
                     $('#estadoVoz').removeClass('d-none');
-
                     $('#textoEstadoVoz').text('Escuchando...');
-
                     $('#btnIniciarVoz').addClass('d-none');
-
                     $('#btnDetenerVoz').removeClass('d-none');
-
                 };
 
-
                 reconocimientoVoz.onresult = function(event) {
-
                     let textoCompleto = '';
-
                     for (let i = event.resultIndex; i < event.results.length; i++) {
-
                         textoCompleto += event.results[i][0].transcript + ' ';
-
                     }
-
-
                     textoCompleto = textoCompleto.trim();
-
-
                     let textoAnterior = $('#textoReconocido').val();
-
-
                     if (textoAnterior !== '') {
-
                         textoAnterior += ' ';
-
                     }
-
-
-                    /*
-                    * Solo agregamos resultados finales para evitar
-                    * duplicar palabras continuamente.
-                    */
 
                     let resultadoFinal = '';
-
                     for (let i = event.resultIndex; i < event.results.length; i++) {
-
                         if (event.results[i].isFinal) {
-
                             resultadoFinal += event.results[i][0].transcript + ' ';
-
                         }
-
                     }
 
+                    // if (resultadoFinal.trim() !== '') {
+                    //     huboResultadoEnEscucha = true;
+                    //     let actual = $('#textoReconocido').val();
+                    //     $('#textoReconocido').val((actual + ' ' + resultadoFinal).trim());
+                    //     procesarTextoVoz($('#textoReconocido').val());
+                    // }
 
                     if (resultadoFinal.trim() !== '') {
-
+                        huboResultadoEnEscucha = true;
+                        let textoNuevo = resultadoFinal.trim();
                         let actual = $('#textoReconocido').val();
-
-                        $('#textoReconocido').val(
-                            (actual + ' ' + resultadoFinal).trim()
-                        );
-
-
-                        procesarTextoVoz(
-                            $('#textoReconocido').val()
-                        );
-
+                        $('#textoReconocido').val((actual + ' ' + textoNuevo).trim());
+                        procesarTextoVozParcial(textoNuevo);
                     }
 
                 };
@@ -1989,13 +2002,12 @@
 
 
                 reconocimientoVoz.onend = function() {
-
                     $('#estadoVoz').addClass('d-none');
-
                     $('#btnDetenerVoz').addClass('d-none');
-
                     $('#btnIniciarVoz').removeClass('d-none');
-
+                    if (huboResultadoEnEscucha) {
+                        guardarPreRegistroVoz();
+                    }
                 };
 
 
@@ -2234,8 +2246,193 @@
 
             });
 
-        });
+            $(document).on('change','#foto_lado_derecho',function(event) {
 
+                    const archivo = event.target.files[0];
+                    if (!archivo) {
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                            const imagen = new Image();
+                            imagen.onload =function() {
+                                    imagenBiometricaDerecha = imagen;
+                                    dibujarImagenBiometrica();
+                                    $('#panelMedicionDerecha').removeClass('d-none');
+                                };
+
+                            imagen.src = e.target.result;
+
+                        };
+
+
+                    reader.readAsDataURL(
+                        archivo
+                    );
+
+                }
+            );
+
+            $(document).on('click','.btnPuntoBiometrico',function() {
+                    puntoBiometricoActual = $(this).data('punto');
+                    $('.btnPuntoBiometrico').removeClass('active');
+                    $(this).addClass('active');
+                    let texto = $(this).text().trim();
+                    $('#puntoSeleccionadoTexto').text(texto);
+                }
+            );
+
+            $(document).on('click','#canvasBiometricoDerecho',function(event) {
+                    if (!puntoBiometricoActual) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title:'Seleccione un punto',
+                            text:'Primero seleccione qué punto desea marcar.'
+                        });
+                        return;
+                    }
+
+                    const canvas = this;
+                    const rect = canvas.getBoundingClientRect();
+
+                    /*
+                    * Debido a que el canvas puede mostrarse
+                    * escalado visualmente, convertimos la
+                    * coordenada del navegador a coordenada real.
+                    */
+                    const escalaX = canvas.width / rect.width;
+                    const escalaY = canvas.height / rect.height;
+                    const x = (event.clientX - rect.left) * escalaX;
+                    const y = (event.clientY - rect.top) * escalaY;
+                    puntosBiometricos[puntoBiometricoActual] = {
+                        x: x,
+                        y: y
+                    };
+
+                    console.log(
+                        puntoBiometricoActual,
+                        puntosBiometricos[
+                            puntoBiometricoActual
+                        ]
+                    );
+                    dibujarImagenBiometrica();
+                }
+            );
+
+            $(document).on('click','#btnCalcularBiometrico',function() {
+                    const cmPorPixel =obtenerCmPorPixel();
+                    if (!cmPorPixel) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title:'Falta referencia',
+                            text:'Debe marcar el inicio y fin de la referencia.'
+                        });
+                        return;
+                    }
+
+                    /*
+                    * ALTURA CRUZ
+                    */
+                    if (puntosBiometricos.cruz && puntosBiometricos.suelo_delantero) {
+                        let px =distanciaPixeles(
+                                puntosBiometricos.cruz,
+                                puntosBiometricos.suelo_delantero
+                            );
+                        let cm = px * cmPorPixel;
+                        $('#foto_altura_cruz').val(cm.toFixed(2));
+
+                    }
+
+                    /*
+                    * ALTURA GRUPA
+                    */
+                    if (puntosBiometricos.grupa && puntosBiometricos.suelo_trasero) {
+                        let px =distanciaPixeles(
+                                puntosBiometricos.grupa,
+                                puntosBiometricos.suelo_trasero
+                            );
+                        let cm = px * cmPorPixel;
+                        $('#foto_altura_grupa').val(cm.toFixed(2));
+                    }
+
+                    /*
+                    * ALTURA CABEZA
+                    *
+                    * Para esta primera versión usamos
+                    * suelo delantero.
+                    */
+
+                    if (puntosBiometricos.cabeza && puntosBiometricos.suelo_delantero) {
+                        let px =distanciaPixeles(
+                                puntosBiometricos.cabeza,
+                                puntosBiometricos.suelo_delantero
+                            );
+                        let cm = px * cmPorPixel;
+                        $('#foto_altura_cabeza').val(cm.toFixed(2));
+                    }
+
+                    $('#resultadosFotoBiometrico').removeClass('d-none');
+
+                }
+            );
+
+            $(document).on('click','#btnAplicarMedidasBiometrico',function() {
+                    let alturaCruz =$('#foto_altura_cruz').val();
+                    let alturaGrupa =$('#foto_altura_grupa').val();
+                    let alturaCabeza =$('#foto_altura_cabeza').val();
+                    if (alturaCruz) {
+                        $('#altura_cruz').val(alturaCruz);
+                    }
+
+                    if (alturaGrupa) {
+                        $('#altura_grupa').val(alturaGrupa);
+                    }
+
+                    if (alturaCabeza) {
+                        $('#altura_cabeza').val(alturaCabeza);
+                    }
+
+
+                    /*
+                    * Volvemos al tab manual
+                    */
+                    const tabManual = document.querySelector('a[href="#biometrico_manual"]');
+
+                    const tab = new bootstrap.Tab(tabManual);
+                    tab.show();
+                    Swal.fire({
+                        icon             : 'success',
+                        title            : 'Medidas aplicadas',
+                        text             : 'Revise las medidas antes de guardar.',
+                        timer            : 1800,
+                        showConfirmButton: false
+                    });
+                }
+            );
+
+            $(document).on('click','#btnLimpiarPuntosBiometrico',function() {
+                    puntosBiometricos = {
+                        referencia_inicio: null,
+                        referencia_fin   : null,
+                        cabeza           : null,
+                        cruz             : null,
+                        grupa            : null,
+                        suelo_delantero  : null,
+                        suelo_trasero    : null
+                    };
+
+                    puntoBiometricoActual = null;
+                    $('#puntoSeleccionadoTexto').text('Ninguno');
+                    $('#foto_altura_cruz').val('');
+                    $('#foto_altura_grupa').val('');
+                    $('#foto_altura_cabeza').val('');
+                    $('#resultadosFotoBiometrico').addClass('d-none');
+                    dibujarImagenBiometrica();
+                }
+            );
+
+        });
 
         function procesarTextoVoz(texto) {
 
@@ -2871,24 +3068,484 @@
         }
 
         function capitalizarTexto(texto) {
-
             if (!texto) {
+                return '';
+            }
 
-            return '';
+            return texto.toLowerCase()
+                        .split(' ')
+                        .map(function(palabra) {
+                            return palabra.charAt(0).toUpperCase() + palabra.slice(1);
+                        }).join(' ');
+        }
+
+        function guardarPreRegistroVoz() {
+
+            let datos = {
+                pre_registro_id : preregistroVozId,
+                tipo            : @json($tipo),
+                numero_registro : $('#car_id').val(),
+                fecha_registro  : $('#fecha_registro').val(),
+                texto_reconocido: $('#textoReconocido').val(),
+                microchip       : datosReconocidosVoz.microchip ?? null,
+                nombre          : datosReconocidosVoz.nombre ?? null,
+                arete           : datosReconocidosVoz.arete ?? null,
+                fenotipo_id     : datosReconocidosVoz.fenotipo? datosReconocidosVoz.fenotipo.value                : null,
+                color_id        : datosReconocidosVoz.color? datosReconocidosVoz.color.value                      : null,
+                sexo            : datosReconocidosVoz.sexo? datosReconocidosVoz.sexo.value                        : null,
+                fecha_nacimiento: datosReconocidosVoz.fecha_nacimiento? datosReconocidosVoz.fecha_nacimiento.value: null,
+                tipo_parto      : datosReconocidosVoz.tipo_parto? datosReconocidosVoz.tipo_parto.value            : null,
+                criadero_id     : datosReconocidosVoz.criadero? datosReconocidosVoz.criadero.value                : null,
+                padre_id        : datosReconocidosVoz.padre? datosReconocidosVoz.padre.value                      : null,
+                madre_id        : datosReconocidosVoz.madre? datosReconocidosVoz.madre.value                      : null
+            };
+
+            console.log('Guardando preregistro:',datos);
+
+            $.ajax({
+                url: "{{ route('ejemplar.preRegistroVoz.guardar') }}",
+                type:'POST',
+                data:datos,
+                dataType:'json',
+                beforeSend: function() {
+                    $('#textoEstadoVoz').text('Guardando preregistro...');
+                    $('#estadoVoz').removeClass('d-none');
+                },
+                success: function(response) {
+                    if (!response.estado) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.mensaje
+                        });
+                        return;
+                    }
+
+                    preregistroVozId = response.data.id;
+
+                    localStorage.setItem('preregistro_voz_{{ $tipo }}',preregistroVozId);
+                    console.log('Preregistro guardado ID:',preregistroVozId);
+                    $('#textoEstadoVoz').html(
+                                        '<i class="bi bi-check-circle-fill text-success me-2"></i>' +
+                                        'Preregistro #' +
+                                        preregistroVozId +
+                                        ' guardado - ' +
+                                        response.data.updated_at
+                                    );
+
+                    setTimeout(function() {
+                        $('#estadoVoz').addClass('d-none');
+                    }, 2500);
+
+                },
+                error: function(xhr) {
+                    console.error('ERROR GUARDANDO PREREGISTRO:',xhr.responseText);
+                    $('#textoEstadoVoz').text('No se pudo guardar el preregistro.');
+                    Swal.fire({
+                        icon: 'error',
+                        title:'Error al guardar preregistro',
+                        text: xhr.responseJSON?.mensaje?? 'Ocurrió un error inesperado.'
+                    });
+                }
+            });
+
+        }
+
+        function procesarTextoVozParcial(texto) {
+
+            let textoOriginal =
+                texto;
+
+            let textoNormalizado =
+                normalizarTexto(texto);
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | MICROCHIP
+            |--------------------------------------------------------------------------
+            */
+
+            let microchip =
+                extraerCampo(
+                    textoOriginal,
+                    [
+                        'microchip',
+                        'micro chip'
+                    ],
+                    [
+                        'nombre',
+                        'arete',
+                        'sexo',
+                        'tipo',
+                        'color',
+                        'fecha',
+                        'parto',
+                        'unidad',
+                        'padre',
+                        'madre'
+                    ]
+                );
+
+
+            if (microchip) {
+
+                /*
+                * REEMPLAZA EL ANTERIOR
+                */
+
+                datosReconocidosVoz.microchip =
+                    microchip;
 
             }
 
 
-            return texto
-            .toLowerCase()
-            .split(' ')
-            .map(function(palabra) {
+            /*
+            |--------------------------------------------------------------------------
+            | NOMBRE
+            |--------------------------------------------------------------------------
+            */
 
-            return palabra.charAt(0).toUpperCase() +
-            palabra.slice(1);
+            let nombre =
+                extraerCampo(
+                    textoOriginal,
+                    [
+                        'nombre',
+                        'se llama'
+                    ],
+                    [
+                        'microchip',
+                        'micro chip',
+                        'arete',
+                        'sexo',
+                        'tipo',
+                        'color',
+                        'fecha',
+                        'parto',
+                        'unidad',
+                        'padre',
+                        'madre'
+                    ]
+                );
 
-            })
-            .join(' ');
+
+            if (nombre) {
+
+                datosReconocidosVoz.nombre =
+                    nombre;
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | ARETE
+            |--------------------------------------------------------------------------
+            */
+
+            let arete =
+                extraerCampo(
+                    textoOriginal,
+                    ['arete'],
+                    [
+                        'microchip',
+                        'nombre',
+                        'sexo',
+                        'tipo',
+                        'color',
+                        'fecha',
+                        'parto',
+                        'unidad',
+                        'padre',
+                        'madre'
+                    ]
+                );
+
+
+            if (arete) {
+
+                datosReconocidosVoz.arete =
+                    arete;
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | FENOTIPO
+            |--------------------------------------------------------------------------
+            */
+
+            let textoFenotipo =
+                extraerCampo(
+                    textoOriginal,
+                    [
+                        'tipo',
+                        'fenotipo'
+                    ],
+                    [
+                        'color',
+                        'sexo',
+                        'fecha',
+                        'parto',
+                        'unidad',
+                        'padre',
+                        'madre'
+                    ]
+                );
+
+
+            if (textoFenotipo) {
+
+                let fenotipo =
+                    buscarOpcionSelect(
+                        'fenotipo_id',
+                        textoFenotipo
+                    );
+
+
+                if (fenotipo) {
+
+                    datosReconocidosVoz.fenotipo =
+                        fenotipo;
+
+                }
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | COLOR
+            |--------------------------------------------------------------------------
+            */
+
+            let textoColor =
+                extraerCampo(
+                    textoOriginal,
+                    ['color'],
+                    [
+                        'sexo',
+                        'tipo',
+                        'fecha',
+                        'parto',
+                        'unidad',
+                        'padre',
+                        'madre'
+                    ]
+                );
+
+
+            if (textoColor) {
+
+                let color =
+                    buscarOpcionSelect(
+                        'color_id',
+                        textoColor
+                    );
+
+
+                if (color) {
+
+                    datosReconocidosVoz.color =
+                        color;
+
+                }
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | SEXO
+            |--------------------------------------------------------------------------
+            */
+
+            let sexo =
+                detectarSexo(
+                    textoNormalizado
+                );
+
+
+            if (sexo) {
+
+                datosReconocidosVoz.sexo =
+                    sexo;
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | FECHA NACIMIENTO
+            |--------------------------------------------------------------------------
+            */
+
+            let fecha =
+                detectarFechaNacimiento(
+                    textoOriginal
+                );
+
+
+            if (fecha) {
+
+                datosReconocidosVoz.fecha_nacimiento =
+                    fecha;
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | TIPO PARTO
+            |--------------------------------------------------------------------------
+            */
+
+            let tipoParto =
+                detectarTipoParto(
+                    textoNormalizado
+                );
+
+
+            if (tipoParto) {
+
+                datosReconocidosVoz.tipo_parto =
+                    tipoParto;
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | UNIDAD PRODUCTIVA
+            |--------------------------------------------------------------------------
+            */
+
+            let textoCriadero =
+                extraerCampo(
+                    textoOriginal,
+                    [
+                        'unidad productiva',
+                        'criadero'
+                    ],
+                    [
+                        'padre',
+                        'madre',
+                        'microchip',
+                        'nombre',
+                        'arete'
+                    ]
+                );
+
+
+            if (textoCriadero) {
+
+                let criadero =
+                    buscarOpcionSelect(
+                        'criadero_id',
+                        textoCriadero
+                    );
+
+
+                if (criadero) {
+
+                    datosReconocidosVoz.criadero =
+                        criadero;
+
+                }
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | PADRE
+            |--------------------------------------------------------------------------
+            */
+
+            let textoPadre =
+                extraerCampo(
+                    textoOriginal,
+                    ['padre'],
+                    [
+                        'madre',
+                        'microchip',
+                        'nombre',
+                        'arete',
+                        'sexo',
+                        'tipo',
+                        'color'
+                    ]
+                );
+
+
+            if (textoPadre) {
+
+                let padre =
+                    buscarPadreMadre(
+                        'padre_id',
+                        textoPadre
+                    );
+
+
+                if (padre) {
+
+                    datosReconocidosVoz.padre =
+                        padre;
+
+                }
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | MADRE
+            |--------------------------------------------------------------------------
+            */
+
+            let textoMadre =
+                extraerCampo(
+                    textoOriginal,
+                    ['madre'],
+                    [
+                        'padre',
+                        'microchip',
+                        'nombre',
+                        'arete',
+                        'sexo',
+                        'tipo',
+                        'color'
+                    ]
+                );
+
+
+            if (textoMadre) {
+
+                let madre =
+                    buscarPadreMadre(
+                        'madre_id',
+                        textoMadre
+                    );
+
+
+                if (madre) {
+
+                    datosReconocidosVoz.madre =
+                        madre;
+
+                }
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | REFRESCAR LA TABLA VISUAL
+            |--------------------------------------------------------------------------
+            */
+
+            mostrarDatosReconocidos();
 
         }
 
@@ -2984,7 +3641,6 @@
                 })
             }
         @endif
-
 
         function agregarNuevoRegistroBiometrico() {
 
@@ -3505,5 +4161,94 @@
             }
         });
         /* Fin Adicion de imagenes  */
+
+        function dibujarImagenBiometrica() {
+
+            if (!imagenBiometricaDerecha) {
+                return;
+            }
+
+            const canvas = document.getElementById('canvasBiometricoDerecho');
+
+            const ctx = canvas.getContext('2d');
+            /*
+            * Limitamos el tamaño.
+            */
+            const maxWidth = 1000;
+
+            let width = imagenBiometricaDerecha.width;
+            let height = imagenBiometricaDerecha.height;
+            if (width > maxWidth) {
+                const escala = maxWidth / width;
+                width = maxWidth;
+                height = height * escala;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            ctx.clearRect(
+                0,
+                0,
+                width,
+                height
+            );
+
+            ctx.drawImage(
+                imagenBiometricaDerecha,
+                0,
+                0,
+                width,
+                height
+            );
+
+            dibujarPuntosBiometricos();
+        }
+
+        function dibujarPuntosBiometricos() {
+            const canvas = document.getElementById('canvasBiometricoDerecho');
+            const ctx = canvas.getContext('2d');
+            Object.keys(puntosBiometricos).forEach(function(nombre) {
+                const punto = puntosBiometricos[nombre];
+                if (!punto) {
+                    return;
+                }
+                ctx.beginPath();
+                ctx.arc(
+                    punto.x,
+                    punto.y,
+                    7,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+                ctx.font = 'bold 14px Arial';
+                ctx.fillText(
+                    nombre.replaceAll('_', ' '),
+                    punto.x + 10,
+                    punto.y - 10
+                );
+            });
+        }
+
+        function distanciaPixeles(punto1,punto2) {
+            const dx = punto2.x - punto1.x;
+            const dy = punto2.y - punto1.y;
+            return Math.sqrt((dx * dx) + (dy * dy));
+        }
+
+        function obtenerCmPorPixel() {
+            const inicio = puntosBiometricos.referencia_inicio;
+            const fin = puntosBiometricos.referencia_fin;
+            if (!inicio || !fin) {
+                return null;
+            }
+            const pixeles =distanciaPixeles(inicio,fin);
+            const centimetros =parseFloat($('#referencia_cm').val());
+            if (!centimetros || centimetros <= 0) {
+                return null;
+            }
+            return centimetros / pixeles;
+        }
     </script>
 @endsection
